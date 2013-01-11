@@ -10,6 +10,9 @@ public class HomeActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+		
+		HttpsConnector hc = new HttpsConnector("c29e270942773011", this);
+		hc.execute();
 	}
 
 	@Override
