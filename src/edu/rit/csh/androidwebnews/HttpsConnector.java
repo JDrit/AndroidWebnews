@@ -1,3 +1,4 @@
+
 package edu.rit.csh.androidwebnews;
 
 import java.util.ArrayList;
@@ -36,25 +37,22 @@ public class HttpsConnector {
 	public ArrayList<Newsgroup> getNewsGroups() {
 		ArrayList<Newsgroup> newsgroups = new ArrayList<Newsgroup>();
 		String url = addApiToUrl(mainUrl + "/newsgroups");
-		Log.d("url", url);
+		Log.d("jsonurl", url);
 		try {
-			 try {
-				JSONObject jObj = new JSONObject(new HttpsAsyncTask(httpclient).execute(url).get());
-				JSONArray jArray = new JSONArray(jObj.getString("newsgroups"));
-				for (int i = 0 ; i < jArray.length() ; i++) {
-					newsgroups.add(new Newsgroup(new JSONObject(jArray.getString(i)).getString("name"),
-							new JSONObject(jArray.getString(i)).getInt("unread_count"),
-							new JSONObject(jArray.getString(i)).getString("unread_class")));
-				}
-				return newsgroups;
-				
-			} catch (JSONException e) {
-				e.printStackTrace();
+			JSONObject jObj = new JSONObject(new HttpsAsyncTask(httpclient).execute(url).get());
+			JSONArray jArray = new JSONArray(jObj.getString("newsgroups"));
+			for (int i = 0 ; i < jArray.length() ; i++) {
+				newsgroups.add(new Newsgroup(new JSONObject(jArray.getString(i)).getString("name"),
+						new JSONObject(jArray.getString(i)).getInt("unread_count"),
+						new JSONObject(jArray.getString(i)).getString("unread_class")));
 			}
+			return newsgroups;				
+		} catch (JSONException e) {
+			Log.d("jsonError", "JSONException");
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Log.d("jsonError", "InterruptedException");
 		} catch (ExecutionException e) {
-			e.printStackTrace();
+			Log.d("jsonError", "ExecutionException");
 		}
 		return null;
 	}
