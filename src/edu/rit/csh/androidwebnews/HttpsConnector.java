@@ -1,42 +1,62 @@
 package edu.rit.csh.androidwebnews;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
+import java.util.concurrent.ExecutionException;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.util.Log;
 
-public class HttpsConnector extends AsyncTask<String, Integer, String> {
-	String apiKey;
+/**
+ * The object that the app interfaces with to get all the information 
+ * to and from webnews 
+ * @author JD
+ */
+public class HttpsConnector {
 	String mainUrl = "https://webnews.csh.rit.edu";
+	String apiKey;
 	WebnewsHttpClient httpclient;
 	
 	public HttpsConnector(String apiKey, Activity activity) {
-		this.apiKey = apiKey;
 		httpclient = new WebnewsHttpClient(activity.getApplicationContext());
+		this.apiKey = apiKey;
 	}
 	
+	/**
+	 * Gets a list of Newsgroup objects that represent the current newsgroup on webnews.
+	 * @return ArrayList<Newsgroup> - the current newsgroups located on webnews, null if
+	 * there was an error in the procedure.
+	 */
 	public ArrayList<Newsgroup> getNewsGroups() {
-        return null;
-		
+		ArrayList<Newsgroup> newsgroups = new ArrayList<Newsgroup>();
+		String url = addApiToUrl(mainUrl + "/newsgroups");
+		Log.d("url", url);
+		try {
+			 try {
+				JSONObject jObj = new JSONObject(new HttpsAsyncTask(httpclient).execute(url).get());
+				JSONArray jArray = new JSONArray(jObj.getString("newsgroups"));
+				for (int i = 0 ; i < jArray.length() ; i++) {
+					newsgroups.add(new Newsgroup(new JSONObject(jArray.getString(i)).getString("name"),
+							new JSONObject(jArray.getString(i)).getInt("unread_count"),
+							new JSONObject(jArray.getString(i)).getString("unread_class")));
+				}
+				return newsgroups;
+				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public ArrayList<Thread> getUnread() {
@@ -79,35 +99,7 @@ public class HttpsConnector extends AsyncTask<String, Integer, String> {
 		return url;
 	}
 
-	@Override
-	protected String doInBackground(String... params) {
-		try {
-        	HttpGet request = new HttpGet(mainUrl);
-			Log.d("AndroidWebnews", mainUrl);
-			HttpResponse response = httpclient.execute(request);
-			HttpEntity responseEntity = response.getEntity();
-			BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-			
-			StringBuffer sb = new StringBuffer("");
-            String line = "";
-            String NL = System.getProperty("line.separator");
-            
-            while ((line = in.readLine()) != null) {
-            	Log.d("AndroidWebnews", line);
-                sb.append(line + NL);
-            }
-            in.close();
-            String page = sb.toString();
-            Log.d("test", page);
-    		return page;
-            
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return "";
-	}
+
 
 	
 }
