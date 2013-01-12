@@ -12,7 +12,7 @@ public class HomeActivity extends Activity {
 		setContentView(R.layout.activity_home);
 		
 		HttpsConnector hc = new HttpsConnector("c29e270942773011", this);
-		hc.execute();
+		hc.getNewsGroups();
 	}
 
 	@Override

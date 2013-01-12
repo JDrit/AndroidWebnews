@@ -12,6 +12,12 @@ import org.apache.http.impl.conn.SingleClientConnManager;
 import java.io.InputStream;
 import java.security.KeyStore;
 
+/**
+ * The HTTP client used in the get and post request to webnews.csh.rit.edu.
+ * This client allows the use of the custom CSH certificate and can work with
+ * both HTTP and HTTPS requests. 
+ * @author JD
+ */
 public class WebnewsHttpClient extends DefaultHttpClient {
 	 
     final Context context;
@@ -19,7 +25,11 @@ public class WebnewsHttpClient extends DefaultHttpClient {
     public WebnewsHttpClient(Context context) {
         this.context = context;
     }
- 
+    
+    /**
+     * Sets up the client connection with the correct schemes
+     * @return ClientConnectionManager
+     */
     @Override
     protected ClientConnectionManager createClientConnectionManager() {
         SchemeRegistry registry = new SchemeRegistry();
@@ -29,7 +39,11 @@ public class WebnewsHttpClient extends DefaultHttpClient {
         registry.register(new Scheme("https", newSslSocketFactory(), 443));
         return new SingleClientConnManager(getParams(), registry);
     }
- 
+    /**
+     * Makes the SSL cert work correctly.
+     * @return SSLSocketFactory - provides the SSLFactory for communicating
+     * with the scheme
+     */
     private SSLSocketFactory newSslSocketFactory() {
         try {
             // Get an instance of the Bouncy Castle KeyStore format
