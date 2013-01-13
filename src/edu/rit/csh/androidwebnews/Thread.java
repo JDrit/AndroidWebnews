@@ -3,7 +3,7 @@ package edu.rit.csh.androidwebnews;
 import java.util.ArrayList;
 
 public class Thread {
-	String subject, authorName, authorEmail, newsgroup, unread, personal_class;
+	String date, subject, authorName, authorEmail, newsgroup, unread, personal_class;
 	int number;
 	boolean starred;
 	ArrayList<Thread> children;
@@ -16,8 +16,8 @@ public class Thread {
 			String newsgroup, 
 			boolean starred, 
 			String unread,
-			String personal_class,
-			ArrayList<Thread> children) {
+			String personal_class) {
+		this.date = date;
 		this.number = number;
 		this.subject = subject;
 		this.authorName = authorName;
@@ -26,6 +26,9 @@ public class Thread {
 		this.starred = starred;
 		this.unread = unread;
 		this.personal_class = personal_class;
-		this.children = children;
+		children = new ArrayList<Thread>();
+	}
+	public String toString() {
+		return date + "," + number + "," + subject + "," + authorName + "," + newsgroup + ", children: " + children.size();
 	}
 }
