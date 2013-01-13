@@ -55,8 +55,39 @@ public class HttpsConnector {
 		}
 		return null;
 	}
-
-	public ArrayList<Thread> getUnread() {
+	
+	/**
+	 * Gets the newest threads on webnews to display on the front page
+	 * @return ArrayList<Thread> - list of the 20 newest or sticky threads
+	 */
+	public ArrayList<Thread> getNewest() {
+		ArrayList<Thread> threads = new ArrayList<Thread>();
+		String url = formatUrl(mainUrl + "/activity", new LinkedList<NameValuePair>());
+		try {
+			JSONObject jObj = new JSONObject(new HttpsAsyncTask(httpclient).execute(url).get());
+			Log.d("json", "1");
+			JSONArray jArray = jObj.getJSONArray("activity");
+			Log.d("json", "1");
+			for (int i = 0 ; i < jArray.length() ; i++) {
+				JSONObject jAct = jArray.getJSONObject(i).getJSONObject("thread_parent");
+				threads.add(new Thread(jAct.getString("date"), 
+						jAct.getInt("number"), 
+						jAct.getString("subject"),
+						jAct.getString("author_name"),
+						jAct.getString("author_email"),
+						jAct.getString("newsgroup"),
+						false,
+						"",
+						""));
+			}
+			return threads;
+		} catch (JSONException e) {
+			Log.d("jsonError", "JSONException");
+		} catch (InterruptedException e) {
+			Log.d("jsonError", "InterruptedException");
+		} catch (ExecutionException e) {
+			Log.d("jsonError", "ExecutionException");
+		}
 		return null;
 	}
 	
@@ -97,13 +128,21 @@ public class HttpsConnector {
 		return null;
 	}
 	
-	
+	/**
+	 * Gets the post body for the post specified. This takes a newsgroup name and a
+	 * post ID number to find the post's body
+	 * @param newsgroup - the newsgroup name
+	 * @param id - the number of the post
+	 * @return String - the body of the post
+	 */
 	public String getPostBody(String newsgroup, int id) {
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
 		params.add(new BasicNameValuePair("mark_read", "True"));
 		String url = formatUrl(mainUrl + "/" + newsgroup + "/" + id, params);
 		try {
-			String body = new JSONObject(new HttpsAsyncTask(httpclient).execute(url).get()).getJSONObject("post").getString("body");
+			JSONObject jObj = new JSONObject(new HttpsAsyncTask(httpclient).execute(url).get());
+			JSONObject jsonPost = jObj.getJSONObject("post");
+			String body = jsonPost.getString("body");
 			return body;			
 		} catch (JSONException e) {
 			Log.d("jsonError", "JSONException");
