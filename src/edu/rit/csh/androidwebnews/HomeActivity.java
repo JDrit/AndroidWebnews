@@ -25,12 +25,14 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 public class HomeActivity extends Activity{
-
+	public HttpsConnector hc;
+	
 	ProgressDialog p;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	    Log.d("MyDebugging", "App Started");
+	    hc = new HttpsConnector("674db99369408b6a", this);
 	    setContentView(R.layout.activity_home);
 	    Log.d("MyDebugging", "Activity Made");
 	}
