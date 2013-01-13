@@ -25,7 +25,7 @@ public class ThreadsListFragment extends Fragment {
 	    HttpsConnector hc = new HttpsConnector("674db99369408b6a", getActivity());
 		Log.d("MyDebugging", "Beginning thread fetching for " + newsgroupName);
 	    
-		ArrayList<Thread> threads = hc.getNewsgroupThreads(newsgroupName, 10);
+		ArrayList<Thread> threads = hc.getNewsgroupThreads(newsgroupName, 20);
 		Log.d("MyDebugging", "Constructing String[] to be of size " + threads.size());
 		String[] listEntries = new String[threads.size()];
 		Log.d("MyDebugging", "Beginning list population");
