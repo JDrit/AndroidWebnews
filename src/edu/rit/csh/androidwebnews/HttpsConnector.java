@@ -177,7 +177,6 @@ public class HttpsConnector {
 		String url = formatUrl(mainUrl + "/" + newsgroup + "/index", params);
 		
 		try {
-			
 			JSONObject  jObj = new JSONObject(new HttpsAsyncTask(httpclient).execute(url).get());
 			JSONArray jArray = new JSONArray(jObj.getString("posts_older"));
 			for (int i = 0 ; i < jArray.length() ; i++) {
