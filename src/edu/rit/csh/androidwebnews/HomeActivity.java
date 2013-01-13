@@ -32,7 +32,7 @@ public class HomeActivity extends Activity {
 		super.onCreate(savedInstanceState);
 	    setContentView(R.layout.activity_home);
 		
-	    mainListView = (ListView) findViewById( R.id.mainListView );
+	    /*mainListView = (ListView) findViewById( R.id.mainListView );
 	    
 	    hc = new HttpsConnector("7f3ab2e0545842bb", this);
 	    
@@ -44,7 +44,7 @@ public class HomeActivity extends Activity {
 		}
 		
 		listAdapter = new ArrayAdapter<String>(this, R.layout.rowlayout, newsgroups);
-		mainListView.setAdapter(listAdapter);
+		mainListView.setAdapter(listAdapter);*/
 	}
 
 	@Override
