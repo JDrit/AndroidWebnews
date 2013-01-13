@@ -1,8 +1,11 @@
+
 package edu.rit.csh.androidwebnews;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
@@ -32,6 +35,8 @@ public class HttpsAsyncTask extends AsyncTask<String, Integer, String> {
 	protected String doInBackground(String... params) {
 		try {
         	HttpGet request = new HttpGet(params[0]);
+        	request.addHeader("accept", "application/json");
+        	
 			HttpResponse response = httpclient.execute(request);
 			BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 			
