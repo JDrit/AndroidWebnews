@@ -24,7 +24,6 @@ public class ThreadsListFragment extends Fragment {
 		
 		ExpandableListView mainListView = new ExpandableListView(getActivity());
 		Log.d("MyDebugging", "Starting connection");
-		String[] listEntries;
 		ArrayList<Thread> threads;
 		
 		if (newsgroupName != "none")

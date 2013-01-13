@@ -2,6 +2,7 @@ package edu.rit.csh.androidwebnews;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
 	private ExpandableListView mExpandableListView;
 	private ArrayList<Thread> threads;
 	private int[] threadStatus;
+	private int level = 1;
 	
 	public WebnewsListAdapter(Context pContext, ExpandableListView pExpandableListView, ArrayList<Thread> threads)
 	{
@@ -28,6 +30,17 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
 		mExpandableListView = pExpandableListView;
 		this.threads = threads;
 		threadStatus = new int[threads.size()];
+		
+		setListEvent();
+	}
+	
+	public WebnewsListAdapter(Context pContext, ExpandableListView pExpandableListView, ArrayList<Thread> threads, int level)
+	{
+		mContext = pContext;
+		mExpandableListView = pExpandableListView;
+		this.threads = threads;
+		threadStatus = new int[threads.size()];
+		this.level = level;
 		
 		setListEvent();
 	}
@@ -78,25 +91,41 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
 		
 		if(convertView == null)
 		{
-			LayoutInflater infalInflater = (LayoutInflater) mContext
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.rowlayout, null);
-            convertView.setPadding(70, 10, 10, 10);
+			if (getChild(groupPosition, childPosition).children.size() == 0)
+			{
+				LayoutInflater infalInflater = (LayoutInflater) mContext
+	                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	            convertView = infalInflater.inflate(R.layout.rowlayout, null);
+	            convertView.setPadding(70 * (level + 1), 10, 10, 10);
+            }
+			else
+			{
+				ExpandableListView mainListView = new ExpandableListView(mExpandableListView.getContext());
+				mainListView.setTag(getChild(groupPosition, childPosition));
+				ArrayList<Thread> threads = getChild(groupPosition, childPosition).children;
+				WebnewsListAdapter listAdapter = new WebnewsListAdapter(mContext, mainListView, threads, level + 1);
+				mainListView.setAdapter(listAdapter);
+				return mainListView;
+			}
 		}
 		
-		TextView tv = (TextView) convertView.findViewById(R.id.rowTextView);
-		tv.setText(threads.get(groupPosition).children.get(childPosition).authorName + ": " + threads.get(groupPosition).children.get(childPosition).subject);
-		
-		// Depending upon the child type, set the imageTextView01
-        tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-        /*if (vehicle instanceof Car) {
-            tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.car, 0, 0, 0);
-        } else if (vehicle instanceof Bus) {
-            tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.bus, 0, 0, 0);
-        } else if (vehicle instanceof Bike) {
-            tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.bike, 0, 0, 0);
-        }*/
-        return convertView;
+		if(getChild(groupPosition, childPosition).children.size() == 0)
+		{
+			TextView tv = (TextView) convertView.findViewById(R.id.rowTextView);
+			tv.setText(threads.get(groupPosition).children.get(childPosition).authorName + ": " + threads.get(groupPosition).children.get(childPosition).subject);
+			
+	        tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+	        return convertView;
+		}
+		else
+		{
+			ExpandableListView myList = (ExpandableListView) convertView.findViewWithTag(getChild(groupPosition, childPosition));
+			ArrayList<Thread> threads = getChild(groupPosition, childPosition).children;
+			WebnewsListAdapter listAdapter = new WebnewsListAdapter(mContext, myList, threads, level + 1);
+			myList.setAdapter(listAdapter);
+			return myList;
+		}
 	}
 
 	@Override
@@ -128,7 +157,7 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
             LayoutInflater infalInflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.rowlayout, null);
-            convertView.setPadding(70, 10, 10, 10);
+            convertView.setPadding(70 * level, 10, 10, 10);
         }
         TextView tv = (TextView) convertView.findViewById(R.id.rowTextView);
         tv.setText(thread.authorName + ": " + thread.subject);
