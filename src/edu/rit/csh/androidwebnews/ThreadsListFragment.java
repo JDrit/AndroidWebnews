@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,24 +12,31 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class ThreadsListFragment extends Fragment {
+	String newsgroupName;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		String newsgroupName = null;
+		newsgroupName = ((newsgroupView)getActivity()).newsgroupName;
 		
 		ListView mainListView = new ListView(getActivity());
+		Log.d("MyDebugging", "Starting connection");
 	    
-	    HttpsConnector hc = new HttpsConnector("7f3ab2e0545842bb", getActivity());
+	    HttpsConnector hc = new HttpsConnector("674db99369408b6a", getActivity());
+		Log.d("MyDebugging", "Beginning thread fetching for " + newsgroupName);
 	    
-		ArrayList<Thread> groups = hc.getNewsgroupThreads(newsgroupName, 10);
-		String[] newsgroups = new String[groups.size()];
-		for(int x = 0; x < groups.size(); x++)
+		ArrayList<Thread> threads = hc.getNewsgroupThreads(newsgroupName, 10);
+		Log.d("MyDebugging", "Constructing String[] to be of size " + threads.size());
+		String[] listEntries = new String[threads.size()];
+		Log.d("MyDebugging", "Beginning list population");
+		for(int x = 0; x < threads.size(); x++)
 		{
-			newsgroups[x] = groups.get(x).authorName + ": " + groups.get(x).subject;
+			Log.d("MyDebugging", "Item " + x + " entered");
+			listEntries[x] = threads.get(x).authorName + ": " + threads.get(x).subject;
 		}
-		
-		ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.rowlayout, newsgroups);
+
+		Log.d("MyDebugging", "S");
+		ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.rowlayout, listEntries);
 		mainListView.setAdapter(listAdapter);
 		
 		return mainListView;

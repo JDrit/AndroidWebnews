@@ -28,7 +28,7 @@ public class NewsgroupsListFragment extends ListFragment {
 	{
 		ListView mainListView = new ListView(getActivity());
 		
-	    HttpsConnector hc = new HttpsConnector("7f3ab2e0545842bb", getActivity());
+	    HttpsConnector hc = new HttpsConnector("674db99369408b6a", getActivity());
 	    
 		ArrayList<Newsgroup> groups = hc.getNewsGroups();
 		String[] newsgroups = new String[groups.size()];

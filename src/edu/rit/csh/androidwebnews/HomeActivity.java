@@ -41,7 +41,9 @@ public class HomeActivity extends Activity{
 
 	public void onNewsgroupSelected(String newsgroupName) {
 		Log.d("MyDebugging", newsgroupName + " has been selected");
-		//startActivity(new Intent(this, newsgroupView.class));
+		Intent myIntent = new Intent(this, newsgroupView.class);
+		myIntent.putExtra("SELECTED_NEWSGROUP", newsgroupName);
+		startActivity(myIntent);
 	}
 
 }
