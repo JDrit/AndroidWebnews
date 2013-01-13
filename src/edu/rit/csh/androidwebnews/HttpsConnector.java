@@ -99,6 +99,19 @@ public class HttpsConnector {
 	
 	
 	public String getPostBody(String newsgroup, int id) {
+		List<NameValuePair> params = new LinkedList<NameValuePair>();
+		params.add(new BasicNameValuePair("mark_read", "True"));
+		String url = formatUrl(mainUrl + "/" + newsgroup + "/" + id, params);
+		try {
+			String body = new JSONObject(new HttpsAsyncTask(httpclient).execute(url).get()).getJSONObject("post").getString("body");
+			return body;			
+		} catch (JSONException e) {
+			Log.d("jsonError", "JSONException");
+		} catch (InterruptedException e) {
+			Log.d("jsonError", "InterruptedException");
+		} catch (ExecutionException e) {
+			Log.d("jsonError", "ExecutionException");
+		}
 		return null;
 	}
 
