@@ -109,10 +109,9 @@ public class HttpsConnector {
 		params.add(new BasicNameValuePair("limit", new Integer(amount).toString()));
 		params.add(new BasicNameValuePair("thread_mode", "normal"));
 		String url = formatUrl(mainUrl + "/" + name + "/index", params);
-		JSONObject jObj;
 		try {
 			
-			jObj = new JSONObject(new HttpsAsyncTask(httpclient).execute(url).get());
+			JSONObject  jObj = new JSONObject(new HttpsAsyncTask(httpclient).execute(url).get());
 			JSONArray jArray = new JSONArray(jObj.getString("posts_older"));
 			for (int i = 0 ; i < jArray.length() ; i++) {
 				threads.add(createThread(new JSONObject(jArray.getString(i))));
@@ -153,8 +152,45 @@ public class HttpsConnector {
 		}
 		return null;
 	}
-
-	public ArrayList<Thread> getNewsgroupThreadsDate(String date, int amount) {
+	
+	/**
+	 * Gets the threads for a certain newsgroup past a certain date. This is done
+	 * to work around the 20 max thread return of the webnews api. All of the threads
+	 * contain an ArrayList of their sub-threads
+	 * @param newsgroup - the newsgroup name
+	 * @param date - the date to get post older than
+	 * @param amount - the amount of threads to return
+	 * @return ArrayList<Thread> - a list of the threads in the newsgroup from the starting
+	 * date
+	 */
+	public ArrayList<Thread> getNewsgroupThreadsByDate(String newsgroup, String date, int amount) {
+		ArrayList<Thread> threads = new ArrayList<Thread>();
+		if (amount == -1) {
+			amount = 10;
+		} else if (amount > 20) {
+			amount = 20;
+		}
+		List<NameValuePair> params = new LinkedList<NameValuePair>();
+		params.add(new BasicNameValuePair("limit", new Integer(amount).toString()));
+		params.add(new BasicNameValuePair("thread_mode", "normal"));
+		params.add(new BasicNameValuePair("from_older", date));
+		String url = formatUrl(mainUrl + "/" + newsgroup + "/index", params);
+		
+		try {
+			
+			JSONObject  jObj = new JSONObject(new HttpsAsyncTask(httpclient).execute(url).get());
+			JSONArray jArray = new JSONArray(jObj.getString("posts_older"));
+			for (int i = 0 ; i < jArray.length() ; i++) {
+				threads.add(createThread(new JSONObject(jArray.getString(i))));
+			}
+			return threads;
+		} catch (JSONException e) {
+			Log.d("jsonError", "JSONException");
+		} catch (InterruptedException e) {
+			Log.d("jsonError", "InterruptedException");
+		} catch (ExecutionException e) {
+			Log.d("jsonError", "ExecutionException");
+		}
 		return null;
 	}
 
