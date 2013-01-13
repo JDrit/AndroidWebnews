@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import edu.rit.csh.androidwebnews.NewsgroupsListFragment.OnNewsgroupSelectedListener;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Gravity;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 
 public class HomeActivity extends Activity{
 
+	ProgressDialog p;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,11 +42,29 @@ public class HomeActivity extends Activity{
 		return true;
 	}
 
-	public void onNewsgroupSelected(String newsgroupName) {
-		Log.d("MyDebugging", newsgroupName + " has been selected");
-		Intent myIntent = new Intent(this, newsgroupView.class);
-		myIntent.putExtra("SELECTED_NEWSGROUP", newsgroupName);
-		startActivity(myIntent);
+	public void onNewsgroupSelected(final String newsgroupName) {
+
+        p = new ProgressDialog(this);
+        p.setTitle("Fetching Info");
+        p.setMessage("Contacting Server...");
+        p.setCancelable(false);
+        p.show();
+        
+        new java.lang.Thread()
+        {
+        	public void run()
+        	{
+        		
+        
+				Log.d("MyDebugging", newsgroupName + " has been selected");
+				Intent myIntent = new Intent(HomeActivity.this, newsgroupView.class);
+				myIntent.putExtra("SELECTED_NEWSGROUP", newsgroupName);
+				startActivity(myIntent);
+				p.dismiss();
+        	}
+        }.start();
+		
+		
 	}
 
 }

@@ -1,7 +1,9 @@
 package edu.rit.csh.androidwebnews;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,15 +18,18 @@ public class newsgroupView extends Activity{
 		super.onCreate(savedInstanceState);
 		Log.d("MyDebugging", "newsgroupView creation started");
 		
+		
 		Bundle extras = getIntent().getExtras();
 		
 		if(extras != null)
+		{
 			newsgroupName = extras.getString("SELECTED_NEWSGROUP");
+		}
 		else
-			newsgroupName = "csh.flame";
+			newsgroupName = "none";
 		Log.d("MyDebugging", "Selected newsgroup is " + newsgroupName);
-		
-	    setContentView(R.layout.activity_newsgroupview);
+		setContentView(R.layout.activity_newsgroupview);
+            	
 		Log.d("MyDebugging", "newsgroupView creation finished");
 	}
 	
