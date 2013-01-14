@@ -30,7 +30,7 @@ public class ThreadsListFragment extends Fragment {
 		
 		if (newsgroupName != "none")
 		{
-		    HttpsConnector hc = new HttpsConnector("674db99369408b6a", getActivity());
+		    HttpsConnector hc = new HttpsConnector("2bb1150a2cac0ab0", getActivity());
 			Log.d("MyDebugging", "Beginning thread fetching for " + newsgroupName);
 		    
 			threads = hc.getNewsgroupThreads(newsgroupName, 20);

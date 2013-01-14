@@ -115,6 +115,7 @@ public class HttpsConnector {
 			JSONArray jArray = new JSONArray(jObj.getString("posts_older"));
 			for (int i = 0 ; i < jArray.length() ; i++) {
 				threads.add(createThread(new JSONObject(jArray.getString(i))));
+				Log.d("thread unread", createThread(new JSONObject(jArray.getString(i))).unread);
 			}
 			return threads;
 		} catch (JSONException e) {
@@ -136,12 +137,14 @@ public class HttpsConnector {
 	 */
 	public String getPostBody(String newsgroup, int id) {
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
-		params.add(new BasicNameValuePair("mark_read", "True"));
+		params.add(new BasicNameValuePair("mark_read", ""));
 		String url = formatUrl(mainUrl + "/" + newsgroup + "/" + id, params);
 		try {
+			Log.d("output", new HttpsGetAsyncTask(httpclient).execute(url).get());
 			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
 			JSONObject jsonPost = jObj.getJSONObject("post");
 			String body = jsonPost.getString("body");
+			
 			return body;			
 		} catch (JSONException e) {
 			Log.d("jsonError", "JSONException");
@@ -207,9 +210,6 @@ public class HttpsConnector {
 		}
 	}
 
-	public void markRead(String name) {
-		
-	}
 
 	private ArrayList<Thread> makeThreads(String jsonObj) {
 		return null;
