@@ -14,12 +14,13 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int Viewbutton=0x7f080004;
+        public static final int Viewbutton=0x7f080005;
         public static final int list=0x7f080000;
         public static final int mainListView=0x7f080001;
-        public static final int menu_settings=0x7f080005;
+        public static final int menu_settings=0x7f080006;
         public static final int rowTextView=0x7f080002;
-        public static final int threadtextview=0x7f080003;
+        public static final int threadrlayout=0x7f080003;
+        public static final int threadtextview=0x7f080004;
     }
     public static final class layout {
         public static final int activity_home=0x7f030000;

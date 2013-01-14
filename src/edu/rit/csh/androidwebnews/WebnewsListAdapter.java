@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class WebnewsListAdapter extends BaseExpandableListAdapter {
@@ -154,21 +155,15 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
 		Log.d("MyDebugging", "getGroupView called");
 		
 		Thread thread = getGroup(groupPosition);
-        if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) mContext
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.threadlayout, null);
-            convertView.setPadding(70 * level, 10, 10, 10);
-            ((TextView)convertView).setText(thread.authorName + ": " + thread.subject);
-            return convertView;
-        }
-        Button button = (Button) convertView.findViewById(R.id.Viewbutton);
-        Log.d("done2", "" + thread.number);
-        button.setContentDescription(thread.newsgroup + "/" + thread.number);
-        TextView tv = (TextView) convertView.findViewById(R.id.threadtextview);
-        
-        tv.setText(thread.authorName + ": " + thread.subject);
-        return tv;
+      
+        LayoutInflater infalInflater = (LayoutInflater) mContext
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        RelativeLayout rLayout = (RelativeLayout) infalInflater.inflate(R.layout.threadlayout, null);
+        rLayout.setPadding(70 * level, 10, 10, 10);
+        ((Button) rLayout.findViewById(R.id.Viewbutton)).setContentDescription(thread.newsgroup + "/" + Integer.valueOf(thread.number).toString());
+        ((TextView) rLayout.findViewById(R.id.threadtextview)).setText(thread.authorName + ": " + thread.subject);
+
+        return rLayout;
 	}
 
 	@Override
