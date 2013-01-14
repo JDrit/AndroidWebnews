@@ -42,6 +42,14 @@ public class newsgroupActivity extends Activity{
 	}
 	
 	public void viewPost(View view) {
+		Log.d("name", view.getContentDescription().toString().substring(0, view.getContentDescription().toString().indexOf('/')).toString());
+		Log.d("id", view.getContentDescription().toString().substring(view.getContentDescription().toString().indexOf('/') + 1).toString());
 		
+		Intent intent = new Intent(this, PostActivity.class);
+		intent.putExtra("SELECTED_NEWSGROUP", view.getContentDescription().toString().substring(0, view.getContentDescription().toString().indexOf('/')).toString());
+		intent.putExtra("SELECTED_ID", Integer.valueOf(view.getContentDescription().toString().substring(view.getContentDescription().toString().indexOf('/') + 1).toString()));
+
+		Log.d("des", "intent made");
+		startActivity(intent);
 	}
 }

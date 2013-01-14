@@ -32,8 +32,6 @@ public class HomeActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	    Log.d("MyDebugging", "App Started");
-	    hc = new HttpsConnector("", this);
-	    hc.markRead();
 	    setContentView(R.layout.activity_home);
 	    Log.d("MyDebugging", "Activity Made");
 	}

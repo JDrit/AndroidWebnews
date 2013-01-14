@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
@@ -159,7 +160,11 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.threadlayout, null);
             convertView.setPadding(70 * level, 10, 10, 10);
         }
+        Button button = (Button) convertView.findViewById(R.id.Viewbutton);
+        Log.d("done2", "" + thread.number);
+        button.setContentDescription(thread.newsgroup + "/" + thread.number);
         TextView tv = (TextView) convertView.findViewById(R.id.threadtextview);
+        
         tv.setText(thread.authorName + ": " + thread.subject);
         return convertView;
 	}
