@@ -95,7 +95,7 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
 			{
 				LayoutInflater infalInflater = (LayoutInflater) mContext
 	                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	            convertView = infalInflater.inflate(R.layout.rowlayout, null);
+	            convertView = infalInflater.inflate(R.layout.threadlayout, null);
 	            convertView.setPadding(70 * (level + 1), 10, 10, 10);
             }
 			else
@@ -111,7 +111,7 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
 		
 		if(getChild(groupPosition, childPosition).children.size() == 0)
 		{
-			TextView tv = (TextView) convertView.findViewById(R.id.rowTextView);
+			TextView tv = (TextView) convertView.findViewById(R.id.threadtextview);
 			tv.setText(threads.get(groupPosition).children.get(childPosition).authorName + ": " + threads.get(groupPosition).children.get(childPosition).subject);
 			
 	        tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
@@ -156,10 +156,10 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.rowlayout, null);
+            convertView = infalInflater.inflate(R.layout.threadlayout, null);
             convertView.setPadding(70 * level, 10, 10, 10);
         }
-        TextView tv = (TextView) convertView.findViewById(R.id.rowTextView);
+        TextView tv = (TextView) convertView.findViewById(R.id.threadtextview);
         tv.setText(thread.authorName + ": " + thread.subject);
         return convertView;
 	}
