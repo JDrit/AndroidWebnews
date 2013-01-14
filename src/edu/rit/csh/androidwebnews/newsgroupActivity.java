@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 
-public class newsgroupView extends Activity{
+public class newsgroupActivity extends Activity{
 	
 	public String newsgroupName;
 
