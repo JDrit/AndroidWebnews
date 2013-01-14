@@ -210,9 +210,27 @@ public class HttpsConnector {
 		}
 	}
 
-
-	private ArrayList<Thread> makeThreads(String jsonObj) {
-		return null;
+	/**
+	 * Validates that the API key is valid
+	 * @return True if the api key is good, false otherwise
+	 */
+	public boolean validApiKey() {
+		String url = formatUrl(mainUrl + "/user", new ArrayList<NameValuePair>());
+		try {
+			Log.d("json", new HttpsGetAsyncTask(httpclient).execute(url).get());
+			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
+			if (jObj.getString("user") != "") {
+				return true;
+			}
+		} catch (JSONException e) {
+			Log.d("jsonError", "JSONException");
+		} catch (InterruptedException e) {
+			Log.d("jsonError", "InterruptedException");
+		} catch (ExecutionException e) {
+			Log.d("jsonError", "ExecutionException");
+		}
+		return false;
+		
 	}
 	
 	/**
