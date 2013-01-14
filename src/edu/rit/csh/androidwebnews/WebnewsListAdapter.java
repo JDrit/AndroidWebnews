@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -153,17 +154,21 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 		Log.d("MyDebugging", "getGroupView called");
-		
-		Thread thread = getGroup(groupPosition);
-      
-        LayoutInflater infalInflater = (LayoutInflater) mContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        RelativeLayout rLayout = (RelativeLayout) infalInflater.inflate(R.layout.threadlayout, null);
-        rLayout.setPadding(70 * level, 10, 10, 10);
-        ((Button) rLayout.findViewById(R.id.Viewbutton)).setContentDescription(thread.newsgroup + "/" + Integer.valueOf(thread.number).toString());
-        ((TextView) rLayout.findViewById(R.id.threadtextview)).setText(thread.authorName + ": " + thread.subject);
 
-        return rLayout;
+		Thread thread = getGroup(groupPosition);
+        if (convertView == null) {
+            LayoutInflater infalInflater = (LayoutInflater) mContext
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = infalInflater.inflate(R.layout.threadlayout, null);
+            convertView.setPadding(70 * level, 10, 10, 10);
+            ((TextView)convertView.findViewById(R.id.threadtextview)).setText(thread.authorName + ": " + thread.subject);
+            ((Button) convertView.findViewById(R.id.Viewbutton)).setTag(thread);
+            return convertView;
+        }
+        TextView tv = (TextView) convertView.findViewById(R.id.threadtextview);
+        tv.setText(thread.authorName + ": " + thread.subject);
+        ((Button) convertView.findViewById(R.id.Viewbutton)).setTag(thread);
+        return convertView;
 	}
 
 	@Override
