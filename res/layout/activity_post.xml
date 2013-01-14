@@ -1,0 +1,8 @@
+<fragment
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    android:name="edu.rit.csh.androidwebnews.PostFragment"
+    android:id="@+id/list"
+    android:layout_weight="1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+</fragment>
