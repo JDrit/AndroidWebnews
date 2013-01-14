@@ -21,10 +21,12 @@ public class ThreadsListFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		
+
+		Log.d("MyDebugging", "Starting ThreadsListFragment constructor");
 		newsgroupName = ((newsgroupActivity)getActivity()).newsgroupName;
+		Log.d("MyDebugging", "making WebnewsExpandableListView");
 		
-		ExpandableListView mainListView = new ExpandableListView(getActivity());
+		WebnewsExpandableListView mainListView = new WebnewsExpandableListView(getActivity());
 		Log.d("MyDebugging", "Starting connection");
 		ArrayList<Thread> threads;
 		
