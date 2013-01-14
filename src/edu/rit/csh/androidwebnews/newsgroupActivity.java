@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 
 public class newsgroupActivity extends Activity{
 	
@@ -38,5 +39,9 @@ public class newsgroupActivity extends Activity{
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_home, menu);
 		return true;
+	}
+	
+	public void viewPost(View view) {
+		
 	}
 }
