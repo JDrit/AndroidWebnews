@@ -15,13 +15,13 @@ import android.os.AsyncTask;
  * The asynchronous task used to do the get and post request
  * @author JD
  */
-public class HttpsAsyncTask extends AsyncTask<String, Integer, String> {
+public class HttpsGetAsyncTask extends AsyncTask<String, Integer, String> {
 	WebnewsHttpClient httpclient;
 	/**
 	 * 
 	 * @param httpclient
 	 */
-	public HttpsAsyncTask(WebnewsHttpClient httpclient) {
+	public HttpsGetAsyncTask(WebnewsHttpClient httpclient) {
 		this.httpclient = httpclient;   
 	}
 	
