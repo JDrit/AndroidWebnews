@@ -38,7 +38,7 @@ public class HttpsConnector {
 		String url = formatUrl(mainUrl + "/newsgroups", new LinkedList<NameValuePair>());
 		Log.d("jsonurl", url);
 		try {
-			JSONObject jObj = new JSONObject(new HttpsAsyncTask(httpclient).execute(url).get());
+			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
 			JSONArray jArray = new JSONArray(jObj.getString("newsgroups"));
 			for (int i = 0 ; i < jArray.length() ; i++) {
 				newsgroups.add(new Newsgroup(new JSONObject(jArray.getString(i)).getString("name"),
@@ -64,7 +64,7 @@ public class HttpsConnector {
 		ArrayList<Thread> threads = new ArrayList<Thread>();
 		String url = formatUrl(mainUrl + "/activity", new LinkedList<NameValuePair>());
 		try {
-			JSONObject jObj = new JSONObject(new HttpsAsyncTask(httpclient).execute(url).get());
+			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
 			Log.d("json", "1");
 			JSONArray jArray = jObj.getJSONArray("activity");
 			Log.d("json", "1");
@@ -111,7 +111,7 @@ public class HttpsConnector {
 		String url = formatUrl(mainUrl + "/" + name + "/index", params);
 		try {
 			
-			JSONObject  jObj = new JSONObject(new HttpsAsyncTask(httpclient).execute(url).get());
+			JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
 			JSONArray jArray = new JSONArray(jObj.getString("posts_older"));
 			for (int i = 0 ; i < jArray.length() ; i++) {
 				threads.add(createThread(new JSONObject(jArray.getString(i))));
@@ -139,7 +139,7 @@ public class HttpsConnector {
 		params.add(new BasicNameValuePair("mark_read", "True"));
 		String url = formatUrl(mainUrl + "/" + newsgroup + "/" + id, params);
 		try {
-			JSONObject jObj = new JSONObject(new HttpsAsyncTask(httpclient).execute(url).get());
+			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
 			JSONObject jsonPost = jObj.getJSONObject("post");
 			String body = jsonPost.getString("body");
 			return body;			
@@ -177,7 +177,7 @@ public class HttpsConnector {
 		String url = formatUrl(mainUrl + "/" + newsgroup + "/index", params);
 		
 		try {
-			JSONObject  jObj = new JSONObject(new HttpsAsyncTask(httpclient).execute(url).get());
+			JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
 			JSONArray jArray = new JSONArray(jObj.getString("posts_older"));
 			for (int i = 0 ; i < jArray.length() ; i++) {
 				threads.add(createThread(new JSONObject(jArray.getString(i))));
@@ -194,11 +194,21 @@ public class HttpsConnector {
 	}
 
 	public void markRead() {
-
+		String url = formatUrl(mainUrl + "/mark_read", new ArrayList<NameValuePair>());
+		BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
+		BasicNameValuePair allVP = new BasicNameValuePair("all_posts", "");
+		try {
+			Log.d("jsonurl", url);
+			Log.d("jsonoutput", new HttpsPutAsyncTask(httpclient).execute(urlVP, allVP).get());
+		} catch (InterruptedException e) {
+			Log.d("jsonError", "InterruptedException");
+		} catch (ExecutionException e) {
+			Log.d("jsonError", "ExecutionException");
+		}
 	}
 
 	public void markRead(String name) {
-
+		
 	}
 
 	private ArrayList<Thread> makeThreads(String jsonObj) {
@@ -206,7 +216,7 @@ public class HttpsConnector {
 	}
 	
 	/**
-	 * Formats the URL String with the API key and all the extra parameters
+	 * Formats the URL String with the API key and all the extra parameters for GET requests
 	 * @param url - the url to format
 	 * @param addOns - List<NameValuePair> of extra parameters, can be empty
 	 * @return String - the formated String
@@ -215,7 +225,7 @@ public class HttpsConnector {
 		if (!url.endsWith("?")) {
 			url += "?";
 		}
-		List<NameValuePair> params = new LinkedList<NameValuePair>();
+		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("api_key", apiKey));
 		params.add(new BasicNameValuePair("api_agent", "Android_Webnews"));
 		if (addOns.size() != 0) {
