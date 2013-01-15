@@ -1,6 +1,9 @@
 package edu.rit.csh.androidwebnews;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -8,10 +11,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
 
-public class newsgroupActivity extends Activity{
+public class DisplayThreadsActivity extends Activity{
 	
 	public String newsgroupName;
+	public ArrayList<Thread> threadsDirectMap;
+	
+	private static final int CONTENT_VIEW_ID = 10101010;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -28,8 +36,11 @@ public class newsgroupActivity extends Activity{
 		}
 		else
 			newsgroupName = "none";
+		
+		threadsDirectMap = new ArrayList<Thread>();
+		
 		Log.d("MyDebugging", "Selected newsgroup is " + newsgroupName);
-		setContentView(R.layout.activity_newsgroupview);
+		setContentView(R.layout.displaythreads_activity);
             	
 		Log.d("MyDebugging", "newsgroupView creation finished");
 	}
@@ -42,10 +53,11 @@ public class newsgroupActivity extends Activity{
 	}
 	
 	public void viewPost(View view) {
+		Thread thread = threadsDirectMap.get(((Integer)view.getTag()));
 		
 		Intent intent = new Intent(this, PostActivity.class);
-		intent.putExtra("SELECTED_NEWSGROUP", ((Thread) view.getTag()).newsgroup);
-		intent.putExtra("SELECTED_ID", ((Thread) view.getTag()).number);
+		intent.putExtra("SELECTED_NEWSGROUP", thread.newsgroup);
+		intent.putExtra("SELECTED_ID", thread.number);
 
 		Log.d("des", "intent made");
 		startActivity(intent);
