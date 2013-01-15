@@ -38,7 +38,6 @@ public class WebnewsListAdapter<T> extends ArrayAdapter<T> {
 		int padding = 0;
 		while(text.charAt(0) == '|')
 		{
-			Log.d("MyDebugging", text);
 			text = text.substring(1);
 			padding++;
 		}

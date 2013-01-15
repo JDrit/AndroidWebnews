@@ -28,6 +28,8 @@ public class Thread {
 		this.personal_class = personal_class;
 		children = new ArrayList<Thread>();
 	}
+	
+	@Override
 	public String toString() {
 		return authorName + ": " + subject;
 	}
@@ -38,5 +40,16 @@ public class Thread {
 			count += children.get(i).getSubThreadCount();
 		}
 		return count;
+	}
+	
+	public boolean Equals(Object object)
+	{
+		if(!(object instanceof Thread))
+			return false;
+		if(((Thread)object).newsgroup == newsgroup && ((Thread)object).number == number)
+			return true;
+		else
+			return false;
+				
 	}
 }

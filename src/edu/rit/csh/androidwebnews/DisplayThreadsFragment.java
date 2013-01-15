@@ -32,7 +32,7 @@ public class DisplayThreadsFragment extends Fragment {
 		
 		ListView mainListView = new ListView(getActivity());
 		
-	    HttpsConnector hc = new HttpsConnector("93735102655180da", getActivity());
+	    HttpsConnector hc = new HttpsConnector("2e405dd9a1a64159", getActivity());
 	    
 	    threads = hc.getNewsgroupThreads(newsgroupName, 20);
 	    
@@ -64,23 +64,31 @@ public class DisplayThreadsFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View arg1, int position,
 					long id) {
-				String value = (String) adapter.getItemAtPosition(position);
-				if(threadStatus[position])
+				int originalPos = findOriginalPos(((DisplayThreadsActivity)getActivity()).threadsDirectMap.get(position));
+				Log.d("MyDebugging", "item " + position + " clicked on");
+				Log.d("MyDebugging", "original position is " + originalPos);
+				Log.d("MyDebugging", "threadStatus[originalPos] = " + threadStatus[originalPos]);
+				Log.d("MyDebugging", "extraEntries[originalPos] = " + extraEntries[originalPos]);
+				Log.d("MyDebugging", "sub threads of threads.get(originalPosition) = " + threads.get(originalPos).getSubThreadCount());
+				if(originalPos > -1)
 				{
-					for(int x = 0; x < threads.get(position).getSubThreadCount(); x++)
+					if(threadStatus[originalPos])
 					{
-						displayedStrings.remove(position + 1);
-						((DisplayThreadsActivity)getActivity()).threadsDirectMap.remove(position + 1);
+						for(int x = 0; x < extraEntries[originalPos]; x++)
+						{
+							displayedStrings.remove(position + 1);
+							((DisplayThreadsActivity)getActivity()).threadsDirectMap.remove(position + 1);
+						}
+						extraEntries[originalPos] = 0;
+						listAdapter.notifyDataSetChanged();
+						threadStatus[originalPos] = false;					
 					}
-					extraEntries[position] = 0;
-					listAdapter.notifyDataSetChanged();
-					threadStatus[position] = false;					
-				}
-				else
-				{
-					expandThread(threads.get(position), position);
-					listAdapter.notifyDataSetChanged();
-					threadStatus[position] = true;					
+					else
+					{
+						expandThread(threads.get(originalPos), position);
+						listAdapter.notifyDataSetChanged();
+						threadStatus[originalPos] = true;					
+					}
 				}
 			}
 			
@@ -94,15 +102,19 @@ public class DisplayThreadsFragment extends Fragment {
 	{
 		for(Thread childThread : thread.children)
 		{
-			displayedStrings.add(pos + 1, "||" + childThread.toString());
-			extraEntries[pos] += 1;
-			((DisplayThreadsActivity)getActivity()).threadsDirectMap.add(pos, childThread);
-			if(childThread.children.size() != 0)
-				expandThread(childThread, pos, 2);
+			int originalPos = findOriginalPos(thread);
+			if(originalPos > -1)
+			{
+				displayedStrings.add(pos + 1, "||" + childThread.toString());
+				extraEntries[originalPos] += 1;
+				((DisplayThreadsActivity)getActivity()).threadsDirectMap.add(pos+1, childThread);
+				if(childThread.children.size() != 0)
+					expandThread(childThread, originalPos, pos + 1, 2);
+			}
 		}
 	}
 	
-	private void expandThread(Thread thread, int pos, int level)
+	private void expandThread(Thread thread, int originalPos, int pos, int level)
 	{
 		String temp = "";
 		for(int i = 0; i < level; i++)
@@ -110,10 +122,18 @@ public class DisplayThreadsFragment extends Fragment {
 		for(Thread childThread : thread.children)
 		{
 			displayedStrings.add(pos + 1, temp + childThread.toString());
-			extraEntries[pos] += 1;
-			((DisplayThreadsActivity)getActivity()).threadsDirectMap.add(pos, childThread);
+			extraEntries[originalPos] += 1;
+			((DisplayThreadsActivity)getActivity()).threadsDirectMap.add(pos+1, childThread);
 			if(childThread.children.size() != 0)
-				expandThread(childThread, pos);
+				expandThread(childThread, originalPos, pos + 1, level + 1);
 		}
+	}
+	
+	private int findOriginalPos(Thread thread)
+	{
+		for(int x = 0; x < threads.size(); x++)
+			if(threads.get(x).Equals(thread))
+				return x;
+		return -1;
 	}
 }
