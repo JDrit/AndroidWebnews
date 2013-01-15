@@ -10,5 +10,6 @@
     <string name="api_key">time_between_checktime_between_checktime_between_checktime_between_checktime_between_check</string>
     <string name="time_between_check">timeBetweenCheck</string>
     <string name="background_sync">backgroundSync</string>
+    <string name="preference_file_key">preferencefile</string>
 
 </resources>
