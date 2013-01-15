@@ -32,7 +32,7 @@ public class DisplayThreadsFragment extends Fragment {
 		
 		ListView mainListView = new ListView(getActivity());
 		
-	    HttpsConnector hc = new HttpsConnector("cf9508708020f73a", getActivity());
+	    HttpsConnector hc = new HttpsConnector("93735102655180da", getActivity());
 	    
 	    threads = hc.getNewsgroupThreads(newsgroupName, 20);
 	    

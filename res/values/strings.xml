@@ -7,5 +7,8 @@
     <string name="title_activity_post">PostActivity</string>
     <string name="reply">Reply</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="api_key">time_between_checktime_between_checktime_between_checktime_between_checktime_between_check</string>
+    <string name="time_between_check">timeBetweenCheck</string>
+    <string name="background_sync">backgroundSync</string>
 
 </resources>

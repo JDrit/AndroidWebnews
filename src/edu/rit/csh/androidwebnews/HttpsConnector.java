@@ -195,7 +195,9 @@ public class HttpsConnector {
 		}
 		return null;
 	}
-
+	/**
+	 * Marks all post read
+	 */
 	public void markRead() {
 		String url = formatUrl(mainUrl + "/mark_read", new ArrayList<NameValuePair>());
 		BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
@@ -219,8 +221,10 @@ public class HttpsConnector {
 		try {
 			Log.d("json", new HttpsGetAsyncTask(httpclient).execute(url).get());
 			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
-			if (jObj.getString("user") != "") {
+			if (jObj.has("user")) {
 				return true;
+			} else {
+				return false;
 			}
 		} catch (JSONException e) {
 			Log.d("jsonError", "JSONException");
