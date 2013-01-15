@@ -1,3 +1,4 @@
+
 package edu.rit.csh.androidwebnews;
 
 import java.util.ArrayList;
@@ -6,7 +7,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.ListFragment;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,8 +30,10 @@ public class NewsgroupsListFragment extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		ListView mainListView = new ListView(getActivity());
-		
-	    HttpsConnector hc = new HttpsConnector("93735102655180da", getActivity());
+		SharedPreferences sharedPref = getActivity().getSharedPreferences(
+		        getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+		HttpsConnector hc = new HttpsConnector(sharedPref.getString(getString(R.string.api_key), ""), getActivity());
 	    
 	    ArrayList<Newsgroup> groups = hc.getNewsGroups();
 		String[] newsgroups = new String[groups.size()];
