@@ -20,7 +20,7 @@ public class PostFragment extends Fragment {
 		newsgroupName = ((PostActivity) getActivity()).newsgroupName;
 		id = ((PostActivity) getActivity()).id;
 		
-		HttpsConnector hc = new HttpsConnector("93735102655180da", getActivity());
+		HttpsConnector hc = new HttpsConnector("2e405dd9a1a64159", getActivity());
 		Log.d("name + id", newsgroupName + " - " + Integer.valueOf(id).toString());
 		body = hc.getPostBody(newsgroupName, id);
 		TextView tv = new TextView(getActivity());
