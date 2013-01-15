@@ -6,5 +6,6 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_post">PostActivity</string>
     <string name="reply">Reply</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 
 </resources>

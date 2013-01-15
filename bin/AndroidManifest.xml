@@ -30,8 +30,15 @@
             android:name="edu.rit.csh.androidwebnews.PostActivity"
             android:label="@string/title_activity_post" >
         </activity>
+        <activity
+            android:name="edu.rit.csh.androidwebnews.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
+
+
+
 
 </manifest>
