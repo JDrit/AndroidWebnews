@@ -29,7 +29,7 @@ public class Thread {
 		children = new ArrayList<Thread>();
 	}
 	public String toString() {
-		return date + "," + number + "," + subject + "," + authorName + "," + newsgroup + ", children: " + children.size();
+		return authorName + ": " + subject;
 	}
 	
 	public int getSubThreadCount() {

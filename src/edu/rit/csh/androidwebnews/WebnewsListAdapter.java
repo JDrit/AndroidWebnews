@@ -1,6 +1,7 @@
 package edu.rit.csh.androidwebnews;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -20,185 +22,33 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class WebnewsListAdapter extends BaseExpandableListAdapter {
-	private Context mContext;
-	private WebnewsExpandableListView mExpandableListView;
-	private WebnewsListAdapter parent;
-	private ArrayList<Thread> threads;
-	private int[] threadStatus;
-	private int level = 1;
-	
-	public WebnewsListAdapter(Context pContext, WebnewsExpandableListView pExpandableListView, ArrayList<Thread> threads)
-	{
-		mContext = pContext;
-		mExpandableListView = pExpandableListView;
-		this.threads = threads;
-		threadStatus = new int[threads.size()];
-		
-		setListEvent();
+public class WebnewsListAdapter<T> extends ArrayAdapter<T> {
+	Context context;
+
+	public WebnewsListAdapter(Context context, int textViewResourceId,
+			List<T> objects) {
+		super(context, textViewResourceId, objects);
+		this.context = context;
 	}
 	
-	public WebnewsListAdapter(Context pContext, WebnewsExpandableListView pExpandableListView, WebnewsListAdapter parent, ArrayList<Thread> threads, int level)
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		mContext = pContext;
-		mExpandableListView = pExpandableListView;
-		this.threads = threads;
-		threadStatus = new int[threads.size()];
-		this.level = level;
-		this.parent = parent;
-		
-		setListEvent();
-	}
-	
-	private void setListEvent()
-	{
-		Log.d("MyDebugging", "setListEvent called");
-		mExpandableListView.setOnGroupExpandListener(new OnGroupExpandListener()
+		String text = (String)getItem(position);
+		int padding = 0;
+		while(text.charAt(0) == '|')
 		{
-
-			@Override
-			public void onGroupExpand(int arg0) {
-				threadStatus[arg0] = 1;
-				updateHeight();
-			}
-			
-		});
-		
-		mExpandableListView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
-
-			@Override
-			public void onGroupCollapse(int arg0) {
-				threadStatus[arg0] = 0;
-				//notifyDataSetChanged();
-				updateHeight();
-			}
-			
-		});
-		Log.d("MyDebugging", "setListEvent finished");
-	}
-
-	@Override
-    public ArrayList<Thread> getChild(int groupPosition, int childPosition) {
-        return threads.get(groupPosition).children;
-    }
-
-	@Override
-	public long getChildId(int arg0, int arg1) {
-		Log.d("MyDebugging", "getChildId called");
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
-			ViewGroup parent) {
-		Log.d("MyDebugging", "getChildView called");
-		
-		ArrayList<Thread> child = getChild(groupPosition, childPosition);
-		
-		/*if(convertView == null)
-		{
-			if (child.children.size() == 0)
-			{
-				LayoutInflater infalInflater = (LayoutInflater) mContext
-	                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	            convertView = infalInflater.inflate(R.layout.threadlayout, null);
-	            convertView.setPadding(70 * (level + 1), 10, 10, 10);
-            }
-			else
-			{*/
-				WebnewsExpandableListView mainListView = new WebnewsExpandableListView(mExpandableListView.getContext());
-				mainListView.setTag(child);
-				ArrayList<Thread> threads = child;
-				WebnewsListAdapter listAdapter = new WebnewsListAdapter(mContext, mainListView, this, threads, level + 1);
-				mainListView.setAdapter(listAdapter);
-				return mainListView;
-			/*}
+			Log.d("MyDebugging", text);
+			text = text.substring(1);
+			padding++;
 		}
-		if(getChild(groupPosition, childPosition).children.size() == 0)
-		{
-			TextView tv = (TextView) convertView.findViewById(R.id.threadtextview);
-			tv.setText(threads.get(groupPosition).children.get(childPosition).authorName + ": " + threads.get(groupPosition).children.get(childPosition).subject);
-			
-	        tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-
-	        return tv;
-		}
-		else
-		{
-			WebnewsExpandableListView myList = (WebnewsExpandableListView) convertView.findViewWithTag(child);
-			ArrayList<Thread> threads = child.children;
-			WebnewsListAdapter listAdapter = new WebnewsListAdapter(mContext, myList, threads, level + 1);
-			myList.setAdapter(listAdapter);
-			return myList;
-		}*/
+		LayoutInflater infalInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = infalInflater.inflate(R.layout.threadlayout, null);
+        convertView.setPadding(30 * padding + 10, 10, 10, 10);
+        ((TextView)convertView.findViewById(R.id.threadtextview)).setPadding(0,0,140,0);
+        ((TextView)convertView.findViewById(R.id.threadtextview)).setText(text);
+        ((Button) convertView.findViewById(R.id.Viewbutton)).setTag(position);
+        return convertView;
 	}
-
-	@Override
-	public int getChildrenCount(int arg0) {
-		if(threads.get(arg0).children.size() == 0)
-			return 0;
-		else
-			return 1;
-	}
-
-	@Override
-	public Thread getGroup(int arg0) {
-		return threads.get(arg0);
-	}
-
-	@Override
-	public int getGroupCount() {
-		return threads.size();
-	}
-
-	@Override
-	public long getGroupId(int arg0) {
-		return arg0;
-	}
-
-	@Override
-	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-		Log.d("MyDebugging", "getGroupView called");
-
-		Thread thread = getGroup(groupPosition);
-        //if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) mContext
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.threadlayout, null);
-            convertView.setPadding(70 * level, 10, 10, 10);
-            ((TextView)convertView.findViewById(R.id.threadtextview)).setPadding(0,0,140,0);
-            ((TextView)convertView.findViewById(R.id.threadtextview)).setText(thread.authorName + ": " + thread.subject);
-            ((Button) convertView.findViewById(R.id.Viewbutton)).setTag(thread);
-            return convertView;
-        /*}
-        TextView tv = (TextView) convertView.findViewById(R.id.threadtextview);
-        tv.setText(thread.authorName + ": " + thread.subject);
-        ((Button) convertView.findViewById(R.id.Viewbutton)).setTag(thread);
-        return convertView;*/
-	}
-
-	@Override
-	public boolean hasStableIds() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean isChildSelectable(int arg0, int arg1) {
-		// TODO Auto-generated method stub
-		return true;
-	}
-	
-	public void updateHeight()
-	{
-		Log.d("MyDebugging", "Updating Height");
-
-		notifyDataSetChanged();
-		if(parent != null)
-			parent.mExpandableListView.height = parent.mExpandableListView.getMeasuredHeight() + mExpandableListView.getMeasuredHeight();
-		
-		Log.d("MyDebugging", "Updating Height completed");
-	}
-
 }
