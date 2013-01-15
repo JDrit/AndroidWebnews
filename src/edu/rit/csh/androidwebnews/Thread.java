@@ -31,4 +31,12 @@ public class Thread {
 	public String toString() {
 		return date + "," + number + "," + subject + "," + authorName + "," + newsgroup + ", children: " + children.size();
 	}
+	
+	public int getSubThreadCount() {
+		int count = 0;
+		for (int i = 0 ; i < children.size() ; i++) {
+			count += children.get(i).getSubThreadCount();
+		}
+		return count;
+	}
 }
