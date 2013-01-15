@@ -23,6 +23,7 @@ import android.widget.TextView;
 public class WebnewsListAdapter extends BaseExpandableListAdapter {
 	private Context mContext;
 	private WebnewsExpandableListView mExpandableListView;
+	private WebnewsListAdapter parent;
 	private ArrayList<Thread> threads;
 	private int[] threadStatus;
 	private int level = 1;
@@ -37,13 +38,14 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
 		setListEvent();
 	}
 	
-	public WebnewsListAdapter(Context pContext, WebnewsExpandableListView pExpandableListView, ArrayList<Thread> threads, int level)
+	public WebnewsListAdapter(Context pContext, WebnewsExpandableListView pExpandableListView, WebnewsListAdapter parent, ArrayList<Thread> threads, int level)
 	{
 		mContext = pContext;
 		mExpandableListView = pExpandableListView;
 		this.threads = threads;
 		threadStatus = new int[threads.size()];
 		this.level = level;
+		this.parent = parent;
 		
 		setListEvent();
 	}
@@ -67,6 +69,7 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
 			@Override
 			public void onGroupCollapse(int arg0) {
 				threadStatus[arg0] = 0;
+				//notifyDataSetChanged();
 				updateHeight();
 			}
 			
@@ -75,8 +78,8 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-    public Thread getChild(int groupPosition, int childPosition) {
-        return threads.get(groupPosition).children.get(childPosition);
+    public ArrayList<Thread> getChild(int groupPosition, int childPosition) {
+        return threads.get(groupPosition).children;
     }
 
 	@Override
@@ -91,7 +94,7 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
 			ViewGroup parent) {
 		Log.d("MyDebugging", "getChildView called");
 		
-		Thread child = getChild(groupPosition, childPosition);
+		ArrayList<Thread> child = getChild(groupPosition, childPosition);
 		
 		/*if(convertView == null)
 		{
@@ -106,8 +109,8 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
 			{*/
 				WebnewsExpandableListView mainListView = new WebnewsExpandableListView(mExpandableListView.getContext());
 				mainListView.setTag(child);
-				ArrayList<Thread> threads = child.children;
-				WebnewsListAdapter listAdapter = new WebnewsListAdapter(mContext, mainListView, threads, level + 1);
+				ArrayList<Thread> threads = child;
+				WebnewsListAdapter listAdapter = new WebnewsListAdapter(mContext, mainListView, this, threads, level + 1);
 				mainListView.setAdapter(listAdapter);
 				return mainListView;
 			/*}
@@ -133,7 +136,10 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public int getChildrenCount(int arg0) {
-		return threads.get(arg0).children.size();
+		if(threads.get(arg0).children.size() == 0)
+			return 0;
+		else
+			return 1;
 	}
 
 	@Override
@@ -156,19 +162,20 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
 		Log.d("MyDebugging", "getGroupView called");
 
 		Thread thread = getGroup(groupPosition);
-        if (convertView == null) {
+        //if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.threadlayout, null);
             convertView.setPadding(70 * level, 10, 10, 10);
+            ((TextView)convertView.findViewById(R.id.threadtextview)).setPadding(0,0,140,0);
             ((TextView)convertView.findViewById(R.id.threadtextview)).setText(thread.authorName + ": " + thread.subject);
             ((Button) convertView.findViewById(R.id.Viewbutton)).setTag(thread);
             return convertView;
-        }
+        /*}
         TextView tv = (TextView) convertView.findViewById(R.id.threadtextview);
         tv.setText(thread.authorName + ": " + thread.subject);
         ((Button) convertView.findViewById(R.id.Viewbutton)).setTag(thread);
-        return convertView;
+        return convertView;*/
 	}
 
 	@Override
@@ -186,8 +193,10 @@ public class WebnewsListAdapter extends BaseExpandableListAdapter {
 	public void updateHeight()
 	{
 		Log.d("MyDebugging", "Updating Height");
-		
-		mExpandableListView.height = mExpandableListView.getHeight();  
+
+		notifyDataSetChanged();
+		if(parent != null)
+			parent.mExpandableListView.height = parent.mExpandableListView.getMeasuredHeight() + mExpandableListView.getMeasuredHeight();
 		
 		Log.d("MyDebugging", "Updating Height completed");
 	}

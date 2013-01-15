@@ -29,7 +29,7 @@ public class WebnewsExpandableListView extends ExpandableListView {
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
 	{
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		//setMeasuredDimension(getMeasuredWidth(), height);
+		setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight() + height);
 	}
 	
 	public void setDimensions(int widthMeasureSpec, int heightMeasureSpec)
