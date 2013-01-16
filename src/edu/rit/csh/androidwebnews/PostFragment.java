@@ -3,7 +3,9 @@ package edu.rit.csh.androidwebnews;
 import android.support.v4.app.Fragment;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +41,9 @@ public class PostFragment extends Fragment {
 		super.onCreate(savedInstanceBundle);
 		Log.d("MyDebugging", "Post Fragment onCreate called");
 		
-		HttpsConnector hc = new HttpsConnector("4d345e7051de48d0",getActivity());
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+	    String apiKey = sharedPref.getString("api_key", "");
+		HttpsConnector hc = new HttpsConnector(apiKey, getActivity());
 		body = hc.getPostBody(newsgroupName, id);
 	}
 	

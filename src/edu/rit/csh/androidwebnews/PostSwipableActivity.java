@@ -1,11 +1,15 @@
 package edu.rit.csh.androidwebnews;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 
 public class PostSwipableActivity extends FragmentActivity {
 	
@@ -18,6 +22,13 @@ public class PostSwipableActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_swipable);
+		
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+	    String apiKey = sharedPref.getString("api_key", "");	    
+	    HttpsConnector hc = new HttpsConnector(apiKey, this);	    	    
+	    if (!hc.validApiKey()) {
+	         new InvalidApiKeyDialog(this).show();
+	    }
 		
 		Bundle extras = getIntent().getExtras();
 		newsgroupName = extras.getString("SELECTED_NEWSGROUP");
@@ -35,8 +46,25 @@ public class PostSwipableActivity extends FragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_post_swipable, menu);
+		getMenuInflater().inflate(R.menu.activity_default, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_settings:
+			startActivity(new Intent(this, SettingsActivity.class));
+			return true;
+		
+		case R.id.menu_refresh:
+			
+			return true;
+		case R.id.menu_about:
+			startActivity(new Intent(this, InfoActivity.class));
+			return true;
+		}
+		return false;
 	}
 
 }

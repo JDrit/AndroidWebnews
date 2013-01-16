@@ -6,10 +6,13 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
@@ -25,6 +28,12 @@ public class DisplayThreadsActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		Log.d("MyDebugging", "newsgroupView creation started");
 		
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+	    String apiKey = sharedPref.getString("api_key", "");	    
+	    HttpsConnector hc = new HttpsConnector(apiKey, this);	    	    
+	    if (!hc.validApiKey()) {
+	         new InvalidApiKeyDialog(this).show();
+	    }
 		
 		Bundle extras = getIntent().getExtras();
 		
@@ -62,5 +71,22 @@ public class DisplayThreadsActivity extends Activity{
 
 		Log.d("des", "intent made");
 		startActivity(intent);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_settings:
+			startActivity(new Intent(this, SettingsActivity.class));
+			return true;
+		
+		case R.id.menu_refresh:
+			
+			return true;
+		case R.id.menu_about:
+			startActivity(new Intent(this, InfoActivity.class));
+			return true;
+		}
+		return false;
 	}
 }

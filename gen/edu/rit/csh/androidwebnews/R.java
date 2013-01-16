@@ -47,7 +47,6 @@ public final class R {
     }
     public static final class menu {
         public static final int activity_default=0x7f090000;
-        public static final int activity_post_swipable=0x7f090001;
     }
     public static final class raw {
         public static final int keystore=0x7f050000;

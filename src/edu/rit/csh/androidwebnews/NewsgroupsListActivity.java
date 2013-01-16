@@ -66,6 +66,7 @@ public class NewsgroupsListActivity extends Activity{
 		return true;
 	}
 	
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_settings:

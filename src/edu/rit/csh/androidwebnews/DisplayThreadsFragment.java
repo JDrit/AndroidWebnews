@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +34,9 @@ public class DisplayThreadsFragment extends Fragment {
 		
 		ListView mainListView = new ListView(getActivity());
 		
-	    HttpsConnector hc = new HttpsConnector("4d345e7051de48d0", getActivity());
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+	    String apiKey = sharedPref.getString("api_key", "");
+		HttpsConnector hc = new HttpsConnector(apiKey, getActivity());
 	    
 	    threads = hc.getNewsgroupThreads(newsgroupName, 20);
 	    
