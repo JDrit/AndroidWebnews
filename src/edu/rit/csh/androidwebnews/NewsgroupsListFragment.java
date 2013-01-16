@@ -33,7 +33,6 @@ public class NewsgroupsListFragment extends ListFragment {
 		ListView mainListView = new ListView(getActivity());
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
-
 		HttpsConnector hc = new HttpsConnector(apiKey, getActivity());
 		
 		
