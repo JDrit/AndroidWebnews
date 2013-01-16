@@ -33,6 +33,10 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * The activity to display the newsgroups. Uses the NewsgroupListFragment to 
+ * display the view. Checks for invalid api keys.
+ */
 public class NewsgroupsListActivity extends Activity{
 	public HttpsConnector hc;
 	boolean contentMade = true;
@@ -58,7 +62,7 @@ public class NewsgroupsListActivity extends Activity{
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_home, menu);
+		getMenuInflater().inflate(R.menu.activity_default, menu);
 		return true;
 	}
 	
@@ -66,6 +70,13 @@ public class NewsgroupsListActivity extends Activity{
 		switch (item.getItemId()) {
 		case R.id.menu_settings:
 			startActivity(new Intent(this, SettingsActivity.class));
+			return true;
+		
+		case R.id.menu_refresh:
+			
+			return true;
+		case R.id.menu_about:
+			startActivity(new Intent(this, InfoActivity.class));
 			return true;
 		}
 		return false;
