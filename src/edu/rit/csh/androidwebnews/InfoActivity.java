@@ -2,10 +2,16 @@ package edu.rit.csh.androidwebnews;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+/**
+ * The activity used to control the About and License page for the application.
+ * It is a TextView and 2 Buttons used to switch the content of the TextView.
+ */
 public class InfoActivity extends Activity {
 	TextView tv;
 	@Override
@@ -27,5 +33,22 @@ public class InfoActivity extends Activity {
 	}
 	public void showLicense(View view) {
 		tv.setText(R.string.license_text);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_settings:
+			startActivity(new Intent(this, SettingsActivity.class));
+			return true;
+		
+		case R.id.menu_refresh:
+			
+			return true;
+		case R.id.menu_about:
+			startActivity(new Intent(this, InfoActivity.class));
+			return true;
+		}
+		return false;
 	}
 }

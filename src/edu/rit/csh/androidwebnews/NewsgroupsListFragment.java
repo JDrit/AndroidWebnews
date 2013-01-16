@@ -43,9 +43,14 @@ public class NewsgroupsListFragment extends ListFragment {
 		for(int x = 0; x < groups.size(); x++)
 		{
 			newsgroups[x] = groups.get(x).name;
+			if (groups.get(x).unreadCount != 0) {
+				newsgroups[x] += " (" + groups.get(x).unreadCount + ")";
+			}
 		}
 		
-		ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.rowlayout, newsgroups);
+		//ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.rowlayout, newsgroups);
+		NewsgroupsListAdapter<Newsgroup> listAdapter = new NewsgroupsListAdapter<Newsgroup>(getActivity(), R.layout.rowlayout, groups);
+		
 		mainListView.setAdapter(listAdapter);
 		
 		Log.d("MyDebugging", "Setting click listener");
@@ -74,7 +79,7 @@ public class NewsgroupsListFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id)
 	{
 		super.onListItemClick(l, v, position, id);
-		String selectedGroup = (String) getListView().getItemAtPosition(position);
+		String selectedGroup = ((Newsgroup) getListView().getItemAtPosition(position)).name;
 		((NewsgroupsListActivity)getActivity()).onNewsgroupSelected(selectedGroup);
 	}
 
