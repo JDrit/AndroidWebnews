@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,10 +31,12 @@ public class NewsgroupsListFragment extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		ListView mainListView = new ListView(getActivity());
-		SharedPreferences sharedPref = getActivity().getSharedPreferences(
-		        getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+	    String apiKey = sharedPref.getString("api_key", "");
 
-		HttpsConnector hc = new HttpsConnector(sharedPref.getString(getString(R.string.api_key), ""), getActivity());
+		HttpsConnector hc = new HttpsConnector(apiKey, getActivity());
+		
+		
 	    
 	    ArrayList<Newsgroup> groups = hc.getNewsGroups();
 		String[] newsgroups = new String[groups.size()];
@@ -55,7 +58,7 @@ public class NewsgroupsListFragment extends ListFragment {
 					long id) {
 				Log.d("MyDebugging", "Clicky!");
 				String value = (String) adapter.getItemAtPosition(position);
-				((HomeActivity)getActivity()).onNewsgroupSelected(value);
+				((NewsgroupsListActivity)getActivity()).onNewsgroupSelected(value);
 			}
 			
 		});
@@ -73,7 +76,7 @@ public class NewsgroupsListFragment extends ListFragment {
 	{
 		super.onListItemClick(l, v, position, id);
 		String selectedGroup = (String) getListView().getItemAtPosition(position);
-		((HomeActivity)getActivity()).onNewsgroupSelected(selectedGroup);
+		((NewsgroupsListActivity)getActivity()).onNewsgroupSelected(selectedGroup);
 	}
 
 }

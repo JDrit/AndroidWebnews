@@ -1,18 +1,13 @@
 package edu.rit.csh.androidwebnews;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
+import android.preference.PreferenceFragment;
 
-public class SettingsFragment extends Fragment {
-	EditText apiKey;
-	
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View convertView = inflater.inflate(R.layout.threadlayout, null);	
-		return convertView;
+public class SettingsFragment extends PreferenceFragment {
+	@Override
+	public void onCreate (final Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		addPreferencesFromResource(R.xml.preferences);
 	}
-
 }

@@ -53,7 +53,7 @@ public class HttpsConnector {
 		} catch (ExecutionException e) {
 			Log.d("jsonError", "ExecutionException");
 		}
-		return null;
+		return new ArrayList<Newsgroup>();
 	}
 	
 	/**
@@ -88,7 +88,7 @@ public class HttpsConnector {
 		} catch (ExecutionException e) {
 			Log.d("jsonError", "ExecutionException");
 		}
-		return null;
+		return new ArrayList<Thread>();
 	}
 	
 	/**
@@ -127,7 +127,7 @@ public class HttpsConnector {
 		} catch (ExecutionException e) {
 			Log.d("jsonError", "ExecutionException");
 		}
-		return null;
+		return new ArrayList<Thread>();
 	}
 	
 	/**
@@ -155,7 +155,7 @@ public class HttpsConnector {
 		} catch (ExecutionException e) {
 			Log.d("jsonError", "ExecutionException");
 		}
-		return null;
+		return "";
 	}
 	
 	/**
@@ -195,7 +195,7 @@ public class HttpsConnector {
 		} catch (ExecutionException e) {
 			Log.d("jsonError", "ExecutionException");
 		}
-		return null;
+		return new ArrayList<Thread>();
 	}
 	/**
 	 * Marks all post read
