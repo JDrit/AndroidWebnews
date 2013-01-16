@@ -9,6 +9,7 @@ public class Thread {
 	ArrayList<Thread> children;
 	Thread parent;
 	
+	
 	public Thread(String date, 
 			int number, 
 			String subject, 

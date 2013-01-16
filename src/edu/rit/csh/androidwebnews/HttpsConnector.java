@@ -114,7 +114,9 @@ public class HttpsConnector {
 			JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
 			JSONArray jArray = new JSONArray(jObj.getString("posts_older"));
 			for (int i = 0 ; i < jArray.length() ; i++) {
-				threads.add(createThread(new JSONObject(jArray.getString(i))));
+				Thread thread = createThread(new JSONObject(jArray.getString(i)));
+				thread.parent = null;
+				threads.add(thread);
 				Log.d("thread unread", createThread(new JSONObject(jArray.getString(i))).unread);
 			}
 			return threads;
@@ -272,7 +274,7 @@ public class HttpsConnector {
 					post.getInt("number"), 
 					post.getString("subject"),
 					post.getString("author_name"),
-					post.getString("author_email"),
+					post.getString("author_email"), 
 					post.getString("newsgroup"),
 					post.getBoolean("starred"),
 					post.getString("unread_class"),
@@ -280,7 +282,9 @@ public class HttpsConnector {
 			
 			if (obj.getJSONArray("children") != null ) {
 				for (int i = 0 ; i < obj.getJSONArray("children").length() ; i++) {
-					thread.children.add(createThread(obj.getJSONArray("children").getJSONObject(i)));
+					Thread child = createThread(obj.getJSONArray("children").getJSONObject(i));
+					child.parent = thread;
+					thread.children.add(child);
 				}
 			}
 			return thread;		
