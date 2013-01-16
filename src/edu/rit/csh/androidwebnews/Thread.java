@@ -8,7 +8,7 @@ import android.util.Log;
 
 public class Thread {
 	String date, subject, authorName, authorEmail, newsgroup, unread, personal_class;
-	int number, rowDepth;
+	int number, rowDepth, depth;
 	boolean starred;
 	ArrayList<Thread> children;
 	Thread parent;
@@ -37,8 +37,13 @@ public class Thread {
 	
 	@Override
 	public String toString() {
-		return authorName + ": " + subject;
+		String indent = "";
+		for (int i = 0 ; i < depth ; i++) {
+			indent += "  ";
+		}
+		return indent + authorName + ": " + subject;
 	}
+	
 	
 	public int getSubThreadCount() {
 		int count = 1;
@@ -79,5 +84,23 @@ public class Thread {
 		}
 		Log.d("MyDebugging","Thread missing!");
 		return null;
+	}
+	
+	public boolean containsUnread() {
+		Log.d("children", depth + ":" + authorName + ":" + unread + ":" + children.size());
+		if (unread != "null") {
+			Log.d("children", "good");
+			return true;
+		} else {
+			
+			for (Thread thread : children) {
+				//Log.d("children", thread.authorName + ":" + thread.unread);
+				if (thread.containsUnread()) {
+					return true;
+				}
+				//return thread.containsUnread();
+			}
+		}
+		return false;
 	}
 }

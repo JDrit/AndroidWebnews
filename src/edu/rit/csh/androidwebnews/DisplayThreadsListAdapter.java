@@ -22,31 +22,35 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class WebnewsListAdapter<T> extends ArrayAdapter<T> {
+public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	Context context;
 
-	public WebnewsListAdapter(Context context, int textViewResourceId,
+	public DisplayThreadsListAdapter(Context context, int textViewResourceId,
 			List<T> objects) {
 		super(context, textViewResourceId, objects);
 		this.context = context;
 	}
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		String text = (String)getItem(position);
-		int padding = 0;
-		while(text.charAt(0) == '|')
-		{
-			text = text.substring(1);
-			padding++;
-		}
+		Thread thread = ((Thread)getItem(position));
 		LayoutInflater infalInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = infalInflater.inflate(R.layout.threadlayout, null);
-        convertView.setPadding(30 * padding + 10, 10, 10, 10);
-        ((TextView)convertView.findViewById(R.id.threadtextview)).setPadding(0,0,140,0);
-        ((TextView)convertView.findViewById(R.id.threadtextview)).setText(text);
+        convertView.setPadding(30 * thread.depth + 10, 10, 10, 10);		
+		String text = thread.toString();
+		Log.d("thread depth", thread.depth + " " + thread.authorName);
+		TextView tv = (TextView) convertView.findViewById(R.id.threadtextview);
+
+		
+        tv.setPadding(0,0,140,0);
+        if (thread.unread != "null") {
+        	tv.setText(text);
+        	tv.setTypeface(null, Typeface.BOLD);
+        } else {
+        	tv.setText(text);
+        }
         ((Button) convertView.findViewById(R.id.Viewbutton)).setTag(position);
         return convertView;
 	}

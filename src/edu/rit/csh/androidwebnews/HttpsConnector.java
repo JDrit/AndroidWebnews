@@ -117,7 +117,7 @@ public class HttpsConnector {
 			JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
 			JSONArray jArray = new JSONArray(jObj.getString("posts_older"));
 			for (int i = 0 ; i < jArray.length() ; i++) {
-				Thread thread = createThread(new JSONObject(jArray.getString(i)));
+				Thread thread = createThread(new JSONObject(jArray.getString(i)), 0);
 				thread.parent = null;
 				numChildren=thread.getSubThreadCount();
 				setRowDepths(thread);
@@ -191,7 +191,7 @@ public class HttpsConnector {
 			JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
 			JSONArray jArray = new JSONArray(jObj.getString("posts_older"));
 			for (int i = 0 ; i < jArray.length() ; i++) {
-				threads.add(createThread(new JSONObject(jArray.getString(i))));
+				threads.add(createThread(new JSONObject(jArray.getString(i)), 0));
 			}
 			return threads;
 		} catch (JSONException e) {
@@ -203,6 +203,7 @@ public class HttpsConnector {
 		}
 		return new ArrayList<Thread>();
 	}
+	
 	/**
 	 * Marks all post read
 	 */
@@ -272,7 +273,7 @@ public class HttpsConnector {
 	 * @param obj - the JSONObject of the top level thread to use
 	 * @return Thread - the newly created thread with all of its sub-threads
 	 */
-	private Thread createThread(JSONObject obj) {
+	private Thread createThread(JSONObject obj, int i1) {
 		JSONObject post;
 		try {
 			post = new JSONObject(obj.getString("post"));
@@ -285,10 +286,11 @@ public class HttpsConnector {
 					post.getBoolean("starred"),
 					post.getString("unread_class"),
 					post.getString("personal_class"));
-			
+			thread.depth = i1;
+			Log.d("thread", thread.authorName + ": " + thread.depth);
 			if (obj.getJSONArray("children") != null ) {
 				for (int i = 0 ; i < obj.getJSONArray("children").length() ; i++) {
-					Thread child = createThread(obj.getJSONArray("children").getJSONObject(i));
+					Thread child = createThread(obj.getJSONArray("children").getJSONObject(i), i1 + 1);
 					child.parent = thread;
 					thread.children.add(child);
 				}

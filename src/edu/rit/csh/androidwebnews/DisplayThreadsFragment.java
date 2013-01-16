@@ -22,33 +22,33 @@ public class DisplayThreadsFragment extends Fragment {
 	ArrayList<Thread> threads;
 	boolean[] threadStatus;
 	ArrayList<String> displayedStrings;
-	WebnewsListAdapter<String> listAdapter;
+	DisplayThreadsListAdapter<Thread> listAdapter;
 	int[] extraEntries;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 
 		Log.d("MyDebugging", "Starting ThreadsListFragment constructor");
 		newsgroupName = ((DisplayThreadsActivity)getActivity()).newsgroupName;
-		
+
 		ListView mainListView = new ListView(getActivity());
-		
+
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
 		HttpsConnector hc = new HttpsConnector(apiKey, getActivity());
-	    
+
 	    threads = hc.getNewsgroupThreads(newsgroupName, 20);
-	    
+
 	    for(Thread thread : threads)
 	    {
 	    	((DisplayThreadsActivity)getActivity()).threadsDirectMap.add(thread);
 	    }
-	    
+
 	    displayedStrings = new ArrayList<String>();
 	    threadStatus = new boolean[threads.size()];
 	    extraEntries = new int[threads.size()];
-	    
+
 	    for(int x = 0; x < threads.size() ; x++)
 	    {
 	    	displayedStrings.add(threads.get(x).toString());
@@ -56,10 +56,31 @@ public class DisplayThreadsFragment extends Fragment {
 	    	extraEntries[x] = 0;
 	    }
 		Log.d("MyDebugging", "displayedStrings populated");
-	    
-	    listAdapter = new WebnewsListAdapter<String>(getActivity(), R.layout.threadlayout, displayedStrings);
+
+	    listAdapter = new DisplayThreadsListAdapter<Thread>(getActivity(), R.layout.threadlayout, threads);
 		Log.d("MyDebugging", "list adapter made");
-	    
+		
+		// Opens threads with unread posts in them
+		ArrayList<Integer> toOpenIndexes = new ArrayList(); // list of indexes to open
+		for (int i = 0 ; i < threads.size() ; i++) {
+			Log.d("ints", threads.size() + "");
+			if (threads.get(i).containsUnread()) {
+				
+				int originalPos = findOriginalPos(((DisplayThreadsActivity)getActivity()).threadsDirectMap.get(i));
+				Log.d("ints", originalPos + ":" + i);
+				toOpenIndexes.add(Integer.valueOf(i));
+				listAdapter.notifyDataSetChanged();
+				threadStatus[originalPos] = true;	
+			}
+			
+		}
+		for (Integer i : toOpenIndexes) {
+			int originalPos = findOriginalPos(((DisplayThreadsActivity)getActivity()).threadsDirectMap.get(i));
+			expandThread(threads.get(originalPos), i);
+			listAdapter.notifyDataSetChanged();
+			threadStatus[originalPos] = true;	
+		}
+		
 	    mainListView.setAdapter(listAdapter);
 		Log.d("MyDebugging", "listadapter set");
 		mainListView.setOnItemClickListener(new OnItemClickListener()
@@ -80,7 +101,7 @@ public class DisplayThreadsFragment extends Fragment {
 					{
 						for(int x = 0; x < extraEntries[originalPos]; x++)
 						{
-							displayedStrings.remove(position + 1);
+							threads.remove(position + 1);
 							((DisplayThreadsActivity)getActivity()).threadsDirectMap.remove(position + 1);
 						}
 						extraEntries[originalPos] = 0;
@@ -89,19 +110,20 @@ public class DisplayThreadsFragment extends Fragment {
 					}
 					else
 					{
+						
 						expandThread(threads.get(originalPos), position);
 						listAdapter.notifyDataSetChanged();
 						threadStatus[originalPos] = true;					
 					}
 				}
 			}
-			
+
 		});
 		Log.d("MyDebugging", "ThreadsListFragment made");
-	    
+
 	    return mainListView;
 	}
-	
+
 	public void expandThread(Thread thread, int pos)
 	{
 		for(int x = thread.children.size() - 1; x > -1; x--)
@@ -110,16 +132,19 @@ public class DisplayThreadsFragment extends Fragment {
 			int originalPos = findOriginalPos(thread);
 			if(originalPos > -1)
 			{
-				if(childThread.children.size() != 0)
+				if(childThread.children.size() != 0) {
+					Log.d("output", childThread.depth + childThread.authorName);
 					expandThread(childThread, originalPos, pos, 2);
-				displayedStrings.add(pos + 1, "||" + childThread.toString());
+				}
+				
+				threads.add(pos + 1, childThread);
 				extraEntries[originalPos] += 1;
 				((DisplayThreadsActivity)getActivity()).threadsDirectMap.add(pos+1, childThread);
 				//pos += thread.children.size();
 			}
 		}
 	}
-	
+
 	private void expandThread(Thread thread, int originalPos, int pos, int level)
 	{
 		String temp = "";
@@ -128,15 +153,19 @@ public class DisplayThreadsFragment extends Fragment {
 		for(int x = thread.children.size() - 1; x > -1; x--)
 		{
 			Thread childThread = thread.children.get(x);
-			if(childThread.children.size() != 0)
+			if(childThread.children.size() != 0) {
+				Log.d("output", childThread.depth + childThread.authorName);
 				expandThread(childThread, originalPos, pos, level + 1);
-			displayedStrings.add(pos + 1, temp + childThread.toString());
+				
+			}
+			
+			threads.add(pos + 1, childThread);
 			extraEntries[originalPos] += 1;
 			((DisplayThreadsActivity)getActivity()).threadsDirectMap.add(pos+1, childThread);
 			//pos += thread.children.size();
 		}
 	}
-	
+
 	private int findOriginalPos(Thread thread)
 	{
 		for(int x = 0; x < threads.size(); x++)
