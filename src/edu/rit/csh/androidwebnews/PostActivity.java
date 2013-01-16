@@ -2,14 +2,15 @@ package edu.rit.csh.androidwebnews;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
-public class PostActivity extends Activity {
+public class PostActivity extends FragmentActivity {
 	
 	public String newsgroupName;
-	public int id;
+	public static int id;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

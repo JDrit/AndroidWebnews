@@ -22,6 +22,9 @@ public class HttpsConnector {
 	String mainUrl = "https://webnews.csh.rit.edu";
 	String apiKey;
 	WebnewsHttpClient httpclient;
+	static ArrayList<Thread> lastFetchedThreads = new ArrayList<Thread>();
+	int idCounter = 1;
+	int numChildren;
 
 	public HttpsConnector(String apiKey, Activity activity) {
 		httpclient = new WebnewsHttpClient(activity.getApplicationContext());
@@ -116,9 +119,12 @@ public class HttpsConnector {
 			for (int i = 0 ; i < jArray.length() ; i++) {
 				Thread thread = createThread(new JSONObject(jArray.getString(i)));
 				thread.parent = null;
+				numChildren=thread.getSubThreadCount();
+				setRowDepths(thread);
 				threads.add(thread);
-				Log.d("thread unread", createThread(new JSONObject(jArray.getString(i))).unread);
+				//Log.d("thread unread", createThread(new JSONObject(jArray.getString(i))).unread);
 			}
+			lastFetchedThreads = (ArrayList<Thread>) threads.clone();
 			return threads;
 		} catch (JSONException e) {
 			Log.d("jsonError", "JSONException");
@@ -292,6 +298,21 @@ public class HttpsConnector {
 			Log.d("jsonError", "JSONException");
 		}
 		return null;
+	}
+	
+	public Thread setRowDepths(Thread thread)
+	{
+		//int numChildren = thread.getSubThreadCount();
+		
+		for(Thread t : thread.children)
+		{
+			t.rowDepth = numChildren - idCounter;
+			idCounter += 1;
+
+			//Log.d("MyDebugging", "Author: " + t.authorName + ", id: " + t.rowDepth);
+			setRowDepths(t);
+		}
+		return thread;
 	}
 
 }

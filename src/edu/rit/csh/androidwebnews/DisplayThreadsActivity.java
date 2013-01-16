@@ -18,8 +18,6 @@ public class DisplayThreadsActivity extends Activity{
 	
 	public String newsgroupName;
 	public ArrayList<Thread> threadsDirectMap;
-	
-	private static final int CONTENT_VIEW_ID = 10101010;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -55,7 +53,10 @@ public class DisplayThreadsActivity extends Activity{
 	public void viewPost(View view) {
 		Thread thread = threadsDirectMap.get(((Integer)view.getTag()));
 		
-		Intent intent = new Intent(this, PostActivity.class);
+		while(thread.parent != null)
+			thread=thread.parent;
+		
+		Intent intent = new Intent(this, PostSwipableActivity.class);
 		intent.putExtra("SELECTED_NEWSGROUP", thread.newsgroup);
 		intent.putExtra("SELECTED_ID", thread.number);
 

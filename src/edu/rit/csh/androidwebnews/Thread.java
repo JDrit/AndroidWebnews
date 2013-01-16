@@ -2,9 +2,13 @@ package edu.rit.csh.androidwebnews;
 
 import java.util.ArrayList;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
+
 public class Thread {
 	String date, subject, authorName, authorEmail, newsgroup, unread, personal_class;
-	int number;
+	int number, rowDepth;
 	boolean starred;
 	ArrayList<Thread> children;
 	Thread parent;
@@ -37,7 +41,7 @@ public class Thread {
 	}
 	
 	public int getSubThreadCount() {
-		int count = 0;
+		int count = 1;
 		for (int i = 0 ; i < children.size() ; i++) {
 			count += children.get(i).getSubThreadCount();
 		}
@@ -53,5 +57,27 @@ public class Thread {
 		else
 			return false;
 				
+	}
+	static int derp = 0;
+	public Thread getThisThread(int pos)
+	{
+		Log.d("MyDebugging", pos + "," + derp);
+		if( pos - derp == 0) {
+			derp = 0;
+			Log.d("MyDebugging", "DERPADERPDAEPR");
+			return this;
+		}
+		else
+		{
+			for(Thread thread : children)
+			{
+				derp += 1;
+				Thread t = thread.getThisThread(pos);
+				if(t != null)
+					return t;
+			}
+		}
+		Log.d("MyDebugging","Thread missing!");
+		return null;
 	}
 }
