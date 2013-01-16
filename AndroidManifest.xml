@@ -42,6 +42,10 @@
             android:name="edu.rit.csh.androidwebnews.InfoActivity"
             android:label="@string/title_activity_info_activity1" >
         </activity>
+        <activity
+            android:name="edu.rit.csh.androidwebnews.PostSwipableActivity"
+            android:label="@string/title_activity_post_swipable" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
