@@ -2,24 +2,17 @@ package edu.rit.csh.androidwebnews;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 
-public class PostActivity extends Activity {
-	
-	public String newsgroupName;
-	public int id;
-	
+public class InfoActivity extends Activity {
+	TextView tv;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		
-		Bundle extras = getIntent().getExtras();
-		newsgroupName = extras.getString("SELECTED_NEWSGROUP");
-		id = extras.getInt("SELECTED_ID");		
-		setContentView(R.layout.activity_post);
+		setContentView(R.layout.activity_info);
+		tv = (TextView) findViewById(R.id.aboutTextView);
 	}
 
 	@Override
@@ -29,7 +22,10 @@ public class PostActivity extends Activity {
 		return true;
 	}
 	
-	public void replyToPost(View view) {
-		
+	public void showAbout(View view) {
+		tv.setText(R.string.about_text);
+	}
+	public void showLicense(View view) {
+		tv.setText(R.string.license_text);
 	}
 }

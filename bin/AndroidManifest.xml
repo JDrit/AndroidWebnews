@@ -34,6 +34,14 @@
             android:name="edu.rit.csh.androidwebnews.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+        <activity
+            android:name="edu.rit.csh.androidwebnews.InfoActivity"
+            android:label="@string/title_activity_info" >
+        </activity>
+        <activity
+            android:name="edu.rit.csh.androidwebnews.InfoActivity"
+            android:label="@string/title_activity_info_activity1" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

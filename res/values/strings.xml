@@ -5,10 +5,17 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_post">PostActivity</string>
     <string name="reply">Reply</string>
-    
     <string name="api_key">time_between_checktime_between_checktime_between_checktime_between_checktime_between_check</string>
     <string name="time_between_check">timeBetweenCheck</string>
     <string name="background_sync">backgroundSync</string>
     <string name="preference_file_key">preferencefile</string>
+    <string name="title_section3">Section 3</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section1">Section 1</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_info">InfoActivity</string>
+    <string name="title_activity_info_activity1">InfoActivity1</string>
+    <string name="about_text">Android Webnews\nAuthors: jd@csh.rit.edu and Derek Gonyeo (dgonyeo@csh.rit.edu)\nSource code: http://www.gihub.com/JDrit/AndroidWebnews\n\nThis is a Computer Science House (C.S.H.) application to view Webnews via Android. This application relies on the Webnews API to work. Users are identified via their API key, to obtain your API key, go to the settings page in Webnews. At the bottom of the page will be your API key. Type the key into settings to authenticate yourself.</string>
+    <string name="license_text">Copyright (c) 2012\nThis file is part of the Android Webnews Application.\n\nThe Android Webnews Application is free software: you can redistribute\nit and/or modify it under the terms of the GNU General Public License\nas published by the Free Software Foundation, either version 3 of the\nLicense, or (at your option) any later version.\n\nThe Android Webnews Application is distributed in the hope that it\nwill be useful, but WITHOUT ANY WARRANTY; without even the implied\nwarranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\nSee the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with Android Webnews Application.  If not, see http://www.gnu.org/licenses.</string>
 
 </resources>
