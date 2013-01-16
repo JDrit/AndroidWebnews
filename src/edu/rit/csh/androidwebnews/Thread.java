@@ -7,6 +7,7 @@ public class Thread {
 	int number;
 	boolean starred;
 	ArrayList<Thread> children;
+	Thread parent;
 	
 	public Thread(String date, 
 			int number, 
