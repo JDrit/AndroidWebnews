@@ -18,6 +18,7 @@ public class InvalidApiKeyDialog extends AlertDialog {
 	protected InvalidApiKeyDialog(Context context) {
 		super(context);
 		c = context;
+		setTitle("Warning");
 		setMessage("Invalid API key");
 		setCancelable(true);
 		setButton(BUTTON_POSITIVE, "Settings", new settingsListener());

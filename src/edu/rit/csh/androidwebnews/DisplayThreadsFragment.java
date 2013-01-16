@@ -46,10 +46,10 @@ public class DisplayThreadsFragment extends Fragment {
 	    }
 	    
 	    displayedStrings = new ArrayList<String>();
-	    threadStatus = new boolean[20];
-	    extraEntries = new int[20];
+	    threadStatus = new boolean[threads.size()];
+	    extraEntries = new int[threads.size()];
 	    
-	    for(int x = 0; x < 20; x++)
+	    for(int x = 0; x < threads.size() ; x++)
 	    {
 	    	displayedStrings.add(threads.get(x).toString());
 	    	threadStatus[x] = false;
