@@ -39,7 +39,7 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		Thread thread = ((Thread)getItem(position));
+		PostThread thread = ((PostThread)getItem(position));
 		LayoutInflater infalInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = infalInflater.inflate(R.layout.threadlayout, null);

@@ -19,10 +19,10 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class DisplayThreadsFragment extends Fragment {
 	String newsgroupName;
-	ArrayList<Thread> threads;
+	ArrayList<PostThread> threads;
 	boolean[] threadStatus;
 	ArrayList<String> displayedStrings;
-	DisplayThreadsListAdapter<Thread> listAdapter;
+	DisplayThreadsListAdapter<PostThread> listAdapter;
 	int[] extraEntries;
 
 	@Override
@@ -40,7 +40,7 @@ public class DisplayThreadsFragment extends Fragment {
 
 	    threads = hc.getNewsgroupThreads(newsgroupName, 20);
 
-	    for(Thread thread : threads)
+	    for(PostThread thread : threads)
 	    {
 	    	((DisplayThreadsActivity)getActivity()).threadsDirectMap.add(thread);
 	    }
@@ -57,7 +57,7 @@ public class DisplayThreadsFragment extends Fragment {
 	    }
 		Log.d("MyDebugging", "displayedStrings populated");
 
-	    listAdapter = new DisplayThreadsListAdapter<Thread>(getActivity(), R.layout.threadlayout, threads);
+	    listAdapter = new DisplayThreadsListAdapter<PostThread>(getActivity(), R.layout.threadlayout, threads);
 		Log.d("MyDebugging", "list adapter made");
 		
 		// Opens threads with unread posts in them
@@ -125,11 +125,11 @@ public class DisplayThreadsFragment extends Fragment {
 	    return mainListView;
 	}
 
-	public void expandThread(Thread thread, int pos)
+	public void expandThread(PostThread thread, int pos)
 	{
 		for(int x = thread.children.size() - 1; x > -1; x--)
 		{
-			Thread childThread = thread.children.get(x);
+			PostThread childThread = thread.children.get(x);
 			int originalPos = findOriginalPos(thread);
 			if(originalPos > -1)
 			{
@@ -146,14 +146,14 @@ public class DisplayThreadsFragment extends Fragment {
 		}
 	}
 
-	private void expandThread(Thread thread, int originalPos, int pos, int level)
+	private void expandThread(PostThread thread, int originalPos, int pos, int level)
 	{
 		String temp = "";
 		for(int i = 0; i < level; i++)
 			temp += "||";
 		for(int x = thread.children.size() - 1; x > -1; x--)
 		{
-			Thread childThread = thread.children.get(x);
+			PostThread childThread = thread.children.get(x);
 			if(childThread.children.size() != 0) {
 				Log.d("output", childThread.depth + childThread.authorName);
 				expandThread(childThread, originalPos, pos, level + 1);
@@ -167,7 +167,7 @@ public class DisplayThreadsFragment extends Fragment {
 		}
 	}
 
-	private int findOriginalPos(Thread thread)
+	private int findOriginalPos(PostThread thread)
 	{
 		for(int x = 0; x < threads.size(); x++)
 			if(threads.get(x).Equals(thread))

@@ -16,10 +16,10 @@ import android.widget.TextView;
 
 public class PostFragment extends Fragment {
 	String body;
-	Thread myThread;
+	PostThread myThread;
 	HttpsConnector hc;
 	
-	public PostFragment(Thread thread)
+	public PostFragment(PostThread thread)
 	{
 		super();
 		Log.d("MyDebugging", "Post Fragment being made");
