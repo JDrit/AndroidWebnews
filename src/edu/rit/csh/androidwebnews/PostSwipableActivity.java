@@ -50,16 +50,19 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 		Log.d("MyDebugging", "adapter set");
 		
 		mViewPager.setCurrentItem(selected_id);
+		Log.d("MyDebugging","current item set");
 		
-		for(int x = 0; x < HttpsConnector.lastFetchedThreads.size(); x++)
+		for(int x = 0; x < DisplayThreadsActivity.lastFetchedThreads.size(); x++)
 		{
-			if(HttpsConnector.lastFetchedThreads.get(x).number == id)
+			if(DisplayThreadsActivity.lastFetchedThreads.get(x).number == id)
 			{
-				rootThread = HttpsConnector.lastFetchedThreads.get(x);
+				rootThread = DisplayThreadsActivity.lastFetchedThreads.get(x);
 				Log.d("MyDebugging", "rootThread found for PostSwipableActivity");
 			}
 		}
+		Log.d("MyDebugging","done search for rootThread");
 		pf = (PostFragment)getSupportFragmentManager().findFragmentById(R.id.post_fragment);
+		Log.d("MyDebugging","Fragment found");
 	}
 	
 	public void markUnread(View view) {
@@ -98,8 +101,8 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 
 	@Override
 	public void update(String jsonString) {
-		Log.d("jddebug", hc.getPostBodyFromString(jsonString));
-		pf.update(hc.getPostBodyFromString(jsonString));
+		Log.d("jddebug", jsonString);
+		ppa.update(jsonString);
 	}
 
 }

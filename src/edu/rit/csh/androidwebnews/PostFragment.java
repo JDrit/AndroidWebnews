@@ -17,7 +17,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class PostFragment extends ListFragment {
+public class PostFragment extends Fragment {
 	ArrayList<String> contents;
 	String body; 
 	String otherBody;
@@ -70,6 +70,25 @@ public class PostFragment extends ListFragment {
 		
 		mainListView.setAdapter(listAdapter);
 		
+		mainListView.setOnItemClickListener(new OnItemClickListener()
+		{
+
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View arg1, int position,
+					long id) {
+				Log.d("MyDebugging", "Clicky!");
+				if(position == 3)
+				{
+					swapBodies();
+					contents.remove(3);
+					contents.add(body);
+					//listAdapter.clear();
+					//listAdapter.addAll(contents);
+					listAdapter.notifyDataSetChanged();
+				}
+			}
+		});
+		
 		return mainListView;
 		
 	}
@@ -101,7 +120,7 @@ public class PostFragment extends ListFragment {
 	
 	    			if(!messageSet)
 	    			{
-	    				otherBody += "[Click here to show hidden text]\n";
+	    				otherBody += "[Tap here to show hidden text]\n";
 	    				messageSet = true;
 	    			}
 	    		}
@@ -123,7 +142,7 @@ public class PostFragment extends ListFragment {
 		}
 	}
 	
-	@Override
+	/*@Override
 	public void onListItemClick(ListView l, View v, int position, long id)
 	{
 		super.onListItemClick(l, v, position, id);
@@ -137,10 +156,11 @@ public class PostFragment extends ListFragment {
 			//listAdapter.addAll(contents);
 			listAdapter.notifyDataSetChanged();
 		}
-	}
+	}*/
 	
-	public void update(String body)
+	public void update(String jsonstuff)
 	{
+		String body = hc.getPostBodyFromString(jsonstuff);
 		Log.d("jddebug", "body set");
 		this.body = body;
 		processBody();
