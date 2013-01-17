@@ -20,7 +20,7 @@ import android.widget.LinearLayout;
 public class DisplayThreadsActivity extends Activity{
 	
 	public String newsgroupName;
-	public ArrayList<Thread> threadsDirectMap;
+	public ArrayList<PostThread> threadsDirectMap;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -44,7 +44,7 @@ public class DisplayThreadsActivity extends Activity{
 		else
 			newsgroupName = "none";
 		
-		threadsDirectMap = new ArrayList<Thread>();
+		threadsDirectMap = new ArrayList<PostThread>();
 		
 		Log.d("MyDebugging", "Selected newsgroup is " + newsgroupName);
 		setContentView(R.layout.displaythreads_activity);
@@ -60,8 +60,8 @@ public class DisplayThreadsActivity extends Activity{
 	}
 	
 	public void viewPost(View view) {
-		Thread thread = threadsDirectMap.get(((Integer)view.getTag()));
-		Thread selected = thread;
+		PostThread thread = threadsDirectMap.get(((Integer)view.getTag()));
+		PostThread selected = thread;
 		
 		while(thread.parent != null)
 			thread=thread.parent;

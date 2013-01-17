@@ -8,7 +8,7 @@ import android.util.Log;
 
 public class PostPagerAdapter extends FragmentStatePagerAdapter {
 
-	Thread rootThread;
+	PostThread rootThread;
 	int id;
 	
 	public PostPagerAdapter(FragmentManager fm) {
@@ -57,7 +57,7 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
 	
 	
 	
-	public void printT(Thread t)
+	public void printT(PostThread t)
 	{
 		if(t.parent != null)
 			Log.d("MyDebugging", t.authorName + ", " + t.parent.authorName);
@@ -65,7 +65,7 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
 		{
 			Log.d("MyDebugging", t.authorName);
 		}
-		for(Thread thread : t.children)
+		for(PostThread thread : t.children)
 		{
 			printT(thread);
 		}

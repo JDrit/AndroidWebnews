@@ -22,7 +22,7 @@ public class HttpsConnector {
 	String mainUrl = "https://webnews.csh.rit.edu";
 	String apiKey;
 	WebnewsHttpClient httpclient;
-	static ArrayList<Thread> lastFetchedThreads = new ArrayList<Thread>();
+	static ArrayList<PostThread> lastFetchedThreads = new ArrayList<PostThread>();
 	int idCounter = 1;
 	int numChildren;
 
@@ -63,8 +63,8 @@ public class HttpsConnector {
 	 * Gets the newest threads on webnews to display on the front page
 	 * @return ArrayList<Thread> - list of the 20 newest or sticky threads
 	 */
-	public ArrayList<Thread> getNewest() {
-		ArrayList<Thread> threads = new ArrayList<Thread>();
+	public ArrayList<PostThread> getNewest() {
+		ArrayList<PostThread> threads = new ArrayList<PostThread>();
 		String url = formatUrl(mainUrl + "/activity", new LinkedList<NameValuePair>());
 		try {
 			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
@@ -73,7 +73,7 @@ public class HttpsConnector {
 			Log.d("json", "1");
 			for (int i = 0 ; i < jArray.length() ; i++) {
 				JSONObject jAct = jArray.getJSONObject(i).getJSONObject("thread_parent");
-				threads.add(new Thread(jAct.getString("date"), 
+				threads.add(new PostThread(jAct.getString("date"), 
 						jAct.getInt("number"), 
 						jAct.getString("subject"),
 						jAct.getString("author_name"),
@@ -91,7 +91,7 @@ public class HttpsConnector {
 		} catch (ExecutionException e) {
 			Log.d("jsonError", "ExecutionException");
 		}
-		return new ArrayList<Thread>();
+		return new ArrayList<PostThread>();
 	}
 	
 	/**
@@ -101,8 +101,8 @@ public class HttpsConnector {
 	 * @param amount - the amount of threads to return, has to be <= 20, -1 == default of 10 
 	 * @return ArrayList<Thread> - list of the top level threads for the newsgroup
 	 */
-	public ArrayList<Thread> getNewsgroupThreads(String name, int amount) {
-		ArrayList<Thread> threads = new ArrayList<Thread>();
+	public ArrayList<PostThread> getNewsgroupThreads(String name, int amount) {
+		ArrayList<PostThread> threads = new ArrayList<PostThread>();
 		if (amount == -1) {
 			amount = 10;
 		} else if (amount > 20) {
@@ -117,14 +117,14 @@ public class HttpsConnector {
 			JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
 			JSONArray jArray = new JSONArray(jObj.getString("posts_older"));
 			for (int i = 0 ; i < jArray.length() ; i++) {
-				Thread thread = createThread(new JSONObject(jArray.getString(i)), 0);
+				PostThread thread = createThread(new JSONObject(jArray.getString(i)), 0);
 				thread.parent = null;
 				numChildren=thread.getSubThreadCount();
 				
 				threads.add(thread);
 				//Log.d("thread unread", createThread(new JSONObject(jArray.getString(i))).unread);
 			}
-			lastFetchedThreads = (ArrayList<Thread>) threads.clone();
+			lastFetchedThreads = (ArrayList<PostThread>) threads.clone();
 			return threads;
 		} catch (JSONException e) {
 			Log.d("jsonError", "JSONException");
@@ -133,7 +133,7 @@ public class HttpsConnector {
 		} catch (ExecutionException e) {
 			Log.d("jsonError", "ExecutionException");
 		}
-		return new ArrayList<Thread>();
+		return new ArrayList<PostThread>();
 	}
 	
 	/**
@@ -173,8 +173,8 @@ public class HttpsConnector {
 	 * @return ArrayList<Thread> - a list of the threads in the newsgroup from the starting
 	 * date
 	 */
-	public ArrayList<Thread> getNewsgroupThreadsByDate(String newsgroup, String date, int amount) {
-		ArrayList<Thread> threads = new ArrayList<Thread>();
+	public ArrayList<PostThread> getNewsgroupThreadsByDate(String newsgroup, String date, int amount) {
+		ArrayList<PostThread> threads = new ArrayList<PostThread>();
 		if (amount == -1) {
 			amount = 10;
 		} else if (amount > 20) {
@@ -200,7 +200,7 @@ public class HttpsConnector {
 		} catch (ExecutionException e) {
 			Log.d("jsonError", "ExecutionException");
 		}
-		return new ArrayList<Thread>();
+		return new ArrayList<PostThread>();
 	}
 	
 	/**
@@ -292,11 +292,11 @@ public class HttpsConnector {
 	 * @param obj - the JSONObject of the top level thread to use
 	 * @return Thread - the newly created thread with all of its sub-threads
 	 */
-	private Thread createThread(JSONObject obj, int depthLevel) {
+	private PostThread createThread(JSONObject obj, int depthLevel) {
 		JSONObject post;
 		try {
 			post = new JSONObject(obj.getString("post"));
-			Thread thread = new Thread(post.getString("date"), 
+			PostThread thread = new PostThread(post.getString("date"), 
 					post.getInt("number"), 
 					post.getString("subject"),
 					post.getString("author_name"),
@@ -309,7 +309,7 @@ public class HttpsConnector {
 			Log.d("thread", thread.authorName + ": " + thread.depth);
 			if (obj.getJSONArray("children") != null ) {
 				for (int i = 0 ; i < obj.getJSONArray("children").length() ; i++) {
-					Thread child = createThread(obj.getJSONArray("children").getJSONObject(i), depthLevel + 1);
+					PostThread child = createThread(obj.getJSONArray("children").getJSONObject(i), depthLevel + 1);
 					child.parent = thread;
 					thread.children.add(child);
 				}

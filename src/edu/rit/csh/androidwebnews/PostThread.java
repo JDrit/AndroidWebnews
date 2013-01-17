@@ -6,15 +6,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-public class Thread {
+public class PostThread {
 	String date, subject, authorName, authorEmail, newsgroup, unread, personal_class;
 	int number, depth;
 	boolean starred;
-	ArrayList<Thread> children;
-	Thread parent;
+	ArrayList<PostThread> children;
+	PostThread parent;
 	
 	
-	public Thread(String date, 
+	public PostThread(String date, 
 			int number, 
 			String subject, 
 			String authorName, 
@@ -32,7 +32,7 @@ public class Thread {
 		this.starred = starred;
 		this.unread = unread;
 		this.personal_class = personal_class;
-		children = new ArrayList<Thread>();
+		children = new ArrayList<PostThread>();
 	}
 	
 	/**
@@ -62,16 +62,16 @@ public class Thread {
 	
 	public boolean Equals(Object object)
 	{
-		if(!(object instanceof Thread))
+		if(!(object instanceof PostThread))
 			return false;
-		if(((Thread)object).newsgroup == newsgroup && ((Thread)object).number == number)
+		if(((PostThread)object).newsgroup == newsgroup && ((PostThread)object).number == number)
 			return true;
 		else
 			return false;
 				
 	}
 	static int derp = 0;
-	public Thread getThisThread(int pos)
+	public PostThread getThisThread(int pos)
 	{
 		Log.d("MyDebugging", pos + "," + derp);
 		if( pos - derp == 0) {
@@ -81,10 +81,10 @@ public class Thread {
 		}
 		else
 		{
-			for(Thread thread : children)
+			for(PostThread thread : children)
 			{
 				derp += 1;
-				Thread t = thread.getThisThread(pos);
+				PostThread t = thread.getThisThread(pos);
 				if(t != null)
 					return t;
 			}
@@ -104,7 +104,7 @@ public class Thread {
 			return true;
 		} else {
 			
-			for (Thread thread : children) {
+			for (PostThread thread : children) {
 				//Log.d("children", thread.authorName + ":" + thread.unread);
 				if (thread.containsUnread()) {
 					return true;

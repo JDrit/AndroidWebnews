@@ -20,7 +20,7 @@ public class PostSwipableActivity extends FragmentActivity {
 	public static int id;
 	PostPagerAdapter ppa;
 	ViewPager mViewPager;
-	Thread rootThread;
+	PostThread rootThread;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

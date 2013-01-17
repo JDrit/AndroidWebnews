@@ -39,10 +39,6 @@
             android:label="@string/title_activity_info" >
         </activity>
         <activity
-            android:name="edu.rit.csh.androidwebnews.InfoActivity"
-            android:label="@string/title_activity_info_activity1" >
-        </activity>
-        <activity
             android:name="edu.rit.csh.androidwebnews.PostSwipableActivity"
             android:label="@string/title_activity_post_swipable" >
         </activity>
@@ -50,6 +46,7 @@
             android:name="edu.rit.csh.androidwebnews.BaseActivity"
             android:label="@string/title_activity_base" >
         </activity>
+        <service android:name=".UpdaterService" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
