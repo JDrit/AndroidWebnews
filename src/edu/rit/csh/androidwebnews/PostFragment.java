@@ -1,8 +1,9 @@
 package edu.rit.csh.androidwebnews;
 
+import java.util.ArrayList;
+
 import android.support.v4.app.Fragment;
-import android.app.ListFragment;
-import android.content.Context;
+import android.support.v4.app.ListFragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -10,14 +11,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
-public class PostFragment extends Fragment {
-	String body;
+public class PostFragment extends ListFragment {
+	ArrayList<String> contents;
+	String body; 
+	String otherBody;
 	PostThread myThread;
 	HttpsConnector hc;
+	PostFragmentAdapter<String> listAdapter;
 	
 	public PostFragment(PostThread thread)
 	{
@@ -48,16 +54,55 @@ public class PostFragment extends Fragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.d("MyDebugging", "Post Fragment onCreateView called");
-		ScrollView lLayout = new ScrollView(getActivity());
+		ListView mainListView = new ListView(getActivity());
+		mainListView.setId(android.R.id.list);
+		contents = new ArrayList<String>();
 		
+		String[] lines = body.split("\n");
+    	boolean messageSet = false;
+    	otherBody = "";
+    	
+    	for(String line : lines)
+    	{
+    		if(line.length() > 0)
+    		{
+	    		if(line.charAt(0) != '>')
+	    		{
+	    			otherBody += line + "\n";
+	    		}
+	    		else
+	    		{
+	
+	    			if(!messageSet)
+	    			{
+	    				otherBody += "[Click here to show hidden text]\n";
+	    				messageSet = true;
+	    			}
+	    		}
+    		}
+    		else
+    			otherBody += "\n";
+    	}
+
+		contents.add("Author Name: " + myThread.authorName);
+		contents.add("Post Date: " + myThread.date);
+		swapBodies();
+		contents.add(body);
 		
-		TextView tv = new TextView(getActivity());
-		tv.setText(body);
-		lLayout.addView(tv);
+		listAdapter = new PostFragmentAdapter<String>(getActivity(), R.layout.rowlayout, contents);
 		
+		mainListView.setAdapter(listAdapter);
 		
-		return lLayout;
+		return mainListView;
+		
+	}
+	
+	public void swapBodies()
+	{
+    	String temp = body;
+    	body = otherBody;
+    	otherBody = temp;
+			
 	}
 	
 	@Override
@@ -69,6 +114,22 @@ public class PostFragment extends Fragment {
 			Log.d("MyDebugging", "Marking " + myThread.authorName + "'s post as read");
 			myThread.unread = "null";
 			hc.markRead(myThread.newsgroup, myThread.number);
+		}
+	}
+	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id)
+	{
+		super.onListItemClick(l, v, position, id);
+		Log.d("MyDebugging", "Clicky!");
+		if(position == 2)
+		{
+			swapBodies();
+			contents.remove(2);
+			contents.add(body);
+			//listAdapter.clear();
+			//listAdapter.addAll(contents);
+			listAdapter.notifyDataSetChanged();
 		}
 	}
 

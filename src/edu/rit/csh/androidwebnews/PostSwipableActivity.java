@@ -58,17 +58,6 @@ public class PostSwipableActivity extends FragmentActivity {
 			}
 		}
 		
-		/*mViewPager.setOnTouchListener(new OnTouchListener() {
-
-            public boolean onTouch(View v, MotionEvent event) {
-
-        		int currentItem = mViewPager.getCurrentItem();
-        		
-        		Log.d("MyDebugging", "Marking " + rootThread.getThisThread(currentItem).authorName + "'s post as read");
-            	return false;
-            }
-		});*/
-		
 	}
 
 	@Override
@@ -94,15 +83,5 @@ public class PostSwipableActivity extends FragmentActivity {
 		}
 		return false;
 	}
-	
-	/*@Override
-	public boolean onTouchEvent(MotionEvent ev)
-	{
-		int currentItem = mViewPager.getCurrentItem();
-		
-		Log.d("MyDebugging", "Marking " + rootThread.getThisThread(currentItem).authorName + "'s post as read");
-		
-		return super.onTouchEvent(ev);
-	}*/
 
 }
