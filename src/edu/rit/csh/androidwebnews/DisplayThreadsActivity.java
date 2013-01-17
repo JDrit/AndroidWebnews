@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
-public class DisplayThreadsActivity extends Activity{
+public class DisplayThreadsActivity extends Activity implements ActivityInterface {
 	
 	public String newsgroupName;
 	public ArrayList<PostThread> threadsDirectMap;
@@ -100,6 +100,7 @@ public class DisplayThreadsActivity extends Activity{
 		return false;
 	}
 	
+	@Override
 	public void update(String s) {
 		Log.d("jddebug", "activites update");
 		ArrayList<PostThread> threads = hc.getThreadsFromString(s);

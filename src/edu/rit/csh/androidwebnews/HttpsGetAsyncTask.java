@@ -23,7 +23,7 @@ public class HttpsGetAsyncTask extends AsyncTask<String, Integer, String> {
 	WebnewsHttpClient httpclient;
 	Activity activity;
 	boolean showProgress;
-	callBack callback;
+	
 	ProgressDialog p;
 	/**
 	 * 
@@ -94,7 +94,7 @@ public class HttpsGetAsyncTask extends AsyncTask<String, Integer, String> {
 			p.dismiss();
 			Log.d("jddebug", "p ended");
 			Log.d("jddebug", activity.getLocalClassName());
-			((DisplayThreadsActivity) activity).update(s);
+			((ActivityInterface) activity).update(s);
 		}
 		
 		Log.d("jddebug", activity.getLocalClassName());

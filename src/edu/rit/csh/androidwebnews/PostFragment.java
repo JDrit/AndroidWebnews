@@ -52,6 +52,7 @@ public class PostFragment extends ListFragment {
 		body = hc.getPostBody(myThread.newsgroup, myThread.number);
 	}
 	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		ListView mainListView = new ListView(getActivity());
