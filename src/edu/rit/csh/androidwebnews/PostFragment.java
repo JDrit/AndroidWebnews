@@ -141,6 +141,7 @@ public class PostFragment extends ListFragment {
 	
 	public void update(String body)
 	{
+		Log.d("jddebug", "body set");
 		this.body = body;
 		processBody();
 		contents.remove(3);

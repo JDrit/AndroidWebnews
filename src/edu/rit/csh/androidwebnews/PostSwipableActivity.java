@@ -59,7 +59,7 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 				Log.d("MyDebugging", "rootThread found for PostSwipableActivity");
 			}
 		}
-		//pf = (PostFragment) getFragmentManager().findFragmentById(R.id.post_fragment);
+		pf = (PostFragment)getSupportFragmentManager().findFragmentById(R.id.post_fragment);
 	}
 	
 	public void markUnread(View view) {
@@ -98,7 +98,8 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 
 	@Override
 	public void update(String jsonString) {
-		
+		Log.d("jddebug", hc.getPostBodyFromString(jsonString));
+		pf.update(hc.getPostBodyFromString(jsonString));
 	}
 
 }

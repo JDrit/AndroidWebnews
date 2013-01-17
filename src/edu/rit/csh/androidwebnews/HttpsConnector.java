@@ -70,14 +70,19 @@ public class HttpsConnector {
 	 * Gets the newest threads on webnews to display on the front page
 	 * @return ArrayList<Thread> - list of the 20 newest or sticky threads
 	 */
-	public ArrayList<PostThread> getNewest() {
+	public void getNewest() {
 		ArrayList<PostThread> threads = new ArrayList<PostThread>();
 		String url = formatUrl(mainUrl + "/activity", new LinkedList<NameValuePair>());
+		new HttpsGetAsyncTask(httpclient, true, activity).execute(url);
+	}
+	
+	public ArrayList<PostThread> getNewestFromString(String s) {
+		ArrayList<PostThread> threads = new ArrayList<PostThread>();
+		
 		try {
-			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, false, activity).execute(url).get());
-			Log.d("json", "1");
+			JSONObject jObj = new JSONObject(s);
 			JSONArray jArray = jObj.getJSONArray("activity");
-			Log.d("json", "1");
+
 			for (int i = 0 ; i < jArray.length() ; i++) {
 				JSONObject newObj = jArray.getJSONObject(i).getJSONObject("newest_post");
 				String count = jArray.getJSONObject(i).getString("unread_count");
@@ -96,15 +101,11 @@ public class HttpsConnector {
 						count,
 						""));
 			}
-			return threads;
 		} catch (JSONException e) {
 			Log.d("jsonError", "JSONException");
-		} catch (InterruptedException e) {
-			Log.d("jsonError", "InterruptedException");
-		} catch (ExecutionException e) {
-			Log.d("jsonError", "ExecutionException");
 		}
-		return new ArrayList<PostThread>();
+		
+		return threads;
 	}
 	
 	/**
@@ -180,7 +181,7 @@ public class HttpsConnector {
 	public void getPostBody(String newsgroup, int id) {
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
 		String url = formatUrl(mainUrl + "/" + newsgroup + "/" + id, params);
-		new HttpsGetAsyncTask(httpclient, false, activity).execute(url);
+		new HttpsGetAsyncTask(httpclient, true, activity).execute(url);
 	}
 	
 	public String getPostBodyFromString(String jsonObj) {
@@ -191,6 +192,7 @@ public class HttpsConnector {
 			
 			return body;			
 		} catch (JSONException e) {
+			Log.d("jddebuging", jsonObj);
 			Log.d("jsonError", "JSONException");
 		} 
 		return "";
