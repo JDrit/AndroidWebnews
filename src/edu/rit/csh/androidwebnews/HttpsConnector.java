@@ -23,7 +23,6 @@ public class HttpsConnector {
 	String mainUrl = "https://webnews.csh.rit.edu";
 	String apiKey;
 	WebnewsHttpClient httpclient;
-	static ArrayList<PostThread> lastFetchedThreads = new ArrayList<PostThread>();
 	int idCounter = 1;
 	int numChildren;
 	Activity activity;
@@ -181,7 +180,7 @@ public class HttpsConnector {
 	public void getPostBody(String newsgroup, int id) {
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
 		String url = formatUrl(mainUrl + "/" + newsgroup + "/" + id, params);
-		new HttpsGetAsyncTask(httpclient, true, activity).execute(url);
+		new HttpsGetAsyncTask(httpclient, false, activity).execute(url);
 	}
 	
 	public String getPostBodyFromString(String jsonObj) {

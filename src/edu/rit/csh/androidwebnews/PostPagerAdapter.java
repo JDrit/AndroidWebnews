@@ -1,14 +1,21 @@
 package edu.rit.csh.androidwebnews;
 
+import java.util.ArrayList;
+import java.util.Queue;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
-public class PostPagerAdapter extends FragmentStatePagerAdapter {
+public class PostPagerAdapter extends FragmentStatePagerAdapter implements ActivityInterface {
 
 	PostThread rootThread;
+	PostFragment[] fragments;
 	int id;
 	
 	public PostPagerAdapter(FragmentManager fm) {
@@ -18,7 +25,6 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
 		Log.d("MyDebugging", "id retrieved. id = " + id);
 		for(int x = 0; x < DisplayThreadsActivity.lastFetchedThreads.size(); x++)
 		{
-			Log.d("MyDebugging",DisplayThreadsActivity.lastFetchedThreads.get(x).number + "scdsd");
 			if(DisplayThreadsActivity.lastFetchedThreads.get(x).number == id)
 			{
 				rootThread = DisplayThreadsActivity.lastFetchedThreads.get(x);
@@ -27,19 +33,21 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
 		}
 		if(rootThread == null)
 			Log.d("MyDebugging", "rootThread is null!");
+		
+		fragments = new PostFragment[getCount()];
 	}
 	
 	@Override
     public android.support.v4.app.Fragment getItem(int i) {
 		Log.d("MyDebugging", "item " + i + " requested");
-		printT(rootThread);
-		Log.d("MyDebugging", "getting fragment for " + rootThread.getThisThread(i).toString());
         PostFragment fragment = new PostFragment(rootThread.getThisThread(i));
 		Log.d("MyDebugging", "Fragment initialized");
         Bundle args = new Bundle();
 		Log.d("MyDebugging", "Bundle initialized");
         fragment.setArguments(args);
 		Log.d("MyDebugging", "Fragment returned");
+		
+		fragments[i] = fragment;
         
         return fragment;
     }
@@ -68,6 +76,27 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
 		for(PostThread thread : t.children)
 		{
 			printT(thread);
+		}
+	}
+
+	@Override
+	public void update(String jsonString) {
+		int id = 0;
+		try {
+			id = new JSONObject(jsonString).getJSONObject("post").getInt("number");
+		} catch (JSONException e) {
+		}
+		
+		for(PostFragment f : fragments)
+		{
+			if(f != null)
+			{
+				if(f.myThread.number == id)
+				{
+					Log.d("MyDebugging", "Updating thread " + id);
+					f.update(jsonString);
+				}
+			}
 		}
 	}
 
