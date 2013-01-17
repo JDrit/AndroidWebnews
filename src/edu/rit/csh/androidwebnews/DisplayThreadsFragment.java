@@ -62,20 +62,21 @@ public class DisplayThreadsFragment extends Fragment {
 		
 		// Opens threads with unread posts in them
 		ArrayList<Integer> toOpenIndexes = new ArrayList(); // list of indexes to open
-		for (int i = 0 ; i < threads.size() ; i++) {
+		for (int i = threads.size() - 1 ; i >= 0  ; i--) {
 			Log.d("ints", threads.size() + "");
 			if (threads.get(i).containsUnread()) {
-				
 				int originalPos = findOriginalPos(((DisplayThreadsActivity)getActivity()).threadsDirectMap.get(i));
 				Log.d("ints", originalPos + ":" + i);
-				toOpenIndexes.add(Integer.valueOf(i));
+				expandThread(threads.get(originalPos), i);
 				listAdapter.notifyDataSetChanged();
 				threadStatus[originalPos] = true;	
 			}
 			
 		}
+		// Opens the unread posts in the list of indexes
 		for (Integer i : toOpenIndexes) {
 			int originalPos = findOriginalPos(((DisplayThreadsActivity)getActivity()).threadsDirectMap.get(i));
+			Log.d("ints", originalPos + ":" + i);
 			expandThread(threads.get(originalPos), i);
 			listAdapter.notifyDataSetChanged();
 			threadStatus[originalPos] = true;	

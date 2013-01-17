@@ -8,7 +8,7 @@ import android.util.Log;
 
 public class Thread {
 	String date, subject, authorName, authorEmail, newsgroup, unread, personal_class;
-	int number, rowDepth, depth;
+	int number, depth;
 	boolean starred;
 	ArrayList<Thread> children;
 	Thread parent;
@@ -35,6 +35,10 @@ public class Thread {
 		children = new ArrayList<Thread>();
 	}
 	
+	/**
+	 * Used to print out the post to the screen, Indents according to how 
+	 * many sub-post it is
+	 */
 	@Override
 	public String toString() {
 		String indent = "";
@@ -44,7 +48,10 @@ public class Thread {
 		return indent + authorName + ": " + subject;
 	}
 	
-	
+	/**
+	 * The number of sub-threads the post contains
+	 * @return int - sub-thread count
+	 */
 	public int getSubThreadCount() {
 		int count = 1;
 		for (int i = 0 ; i < children.size() ; i++) {
@@ -86,6 +93,10 @@ public class Thread {
 		return null;
 	}
 	
+	/**
+	 * Finds out if the thread or any of its sub-threads are marked unread
+	 * @return boolean - true if it contains an unread post, false otherwise
+	 */
 	public boolean containsUnread() {
 		Log.d("children", depth + ":" + authorName + ":" + unread + ":" + children.size());
 		if (unread != "null") {

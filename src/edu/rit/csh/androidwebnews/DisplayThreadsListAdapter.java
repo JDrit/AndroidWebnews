@@ -22,6 +22,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+/**
+ * The Adapter used for displaying the list of threads. This is used so that
+ * unread threads can be bolded and marked different colors
+ * @param <T>
+ */
 public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	Context context;
 
