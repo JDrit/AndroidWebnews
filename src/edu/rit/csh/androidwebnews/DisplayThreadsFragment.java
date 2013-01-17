@@ -20,6 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class DisplayThreadsFragment extends Fragment {
 	String newsgroupName;
 	ArrayList<PostThread> threads;
+	ArrayList<PostThread> rootThreads;
 	boolean[] threadStatus;
 	ArrayList<String> displayedStrings;
 	DisplayThreadsListAdapter<PostThread> listAdapter;
@@ -39,6 +40,10 @@ public class DisplayThreadsFragment extends Fragment {
 		HttpsConnector hc = new HttpsConnector(apiKey, getActivity());
 
 	    threads = hc.getNewsgroupThreads(newsgroupName, 20);
+	    rootThreads = new ArrayList<PostThread>();
+	    
+	    for(PostThread thread : threads)
+	    	rootThreads.add(thread);
 
 	    for(PostThread thread : threads)
 	    {
@@ -169,8 +174,8 @@ public class DisplayThreadsFragment extends Fragment {
 
 	private int findOriginalPos(PostThread thread)
 	{
-		for(int x = 0; x < threads.size(); x++)
-			if(threads.get(x).Equals(thread))
+		for(int x = 0; x < rootThreads.size(); x++)
+			if(rootThreads.get(x).Equals(thread))
 				return x;
 		return -1;
 	}
