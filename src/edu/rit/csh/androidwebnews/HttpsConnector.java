@@ -120,7 +120,7 @@ public class HttpsConnector {
 				Thread thread = createThread(new JSONObject(jArray.getString(i)), 0);
 				thread.parent = null;
 				numChildren=thread.getSubThreadCount();
-				setRowDepths(thread);
+				
 				threads.add(thread);
 				//Log.d("thread unread", createThread(new JSONObject(jArray.getString(i))).unread);
 			}
@@ -220,6 +220,26 @@ public class HttpsConnector {
 			Log.d("jsonError", "ExecutionException");
 		}
 	}
+	
+	/**
+	 * Marks the given thread as read
+	 * @param newsgroup - the name of the newsgroup 
+	 * @param id
+	 */
+	public void markRead(String newsgroup, int id) {
+		String url = formatUrl(mainUrl + "/mark_read", new ArrayList<NameValuePair>());
+		BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
+		BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
+		BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
+		try {
+			Log.d("jsonurl", url);
+			Log.d("jsonoutput", new HttpsPutAsyncTask(httpclient).execute(urlVP, newsgroupVP, numberVP).get());
+		} catch (InterruptedException e) {
+			Log.d("jsonError", "InterruptedException");
+		} catch (ExecutionException e) {
+			Log.d("jsonError", "ExecutionException");
+		}
+	}
 
 	/**
 	 * Validates that the API key is valid
@@ -273,7 +293,7 @@ public class HttpsConnector {
 	 * @param obj - the JSONObject of the top level thread to use
 	 * @return Thread - the newly created thread with all of its sub-threads
 	 */
-	private Thread createThread(JSONObject obj, int i1) {
+	private Thread createThread(JSONObject obj, int depthLevel) {
 		JSONObject post;
 		try {
 			post = new JSONObject(obj.getString("post"));
@@ -286,11 +306,11 @@ public class HttpsConnector {
 					post.getBoolean("starred"),
 					post.getString("unread_class"),
 					post.getString("personal_class"));
-			thread.depth = i1;
+			thread.depth = depthLevel;
 			Log.d("thread", thread.authorName + ": " + thread.depth);
 			if (obj.getJSONArray("children") != null ) {
 				for (int i = 0 ; i < obj.getJSONArray("children").length() ; i++) {
-					Thread child = createThread(obj.getJSONArray("children").getJSONObject(i), i1 + 1);
+					Thread child = createThread(obj.getJSONArray("children").getJSONObject(i), depthLevel + 1);
 					child.parent = thread;
 					thread.children.add(child);
 				}
@@ -302,19 +322,6 @@ public class HttpsConnector {
 		return null;
 	}
 	
-	public Thread setRowDepths(Thread thread)
-	{
-		//int numChildren = thread.getSubThreadCount();
-		
-		for(Thread t : thread.children)
-		{
-			t.rowDepth = numChildren - idCounter;
-			idCounter += 1;
 
-			//Log.d("MyDebugging", "Author: " + t.authorName + ", id: " + t.rowDepth);
-			setRowDepths(t);
-		}
-		return thread;
-	}
 
 }
