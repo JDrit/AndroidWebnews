@@ -17,8 +17,8 @@
         android:key="time_between_checks"
         android:title="Time Between Checks"
         android:summary="The time, in minutes, between checks for new posts"
-        android:defaultValue="15"
-        android:inputType="number" />
+        android:inputType="number"
+        android:maxLength="2" />
     
 
    	   	

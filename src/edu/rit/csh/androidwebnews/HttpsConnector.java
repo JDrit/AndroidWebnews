@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 /**
@@ -26,8 +27,8 @@ public class HttpsConnector {
 	int idCounter = 1;
 	int numChildren;
 
-	public HttpsConnector(String apiKey, Activity activity) {
-		httpclient = new WebnewsHttpClient(activity.getApplicationContext());
+	public HttpsConnector(String apiKey, Context context) {
+		httpclient = new WebnewsHttpClient(context.getApplicationContext());
 		this.apiKey = apiKey;
 	}
 
@@ -201,6 +202,31 @@ public class HttpsConnector {
 			Log.d("jsonError", "ExecutionException");
 		}
 		return new ArrayList<PostThread>();
+	}
+	
+	/**
+	 * Gets the statuses about unread threads
+	 * @return int[] - array of the statuses
+	 * 			[0] - number of unread threads
+	 * 			[1] - number of unread threads in a thread the user has posted in
+	 * 			[2] - the number of unread replies to a user's post
+	 */
+	public int[] getUnreadCount() {
+		String url = formatUrl(mainUrl + "/unread_counts", new LinkedList<NameValuePair>());
+		int[] unreadStatuses = new int[3];
+		try {
+			JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get()).getJSONObject("unread_counts");
+			unreadStatuses[0] = jObj.getInt("normal");
+			unreadStatuses[1] = jObj.getInt("in_thread");
+			unreadStatuses[2] = jObj.getInt("in_reply");
+		} catch (JSONException e) {
+			Log.d("jsonError", "JSONException");
+		} catch (InterruptedException e) {
+			Log.d("jsonError", "InterruptedException");
+		} catch (ExecutionException e) {
+			Log.d("jsonError", "ExecutionException");
+		}
+		return unreadStatuses;
 	}
 	
 	/**

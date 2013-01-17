@@ -46,9 +46,12 @@
             android:name="edu.rit.csh.androidwebnews.BaseActivity"
             android:label="@string/title_activity_base" >
         </activity>
+        
         <service android:name=".UpdaterService" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    
 
 </manifest>
