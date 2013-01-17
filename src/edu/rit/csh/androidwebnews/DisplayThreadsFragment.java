@@ -93,11 +93,11 @@ public class DisplayThreadsFragment extends Fragment {
 			public void onItemClick(AdapterView<?> adapter, View arg1, int position,
 					long id) {
 				int originalPos = findOriginalPos(((DisplayThreadsActivity)getActivity()).threadsDirectMap.get(position));
-				/*Log.d("MyDebugging", "item " + position + " clicked on");
+				Log.d("MyDebugging", "item " + position + " clicked on");
 				Log.d("MyDebugging", "original position is " + originalPos);
 				Log.d("MyDebugging", "threadStatus[originalPos] = " + threadStatus[originalPos]);
 				Log.d("MyDebugging", "extraEntries[originalPos] = " + extraEntries[originalPos]);
-				Log.d("MyDebugging", "sub threads of threads.get(originalPosition) = " + threads.get(originalPos).getSubThreadCount());*/
+				Log.d("MyDebugging", "sub threads of threads.get(originalPosition) = " + rootThreads.get(originalPos).getSubThreadCount());
 				if(originalPos > -1)
 				{
 					if(threadStatus[originalPos])
@@ -108,13 +108,17 @@ public class DisplayThreadsFragment extends Fragment {
 							((DisplayThreadsActivity)getActivity()).threadsDirectMap.remove(position + 1);
 						}
 						extraEntries[originalPos] = 0;
+						listAdapter.clear();
+						listAdapter.addAll(threads);
 						listAdapter.notifyDataSetChanged();
 						threadStatus[originalPos] = false;					
 					}
 					else
 					{
 						
-						expandThread(threads.get(originalPos), position);
+						expandThread(rootThreads.get(originalPos), position);
+						listAdapter.clear();
+						listAdapter.addAll(threads);
 						listAdapter.notifyDataSetChanged();
 						threadStatus[originalPos] = true;					
 					}
@@ -199,9 +203,13 @@ public class DisplayThreadsFragment extends Fragment {
 
 	private int findOriginalPos(PostThread thread)
 	{
+		Log.d("MyDebugging", thread.authorName + "'s original pos requested");
 		for(int x = 0; x < rootThreads.size(); x++)
 			if(rootThreads.get(x).Equals(thread))
+			{
+				Log.d("MyDebugging", "returning " + x);
 				return x;
+			}
 		return -1;
 	}
 }

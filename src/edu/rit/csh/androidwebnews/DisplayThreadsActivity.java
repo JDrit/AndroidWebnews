@@ -22,6 +22,7 @@ public class DisplayThreadsActivity extends Activity{
 	
 	public String newsgroupName;
 	public ArrayList<PostThread> threadsDirectMap;
+	static public ArrayList<PostThread> lastFetchedThreads = new ArrayList<PostThread>();
 	DisplayThreadsFragment dtf;
 	HttpsConnector hc;
 
@@ -102,6 +103,8 @@ public class DisplayThreadsActivity extends Activity{
 	public void update(String s) {
 		Log.d("jddebug", "activites update");
 		ArrayList<PostThread> threads = hc.getThreadsFromString(s);
+		lastFetchedThreads.clear();
+		lastFetchedThreads = (ArrayList<PostThread>) threads.clone();
 		( dtf).update(threads);
 	}
 }

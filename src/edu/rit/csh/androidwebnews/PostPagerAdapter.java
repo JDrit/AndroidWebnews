@@ -16,12 +16,12 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
 		Log.d("MyDebugging", "ppa creation started");
 		id = PostSwipableActivity.id;
 		Log.d("MyDebugging", "id retrieved. id = " + id);
-		for(int x = 0; x < HttpsConnector.lastFetchedThreads.size(); x++)
+		for(int x = 0; x < DisplayThreadsActivity.lastFetchedThreads.size(); x++)
 		{
-			Log.d("MyDebugging",HttpsConnector.lastFetchedThreads.get(x).number + "scdsd");
-			if(HttpsConnector.lastFetchedThreads.get(x).number == id)
+			Log.d("MyDebugging",DisplayThreadsActivity.lastFetchedThreads.get(x).number + "scdsd");
+			if(DisplayThreadsActivity.lastFetchedThreads.get(x).number == id)
 			{
-				rootThread = HttpsConnector.lastFetchedThreads.get(x);
+				rootThread = DisplayThreadsActivity.lastFetchedThreads.get(x);
 				Log.d("MyDebugging", "rootThread found");
 			}
 		}
