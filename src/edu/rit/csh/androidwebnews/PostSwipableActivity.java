@@ -33,6 +33,7 @@ public class PostSwipableActivity extends FragmentActivity {
 		Bundle extras = getIntent().getExtras();
 		newsgroupName = extras.getString("SELECTED_NEWSGROUP");
 		id = extras.getInt("SELECTED_ID");	
+		int selected_id = extras.getInt("GOTO_THIS");
 		
 		Log.d("MyDebugging", "PostSwipableActivity creation started");
 		ppa = new PostPagerAdapter(getSupportFragmentManager());
@@ -41,6 +42,8 @@ public class PostSwipableActivity extends FragmentActivity {
 		Log.d("MyDebugging", "ViewPager found");
 		mViewPager.setAdapter(ppa);
 		Log.d("MyDebugging", "adapter set");
+		
+		mViewPager.setCurrentItem(selected_id);
 	}
 
 	@Override
