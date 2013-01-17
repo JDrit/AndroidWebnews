@@ -57,6 +57,12 @@ public class NewsgroupsListActivity extends Activity{
 	         new InvalidApiKeyDialog(this).show();
 	    }
 	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+	}
 
 
 	@Override

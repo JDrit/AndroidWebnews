@@ -23,6 +23,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class NewsgroupsListFragment extends ListFragment {
+	HttpsConnector hc;
+	ArrayList<Newsgroup> groups;
+	NewsgroupsListAdapter<Newsgroup> listAdapter;
 	
 	//Called when the view for the fragment is to be first drawn.
 	//Makes a new HttpsConnector to get list of Newsgroups, which
@@ -33,23 +36,16 @@ public class NewsgroupsListFragment extends ListFragment {
 		ListView mainListView = new ListView(getActivity());
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
-		HttpsConnector hc = new HttpsConnector(apiKey, getActivity());
+		hc = new HttpsConnector(apiKey, getActivity());
 		
 		
 	    
-	    ArrayList<Newsgroup> groups = hc.getNewsGroups();
-		String[] newsgroups = new String[groups.size()];
+	    //groups = hc.getNewsGroups();
+		groups = new ArrayList<Newsgroup>();
 		
-		for(int x = 0; x < groups.size(); x++)
-		{
-			newsgroups[x] = groups.get(x).name;
-			if (groups.get(x).unreadCount != 0) {
-				newsgroups[x] += " (" + groups.get(x).unreadCount + ")";
-			}
-		}
+		listAdapter = new NewsgroupsListAdapter<Newsgroup>(getActivity(), R.layout.rowlayout, groups);
 		
-		//ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.rowlayout, newsgroups);
-		NewsgroupsListAdapter<Newsgroup> listAdapter = new NewsgroupsListAdapter<Newsgroup>(getActivity(), R.layout.rowlayout, groups);
+		refreshView();
 		
 		mainListView.setAdapter(listAdapter);
 		
@@ -69,6 +65,23 @@ public class NewsgroupsListFragment extends ListFragment {
 		
 		return mainListView;
 	
+	}
+	
+	public void refreshView()
+	{
+		groups = hc.getNewsGroups();
+		listAdapter.clear();
+		listAdapter.addAll(groups);
+		listAdapter.notifyDataSetChanged();
+	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		
+		Log.d("MyDebugging","Refreshing newsgroups!");
+		refreshView();
 	}
 	
 	public interface OnNewsgroupSelectedListener {

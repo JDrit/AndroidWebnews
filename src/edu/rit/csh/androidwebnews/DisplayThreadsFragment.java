@@ -171,6 +171,8 @@ public class DisplayThreadsFragment extends Fragment {
 			//pos += thread.children.size();
 		}
 	}
+	
+	
 
 	private int findOriginalPos(PostThread thread)
 	{
