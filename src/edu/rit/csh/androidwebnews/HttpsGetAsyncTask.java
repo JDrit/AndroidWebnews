@@ -94,9 +94,8 @@ public class HttpsGetAsyncTask extends AsyncTask<String, Integer, String> {
 			p.dismiss();
 			Log.d("jddebug", "p ended");
 			Log.d("jddebug", activity.getLocalClassName());
-			((ActivityInterface) activity).update(s);
 		}
-		
+		((ActivityInterface) activity).update(s);
 		Log.d("jddebug", activity.getLocalClassName());
 	}
 		

@@ -16,19 +16,21 @@ import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class RecentFragment extends Fragment {
+	ListView lv;
+	RecentListAdapter<PostThread> listAdapter;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d("jddebug", "frag");
-		ListView lv = new ListView(getActivity());;
+		lv = new ListView(getActivity());;
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
 		HttpsConnector hc = new HttpsConnector(apiKey, getActivity());
 		
-		ArrayList<PostThread> test = hc.getNewest();
+		hc.getNewest();
 		
-		RecentListAdapter<PostThread> listAdapter = new RecentListAdapter<PostThread>(getActivity(), R.layout.rowlayout, test);
+		listAdapter = new RecentListAdapter<PostThread>(getActivity(), R.layout.rowlayout, new ArrayList<PostThread>());
 		lv.setAdapter(listAdapter);
 
 		lv.setOnItemClickListener(new OnItemClickListener()
@@ -45,5 +47,12 @@ public class RecentFragment extends Fragment {
 		});
 		
 		return lv;
+	}
+
+	public void update(ArrayList<PostThread> newestFromString) {
+		listAdapter.clear();
+		listAdapter.addAll(newestFromString);
+		listAdapter.notifyDataSetChanged();
+		
 	}
 }

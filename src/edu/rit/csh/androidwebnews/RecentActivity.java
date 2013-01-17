@@ -11,8 +11,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class RecentActivity extends FragmentActivity {
+public class RecentActivity extends FragmentActivity implements ActivityInterface {
 	ProgressDialog p;
+	RecentFragment rf;
+	HttpsConnector hc;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +22,12 @@ public class RecentActivity extends FragmentActivity {
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 	    String apiKey = sharedPref.getString("api_key", "");	    
-	    HttpsConnector hc = new HttpsConnector(apiKey, this);	    	    
+	    hc = new HttpsConnector(apiKey, this);	    	    
 	    if (!hc.validApiKey()) {
 	         new InvalidApiKeyDialog(this).show();
 	    }
 		setContentView(R.layout.activity_recent);
+		rf = (RecentFragment)getSupportFragmentManager().findFragmentById(R.id.recent_fragment);
 	}
 
 	@Override
@@ -60,6 +63,12 @@ public class RecentActivity extends FragmentActivity {
 		myIntent.putExtra("SELECTED_NEWSGROUP", thread.newsgroup);
 		startActivity(myIntent);
 
+		
+	}
+
+	@Override
+	public void update(String jsonString) {
+		rf.update(hc.getNewestFromString(jsonString));
 		
 	}
 
