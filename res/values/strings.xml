@@ -19,5 +19,6 @@
     <string name="license_text">Copyright (c) 2012\nThis file is part of the Android Webnews Application.\n\nThe Android Webnews Application is free software: you can redistribute\nit and/or modify it under the terms of the GNU General Public License\nas published by the Free Software Foundation, either version 3 of the\nLicense, or (at your option) any later version.\n\nThe Android Webnews Application is distributed in the hope that it\nwill be useful, but WITHOUT ANY WARRANTY; without even the implied\nwarranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\nSee the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with Android Webnews Application.  If not, see http://www.gnu.org/licenses.</string>
     <string name="title_activity_post_swipable">PostSwipableActivity</string>
     <string name="title_activity_base">BaseActivity</string>
+    <string name="title_activity_recent">RecentActivity</string>
 
 </resources>
