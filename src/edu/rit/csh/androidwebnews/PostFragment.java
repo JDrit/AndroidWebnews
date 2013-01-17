@@ -85,7 +85,7 @@ public class PostFragment extends ListFragment {
     	}
 
 		contents.add("Author Name: " + myThread.authorName);
-		contents.add("Post Date: " + myThread.date);
+		contents.add("Post Date: " + myThread.getDate());
 		swapBodies();
 		contents.add(body);
 		
