@@ -3,14 +3,15 @@ package edu.rit.csh.androidwebnews;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +19,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
-public class DisplayThreadsActivity extends Activity implements ActivityInterface {
+public class DisplayThreadsActivity extends FragmentActivity implements ActivityInterface {
 	
 	public String newsgroupName;
 	public ArrayList<PostThread> threadsDirectMap;
@@ -57,7 +58,7 @@ public class DisplayThreadsActivity extends Activity implements ActivityInterfac
 		Log.d("jddebug", "content viewed2");
 		Log.d("MyDebugging", "newsgroupView creation finished");
 		
-		dtf = (DisplayThreadsFragment)getFragmentManager().findFragmentById(R.id.threadsfragment);
+		dtf = (DisplayThreadsFragment)getSupportFragmentManager().findFragmentById(R.id.threadsfragment);
 	}
 	
 	@Override

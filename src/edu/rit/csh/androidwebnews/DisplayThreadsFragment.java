@@ -2,7 +2,7 @@ package edu.rit.csh.androidwebnews;
 
 import java.util.ArrayList;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;

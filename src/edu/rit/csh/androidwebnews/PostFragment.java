@@ -58,7 +58,32 @@ public class PostFragment extends ListFragment {
 		ListView mainListView = new ListView(getActivity());
 		mainListView.setId(android.R.id.list);
 		contents = new ArrayList<String>();
+		body = "";
 		
+    	contents.add(myThread.number + "");
+		contents.add("Author Name: " + myThread.authorName);
+		contents.add("Post Date: " + myThread.getDate());
+		swapBodies();
+		contents.add(body);
+		
+		listAdapter = new PostFragmentAdapter<String>(getActivity(), R.layout.rowlayout, contents);
+		
+		mainListView.setAdapter(listAdapter);
+		
+		return mainListView;
+		
+	}
+	
+	public void swapBodies()
+	{
+    	String temp = body;
+    	body = otherBody;
+    	otherBody = temp;
+			
+	}
+	
+	private void processBody()
+	{
 		String[] lines = body.split("\n");
     	boolean messageSet = false;
     	otherBody = "";
@@ -84,26 +109,6 @@ public class PostFragment extends ListFragment {
     		else
     			otherBody += "\n";
     	}
-    	contents.add(myThread.number + "");
-		contents.add("Author Name: " + myThread.authorName);
-		contents.add("Post Date: " + myThread.getDate());
-		swapBodies();
-		contents.add(body);
-		
-		listAdapter = new PostFragmentAdapter<String>(getActivity(), R.layout.rowlayout, contents);
-		
-		mainListView.setAdapter(listAdapter);
-		
-		return mainListView;
-		
-	}
-	
-	public void swapBodies()
-	{
-    	String temp = body;
-    	body = otherBody;
-    	otherBody = temp;
-			
 	}
 	
 	@Override
@@ -132,6 +137,15 @@ public class PostFragment extends ListFragment {
 			//listAdapter.addAll(contents);
 			listAdapter.notifyDataSetChanged();
 		}
+	}
+	
+	public void update(String body)
+	{
+		this.body = body;
+		processBody();
+		contents.remove(3);
+		contents.add(body);
+		listAdapter.notifyDataSetChanged();
 	}
 
 }
