@@ -22,7 +22,6 @@ public class DisplayThreadsFragment extends Fragment {
 	ArrayList<PostThread> threads;
 	ArrayList<PostThread> rootThreads;
 	boolean[] threadStatus;
-	ArrayList<String> displayedStrings;
 	DisplayThreadsListAdapter<PostThread> listAdapter;
 	int[] extraEntries;
 
@@ -50,13 +49,11 @@ public class DisplayThreadsFragment extends Fragment {
 	    	((DisplayThreadsActivity)getActivity()).threadsDirectMap.add(thread);
 	    }
 
-	    displayedStrings = new ArrayList<String>();
 	    threadStatus = new boolean[threads.size()];
 	    extraEntries = new int[threads.size()];
 
 	    for(int x = 0; x < threads.size() ; x++)
 	    {
-	    	displayedStrings.add(threads.get(x).toString());
 	    	threadStatus[x] = false;
 	    	extraEntries[x] = 0;
 	    }
@@ -66,7 +63,7 @@ public class DisplayThreadsFragment extends Fragment {
 		Log.d("MyDebugging", "list adapter made");
 		
 		// Opens threads with unread posts in them
-		ArrayList<Integer> toOpenIndexes = new ArrayList(); // list of indexes to open
+		ArrayList<Integer> toOpenIndexes = new ArrayList<Integer>(); // list of indexes to open
 		for (int i = threads.size() - 1 ; i >= 0  ; i--) {
 			Log.d("ints", threads.size() + "");
 			if (threads.get(i).containsUnread()) {
@@ -180,6 +177,23 @@ public class DisplayThreadsFragment extends Fragment {
 			listAdapter.notifyDataSetChanged();
 	}
 	
+	public void update(ArrayList<PostThread> threads)
+	{
+		this.threads = threads;
+		rootThreads.clear();
+		((DisplayThreadsActivity)getActivity()).threadsDirectMap.clear();
+		for(PostThread thread : threads)
+		{
+	    	rootThreads.add(thread);
+	    	((DisplayThreadsActivity)getActivity()).threadsDirectMap.add(thread);
+		}
+		listAdapter.notifyDataSetChanged();
+		for(boolean b : threadStatus)
+			b = false;
+		for(int l : extraEntries)
+			l = 0;
+		
+	}
 
 	private int findOriginalPos(PostThread thread)
 	{
