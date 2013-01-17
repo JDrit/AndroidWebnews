@@ -15,18 +15,17 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class PostFragment extends Fragment {
-	String newsgroupName, body;
-	int id;
+	String body;
+	Thread myThread;
+	HttpsConnector hc;
 	
-	public PostFragment(int id)
+	public PostFragment(Thread thread)
 	{
 		super();
 		Log.d("MyDebugging", "Post Fragment being made");
-		Log.d("MyDebugging", "newsgroup = " + newsgroupName);
-		Log.d("MyDebugging", "id = " + id);
-		newsgroupName = PostSwipableActivity.newsgroupName;
-		this.id = id;
+		Log.d("MyDebugging", "newsgroup = " + thread.newsgroup);
 		Log.d("MyDebugging", "Post Fragment made");
+		myThread = thread;
 	}
 	
 	public PostFragment()
@@ -43,8 +42,8 @@ public class PostFragment extends Fragment {
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
-		HttpsConnector hc = new HttpsConnector(apiKey, getActivity());
-		body = hc.getPostBody(newsgroupName, id);
+		hc = new HttpsConnector(apiKey, getActivity());
+		body = hc.getPostBody(myThread.newsgroup, myThread.number);
 	}
 	
 	@Override
@@ -59,6 +58,18 @@ public class PostFragment extends Fragment {
 		
 		
 		return lLayout;
+	}
+	
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser)
+	{
+		super.setUserVisibleHint(isVisibleToUser);
+		if(isVisibleToUser && myThread.unread != "null")
+		{
+			Log.d("MyDebugging", "Marking " + myThread.authorName + "'s post as read");
+			myThread.unread = "null";
+			hc.markRead(myThread.newsgroup, myThread.number);
+		}
 	}
 
 }
