@@ -26,9 +26,15 @@ public class HttpsConnector {
 	static ArrayList<PostThread> lastFetchedThreads = new ArrayList<PostThread>();
 	int idCounter = 1;
 	int numChildren;
+	Activity activity;
 
+	public HttpsConnector(String apiKey, Activity activity) {
+		this.activity = activity;
+		httpclient = new WebnewsHttpClient(activity.getApplicationContext());
+		this.apiKey = apiKey;
+	}
 	public HttpsConnector(String apiKey, Context context) {
-		httpclient = new WebnewsHttpClient(context.getApplicationContext());
+		httpclient = new WebnewsHttpClient(context);
 		this.apiKey = apiKey;
 	}
 
@@ -42,7 +48,7 @@ public class HttpsConnector {
 		String url = formatUrl(mainUrl + "/newsgroups", new LinkedList<NameValuePair>());
 		Log.d("jsonurl", url);
 		try {
-			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
+			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, false, activity).execute(url).get());
 			JSONArray jArray = new JSONArray(jObj.getString("newsgroups"));
 			for (int i = 0 ; i < jArray.length() ; i++) {
 				newsgroups.add(new Newsgroup(new JSONObject(jArray.getString(i)).getString("name"),
@@ -68,20 +74,26 @@ public class HttpsConnector {
 		ArrayList<PostThread> threads = new ArrayList<PostThread>();
 		String url = formatUrl(mainUrl + "/activity", new LinkedList<NameValuePair>());
 		try {
-			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
+			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, false, activity).execute(url).get());
 			Log.d("json", "1");
 			JSONArray jArray = jObj.getJSONArray("activity");
 			Log.d("json", "1");
 			for (int i = 0 ; i < jArray.length() ; i++) {
-				JSONObject jAct = jArray.getJSONObject(i).getJSONObject("thread_parent");
-				threads.add(new PostThread(jAct.getString("date"), 
-						jAct.getInt("number"), 
-						jAct.getString("subject"),
-						jAct.getString("author_name"),
-						jAct.getString("author_email"),
-						jAct.getString("newsgroup"),
+				JSONObject newObj = jArray.getJSONObject(i).getJSONObject("newest_post");
+				String count = jArray.getJSONObject(i).getString("unread_count");
+				if (jArray.getJSONObject(i).getInt("unread_count") == 0) {
+					count = "null";
+				}
+				//String count = jArray.getJSONObject(i).getString("unread_class");
+				Log.d("jddebug - recent", "" + jArray.getJSONObject(i).getInt("unread_count"));
+				threads.add(new PostThread(newObj.getString("date"), 
+						newObj.getInt("number"), 
+						newObj.getString("subject"),
+						newObj.getString("author_name"),
+						newObj.getString("author_email"),
+						newObj.getString("newsgroup"),
 						false,
-						"",
+						count,
 						""));
 			}
 			return threads;
@@ -102,7 +114,7 @@ public class HttpsConnector {
 	 * @param amount - the amount of threads to return, has to be <= 20, -1 == default of 10 
 	 * @return ArrayList<Thread> - list of the top level threads for the newsgroup
 	 */
-	public ArrayList<PostThread> getNewsgroupThreads(String name, int amount) {
+	public void getNewsgroupThreads(String name, int amount) {
 		ArrayList<PostThread> threads = new ArrayList<PostThread>();
 		if (amount == -1) {
 			amount = 10;
@@ -113,28 +125,13 @@ public class HttpsConnector {
 		params.add(new BasicNameValuePair("limit", new Integer(amount).toString()));
 		params.add(new BasicNameValuePair("thread_mode", "normal"));
 		String url = formatUrl(mainUrl + "/" + name + "/index", params);
-		try {
+		
+		Log.d("jddebug", "async called");
+		new HttpsGetAsyncTask(httpclient, true, activity).execute(url);
 			
-			JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
-			JSONArray jArray = new JSONArray(jObj.getString("posts_older"));
-			for (int i = 0 ; i < jArray.length() ; i++) {
-				PostThread thread = createThread(new JSONObject(jArray.getString(i)), 0);
-				thread.parent = null;
-				numChildren=thread.getSubThreadCount();
-				
-				threads.add(thread);
-				//Log.d("thread unread", createThread(new JSONObject(jArray.getString(i))).unread);
-			}
-			lastFetchedThreads = (ArrayList<PostThread>) threads.clone();
-			return threads;
-		} catch (JSONException e) {
-			Log.d("jsonError", "JSONException");
-		} catch (InterruptedException e) {
-			Log.d("jsonError", "InterruptedException");
-		} catch (ExecutionException e) {
-			Log.d("jsonError", "ExecutionException");
-		}
-		return new ArrayList<PostThread>();
+			
+		
+		//return new ArrayList<PostThread>();
 	}
 	
 	/**
@@ -148,8 +145,8 @@ public class HttpsConnector {
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
 		String url = formatUrl(mainUrl + "/" + newsgroup + "/" + id, params);
 		try {
-			Log.d("output", new HttpsGetAsyncTask(httpclient).execute(url).get());
-			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
+			
+			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, false, activity).execute(url).get());
 			JSONObject jsonPost = jObj.getJSONObject("post");
 			String body = jsonPost.getString("body");
 			
@@ -188,7 +185,7 @@ public class HttpsConnector {
 		String url = formatUrl(mainUrl + "/" + newsgroup + "/index", params);
 		
 		try {
-			JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
+			JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, true, activity).execute(url).get());
 			JSONArray jArray = new JSONArray(jObj.getString("posts_older"));
 			for (int i = 0 ; i < jArray.length() ; i++) {
 				threads.add(createThread(new JSONObject(jArray.getString(i)), 0));
@@ -215,7 +212,7 @@ public class HttpsConnector {
 		String url = formatUrl(mainUrl + "/unread_counts", new LinkedList<NameValuePair>());
 		int[] unreadStatuses = new int[3];
 		try {
-			JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get()).getJSONObject("unread_counts");
+			JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, false, activity).execute(url).get()).getJSONObject("unread_counts");
 			unreadStatuses[0] = jObj.getInt("normal");
 			unreadStatuses[1] = jObj.getInt("in_thread");
 			unreadStatuses[2] = jObj.getInt("in_reply");
@@ -273,8 +270,8 @@ public class HttpsConnector {
 	public boolean validApiKey() {
 		String url = formatUrl(mainUrl + "/user", new ArrayList<NameValuePair>());
 		try {
-			Log.d("json", new HttpsGetAsyncTask(httpclient).execute(url).get());
-			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient).execute(url).get());
+			
+			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, false, activity).execute(url).get());
 			if (jObj.has("user")) {
 				return true;
 			} else {
@@ -345,6 +342,22 @@ public class HttpsConnector {
 			Log.d("jsonError", "JSONException");
 		}
 		return null;
+	}
+	
+	public ArrayList<PostThread> getThreadsFromString(String s) {
+		ArrayList<PostThread> threads = new ArrayList<PostThread>();
+		
+		try {
+			JSONObject  jObj = new JSONObject(s);
+			JSONArray jArray = new JSONArray(jObj.getString("posts_older"));
+			for (int i = 0 ; i < jArray.length() ; i++) {
+				threads.add(createThread(new JSONObject(jArray.getString(i)), 0));
+			}
+			return threads;
+		} catch (JSONException e) {
+			Log.d("jsonError", "JSONException");
+		} 
+		return new ArrayList<PostThread>();
 	}
 	
 

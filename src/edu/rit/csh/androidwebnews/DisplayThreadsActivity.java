@@ -3,6 +3,7 @@ package edu.rit.csh.androidwebnews;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -21,6 +22,8 @@ public class DisplayThreadsActivity extends Activity{
 	
 	public String newsgroupName;
 	public ArrayList<PostThread> threadsDirectMap;
+	DisplayThreadsFragment dtf;
+	HttpsConnector hc;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -30,7 +33,8 @@ public class DisplayThreadsActivity extends Activity{
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 	    String apiKey = sharedPref.getString("api_key", "");	    
-	    HttpsConnector hc = new HttpsConnector(apiKey, this);	    	    
+	    hc = new HttpsConnector(apiKey, this);	
+	    
 	    if (!hc.validApiKey()) {
 	         new InvalidApiKeyDialog(this).show();
 	    }
@@ -47,9 +51,12 @@ public class DisplayThreadsActivity extends Activity{
 		threadsDirectMap = new ArrayList<PostThread>();
 		
 		Log.d("MyDebugging", "Selected newsgroup is " + newsgroupName);
+		Log.d("jddebug", "content viewed1");
 		setContentView(R.layout.displaythreads_activity);
-            	
+		Log.d("jddebug", "content viewed2");
 		Log.d("MyDebugging", "newsgroupView creation finished");
+		
+		dtf = (DisplayThreadsFragment)getFragmentManager().findFragmentById(R.id.threadsfragment);
 	}
 	
 	@Override
@@ -90,5 +97,11 @@ public class DisplayThreadsActivity extends Activity{
 			return true;
 		}
 		return false;
+	}
+	
+	public void update(String s) {
+		Log.d("jddebug", "activites update");
+		ArrayList<PostThread> threads = hc.getThreadsFromString(s);
+		( dtf).update(threads);
 	}
 }
