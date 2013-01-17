@@ -145,7 +145,6 @@ public class HttpsConnector {
 	 */
 	public String getPostBody(String newsgroup, int id) {
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
-		params.add(new BasicNameValuePair("mark_read", ""));
 		String url = formatUrl(mainUrl + "/" + newsgroup + "/" + id, params);
 		try {
 			Log.d("output", new HttpsGetAsyncTask(httpclient).execute(url).get());
