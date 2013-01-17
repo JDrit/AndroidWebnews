@@ -172,6 +172,13 @@ public class DisplayThreadsFragment extends Fragment {
 		}
 	}
 	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		if(listAdapter != null)
+			listAdapter.notifyDataSetChanged();
+	}
 	
 
 	private int findOriginalPos(PostThread thread)
