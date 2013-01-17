@@ -83,7 +83,7 @@ public class PostFragment extends ListFragment {
     		else
     			otherBody += "\n";
     	}
-
+    	contents.add(myThread.number + "");
 		contents.add("Author Name: " + myThread.authorName);
 		contents.add("Post Date: " + myThread.getDate());
 		swapBodies();
@@ -122,10 +122,10 @@ public class PostFragment extends ListFragment {
 	{
 		super.onListItemClick(l, v, position, id);
 		Log.d("MyDebugging", "Clicky!");
-		if(position == 2)
+		if(position == 3)
 		{
 			swapBodies();
-			contents.remove(2);
+			contents.remove(3);
 			contents.add(body);
 			//listAdapter.clear();
 			//listAdapter.addAll(contents);
