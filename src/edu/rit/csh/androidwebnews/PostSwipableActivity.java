@@ -10,6 +10,9 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 
 public class PostSwipableActivity extends FragmentActivity {
 	
@@ -17,6 +20,7 @@ public class PostSwipableActivity extends FragmentActivity {
 	public static int id;
 	PostPagerAdapter ppa;
 	ViewPager mViewPager;
+	Thread rootThread;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,27 @@ public class PostSwipableActivity extends FragmentActivity {
 		Log.d("MyDebugging", "adapter set");
 		
 		mViewPager.setCurrentItem(selected_id);
+		
+		for(int x = 0; x < HttpsConnector.lastFetchedThreads.size(); x++)
+		{
+			if(HttpsConnector.lastFetchedThreads.get(x).number == id)
+			{
+				rootThread = HttpsConnector.lastFetchedThreads.get(x);
+				Log.d("MyDebugging", "rootThread found for PostSwipableActivity");
+			}
+		}
+		
+		/*mViewPager.setOnTouchListener(new OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+
+        		int currentItem = mViewPager.getCurrentItem();
+        		
+        		Log.d("MyDebugging", "Marking " + rootThread.getThisThread(currentItem).authorName + "'s post as read");
+            	return false;
+            }
+		});*/
+		
 	}
 
 	@Override
@@ -69,5 +94,15 @@ public class PostSwipableActivity extends FragmentActivity {
 		}
 		return false;
 	}
+	
+	/*@Override
+	public boolean onTouchEvent(MotionEvent ev)
+	{
+		int currentItem = mViewPager.getCurrentItem();
+		
+		Log.d("MyDebugging", "Marking " + rootThread.getThisThread(currentItem).authorName + "'s post as read");
+		
+		return super.onTouchEvent(ev);
+	}*/
 
 }

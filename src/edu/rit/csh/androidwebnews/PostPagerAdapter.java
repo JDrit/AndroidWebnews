@@ -34,7 +34,7 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
 		Log.d("MyDebugging", "item " + i + " requested");
 		printT(rootThread);
 		Log.d("MyDebugging", "getting fragment for " + rootThread.getThisThread(i).toString());
-        PostFragment fragment = new PostFragment(rootThread.getThisThread(i).number);
+        PostFragment fragment = new PostFragment(rootThread.getThisThread(i));
 		Log.d("MyDebugging", "Fragment initialized");
         Bundle args = new Bundle();
 		Log.d("MyDebugging", "Bundle initialized");
