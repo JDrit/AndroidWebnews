@@ -67,7 +67,7 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 		Log.d("thread depth", thread.depth + " " + thread.authorName);
 
 		
-        tv.setPadding(50,0,150,0);
+        tv.setPadding(75,0,150,0);
         if (thread.unread != "null") {
         	tv.setText(text);
         	tv.setTypeface(null, Typeface.BOLD);
