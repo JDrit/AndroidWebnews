@@ -37,8 +37,8 @@ public class DisplayThreadsFragment extends Fragment {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
 		HttpsConnector hc = new HttpsConnector(apiKey, getActivity());
-
-	    threads = hc.getNewsgroupThreads(newsgroupName, 20);
+		hc.getNewsgroupThreads(newsgroupName, 20);
+	    threads = new ArrayList<PostThread>();//hc.getNewsgroupThreads(newsgroupName, 20);
 	    rootThreads = new ArrayList<PostThread>();
 	    
 	    for(PostThread thread : threads)
@@ -49,10 +49,10 @@ public class DisplayThreadsFragment extends Fragment {
 	    	((DisplayThreadsActivity)getActivity()).threadsDirectMap.add(thread);
 	    }
 
-	    threadStatus = new boolean[threads.size()];
-	    extraEntries = new int[threads.size()];
+	    threadStatus = new boolean[20];
+	    extraEntries = new int[20];
 
-	    for(int x = 0; x < threads.size() ; x++)
+	    for(int x = 0; x < 20 ; x++)
 	    {
 	    	threadStatus[x] = false;
 	    	extraEntries[x] = 0;
@@ -187,12 +187,14 @@ public class DisplayThreadsFragment extends Fragment {
 	    	rootThreads.add(thread);
 	    	((DisplayThreadsActivity)getActivity()).threadsDirectMap.add(thread);
 		}
-		listAdapter.notifyDataSetChanged();
 		for(boolean b : threadStatus)
 			b = false;
 		for(int l : extraEntries)
 			l = 0;
 		
+		listAdapter.clear();
+		listAdapter.addAll(threads);
+		listAdapter.notifyDataSetChanged();
 	}
 
 	private int findOriginalPos(PostThread thread)
