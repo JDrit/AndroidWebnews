@@ -21,6 +21,7 @@ public class PostSwipableActivity extends FragmentActivity {
 	PostPagerAdapter ppa;
 	ViewPager mViewPager;
 	PostThread rootThread;
+	HttpsConnector hc;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class PostSwipableActivity extends FragmentActivity {
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 	    String apiKey = sharedPref.getString("api_key", "");	    
-	    HttpsConnector hc = new HttpsConnector(apiKey, this);	    	    
+	    hc = new HttpsConnector(apiKey, this);	    	    
 	    if (!hc.validApiKey()) {
 	         new InvalidApiKeyDialog(this).show();
 	    }
@@ -58,6 +59,16 @@ public class PostSwipableActivity extends FragmentActivity {
 			}
 		}
 		
+	}
+	
+	public void markUnread(View view) {
+		int threadId = Integer.parseInt((String)view.getTag());
+		//hc.markUnread();
+	}
+	
+	public void postReply(View view) {
+		int threadId = Integer.parseInt((String)view.getTag());
+		//make reply
 	}
 
 	@Override
