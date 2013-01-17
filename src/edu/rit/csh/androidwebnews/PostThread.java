@@ -41,11 +41,7 @@ public class PostThread {
 	 */
 	@Override
 	public String toString() {
-		String indent = "";
-		for (int i = 0 ; i < depth ; i++) {
-			indent += "  ";
-		}
-		return indent + authorName + ": " + subject;
+		return authorName + ": " + subject;
 	}
 	
 	/**
