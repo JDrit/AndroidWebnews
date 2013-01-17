@@ -125,41 +125,7 @@ public class HttpsConnector {
 		params.add(new BasicNameValuePair("limit", new Integer(amount).toString()));
 		params.add(new BasicNameValuePair("thread_mode", "normal"));
 		String url = formatUrl(mainUrl + "/" + name + "/index", params);
-		
-		Log.d("jddebug", "async called");
 		new HttpsGetAsyncTask(httpclient, true, activity).execute(url);
-			
-			
-		
-		//return new ArrayList<PostThread>();
-	}
-	
-	
-	/**
-	 * Gets the post body for the post specified. This takes a newsgroup name and a
-	 * post ID number to find the post's body
-	 * @param newsgroup - the newsgroup name
-	 * @param id - the number of the post
-	 * @return String - the body of the post
-	 */
-	public String getPostBody(String newsgroup, int id) {
-		List<NameValuePair> params = new LinkedList<NameValuePair>();
-		String url = formatUrl(mainUrl + "/" + newsgroup + "/" + id, params);
-		try {
-			
-			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, false, activity).execute(url).get());
-			JSONObject jsonPost = jObj.getJSONObject("post");
-			String body = jsonPost.getString("body");
-			
-			return body;			
-		} catch (JSONException e) {
-			Log.d("jsonError", "JSONException");
-		} catch (InterruptedException e) {
-			Log.d("jsonError", "InterruptedException");
-		} catch (ExecutionException e) {
-			Log.d("jsonError", "ExecutionException");
-		}
-		return "";
 	}
 	
 	/**
@@ -172,7 +138,7 @@ public class HttpsConnector {
 	 * @return ArrayList<Thread> - a list of the threads in the newsgroup from the starting
 	 * date
 	 */
-	public ArrayList<PostThread> getNewsgroupThreadsByDate(String newsgroup, String date, int amount) {
+	public void getNewsgroupThreadsByDate(String newsgroup, String date, int amount) {
 		ArrayList<PostThread> threads = new ArrayList<PostThread>();
 		if (amount == -1) {
 			amount = 10;
@@ -184,9 +150,15 @@ public class HttpsConnector {
 		params.add(new BasicNameValuePair("thread_mode", "normal"));
 		params.add(new BasicNameValuePair("from_older", date));
 		String url = formatUrl(mainUrl + "/" + newsgroup + "/index", params);
+		new HttpsGetAsyncTask(httpclient, true, activity).execute(url);
+			
+	}
+	
+	public ArrayList<PostThread> getThreadsFromString(String s) {
+		ArrayList<PostThread> threads = new ArrayList<PostThread>();
 		
 		try {
-			JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, true, activity).execute(url).get());
+			JSONObject  jObj = new JSONObject(s);
 			JSONArray jArray = new JSONArray(jObj.getString("posts_older"));
 			for (int i = 0 ; i < jArray.length() ; i++) {
 				threads.add(createThread(new JSONObject(jArray.getString(i)), 0));
@@ -194,13 +166,37 @@ public class HttpsConnector {
 			return threads;
 		} catch (JSONException e) {
 			Log.d("jsonError", "JSONException");
-		} catch (InterruptedException e) {
-			Log.d("jsonError", "InterruptedException");
-		} catch (ExecutionException e) {
-			Log.d("jsonError", "ExecutionException");
-		}
+		} 
 		return new ArrayList<PostThread>();
 	}
+	
+	/**
+	 * Gets the post body for the post specified. This takes a newsgroup name and a
+	 * post ID number to find the post's body
+	 * @param newsgroup - the newsgroup name
+	 * @param id - the number of the post
+	 * @return String - the body of the post
+	 */
+	public void getPostBody(String newsgroup, int id) {
+		List<NameValuePair> params = new LinkedList<NameValuePair>();
+		String url = formatUrl(mainUrl + "/" + newsgroup + "/" + id, params);
+		new HttpsGetAsyncTask(httpclient, false, activity).execute(url);
+	}
+	
+	public String getPostBodyFromString(String jsonObj) {
+		try {	
+			JSONObject jObj = new JSONObject(jsonObj);
+			JSONObject jsonPost = jObj.getJSONObject("post");
+			String body = jsonPost.getString("body");
+			
+			return body;			
+		} catch (JSONException e) {
+			Log.d("jsonError", "JSONException");
+		} 
+		return "";
+	}
+	
+	
 	
 	/**
 	 * Gets the statuses about unread threads
@@ -345,21 +341,7 @@ public class HttpsConnector {
 		return null;
 	}
 	
-	public ArrayList<PostThread> getThreadsFromString(String s) {
-		ArrayList<PostThread> threads = new ArrayList<PostThread>();
-		
-		try {
-			JSONObject  jObj = new JSONObject(s);
-			JSONArray jArray = new JSONArray(jObj.getString("posts_older"));
-			for (int i = 0 ; i < jArray.length() ; i++) {
-				threads.add(createThread(new JSONObject(jArray.getString(i)), 0));
-			}
-			return threads;
-		} catch (JSONException e) {
-			Log.d("jsonError", "JSONException");
-		} 
-		return new ArrayList<PostThread>();
-	}
+
 	
 
 

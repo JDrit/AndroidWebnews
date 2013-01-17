@@ -49,7 +49,7 @@ public class PostFragment extends ListFragment {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
 		hc = new HttpsConnector(apiKey, getActivity());
-		body = hc.getPostBody(myThread.newsgroup, myThread.number);
+		hc.getPostBody(myThread.newsgroup, myThread.number);
 	}
 	
 	

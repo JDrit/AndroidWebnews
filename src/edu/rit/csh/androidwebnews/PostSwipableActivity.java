@@ -14,7 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
-public class PostSwipableActivity extends FragmentActivity {
+public class PostSwipableActivity extends FragmentActivity implements ActivityInterface {
 	
 	public static String newsgroupName;
 	public static int id;
@@ -22,6 +22,7 @@ public class PostSwipableActivity extends FragmentActivity {
 	ViewPager mViewPager;
 	PostThread rootThread;
 	HttpsConnector hc;
+	PostFragment pf;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class PostSwipableActivity extends FragmentActivity {
 				Log.d("MyDebugging", "rootThread found for PostSwipableActivity");
 			}
 		}
-		
+		//pf = (PostFragment) getFragmentManager().findFragmentById(R.id.post_fragment);
 	}
 	
 	public void markUnread(View view) {
@@ -93,6 +94,11 @@ public class PostSwipableActivity extends FragmentActivity {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void update(String jsonString) {
+		
 	}
 
 }
