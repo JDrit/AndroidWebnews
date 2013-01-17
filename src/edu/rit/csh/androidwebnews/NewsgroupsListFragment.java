@@ -37,7 +37,7 @@ public class NewsgroupsListFragment extends ListFragment {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
 		hc = new HttpsConnector(apiKey, getActivity());
-		
+		hc.getNewsGroups();
 		
 	    
 	    //groups = hc.getNewsGroups();
@@ -45,7 +45,6 @@ public class NewsgroupsListFragment extends ListFragment {
 		
 		listAdapter = new NewsgroupsListAdapter<Newsgroup>(getActivity(), R.layout.rowlayout, groups);
 		
-		refreshView();
 		
 		mainListView.setAdapter(listAdapter);
 		
@@ -67,9 +66,9 @@ public class NewsgroupsListFragment extends ListFragment {
 	
 	}
 	
-	public void refreshView()
+	public void update(ArrayList<Newsgroup> groups)
 	{
-		groups = hc.getNewsGroups();
+		this.groups = groups;
 		listAdapter.clear();
 		listAdapter.addAll(groups);
 		listAdapter.notifyDataSetChanged();
@@ -81,7 +80,7 @@ public class NewsgroupsListFragment extends ListFragment {
 		super.onResume();
 		
 		Log.d("MyDebugging","Refreshing newsgroups!");
-		refreshView();
+		hc.getNewsGroups();
 	}
 	
 	public interface OnNewsgroupSelectedListener {
