@@ -61,6 +61,7 @@ public class DisplayThreadsActivity extends Activity{
 	
 	public void viewPost(View view) {
 		Thread thread = threadsDirectMap.get(((Integer)view.getTag()));
+		Thread selected = thread;
 		
 		while(thread.parent != null)
 			thread=thread.parent;
@@ -68,6 +69,7 @@ public class DisplayThreadsActivity extends Activity{
 		Intent intent = new Intent(this, PostSwipableActivity.class);
 		intent.putExtra("SELECTED_NEWSGROUP", thread.newsgroup);
 		intent.putExtra("SELECTED_ID", thread.number);
+		intent.putExtra("GOTO_THIS", threadsDirectMap.indexOf(selected) - threadsDirectMap.indexOf(thread));
 
 		Log.d("des", "intent made");
 		startActivity(intent);
