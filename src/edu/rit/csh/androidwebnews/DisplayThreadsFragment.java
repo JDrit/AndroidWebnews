@@ -73,11 +73,11 @@ public class DisplayThreadsFragment extends Fragment {
 			public void onItemClick(AdapterView<?> adapter, View arg1, int position,
 					long id) {
 				int originalPos = findOriginalPos(((DisplayThreadsActivity)getActivity()).threadsDirectMap.get(position));
-				Log.d("MyDebugging", "item " + position + " clicked on");
+				/*Log.d("MyDebugging", "item " + position + " clicked on");
 				Log.d("MyDebugging", "original position is " + originalPos);
 				Log.d("MyDebugging", "threadStatus[originalPos] = " + threadStatus[originalPos]);
 				Log.d("MyDebugging", "extraEntries[originalPos] = " + extraEntries[originalPos]);
-				Log.d("MyDebugging", "sub threads of threads.get(originalPosition) = " + rootThreads.get(originalPos).getSubThreadCount());
+				Log.d("MyDebugging", "sub threads of threads.get(originalPosition) = " + rootThreads.get(originalPos).getSubThreadCount());*/
 				if(originalPos > -1)
 				{
 					if(threadStatus[originalPos])
