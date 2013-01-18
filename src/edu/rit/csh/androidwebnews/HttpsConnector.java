@@ -66,6 +66,29 @@ public class HttpsConnector {
 	}
 	
 	/**
+	 * Gets the newsgroups from a string representation of a JSON Object. This is used
+	 * to parse out the output of the async task for getting the newsgroups.
+	 * @param jsonString - the string representation of a JSON object
+	 * @return ArrayList<Newsgroup> - the list of newsgroups
+	 */
+	public ArrayList<Newsgroup> getNewsGroupFromString(String jsonString)  {
+		ArrayList<Newsgroup> newsgroups = new ArrayList<Newsgroup>();
+		JSONObject jObj;
+		try {
+			jObj = new JSONObject(jsonString);
+			JSONArray jArray = new JSONArray(jObj.getString("newsgroups"));
+			for (int i = 0 ; i < jArray.length() ; i++) {
+				newsgroups.add(new Newsgroup(new JSONObject(jArray.getString(i)).getString("name"),
+						new JSONObject(jArray.getString(i)).getInt("unread_count"),
+						new JSONObject(jArray.getString(i)).getString("unread_class")));
+			}
+		} catch (JSONException e) {
+			Log.d("jsonError", "JSONException");
+		}
+		return newsgroups;		
+	}
+	
+	/**
 	 * Gets the newest threads on webnews to display on the front page
 	 * @return ArrayList<Thread> - list of the 20 newest or sticky threads
 	 */
