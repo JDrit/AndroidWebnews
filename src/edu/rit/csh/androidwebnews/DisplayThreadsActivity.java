@@ -2,6 +2,9 @@ package edu.rit.csh.androidwebnews;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -64,6 +67,9 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		Log.d("MyDebugging", "newsgroupView creation finished");
 		
 		dtf = (DisplayThreadsFragment)getSupportFragmentManager().findFragmentById(R.id.threadsfragment);
+		
+		hc.getNewsGroups();
+		hc.getNewsgroupThreads(newsgroupName, 20);
 	}
 	
 	@Override
@@ -108,12 +114,23 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	}
 	
 	@Override
-	public void update(String s) {
-		Log.d("jddebug", "activites update");
-		ArrayList<PostThread> threads = hc.getThreadsFromString(s);
-		lastFetchedThreads.clear();
-		lastFetchedThreads = (ArrayList<PostThread>) threads.clone();
-		( dtf).update(threads);
+	public void update(String jsonString) {
+		Log.d("MyDebugging",jsonString);
+		try {
+			JSONObject obj = new JSONObject(jsonString);
+			if (obj.has("posts_older")) { // recent
+				Log.d("MyDebugging", "DisplayThreadsActivity updating the threads sdfk");
+				ArrayList<PostThread> threads = hc.getThreadsFromString(jsonString);
+				lastFetchedThreads.clear();
+				lastFetchedThreads = (ArrayList<PostThread>) threads.clone();
+				( dtf).update(threads);
+			} else {  // newsgroups
+				Log.d("MyDebugging", "DisplayThreadsActivity updating the newsgroups sdf");
+				newsgroupListMenu.update(hc.getNewsGroupFromString(jsonString));
+			}
+		} catch (JSONException e) {
+			Log.d("MyDebugging", "json error");
+		}
 	}
 
 	@Override
