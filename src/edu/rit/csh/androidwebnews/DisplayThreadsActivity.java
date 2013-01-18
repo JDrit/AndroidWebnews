@@ -92,7 +92,8 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 			return true;
 		
 		case R.id.menu_refresh:
-			
+			startActivity(new Intent(this, DisplayThreadsActivity.class));
+			finish();
 			return true;
 		case R.id.menu_about:
 			startActivity(new Intent(this, InfoActivity.class));

@@ -32,6 +32,7 @@ public final class R {
         public static final int list=0x7f0a0004;
         public static final int mainListView=0x7f0a000a;
         public static final int menu_about=0x7f0a0014;
+        public static final int menu_mark_all_read=0x7f0a0015;
         public static final int menu_refresh=0x7f0a0012;
         public static final int menu_settings=0x7f0a0013;
         public static final int newsgroup_list=0x7f0a0000;

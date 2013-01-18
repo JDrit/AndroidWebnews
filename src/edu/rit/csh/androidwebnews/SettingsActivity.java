@@ -50,7 +50,8 @@ public class SettingsActivity extends PreferenceActivity implements ActivityInte
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
-		getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
+		//getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
+		 addPreferencesFromResource(R.xml.preferences);
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		sharedPref.registerOnSharedPreferenceChangeListener(listener);
 	}

@@ -231,14 +231,9 @@ public class HttpsConnector {
 		String url = formatUrl(mainUrl + "/mark_read", new ArrayList<NameValuePair>());
 		BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
 		BasicNameValuePair allVP = new BasicNameValuePair("all_posts", "");
-		try {
-			Log.d("jsonurl", url);
-			Log.d("jsonoutput", new HttpsPutAsyncTask(httpclient).execute(urlVP, allVP).get());
-		} catch (InterruptedException e) {
-			Log.d("jsonError", "InterruptedException");
-		} catch (ExecutionException e) {
-			Log.d("jsonError", "ExecutionException");
-		}
+		
+		Log.d("jsonurl", url);
+		new HttpsPutAsyncTask(httpclient).execute(urlVP, allVP);
 	}
 	
 	/**
@@ -251,14 +246,9 @@ public class HttpsConnector {
 		BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
 		BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
 		BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
-		try {
-			Log.d("jsonurl", url);
-			Log.d("jsonoutput", new HttpsPutAsyncTask(httpclient).execute(urlVP, newsgroupVP, numberVP).get());
-		} catch (InterruptedException e) {
-			Log.d("jsonError", "InterruptedException");
-		} catch (ExecutionException e) {
-			Log.d("jsonError", "ExecutionException");
-		}
+		
+		Log.d("jsonurl", url);
+		new HttpsPutAsyncTask(httpclient).execute(urlVP, newsgroupVP, numberVP);
 	}
 
 	/**
