@@ -49,7 +49,7 @@ public class UpdaterService extends IntentService {
 				  
 				  NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 				  mBuilder.setContentTitle("CSH Webnews");
-				  mBuilder.setSmallIcon(android.R.drawable.alert_dark_frame);
+				  mBuilder.setSmallIcon(R.drawable.favicon);
 				  mBuilder.setAutoCancel(true);
 				  if (statuses[2] != 0) {
 					  if (statuses[2] == 1) {
