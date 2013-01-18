@@ -55,7 +55,9 @@ public class RecentFragment extends Fragment {
 
 	public void update(ArrayList<PostThread> newestFromString) {
 		listAdapter.clear();
-		listAdapter.addAll(newestFromString);
+		for (PostThread t : newestFromString) {
+			listAdapter.add(t);
+		}
 		listAdapter.notifyDataSetChanged();
 		
 	}

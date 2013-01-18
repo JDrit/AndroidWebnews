@@ -17,5 +17,10 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="About"/>
+	<item
+        android:id="@+id/menu_mark_all_read"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Mark All Read"/>
 
 </menu>

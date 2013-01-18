@@ -1,6 +1,7 @@
 package edu.rit.csh.androidwebnews;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import android.app.Activity;
@@ -76,5 +77,12 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
         }
         ((Button) convertView.findViewById(R.id.Viewbutton)).setTag(position);
         return convertView;
+	}
+	
+	@Override
+	public void addAll(Collection<? extends T> collection) {
+		for (T t : collection) {
+			add(t);
+		}
 	}
 }

@@ -1,8 +1,15 @@
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
-
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:weightSum="1" >
+	
+		<ScrollView 
+	    	android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1">
+         
         <TextView
             android:id="@+id/aboutTextView"
             android:layout_width="wrap_content"
@@ -12,15 +19,17 @@
             android:layout_alignParentTop="true"
             android:text="@string/about_text"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
+	</ScrollView>
+	
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:orientation="horizontal"
-            android:weightSum="1" >
+            android:weightSum="1"
+            android:layout_weight="1" >
 
             <Button
                 android:id="@+id/aboutButton"
@@ -34,10 +43,10 @@
                 android:id="@+id/LicenseButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="License" 
                 android:onClick="showLicense"
+                android:text="License"
                 android:layout_weight=".5" />
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
