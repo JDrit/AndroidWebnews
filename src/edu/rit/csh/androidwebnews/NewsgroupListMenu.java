@@ -134,7 +134,8 @@ public class NewsgroupListMenu {
 				Newsgroup newsgroup = (Newsgroup) adapter.getItemAtPosition(position);
 				String value = newsgroup.name;
 				Log.d("MyDebugging","Newsgroup " + value + " selected");
-				//((NewsgroupsListActivity)getActivity()).onNewsgroupSelected(value);
+				((ActivityInterface)act).onNewsgroupSelected(value);
+				hide();
 			}
 			
 		});

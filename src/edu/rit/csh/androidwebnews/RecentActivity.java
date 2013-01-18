@@ -92,7 +92,9 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		}
 	}
 	public void onNewsgroupSelected(final String newsgroupName) {
-		
+		Intent myIntent = new Intent(RecentActivity.this, DisplayThreadsActivity.class);
+		myIntent.putExtra("SELECTED_NEWSGROUP", newsgroupName);
+		startActivity(myIntent);
 	}
 
 }
