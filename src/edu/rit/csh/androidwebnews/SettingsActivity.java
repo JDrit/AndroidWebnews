@@ -37,7 +37,7 @@ import java.util.List;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends PreferenceActivity implements ActivityInterface {
+public class SettingsActivity extends PreferenceActivity {
 	/**
 	 * Determines whether to always show the simplified settings UI, where
 	 * settings are presented in a single list. When false, settings are shown
@@ -85,14 +85,6 @@ public class SettingsActivity extends PreferenceActivity implements ActivityInte
 			}
 		}
 	};
-
-	@Override
-	public void update(String jsonString) {
-		
-		
-	}
-
-
 	
 	
 }

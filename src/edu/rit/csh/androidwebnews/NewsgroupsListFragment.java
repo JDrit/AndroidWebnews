@@ -4,7 +4,7 @@ package edu.rit.csh.androidwebnews;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.app.ListFragment;
 import android.content.ContentUris;
 import android.content.Context;
@@ -22,10 +22,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class NewsgroupsListFragment extends ListFragment {
+public class NewsgroupsListFragment extends Fragment {
 	HttpsConnector hc;
 	ArrayList<Newsgroup> groups;
-	NewsgroupsListAdapter<Newsgroup> listAdapter;
+	NewsgroupsListAdapter listAdapter;
 	
 	//Called when the view for the fragment is to be first drawn.
 	//Makes a new HttpsConnector to get list of Newsgroups, which
@@ -43,7 +43,7 @@ public class NewsgroupsListFragment extends ListFragment {
 	    //groups = hc.getNewsGroups();
 		groups = new ArrayList<Newsgroup>();
 		
-		listAdapter = new NewsgroupsListAdapter<Newsgroup>(getActivity(), R.layout.rowlayout, groups);
+		listAdapter = new NewsgroupsListAdapter(getActivity(), groups);
 		
 		
 		mainListView.setAdapter(listAdapter);
@@ -87,12 +87,12 @@ public class NewsgroupsListFragment extends ListFragment {
         public void onNewsgroupSelected(String newsgroupName);
     }
 	
-	@Override
+	/*@Override
 	public void onListItemClick(ListView l, View v, int position, long id)
 	{
 		super.onListItemClick(l, v, position, id);
 		String selectedGroup = ((Newsgroup) getListView().getItemAtPosition(position)).name;
 		((NewsgroupsListActivity)getActivity()).onNewsgroupSelected(selectedGroup);
-	}
+	}*/
 
 }

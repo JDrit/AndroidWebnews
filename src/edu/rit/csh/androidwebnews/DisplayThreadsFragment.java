@@ -32,7 +32,9 @@ public class DisplayThreadsFragment extends Fragment {
 		Log.d("MyDebugging", "Starting ThreadsListFragment constructor");
 		newsgroupName = ((DisplayThreadsActivity)getActivity()).newsgroupName;
 
-		ListView mainListView = new ListView(getActivity());
+		NewsgroupListMenu newsgroupListMenu = ((DisplayThreadsActivity)getActivity()).newsgroupListMenu;
+		
+		WebnewsListView mainListView = new WebnewsListView(getActivity(), newsgroupListMenu);
 
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");

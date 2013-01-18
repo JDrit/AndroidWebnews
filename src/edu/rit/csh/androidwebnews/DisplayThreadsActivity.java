@@ -26,6 +26,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	static public ArrayList<PostThread> lastFetchedThreads = new ArrayList<PostThread>();
 	DisplayThreadsFragment dtf;
 	HttpsConnector hc;
+	NewsgroupListMenu newsgroupListMenu;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -54,6 +55,10 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		
 		Log.d("MyDebugging", "Selected newsgroup is " + newsgroupName);
 		Log.d("jddebug", "content viewed1");
+		
+		newsgroupListMenu = new NewsgroupListMenu(this);
+		newsgroupListMenu.checkEnabled();
+		
 		setContentView(R.layout.displaythreads_activity);
 		Log.d("jddebug", "content viewed2");
 		Log.d("MyDebugging", "newsgroupView creation finished");
@@ -109,5 +114,11 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		lastFetchedThreads.clear();
 		lastFetchedThreads = (ArrayList<PostThread>) threads.clone();
 		( dtf).update(threads);
+	}
+
+	@Override
+	public void onNewsgroupSelected(String newsgroupName) {
+		// TODO Auto-generated method stub
+		
 	}
 }
