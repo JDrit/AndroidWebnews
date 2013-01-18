@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -37,14 +38,16 @@ import android.widget.Toast;
  * The activity to display the newsgroups. Uses the NewsgroupListFragment to 
  * display the view. Checks for invalid api keys.
  */
-public class NewsgroupsListActivity extends Activity{
+public class NewsgroupsListActivity extends FragmentActivity implements ActivityInterface {
 	public HttpsConnector hc;
+	NewsgroupsListFragment nglf;
 	boolean contentMade = true;
 	ProgressDialog p;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	    Log.d("MyDebugging", "App Started");
+	    //nglf = (NewsgroupsListFragment) getSupportFragmentManager().findFragmentById(R.id.newsgroup_list);
 	    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 	    String apiKey = sharedPref.getString("api_key", "");	    
 	    
@@ -127,5 +130,11 @@ public class NewsgroupsListActivity extends Activity{
       NewsgroupsListActivity.this.finish();
     }
   }
+
+  	@Override
+	public void update(String jsonString) {
+	// TODO Auto-generated method stub
+	
+  	}
 
 }

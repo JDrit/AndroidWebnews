@@ -16,23 +16,28 @@
 
         <activity
             android:name="edu.rit.csh.androidwebnews.DisplayThreadsActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:configChanges="orientation|keyboardHidden|screenSize" >
         </activity>
                 <activity
             android:name="edu.rit.csh.androidwebnews.InfoActivity"
-            android:label="@string/title_activity_info" >
+            android:label="@string/title_activity_info"
+            android:configChanges="orientation|keyboardHidden|screenSize" >
         </activity>
         <activity
             android:name="edu.rit.csh.androidwebnews.NewsgroupsListActivity"
-            android:label="@string/title_activity_newsgroupslist">"
+            android:label="@string/title_activity_newsgroupslist"
+            android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
 		<activity
             android:name="edu.rit.csh.androidwebnews.PostSwipableActivity"
-            android:label="@string/title_activity_post_swipable" >
+            android:label="@string/title_activity_post_swipable"
+            android:configChanges="orientation|keyboardHidden|screenSize" >
         </activity>
         		<activity
             android:name="edu.rit.csh.androidwebnews.RecentActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:configChanges="orientation|keyboardHidden|screenSize" >
                        <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

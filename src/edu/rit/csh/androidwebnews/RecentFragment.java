@@ -32,6 +32,7 @@ public class RecentFragment extends Fragment {
 		
 		listAdapter = new RecentListAdapter<PostThread>(getActivity(), R.layout.rowlayout, new ArrayList<PostThread>());
 		lv.setAdapter(listAdapter);
+		
 
 		lv.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -46,8 +47,11 @@ public class RecentFragment extends Fragment {
 
 		});
 		
+		
+		
 		return lv;
 	}
+	
 
 	public void update(ArrayList<PostThread> newestFromString) {
 		listAdapter.clear();
