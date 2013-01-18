@@ -1,5 +1,7 @@
 package edu.rit.csh.androidwebnews;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.Activity;
@@ -29,6 +31,8 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		setContentView(R.layout.activity_recent);
 		rf = (RecentFragment)getSupportFragmentManager().findFragmentById(R.id.recent_fragment);
 	}
+	
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

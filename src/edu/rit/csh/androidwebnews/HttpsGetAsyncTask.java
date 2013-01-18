@@ -42,7 +42,7 @@ public class HttpsGetAsyncTask extends AsyncTask<String, Integer, String> {
 	         p = new ProgressDialog(activity);
 	         p.setTitle("Fetching Info");
 	         p.setMessage("Contacting Server...");
-	        // p.setCancelable(false);
+	         p.setCancelable(false);
 	         p.show();
 	         
 	         Log.d("jddebug", "p started");
@@ -98,7 +98,7 @@ public class HttpsGetAsyncTask extends AsyncTask<String, Integer, String> {
 		Log.d("MyDebugging", "!s! "+ s);
 		if(activity != null)
 			((ActivityInterface) activity).update(s);
-		Log.d("jddebug", activity.getLocalClassName());
+		
 	}
 		
 
