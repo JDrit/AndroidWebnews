@@ -103,9 +103,9 @@ public class PostFragment extends Fragment {
 	
 	private void processBody()
 	{
-		String[] lines = body.split("\n");
+		String[] lines = otherBody.split("\n");
     	boolean messageSet = false;
-    	otherBody = "";
+    	body = "";
     	
     	for(String line : lines)
     	{
@@ -113,20 +113,20 @@ public class PostFragment extends Fragment {
     		{
 	    		if(line.charAt(0) != '>')
 	    		{
-	    			otherBody += line + "\n";
+	    			body += line + "\n";
 	    		}
 	    		else
 	    		{
 	
 	    			if(!messageSet)
 	    			{
-	    				otherBody += "[Tap here to show hidden text]\n";
+	    				body += "[Tap here to show hidden text]\n";
 	    				messageSet = true;
 	    			}
 	    		}
     		}
     		else
-    			otherBody += "\n";
+    			body += "\n";
     	}
 	}
 	
@@ -160,11 +160,11 @@ public class PostFragment extends Fragment {
 	
 	public void update(String jsonstuff)
 	{
-		String body = hc.getPostBodyFromString(jsonstuff);
+		String otherBody = hc.getPostBodyFromString(jsonstuff);
 		Log.d("jddebug", "body set");
-		this.body = body;
+		this.otherBody = otherBody;
 		processBody();
-		swapBodies();
+		//swapBodies();
 		contents.remove(3);
 		contents.add(body);
 		listAdapter.notifyDataSetChanged();
