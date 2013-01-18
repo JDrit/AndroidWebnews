@@ -135,7 +135,9 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 
 	@Override
 	public void onNewsgroupSelected(String newsgroupName) {
-		// TODO Auto-generated method stub
-		
+		Intent myIntent = new Intent(DisplayThreadsActivity.this, DisplayThreadsActivity.class);
+		myIntent.putExtra("SELECTED_NEWSGROUP", newsgroupName);
+		startActivity(myIntent);
+		finish();
 	}
 }
