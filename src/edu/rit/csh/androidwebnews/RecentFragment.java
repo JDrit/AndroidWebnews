@@ -18,11 +18,16 @@ import android.widget.AdapterView.OnItemClickListener;
 public class RecentFragment extends Fragment {
 	ListView lv;
 	RecentListAdapter<PostThread> listAdapter;
+	NewsgroupListMenu newsgroupListMenu;
+	ArrayList<PostThread> recentPostThreads;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d("jddebug", "frag");
-		lv = new ListView(getActivity());;
+		newsgroupListMenu = ((RecentActivity)getActivity()).newsgroupListMenu;
+		lv = new WebnewsListView(getActivity(), newsgroupListMenu);
+		
+		recentPostThreads = new ArrayList<PostThread>();
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
@@ -55,10 +60,26 @@ public class RecentFragment extends Fragment {
 
 	public void update(ArrayList<PostThread> newestFromString) {
 		listAdapter.clear();
+		recentPostThreads = newestFromString;
 		for (PostThread t : newestFromString) {
 			listAdapter.add(t);
 		}
 		listAdapter.notifyDataSetChanged();
 		
+	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		Log.d("MyDebugging", "Refreshing view!");
+		if(listAdapter != null)
+		{
+			listAdapter.clear();
+			for (PostThread t : recentPostThreads) {
+				listAdapter.add(t);
+			}
+			listAdapter.notifyDataSetChanged();
+		}
 	}
 }

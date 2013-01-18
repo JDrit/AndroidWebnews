@@ -2,6 +2,9 @@ package edu.rit.csh.androidwebnews;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.Activity;
@@ -10,17 +13,23 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 
 public class RecentActivity extends FragmentActivity implements ActivityInterface {
 	ProgressDialog p;
 	RecentFragment rf;
 	HttpsConnector hc;
+	NewsgroupListMenu newsgroupListMenu;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		newsgroupListMenu = new NewsgroupListMenu(this);
+		newsgroupListMenu.checkEnabled();
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 	    String apiKey = sharedPref.getString("api_key", "");	    
@@ -28,6 +37,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	    if (!hc.validApiKey()) {
 	         new InvalidApiKeyDialog(this).show();
 	    }
+	    hc.getNewsGroups();
 		setContentView(R.layout.activity_recent);
 		rf = (RecentFragment)getSupportFragmentManager().findFragmentById(R.id.recent_fragment);
 	}
@@ -67,13 +77,21 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		Intent myIntent = new Intent(RecentActivity.this, DisplayThreadsActivity.class);
 		myIntent.putExtra("SELECTED_NEWSGROUP", thread.newsgroup);
 		startActivity(myIntent);
-
-		
 	}
 
 	@Override
 	public void update(String jsonString) {
-		rf.update(hc.getNewestFromString(jsonString));
+		try {
+			JSONObject obj = new JSONObject(jsonString);
+			if (obj.has("activity")) { // recent
+				rf.update(hc.getNewestFromString(jsonString));
+			} else {  // newsgroups
+				newsgroupListMenu.update(hc.getNewsGroupFromString(jsonString));
+			}
+		} catch (JSONException e) {
+		}
+	}
+	public void onNewsgroupSelected(final String newsgroupName) {
 		
 	}
 

@@ -18,11 +18,11 @@ import android.widget.TextView;
  *
  * @param <T>
  */
-public class NewsgroupsListAdapter<T> extends ArrayAdapter<T> {
+public class NewsgroupsListAdapter extends ArrayAdapter {
 	Context context;
 	
-	public NewsgroupsListAdapter(Context context, int textViewResourceId, List<T> objects) {
-		super(context, textViewResourceId, objects);
+	public NewsgroupsListAdapter(Context context, List objects) {
+		super(context, R.id.rowTextView, objects);
 		this.context = context;
 	}
 	

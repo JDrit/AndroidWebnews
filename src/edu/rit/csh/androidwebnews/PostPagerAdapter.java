@@ -12,7 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
-public class PostPagerAdapter extends FragmentStatePagerAdapter implements ActivityInterface {
+public class PostPagerAdapter extends FragmentStatePagerAdapter {
 
 	PostThread rootThread;
 	PostFragment[] fragments;
@@ -79,7 +79,6 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter implements Activ
 		}
 	}
 
-	@Override
 	public void update(String jsonString) {
 		int id = 0;
 		try {
@@ -99,5 +98,4 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter implements Activ
 			}
 		}
 	}
-
 }

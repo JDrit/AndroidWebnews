@@ -105,4 +105,10 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 		ppa.update(jsonString);
 	}
 
+	@Override
+	public void onNewsgroupSelected(String newsgroupName) {
+		
+		
+	}
+
 }
