@@ -164,6 +164,7 @@ public class PostFragment extends Fragment {
 		Log.d("jddebug", "body set");
 		this.body = body;
 		processBody();
+		swapBodies();
 		contents.remove(3);
 		contents.add(body);
 		listAdapter.notifyDataSetChanged();
