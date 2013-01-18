@@ -39,7 +39,7 @@ public class DisplayThreadsFragment extends Fragment {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
 		HttpsConnector hc = new HttpsConnector(apiKey, getActivity());
-		hc.getNewsgroupThreads(newsgroupName, 20);
+		//hc.getNewsgroupThreads(newsgroupName, 20);
 	    threads = new ArrayList<PostThread>();//hc.getNewsgroupThreads(newsgroupName, 20);
 	    rootThreads = new ArrayList<PostThread>();
 	    
