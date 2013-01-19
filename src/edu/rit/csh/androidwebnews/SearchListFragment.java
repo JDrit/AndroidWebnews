@@ -22,14 +22,16 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class NewsgroupsListFragment extends Fragment {
+public class SearchListFragment extends Fragment {
 	HttpsConnector hc;
-	ArrayList<Newsgroup> groups;
-	NewsgroupsListAdapter listAdapter;
+	ArrayList<String> threads;
+	ArrayAdapter<String> listAdapter;
 	
-	//Called when the view for the fragment is to be first drawn.
-	//Makes a new HttpsConnector to get list of Newsgroups, which
-	//are used to populate the entries in a ListView.
+	public SearchListFragment(Context context, ArrayList<String> threads)
+	{
+		this.threads = threads;
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
@@ -39,11 +41,8 @@ public class NewsgroupsListFragment extends Fragment {
 		hc = new HttpsConnector(apiKey, getActivity());
 		//hc.getNewsGroups();
 		
-	    
-	    //groups = hc.getNewsGroups();
-		groups = new ArrayList<Newsgroup>();
 		
-		listAdapter = new NewsgroupsListAdapter(getActivity(), groups);
+		listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.rowlayout, threads);
 		
 		
 		mainListView.setAdapter(listAdapter);
@@ -57,7 +56,7 @@ public class NewsgroupsListFragment extends Fragment {
 					long id) {
 				Log.d("MyDebugging", "Clicky!");
 				String value = (String) adapter.getItemAtPosition(position);
-				((NewsgroupsListActivity)getActivity()).onNewsgroupSelected(value);
+				((SearchActivity)getActivity()).onSelectThread(value);
 			}
 			
 		});
@@ -66,33 +65,13 @@ public class NewsgroupsListFragment extends Fragment {
 	
 	}
 	
-	public void update(ArrayList<Newsgroup> groups)
+	public void update(ArrayList<String> threads)
 	{
-		this.groups = groups;
+		this.threads = threads;
 		listAdapter.clear();
-		listAdapter.addAll(groups);
+		for(String s : threads)
+			listAdapter.add(s);
 		listAdapter.notifyDataSetChanged();
 	}
-	
-	@Override
-	public void onResume()
-	{
-		super.onResume();
-		
-		Log.d("MyDebugging","Refreshing newsgroups!");
-		hc.getNewsGroups();
-	}
-	
-	public interface OnNewsgroupSelectedListener {
-        public void onNewsgroupSelected(String newsgroupName);
-    }
-	
-	/*@Override
-	public void onListItemClick(ListView l, View v, int position, long id)
-	{
-		super.onListItemClick(l, v, position, id);
-		String selectedGroup = ((Newsgroup) getListView().getItemAtPosition(position)).name;
-		((NewsgroupsListActivity)getActivity()).onNewsgroupSelected(selectedGroup);
-	}*/
 
 }
