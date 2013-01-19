@@ -17,22 +17,32 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
 	PostThread rootThread;
 	PostFragment[] fragments;
 	int id;
+	boolean fromSearch = false;
 	
-	public PostPagerAdapter(FragmentManager fm) {
+	public PostPagerAdapter(FragmentManager fm, boolean fromSearch) {
 		super(fm);
+		this.fromSearch = fromSearch;
 		Log.d("MyDebugging", "ppa creation started");
 		id = PostSwipableActivity.id;
 		Log.d("MyDebugging", "id retrieved. id = " + id);
-		for(int x = 0; x < DisplayThreadsActivity.lastFetchedThreads.size(); x++)
+		if(!fromSearch)
 		{
-			if(DisplayThreadsActivity.lastFetchedThreads.get(x).number == id)
+			for(int x = 0; x < DisplayThreadsActivity.lastFetchedThreads.size(); x++)
 			{
-				rootThread = DisplayThreadsActivity.lastFetchedThreads.get(x);
-				Log.d("MyDebugging", "rootThread found");
+				if(DisplayThreadsActivity.lastFetchedThreads.get(x).number == id)
+				{
+					rootThread = DisplayThreadsActivity.lastFetchedThreads.get(x);
+					Log.d("MyDebugging", "rootThread found");
+				}
 			}
+			if(rootThread == null)
+				Log.d("MyDebugging", "rootThread is null!");
 		}
-		if(rootThread == null)
-			Log.d("MyDebugging", "rootThread is null!");
+		else
+		{
+			Log.d("MyDebugging","From a search!");
+			rootThread = SearchResultsActivity.rootThread;
+		}
 		
 		fragments = new PostFragment[getCount()];
 	}
@@ -59,7 +69,6 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
 
 	@Override
     public CharSequence getPageTitle(int position) {
-		printT(rootThread);
         return rootThread.getThisThread( position).toString();
     }
 	
