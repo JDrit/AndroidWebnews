@@ -86,6 +86,7 @@ public class HttpsConnector {
 						new JSONObject(jArray.getString(i)).getString("unread_class")));
 			}
 		} catch (JSONException e) {
+			
 			Log.d("jsonError", "JSONException");
 		}
 		return newsgroups;		
