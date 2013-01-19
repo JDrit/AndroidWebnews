@@ -11,13 +11,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class DisplayThreadsFragment extends Fragment {
+public class DisplayThreadsFragment extends Fragment implements OnScrollListener {
 	String newsgroupName;
 	ArrayList<PostThread> threads;
 	ArrayList<PostThread> rootThreads;
@@ -36,6 +38,8 @@ public class DisplayThreadsFragment extends Fragment {
 		NewsgroupListMenu newsgroupListMenu = ((DisplayThreadsActivity)getActivity()).newsgroupListMenu;
 		
 		WebnewsListView mainListView = new WebnewsListView(getActivity(), newsgroupListMenu);
+		mainListView.setId(android.R.id.list);
+		mainListView.setOnScrollListener(this);
 
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
@@ -75,7 +79,9 @@ public class DisplayThreadsFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View arg1, int position,
 					long id) {
-				int originalPos = findOriginalPos(((DisplayThreadsActivity)getActivity()).threadsDirectMap.get(position));
+				int originalPos = -1;
+				if(position < threads.size() - 1)
+					originalPos = findOriginalPos(((DisplayThreadsActivity)getActivity()).threadsDirectMap.get(position));
 				/*Log.d("MyDebugging", "item " + position + " clicked on");
 				Log.d("MyDebugging", "original position is " + originalPos);
 				Log.d("MyDebugging", "threadStatus[originalPos] = " + threadStatus[originalPos]);
@@ -179,10 +185,10 @@ public class DisplayThreadsFragment extends Fragment {
 	    	rootThreads.add(thread);
 	    	((DisplayThreadsActivity)getActivity()).threadsDirectMap.add(thread);
 		}
-		for(boolean b : threadStatus)
-			b = false;
-		for(int l : extraEntries)
-			l = 0;
+		for(int d = 0; d < threadStatus.length; d++)
+			threadStatus[d] = false;
+		for(int l = 0; l < extraEntries.length; l++)
+			extraEntries[l] = 0;
 		
 		// Opens threads with unread posts in them
 				ArrayList<Integer> toOpenIndexes = new ArrayList<Integer>(); // list of indexes to open
@@ -221,5 +227,51 @@ public class DisplayThreadsFragment extends Fragment {
 				return x;
 			}
 		return -1;
+	}
+	
+	public void addThreads(ArrayList<PostThread> newThreads)
+	{
+		boolean[] newThreadStatus = new boolean[threadStatus.length + newThreads.size()];
+		int[] newExtraEntries = new int[extraEntries.length + newThreads.size()];
+		
+		for(int p = 0; p < threadStatus.length; p++)
+			newThreadStatus[p] = threadStatus[p];
+		for(int c = 0; c < extraEntries.length; c++)
+			newExtraEntries[c] = extraEntries[c];
+		
+		for(PostThread thread : newThreads)
+		{
+			rootThreads.add(thread);
+			threads.add(thread);
+			((DisplayThreadsActivity)getActivity()).threadsDirectMap.add(thread);
+		}
+		threadStatus = newThreadStatus;
+		extraEntries = newExtraEntries;
+		
+		listAdapter.clear();
+		listAdapter.addAll(threads);
+		listAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem,
+			int visibleItemCount, int totalItemCount) {
+		if(view.getId() == android.R.id.list)
+		{
+			int lastItem = firstVisibleItem + visibleItemCount;
+			if(lastItem == totalItemCount && threads != null && threads.size() != 0 && !((DisplayThreadsActivity)getActivity()).requestedAdditionalThreads)
+			{
+				hc.getNewsgroupThreadsByDate(newsgroupName, threads.get(threads.size() - 1).date, 20);
+				((DisplayThreadsActivity)getActivity()).requestedAdditionalThreads = true;
+				//Log.d("MyDebugging", "We're at the bottom!");
+			}
+		}
+		
+	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		// TODO Auto-generated method stub
+		
 	}
 }
