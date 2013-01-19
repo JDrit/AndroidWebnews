@@ -66,7 +66,7 @@ public class PostFragment extends Fragment {
 		contents.add("Subject: " + myThread.subject);
 		contents.add("Post Date: " + myThread.getDate());
 		swapBodies();
-		contents.add(body);
+		contents.add("[Post loading...]");
 		
 		listAdapter = new PostFragmentAdapter<String>(getActivity(), R.layout.rowlayout, contents);
 		
