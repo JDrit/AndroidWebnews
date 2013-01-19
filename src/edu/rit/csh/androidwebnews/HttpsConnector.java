@@ -270,7 +270,7 @@ public class HttpsConnector {
 	 * 			[2] - the number of unread replies to a user's post
 	 */
 	public int[] getUnreadCount() {
-		//String url = formatUrl(mainUrl + "/unread_counts", new LinkedList<NameValuePair>());
+		String url = formatUrl("unread_counts", new LinkedList<NameValuePair>());
 		int[] unreadStatuses = new int[3];
 		try {
 			JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl("newsgroups", new ArrayList<NameValuePair>())).get()).getJSONObject("unread_counts");
@@ -291,7 +291,7 @@ public class HttpsConnector {
 	 * Marks all post read
 	 */
 	public void markRead() {
-		String url = "";//formatUrl(mainUrl + "/mark_read", new ArrayList<NameValuePair>());
+		String url = formatUrl("mark_read", new ArrayList<NameValuePair>()).toString();
 		BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
 		BasicNameValuePair allVP = new BasicNameValuePair("all_posts", "");
 		
@@ -305,7 +305,7 @@ public class HttpsConnector {
 	 * @param id
 	 */
 	public void markRead(String newsgroup, int id) {
-		String url = "";//formatUrl(mainUrl + "/mark_read", new ArrayList<NameValuePair>());
+		String url = formatUrl("mark_read", new ArrayList<NameValuePair>()).toString();
 		BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
 		BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
 		BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
@@ -320,7 +320,7 @@ public class HttpsConnector {
 	 * @param id - the id of the post
 	 */
 	public void markUnread(String newsgroup, int id) {
-		String url = "";//formatUrl(mainUrl + "/mark_read", new ArrayList<NameValuePair>());
+		String url = formatUrl("mark_read", new ArrayList<NameValuePair>()).toString();
 		BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
 		BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
 		BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
