@@ -64,6 +64,7 @@ public class HttpsConnector {
 		}
 		return new ArrayList<Newsgroup>();
 	}
+
 	
 	/**
 	 * Gets the newsgroups from a string representation of a JSON Object. This is used
@@ -93,11 +94,15 @@ public class HttpsConnector {
 	 * @return ArrayList<Thread> - list of the 20 newest or sticky threads
 	 */
 	public void getNewest() {
-		ArrayList<PostThread> threads = new ArrayList<PostThread>();
-		String url = formatUrl(mainUrl + "/activity", new LinkedList<NameValuePair>());
+		String url = formatUrl(mainUrl + "/activity", new ArrayList<NameValuePair>());
 		new HttpsGetAsyncTask(httpclient, true, activity).execute(url);
 	}
 	
+	/**
+	 * Takes the string from the async task and makes a list of PostThreads
+	 * @param s - the string from the async task
+	 * @return ArrayList<PostThread> - list of recent threads
+	 */
 	public ArrayList<PostThread> getNewestFromString(String s) {
 		ArrayList<PostThread> threads = new ArrayList<PostThread>();
 		
@@ -126,8 +131,15 @@ public class HttpsConnector {
 		} catch (JSONException e) {
 			Log.d("jsonError", "JSONException");
 		}
-		
 		return threads;
+	}
+	
+	/**
+	 * Starts a async task to get the results of a search query
+	 * @param params - ArrayList<NameValuePair> of the parameters for the search query
+	 */
+	public void search(ArrayList<NameValuePair> params) {
+		new HttpsGetAsyncTask(httpclient, true, activity).execute(formatUrl(mainUrl + "/activity", params));
 	}
 	
 	/**
@@ -246,6 +258,8 @@ public class HttpsConnector {
 		}
 		return unreadStatuses;
 	}
+	
+
 	
 	/**
 	 * Marks all post read

@@ -34,7 +34,7 @@ public class RecentFragment extends Fragment {
 	    String apiKey = sharedPref.getString("api_key", "");
 		hc = new HttpsConnector(apiKey, getActivity());
 		
-		hc.getNewest();
+		
 		
 		listAdapter = new RecentListAdapter<PostThread>(getActivity(), R.layout.rowlayout, new ArrayList<PostThread>());
 		lv.setAdapter(listAdapter);
