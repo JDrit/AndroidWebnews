@@ -61,7 +61,9 @@ public class PostFragment extends Fragment {
 		body = "";
 		
     	contents.add(myThread.number + "");
+		contents.add("Newsgroup: " + myThread.newsgroup);
 		contents.add("Author Name: " + myThread.authorName);
+		contents.add("Subject: " + myThread.subject);
 		contents.add("Post Date: " + myThread.getDate());
 		swapBodies();
 		contents.add(body);
@@ -77,10 +79,10 @@ public class PostFragment extends Fragment {
 			public void onItemClick(AdapterView<?> adapter, View arg1, int position,
 					long id) {
 				Log.d("MyDebugging", "Clicky!");
-				if(position == 3)
+				if(position == 5)
 				{
 					swapBodies();
-					contents.remove(3);
+					contents.remove(5);
 					contents.add(body);
 					//listAdapter.clear();
 					//listAdapter.addAll(contents);
@@ -165,7 +167,7 @@ public class PostFragment extends Fragment {
 		this.otherBody = otherBody;
 		processBody();
 		//swapBodies();
-		contents.remove(3);
+		contents.remove(5);
 		contents.add(body);
 		listAdapter.notifyDataSetChanged();
 	}

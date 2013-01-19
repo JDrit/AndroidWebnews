@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -83,6 +84,8 @@ public class NewsgroupListMenu {
 	    menuSize = dpToPx(250, act);
 	    content = ((LinearLayout) act.findViewById(android.R.id.content).getParent());
 	    FrameLayout.LayoutParams parm = (FrameLayout.LayoutParams) content.getLayoutParams();
+	    parm.gravity = Gravity.TOP;
+	    statusHeight = 0;
 	    parm.setMargins(menuSize, 0, -menuSize, 0);
 	    content.setLayoutParams(parm);
 	//animation for smooth slide-out

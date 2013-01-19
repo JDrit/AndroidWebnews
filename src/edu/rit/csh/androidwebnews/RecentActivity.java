@@ -96,5 +96,18 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		myIntent.putExtra("SELECTED_NEWSGROUP", newsgroupName);
 		startActivity(myIntent);
 	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		if(newsgroupListMenu.newsgroupAdapter != null)
+		{
+			newsgroupListMenu.newsgroupAdapter.clear();
+			for(Newsgroup ng : newsgroupListMenu.newsgroupList)
+				newsgroupListMenu.newsgroupAdapter.add(ng);
+			newsgroupListMenu.newsgroupAdapter.notifyDataSetChanged();
+		}
+	}
 
 }
