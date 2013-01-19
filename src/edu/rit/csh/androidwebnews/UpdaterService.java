@@ -65,6 +65,7 @@ public class UpdaterService extends IntentService {
 					  } else {
 						  mBuilder.setContentText(statuses[1] + " unread posts in your thread");
 					  }
+					  
 				  } else {
 					  if (statuses[0] == 1) {
 						  mBuilder.setContentText(statuses[0] + " unread post");
