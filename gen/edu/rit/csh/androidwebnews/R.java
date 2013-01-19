@@ -83,8 +83,9 @@ public final class R {
         public static final int postbuttons=0x7f03000c;
         public static final int rowlayout=0x7f03000d;
         public static final int search_fragment=0x7f03000e;
-        public static final int thread_progress_bar=0x7f03000f;
-        public static final int threadlayout=0x7f030010;
+        public static final int search_result_textview=0x7f03000f;
+        public static final int thread_progress_bar=0x7f030010;
+        public static final int threadlayout=0x7f030011;
     }
     public static final class menu {
         public static final int activity_default=0x7f090000;

@@ -45,18 +45,18 @@ public class SettingsActivity extends PreferenceActivity {
 	 * shown on tablets.
 	 */
 	private static final boolean ALWAYS_SIMPLE_PREFS = false;
-	
+
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+
 		super.onCreate(savedInstanceState);
 		//getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
 		 addPreferencesFromResource(R.xml.preferences);
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		sharedPref.registerOnSharedPreferenceChangeListener(listener);
 	}
-	
+
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
@@ -69,14 +69,14 @@ public class SettingsActivity extends PreferenceActivity {
 	 * to reflect its new value.
 	 */
 	OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-		
-		
+
+
 		public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {		
-			
+
 			Intent intent = new Intent(SettingsActivity.this, UpdaterService.class);
 			PendingIntent pintent = PendingIntent.getService(SettingsActivity.this, 0, intent, 0);
 			AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-			
+
 			// if the run service is selected, an alarm is started to repeat over given time
 			if (prefs.getBoolean("run_service", false)) {
 				alarm.cancel(pintent);
@@ -86,6 +86,6 @@ public class SettingsActivity extends PreferenceActivity {
 			}
 		}
 	};
-	
-	
+
+
 }

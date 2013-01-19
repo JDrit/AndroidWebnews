@@ -105,7 +105,6 @@ public class HttpsConnector {
 					count = "null";
 				}
 				//String count = jArray.getJSONObject(i).getString("unread_class");
-				Log.d("jddebug - recent", "" + jArray.getJSONObject(i).getInt("unread_count"));
 				threads.add(new PostThread(newObj.getString("date"), 
 						newObj.getInt("number"), 
 						newObj.getString("subject"),
@@ -265,7 +264,8 @@ public class HttpsConnector {
 		URI url = formatUrl("unread_counts", new LinkedList<NameValuePair>());
 		int[] unreadStatuses = new int[3];
 		try {
-			JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl("newsgroups", new ArrayList<NameValuePair>())).get()).getJSONObject("unread_counts");
+			JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, false, activity).execute(url).get()).getJSONObject("unread_counts");
+			Log.d("jddebug", jObj.toString());
 			unreadStatuses[0] = jObj.getInt("normal");
 			unreadStatuses[1] = jObj.getInt("in_thread");
 			unreadStatuses[2] = jObj.getInt("in_reply");
@@ -358,6 +358,7 @@ public class HttpsConnector {
 		//	url += "?";
 		//}
 		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+		Log.d("jddebug - HttpsConnector", sharedPref.getString("api_key", ""));
 		params.add(new BasicNameValuePair("api_key", sharedPref.getString("api_key", "")));
 		params.add(new BasicNameValuePair("api_agent", "Android_Webnews"));
 		if (addOns.size() != 0) {
@@ -367,6 +368,8 @@ public class HttpsConnector {
 		String paramString = URLEncodedUtils.format(params,  "utf-8");
 		//url += paramString;
 		try {
+			Log.d("jddebug - HttpsConnector", URIUtils.createURI("https", "webnews.csh.rit.edu", -1, "/" + addOn, 
+				    URLEncodedUtils.format(params, "UTF-8"), null).toString());
 			return URIUtils.createURI("https", "webnews.csh.rit.edu", -1, "/" + addOn, 
 				    URLEncodedUtils.format(params, "UTF-8"), null);
 		} catch (URISyntaxException e) {
