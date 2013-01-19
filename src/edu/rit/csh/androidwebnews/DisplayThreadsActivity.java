@@ -131,6 +131,8 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 				else
 				{
 					ArrayList<PostThread> newThreads = hc.getThreadsFromString(jsonString);
+					for(PostThread thread : newThreads)
+						lastFetchedThreads.add(thread);
 					dtf.addThreads(newThreads);
 					requestedAdditionalThreads = false;
 				}
