@@ -67,9 +67,22 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 	
 	public void markUnread(View view) {
 		int threadId = Integer.parseInt((String)view.getTag());
-		Log.d("id", threadId + "");
-		Log.d("id", newsgroupName);
+		findThisThread(rootThread, threadId).unread = "manual";
 		hc.markUnread(newsgroupName, threadId);
+	}
+	
+	private PostThread findThisThread(PostThread thread, int id)
+	{
+		if(thread.number == id)
+			return thread;
+		else
+			for(PostThread t : thread.children)
+			{
+				PostThread returnValue = findThisThread(t,id);
+				if(returnValue != null)
+					return null;
+			}
+		return null;
 	}
 	
 	public void postReply(View view) {

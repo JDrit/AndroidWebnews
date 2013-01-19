@@ -24,6 +24,7 @@ public class DisplayThreadsFragment extends Fragment {
 	boolean[] threadStatus;
 	DisplayThreadsListAdapter<PostThread> listAdapter;
 	int[] extraEntries;
+	HttpsConnector hc;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -38,7 +39,7 @@ public class DisplayThreadsFragment extends Fragment {
 
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
-		HttpsConnector hc = new HttpsConnector(apiKey, getActivity());
+		hc = new HttpsConnector(apiKey, getActivity());
 		//hc.getNewsgroupThreads(newsgroupName, 20);
 	    threads = new ArrayList<PostThread>();//hc.getNewsgroupThreads(newsgroupName, 20);
 	    rootThreads = new ArrayList<PostThread>();
@@ -160,7 +161,12 @@ public class DisplayThreadsFragment extends Fragment {
 	{
 		super.onResume();
 		if(listAdapter != null)
+		{
+			hc.getNewsGroups();
+			listAdapter.clear();
+			listAdapter.addAll(threads);
 			listAdapter.notifyDataSetChanged();
+		}
 	}
 	
 	public void update(ArrayList<PostThread> threads)
