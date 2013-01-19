@@ -20,6 +20,7 @@ public class RecentFragment extends Fragment {
 	RecentListAdapter<PostThread> listAdapter;
 	NewsgroupListMenu newsgroupListMenu;
 	ArrayList<PostThread> recentPostThreads;
+	HttpsConnector hc;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class RecentFragment extends Fragment {
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
-		HttpsConnector hc = new HttpsConnector(apiKey, getActivity());
+		hc = new HttpsConnector(apiKey, getActivity());
 		
 		hc.getNewest();
 		
@@ -75,11 +76,8 @@ public class RecentFragment extends Fragment {
 		Log.d("MyDebugging", "Refreshing view!");
 		if(listAdapter != null)
 		{
-			listAdapter.clear();
-			for (PostThread t : recentPostThreads) {
-				listAdapter.add(t);
-			}
-			listAdapter.notifyDataSetChanged();
+			hc.getNewsGroups();
+			hc.getNewest();
 		}
 	}
 }

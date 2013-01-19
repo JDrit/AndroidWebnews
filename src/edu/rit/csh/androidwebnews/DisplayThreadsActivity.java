@@ -140,4 +140,6 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		startActivity(myIntent);
 		finish();
 	}
+	
+	
 }

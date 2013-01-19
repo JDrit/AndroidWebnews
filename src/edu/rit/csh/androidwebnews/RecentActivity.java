@@ -103,10 +103,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		super.onResume();
 		if(newsgroupListMenu.newsgroupAdapter != null)
 		{
-			newsgroupListMenu.newsgroupAdapter.clear();
-			for(Newsgroup ng : newsgroupListMenu.newsgroupList)
-				newsgroupListMenu.newsgroupAdapter.add(ng);
-			newsgroupListMenu.newsgroupAdapter.notifyDataSetChanged();
+			hc.getNewsGroups();
 		}
 	}
 
