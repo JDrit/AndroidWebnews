@@ -1,5 +1,8 @@
 package edu.rit.csh.androidwebnews;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.Activity;
@@ -15,7 +18,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 public class PostSwipableActivity extends FragmentActivity implements ActivityInterface {
-	
+	InvalidApiKeyDialog dialog;
 	public static String newsgroupName;
 	public static int id;
 	PostPagerAdapter ppa;
@@ -27,14 +30,8 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_post_swipable);
-		
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-	    String apiKey = sharedPref.getString("api_key", "");	    
-	    hc = new HttpsConnector(apiKey, this);	    	    
-	    if (!hc.validApiKey()) {
-	         new InvalidApiKeyDialog(this).show();
-	    }
+		setContentView(R.layout.activity_post_swipable);	    	    
+	    hc = new HttpsConnector(this);
 		
 		Bundle extras = getIntent().getExtras();
 		newsgroupName = extras.getString("SELECTED_NEWSGROUP");
@@ -48,7 +45,7 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 		Log.d("MyDebugging", "ViewPager found");
 		mViewPager.setAdapter(ppa);
 		Log.d("MyDebugging", "adapter set");
-		
+		dialog = new InvalidApiKeyDialog(this);
 		mViewPager.setCurrentItem(selected_id);
 		Log.d("MyDebugging","current item set");
 		
@@ -103,12 +100,13 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 		case R.id.menu_settings:
 			startActivity(new Intent(this, SettingsActivity.class));
 			return true;
-		
-		case R.id.menu_refresh:
 			
-			return true;
 		case R.id.menu_about:
 			startActivity(new Intent(this, InfoActivity.class));
+			return true;
+			
+		case R.id.menu_search:
+			startActivity(new Intent(this, SearchActivity.class));
 			return true;
 		}
 		return false;
@@ -116,13 +114,25 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 
 	@Override
 	public void update(String jsonString) {
-		Log.d("jddebug", jsonString);
-		ppa.update(jsonString);
+		try {
+			JSONObject obj = new JSONObject(jsonString);
+			Log.d("jddebug", jsonString);
+			if (obj.has("error")) {
+				if (!dialog.isShowing()) {
+					dialog.show();
+				}
+			} else {
+				ppa.update(jsonString);
+			}
+		} catch (JSONException e) {
+			
+		}
+
 	}
 
 	@Override
 	public void onNewsgroupSelected(String newsgroupName) {
-		
+		//intentionally blank
 		
 	}
 
