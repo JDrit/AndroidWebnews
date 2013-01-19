@@ -1,0 +1,6 @@
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"  
+    	android:name="edu.rit.csh.androidwebnews.SearchListFragment"
+        android:id="@+id/search_list_fragment"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />

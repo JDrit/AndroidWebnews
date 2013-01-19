@@ -9,8 +9,10 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.DatePicker;
@@ -41,6 +43,7 @@ public class SearchFragment extends Fragment {
 		
 		((DatePicker) view.findViewById(R.id.search_datePicker1)).updateDate(year, month, dayOfMonth);
 		spinner.setAdapter(listAdapter);
+		
 		return view;
 	}
 
