@@ -26,6 +26,7 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 	PostThread rootThread;
 	HttpsConnector hc;
 	PostFragment pf;
+	boolean fromSearch = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,11 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 		newsgroupName = extras.getString("SELECTED_NEWSGROUP");
 		id = extras.getInt("SELECTED_ID");	
 		int selected_id = extras.getInt("GOTO_THIS");
+		boolean fromSearch = extras.getBoolean("SEARCH_RESULTS");
 		
 		Log.d("MyDebugging", "PostSwipableActivity creation started");
-		ppa = new PostPagerAdapter(getSupportFragmentManager());
+		Log.d("MyDebugging", "fromSearch = " + fromSearch);
+		ppa = new PostPagerAdapter(getSupportFragmentManager(), fromSearch);
 		Log.d("MyDebugging", "ppa made");
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		Log.d("MyDebugging", "ViewPager found");

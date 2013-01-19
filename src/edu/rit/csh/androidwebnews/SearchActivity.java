@@ -101,10 +101,6 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 		
 	}
 	
-	public void onSelectThread(String s) {
-		
-	}
-	
 	public void search(View view) {
 		Log.d("newdebug", "Updating search!");
 		hc.search(sf.getParams());

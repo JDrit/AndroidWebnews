@@ -22,7 +22,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class SearchListFragment extends Fragment {
+public class SearchResultsFragment extends Fragment {
 	HttpsConnector hc;
 	ArrayList<String> threads;
 	ArrayAdapter<String> listAdapter;
@@ -39,7 +39,7 @@ public class SearchListFragment extends Fragment {
 		hc = new HttpsConnector(getActivity());
 		//hc.getNewsGroups();
 		
-		listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.rowlayout, threads);
+		listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.search_result_textview, threads);
 		
 		
 		mainListView.setAdapter(listAdapter);
@@ -52,8 +52,8 @@ public class SearchListFragment extends Fragment {
 			public void onItemClick(AdapterView<?> adapter, View arg1, int position,
 					long id) {
 				Log.d("MyDebugging", "Clicky!");
-				String value = (String) adapter.getItemAtPosition(position);
-				((SearchActivity)getActivity()).onSelectThread(value);
+				//String value = (String) adapter.getItemAtPosition(position);
+				((SearchResultsActivity)getActivity()).onSelectThread(position);
 			}
 			
 		});
