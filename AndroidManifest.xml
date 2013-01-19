@@ -53,7 +53,12 @@
 
         <activity
             android:name="edu.rit.csh.androidwebnews.SearchActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_search" >
+        </activity>
+        <activity
+            android:name="edu.rit.csh.androidwebnews.SearchResultsActivity"
+            android:label="@string/title_activity_search_results" >
         </activity>
     </application>
 

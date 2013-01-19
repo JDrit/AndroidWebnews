@@ -15,11 +15,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 public class SearchActivity extends FragmentActivity implements ActivityInterface {
 	HttpsConnector hc;
 	SearchFragment sf;
-	SearchListFragment slf;
+	boolean buttonPushed = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +36,6 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 	    }
 	    hc.getNewsGroups(); // used for list of newsgroups to look through
 	    sf = (SearchFragment) getSupportFragmentManager().findFragmentById(R.id.search_fragment);
-	    slf = new SearchListFragment(this, new ArrayList<String>());
-	    
 	}
 
 	@Override
@@ -69,11 +69,28 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 
 	@Override
 	public void update(String jsonString) {
-		ArrayList<String> subjects = new ArrayList<String>();
-		for (PostThread thread : hc.getSearchFromString(jsonString)) {
-			subjects.add(thread.subject);
+		JSONObject obj;
+		try {
+			obj = new JSONObject(jsonString);
+			
+			if(obj.has("newsgroups")) // newsgroups
+			{
+				sf.update(hc.getNewsGroupFromString(jsonString));
+			}
+			else  // other
+			{
+				if(buttonPushed)
+				{
+					Intent myIntent = new Intent(SearchActivity.this, SearchResultsActivity.class);
+					myIntent.putExtra("SEARCH_RESULTS", jsonString);
+					startActivity(myIntent);
+				}
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		slf.update(subjects);
+		
 	}
 	
 	@Override
@@ -87,10 +104,9 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 	}
 	
 	public void search(View view) {
-		Log.d("newdebug", sf.getParams().toString());
+		Log.d("newdebug", "Updating search!");
 		hc.search(sf.getParams());
-		//setContentView(slf);
-		
+		buttonPushed = true;
 	}
 }
  

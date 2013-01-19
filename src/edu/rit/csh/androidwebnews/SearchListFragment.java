@@ -27,20 +27,17 @@ public class SearchListFragment extends Fragment {
 	ArrayList<String> threads;
 	ArrayAdapter<String> listAdapter;
 	
-	public SearchListFragment(Context context, ArrayList<String> threads)
-	{
-		this.threads = threads;
-	}
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
+		threads = SearchResultsActivity.searchResults;
+		
+		Log.d("MyDebugging","Starting SearchListFragment view creation");
 		ListView mainListView = new ListView(getActivity());
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
 		hc = new HttpsConnector(apiKey, getActivity());
 		//hc.getNewsGroups();
-		
 		
 		listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.rowlayout, threads);
 		
@@ -60,6 +57,7 @@ public class SearchListFragment extends Fragment {
 			}
 			
 		});
+		Log.d("MyDebugging","SearchListFragment view creation done");
 		
 		return mainListView;
 	
@@ -67,11 +65,14 @@ public class SearchListFragment extends Fragment {
 	
 	public void update(ArrayList<String> threads)
 	{
-		this.threads = threads;
-		listAdapter.clear();
-		for(String s : threads)
-			listAdapter.add(s);
-		listAdapter.notifyDataSetChanged();
+		if(listAdapter != null)
+		{
+			this.threads = threads;
+			listAdapter.clear();
+			for(String s : threads)
+				listAdapter.add(s);
+			listAdapter.notifyDataSetChanged();
+		}
 	}
 
 }
