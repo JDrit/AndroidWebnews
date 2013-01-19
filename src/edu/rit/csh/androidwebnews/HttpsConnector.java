@@ -273,6 +273,16 @@ public class HttpsConnector {
 		Log.d("jsonurl", url);
 		new HttpsPutAsyncTask(httpclient).execute(urlVP, newsgroupVP, numberVP);
 	}
+	
+	public void markUnread(String newsgroup, int id) {
+		String url = formatUrl(mainUrl + "/mark_read", new ArrayList<NameValuePair>());
+		BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
+		BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
+		BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
+		BasicNameValuePair markUnreadVP = new BasicNameValuePair("mark_unread", "");
+		
+		new HttpsPutAsyncTask(httpclient).execute(urlVP, newsgroupVP, numberVP, markUnreadVP);
+	}
 
 	/**
 	 * Validates that the API key is valid
