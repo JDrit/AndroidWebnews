@@ -1,5 +1,7 @@
 package edu.rit.csh.androidwebnews;
 
+import java.util.ArrayList;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,6 +19,7 @@ import android.support.v4.app.FragmentActivity;
 public class SearchActivity extends FragmentActivity implements ActivityInterface {
 	HttpsConnector hc;
 	SearchFragment sf;
+	SearchListFragment slf;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,7 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 	    }
 	    hc.getNewsGroups(); // used for list of newsgroups to look through
 	    sf = (SearchFragment) getSupportFragmentManager().findFragmentById(R.id.search_fragment);
+	    slf = new SearchListFragment(this, new ArrayList<String>());
 	    
 	}
 
@@ -65,9 +69,11 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 
 	@Override
 	public void update(String jsonString) {
-		Log.d("jddebug", "update act");
-		Log.d("jddebug2", jsonString);
-		sf.update(hc.getNewsGroupFromString(jsonString));
+		ArrayList<String> subjects = new ArrayList<String>();
+		for (PostThread thread : hc.getSearchFromString(jsonString)) {
+			subjects.add(thread.subject);
+		}
+		slf.update(subjects);
 	}
 	
 	@Override
@@ -76,8 +82,15 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 		
 	}
 	
+	public void onSelectThread(String s) {
+		
+	}
+	
 	public void search(View view) {
 		Log.d("newdebug", sf.getParams().toString());
 		hc.search(sf.getParams());
+		//setContentView(slf);
+		
 	}
 }
+ 

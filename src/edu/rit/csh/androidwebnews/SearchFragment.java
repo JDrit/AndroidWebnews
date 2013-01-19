@@ -36,10 +36,9 @@ public class SearchFragment extends Fragment {
 		
 		if (month == 0) {
 			month = 11;
-		} else {
-			month -= 1;
 			year -=1 ;
 		}
+		
 		((DatePicker) view.findViewById(R.id.search_datePicker1)).updateDate(year, month, dayOfMonth);
 		spinner.setAdapter(listAdapter);
 		return view;

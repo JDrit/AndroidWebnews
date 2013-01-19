@@ -209,6 +209,31 @@ public class HttpsConnector {
 		new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl("search", params));
 	}
 	
+	public ArrayList<PostThread> getSearchFromString(String s) {
+		ArrayList<PostThread> threads = new ArrayList<PostThread>();
+		
+		try {
+			JSONObject jObj = new JSONObject(s);
+			JSONArray jArray = jObj.getJSONArray("posts_older");
+
+			for (int i = 0 ; i < jArray.length() ; i++) {
+				JSONObject newObj = jArray.getJSONObject(i).getJSONObject("post");
+				threads.add(new PostThread(newObj.getString("date"), 
+						newObj.getInt("number"), 
+						newObj.getString("subject"),
+						newObj.getString("author_name"),
+						newObj.getString("author_email"),
+						newObj.getString("newsgroup"),
+						false,
+						"",
+						""));
+			}
+		} catch (JSONException e) {
+			Log.d("jsonError", "JSONException");
+		}
+		return threads;
+	}
+	
 	/**
 	 * Gets the post body for the post specified. This takes a newsgroup name and a
 	 * post ID number to find the post's body
@@ -219,7 +244,7 @@ public class HttpsConnector {
 	public void getPostBody(String newsgroup, int id) {
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
 		//String url = formatUrl(mainUrl + "/" + newsgroup + "/" + id, params);
-		new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl("newsgroups", new ArrayList<NameValuePair>()));
+		new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl(newsgroup + "/" + id, new ArrayList<NameValuePair>()));
 	}
 	
 	public String getPostBodyFromString(String jsonObj) {
@@ -289,6 +314,11 @@ public class HttpsConnector {
 		new HttpsPutAsyncTask(httpclient).execute(urlVP, newsgroupVP, numberVP);
 	}
 	
+	/**
+	 * Marks the given post as unread
+	 * @param newsgroup - the newsgroup name that the post is in
+	 * @param id - the id of the post
+	 */
 	public void markUnread(String newsgroup, int id) {
 		String url = "";//formatUrl(mainUrl + "/mark_read", new ArrayList<NameValuePair>());
 		BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
