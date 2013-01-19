@@ -1,5 +1,6 @@
 package edu.rit.csh.androidwebnews;
 
+import java.util.Collection;
 import java.util.List;
 
 import android.content.Context;
@@ -18,7 +19,7 @@ import android.widget.TextView;
  *
  * @param <T>
  */
-public class NewsgroupsListAdapter extends ArrayAdapter {
+public class NewsgroupsListAdapter<T> extends ArrayAdapter<T> {
 	Context context;
 	
 	public NewsgroupsListAdapter(Context context, List objects) {
@@ -46,6 +47,13 @@ public class NewsgroupsListAdapter extends ArrayAdapter {
         ((TextView)convertView.findViewById(R.id.threadtextview)).setText(text);
         ((Button) convertView.findViewById(R.id.Viewbutton)).setTag(position); */
         return convertView;
+	}
+	
+	@Override
+	public void addAll(Collection<? extends T> collection) {
+		for (T t : collection) {
+			add(t);
+		}
 	}
 
 }
