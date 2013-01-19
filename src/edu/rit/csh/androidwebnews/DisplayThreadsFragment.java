@@ -43,7 +43,7 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
-		hc = new HttpsConnector(apiKey, getActivity());
+		hc = new HttpsConnector(getActivity());
 		//hc.getNewsgroupThreads(newsgroupName, 20);
 	    threads = new ArrayList<PostThread>();//hc.getNewsgroupThreads(newsgroupName, 20);
 	    rootThreads = new ArrayList<PostThread>();

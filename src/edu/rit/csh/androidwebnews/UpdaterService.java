@@ -39,12 +39,13 @@ public class UpdaterService extends IntentService {
 		  Log.d("jddebug", "service started");
 		  SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		  String apiKey = sharedPref.getString("api_key", "");
-		  HttpsConnector hc = new HttpsConnector(apiKey, this);
+		  HttpsConnector hc = new HttpsConnector(this);
+		  int[] statuses = new int[3];
 		  
-		  if (hc.validApiKey()) {
+		  if ((statuses = hc.getUnreadCount()) != null) {
 			  Log.d("jddebug", "valid api key");
-			  int[] statuses = hc.getUnreadCount();
-			  
+			 //int[] statuses = hc.getUnreadCount();
+			  Log.d("jddebug - UpdaterService", statuses.toString());
 			  if (statuses[0] != 0) { // if there are new posts
 				  
 				  NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
@@ -92,11 +93,13 @@ public class UpdaterService extends IntentService {
 			  }
 			  Log.d("jddebug", "notify");
 		  } else {
-			  Log.d("jddebug", "invalid api key");
+			  Log.d("jddebug - UpdaterService", "invalid api key");
 			  NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 			  mBuilder.setContentTitle("CSH Webnews");
 			  mBuilder.setSmallIcon(android.R.drawable.alert_dark_frame);
 			  mBuilder.setContentText("Invalid API Key");
+			  mBuilder.setAutoCancel(true);
+			  
 		      // Creates an explicit intent for an Activity in your app
 			  Intent resultIntent = new Intent(this, SettingsActivity.class);
 			

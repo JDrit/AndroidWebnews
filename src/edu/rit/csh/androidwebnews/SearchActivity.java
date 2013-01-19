@@ -22,18 +22,18 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 	HttpsConnector hc;
 	SearchFragment sf;
 	boolean buttonPushed = false;
+	InvalidApiKeyDialog dialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
+		dialog = new InvalidApiKeyDialog(this);
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 	    String apiKey = sharedPref.getString("api_key", "");	    
-	    hc = new HttpsConnector(apiKey, this);	    	    
-	    if (!hc.validApiKey()) {
-	         new InvalidApiKeyDialog(this).show();
-	    }
+	    hc = new HttpsConnector(this);	    	    
+
 	    hc.getNewsGroups(); // used for list of newsgroups to look through
 	    sf = (SearchFragment) getSupportFragmentManager().findFragmentById(R.id.search_fragment);
 	}
@@ -53,16 +53,15 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 			return true;
 		
 		case R.id.menu_refresh:
-			//hc.getNewest();
+			hc.getNewsGroups();
 			return true;
 			
 		case R.id.menu_about:
 			startActivity(new Intent(this, InfoActivity.class));
 			return true;
-		
+			
 		case R.id.menu_search:
 			startActivity(new Intent(this, SearchActivity.class));
-			return true;
 		}
 		return false;
 	}
@@ -72,8 +71,11 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 		JSONObject obj;
 		try {
 			obj = new JSONObject(jsonString);
-			
-			if(obj.has("newsgroups")) // newsgroups
+			if (obj.has("error")) {
+				if (!dialog.isShowing()) {
+					dialog.show();
+				}
+			} else if(obj.has("newsgroups")) // newsgroups
 			{
 				sf.update(hc.getNewsGroupFromString(jsonString));
 			}

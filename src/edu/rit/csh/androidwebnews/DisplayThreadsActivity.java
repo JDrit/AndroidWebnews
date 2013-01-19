@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 public class DisplayThreadsActivity extends FragmentActivity implements ActivityInterface {
 	
 	public String newsgroupName;
+	InvalidApiKeyDialog dialog;
 	public ArrayList<PostThread> threadsDirectMap;
 	static public ArrayList<PostThread> lastFetchedThreads = new ArrayList<PostThread>();
 	DisplayThreadsFragment dtf;
@@ -40,12 +41,8 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 	    String apiKey = sharedPref.getString("api_key", "");	    
-	    hc = new HttpsConnector(apiKey, this);	
-	    
-	    if (!hc.validApiKey()) {
-	         new InvalidApiKeyDialog(this).show();
-	    }
-		
+	    hc = new HttpsConnector(this);
+	    dialog = new InvalidApiKeyDialog(this);
 		Bundle extras = getIntent().getExtras();
 		
 		if(extras != null)
@@ -104,12 +101,14 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 			return true;
 		
 		case R.id.menu_refresh:
-			startActivity(new Intent(this, DisplayThreadsActivity.class));
-			finish();
+			hc.getNewsgroupThreads(newsgroupName, 20);
 			return true;
+			
 		case R.id.menu_about:
 			startActivity(new Intent(this, InfoActivity.class));
 			return true;
+		case R.id.menu_search:
+			startActivity(new Intent(this, SearchActivity.class));
 		}
 		return false;
 	}
@@ -119,7 +118,11 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		Log.d("MyDebugging",jsonString);
 		try {
 			JSONObject obj = new JSONObject(jsonString);
-			if (obj.has("posts_older")) { 
+			if (obj.has("error")) {
+				if (!dialog.isShowing()) {
+					dialog.show();
+				}
+			} else if (obj.has("posts_older")) { 
 				if(!requestedAdditionalThreads)
 				{
 					Log.d("MyDebugging", "DisplayThreadsActivity updating the threads sdfk");

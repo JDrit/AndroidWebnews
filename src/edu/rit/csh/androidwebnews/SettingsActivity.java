@@ -46,6 +46,7 @@ public class SettingsActivity extends PreferenceActivity {
 	 */
 	private static final boolean ALWAYS_SIMPLE_PREFS = false;
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		

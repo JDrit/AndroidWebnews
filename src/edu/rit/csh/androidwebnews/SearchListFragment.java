@@ -36,7 +36,7 @@ public class SearchListFragment extends Fragment {
 		ListView mainListView = new ListView(getActivity());
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
-		hc = new HttpsConnector(apiKey, getActivity());
+		hc = new HttpsConnector(getActivity());
 		//hc.getNewsGroups();
 		
 		listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.rowlayout, threads);

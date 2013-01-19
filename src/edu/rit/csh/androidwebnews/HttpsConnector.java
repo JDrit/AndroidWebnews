@@ -15,6 +15,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 /**
@@ -23,6 +25,7 @@ import android.util.Log;
  * @author JD
  */
 public class HttpsConnector {
+	SharedPreferences sharedPref;
 	String mainUrl = "https://webnews.csh.rit.edu";
 	String apiKey;
 	WebnewsHttpClient httpclient;
@@ -30,14 +33,15 @@ public class HttpsConnector {
 	int numChildren;
 	Activity activity;
 
-	public HttpsConnector(String apiKey, Activity activity) {
+	public HttpsConnector(Activity activity) {
 		this.activity = activity;
 		httpclient = new WebnewsHttpClient(activity.getApplicationContext());
-		this.apiKey = apiKey;
+		sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);	
 	}
-	public HttpsConnector(String apiKey, Context context) {
+	
+	public HttpsConnector(Context context) {
 		httpclient = new WebnewsHttpClient(context);
-		this.apiKey = apiKey;
+	    sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 	}
 
 	/**
@@ -45,27 +49,8 @@ public class HttpsConnector {
 	 * @return ArrayList<Newsgroup> - the current newsgroups located on webnews, null if
 	 * there was an error in the procedure.
 	 */
-	public ArrayList<Newsgroup> getNewsGroups() {
-		ArrayList<Newsgroup> newsgroups = new ArrayList<Newsgroup>();
-		//String url = formatUrl(mainUrl + "/newsgroups", new LinkedList<NameValuePair>());
-		//Log.d("jsonurl", url);
-		try {
-			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl("newsgroups", new ArrayList<NameValuePair>())).get());
-			JSONArray jArray = new JSONArray(jObj.getString("newsgroups"));
-			for (int i = 0 ; i < jArray.length() ; i++) {
-				newsgroups.add(new Newsgroup(new JSONObject(jArray.getString(i)).getString("name"),
-						new JSONObject(jArray.getString(i)).getInt("unread_count"),
-						new JSONObject(jArray.getString(i)).getString("unread_class")));
-			}
-			return newsgroups;				
-		} catch (JSONException e) {
-			Log.d("jsonError", "JSONException");
-		} catch (InterruptedException e) {
-			Log.d("jsonError", "InterruptedException");
-		} catch (ExecutionException e) {
-			Log.d("jsonError", "ExecutionException");
-		}
-		return new ArrayList<Newsgroup>();
+	public void getNewsGroups() {
+		new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl("newsgroups", new ArrayList<NameValuePair>()));
 	}
 	
 	/**
@@ -209,6 +194,13 @@ public class HttpsConnector {
 		new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl("search", params));
 	}
 	
+	/**
+	 * Deals with the search results. This is a varient of getThreadsFromString but is
+	 * different since search results does not return children or unread statuses. Unread
+	 * statuses are set to read (null)
+	 * @param s
+	 * @return
+	 */
 	public ArrayList<PostThread> getSearchFromString(String s) {
 		ArrayList<PostThread> threads = new ArrayList<PostThread>();
 		
@@ -270,7 +262,7 @@ public class HttpsConnector {
 	 * 			[2] - the number of unread replies to a user's post
 	 */
 	public int[] getUnreadCount() {
-		String url = formatUrl("unread_counts", new LinkedList<NameValuePair>());
+		URI url = formatUrl("unread_counts", new LinkedList<NameValuePair>());
 		int[] unreadStatuses = new int[3];
 		try {
 			JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl("newsgroups", new ArrayList<NameValuePair>())).get()).getJSONObject("unread_counts");
@@ -279,6 +271,7 @@ public class HttpsConnector {
 			unreadStatuses[2] = jObj.getInt("in_reply");
 		} catch (JSONException e) {
 			Log.d("jsonError", "JSONException");
+			return null;
 		} catch (InterruptedException e) {
 			Log.d("jsonError", "InterruptedException");
 		} catch (ExecutionException e) {
@@ -365,7 +358,7 @@ public class HttpsConnector {
 		//	url += "?";
 		//}
 		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("api_key", apiKey));
+		params.add(new BasicNameValuePair("api_key", sharedPref.getString("api_key", "")));
 		params.add(new BasicNameValuePair("api_agent", "Android_Webnews"));
 		if (addOns.size() != 0) {
 			params.addAll(addOns);
@@ -414,9 +407,4 @@ public class HttpsConnector {
 		}
 		return null;
 	}
-	
-
-	
-
-
 }

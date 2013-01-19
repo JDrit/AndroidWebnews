@@ -32,7 +32,7 @@ public class RecentFragment extends Fragment {
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
-		hc = new HttpsConnector(apiKey, getActivity());
+		hc = new HttpsConnector(getActivity());
 		
 		
 		

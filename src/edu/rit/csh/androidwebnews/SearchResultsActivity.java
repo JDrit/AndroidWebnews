@@ -23,13 +23,10 @@ public class SearchResultsActivity extends FragmentActivity {
 		
 		Bundle extras = getIntent().getExtras();
 		
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-	    String apiKey = sharedPref.getString("api_key", "");
-		
 		if(extras != null)
 		{
 			String jsonString = extras.getString("SEARCH_RESULTS");
-			ArrayList<PostThread> threads = new HttpsConnector(apiKey, this).getSearchFromString(jsonString);
+			ArrayList<PostThread> threads = new HttpsConnector(this).getSearchFromString(jsonString);
 			for(PostThread thread : threads)
 				searchResults.add(thread.toString());
 		}

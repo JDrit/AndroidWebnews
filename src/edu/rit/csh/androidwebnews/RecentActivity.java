@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 public class RecentActivity extends FragmentActivity implements ActivityInterface {
+	InvalidApiKeyDialog dialog;
 	ProgressDialog p;
 	RecentFragment rf;
 	HttpsConnector hc;
@@ -31,12 +32,9 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		newsgroupListMenu = new NewsgroupListMenu(this);
 		newsgroupListMenu.checkEnabled();
 		
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-	    String apiKey = sharedPref.getString("api_key", "");	    
-	    hc = new HttpsConnector(apiKey, this);	    	    
-	    if (!hc.validApiKey()) {
-	         new InvalidApiKeyDialog(this).show();
-	    }
+    
+	    hc = new HttpsConnector( this);	    	    
+	    dialog = new InvalidApiKeyDialog(this);
 	    hc.getNewsGroups();
 		setContentView(R.layout.activity_recent);
 		rf = (RecentFragment)getSupportFragmentManager().findFragmentById(R.id.recent_fragment);
@@ -74,7 +72,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	public void onThreadSelected(final PostThread thread) {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 	    String apiKey = sharedPref.getString("api_key", "");	    
-	    HttpsConnector hc = new HttpsConnector(apiKey, this);
+	    HttpsConnector hc = new HttpsConnector(this);
 		//hc.getNewsgroupThreads(thread.newsgroup, 20);
 		Intent myIntent = new Intent(RecentActivity.this, DisplayThreadsActivity.class);
 		myIntent.putExtra("SELECTED_NEWSGROUP", thread.newsgroup);
@@ -85,7 +83,11 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	public void update(String jsonString) {
 		try {
 			JSONObject obj = new JSONObject(jsonString);
-			if (obj.has("activity")) { // recent
+			if (obj.has("error")) {
+				if (!dialog.isShowing()) {
+					dialog.show();
+				}
+			} else if (obj.has("activity")) { // recent
 				rf.update(hc.getNewestFromString(jsonString));
 			} else {  // newsgroups
 				newsgroupListMenu.update(hc.getNewsGroupFromString(jsonString));
