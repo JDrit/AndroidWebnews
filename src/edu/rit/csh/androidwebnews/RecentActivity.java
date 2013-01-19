@@ -59,7 +59,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 			return true;
 		
 		case R.id.menu_refresh:
-			hc.getNewest();
+			hc.getNewest(true);
 			return true;
 			
 		case R.id.menu_about:
