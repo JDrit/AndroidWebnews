@@ -42,13 +42,28 @@ public class HttpsConnector {
 	 * @return ArrayList<Newsgroup> - the current newsgroups located on webnews, null if
 	 * there was an error in the procedure.
 	 */
-	public void getNewsGroups() {
-		
+	public ArrayList<Newsgroup> getNewsGroups() {
+		ArrayList<Newsgroup> newsgroups = new ArrayList<Newsgroup>();
 		String url = formatUrl(mainUrl + "/newsgroups", new LinkedList<NameValuePair>());
-		new HttpsGetAsyncTask(httpclient, false, activity).execute(url);
-			
+		Log.d("jsonurl", url);
+		try {
+			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, false, activity).execute(url).get());
+			JSONArray jArray = new JSONArray(jObj.getString("newsgroups"));
+			for (int i = 0 ; i < jArray.length() ; i++) {
+				newsgroups.add(new Newsgroup(new JSONObject(jArray.getString(i)).getString("name"),
+						new JSONObject(jArray.getString(i)).getInt("unread_count"),
+						new JSONObject(jArray.getString(i)).getString("unread_class")));
+			}
+			return newsgroups;				
+		} catch (JSONException e) {
+			Log.d("jsonError", "JSONException");
+		} catch (InterruptedException e) {
+			Log.d("jsonError", "InterruptedException");
+		} catch (ExecutionException e) {
+			Log.d("jsonError", "ExecutionException");
+		}
+		return new ArrayList<Newsgroup>();
 	}
-
 	
 	/**
 	 * Gets the newsgroups from a string representation of a JSON Object. This is used
@@ -119,14 +134,6 @@ public class HttpsConnector {
 	}
 	
 	/**
-	 * Starts a async task to get the results of a search query
-	 * @param params - ArrayList<NameValuePair> of the parameters for the search query
-	 */
-	public void search(ArrayList<NameValuePair> params) {
-		new HttpsGetAsyncTask(httpclient, true, activity).execute(formatUrl(mainUrl + "/activity", params));
-	}
-	
-	/**
 	 * Gets the threads for a certain newsgroup. All the threads have an ArrayList
 	 * of their sub-threads.
 	 * @param name - the name of the newsgroup
@@ -169,7 +176,7 @@ public class HttpsConnector {
 		params.add(new BasicNameValuePair("thread_mode", "normal"));
 		params.add(new BasicNameValuePair("from_older", date));
 		String url = formatUrl(mainUrl + "/" + newsgroup + "/index", params);
-		new HttpsGetAsyncTask(httpclient, true, activity).execute(url);
+		new HttpsGetAsyncTask(httpclient, false, activity).execute(url);
 			
 	}
 	
@@ -187,6 +194,14 @@ public class HttpsConnector {
 			Log.d("jsonError", "JSONException");
 		} 
 		return new ArrayList<PostThread>();
+	}
+	
+	/**
+	 * Starts an async task to get the results of a search query
+	 * @param params - ArrayList<NameValuePair> of he parameters for the search query
+	 */
+	public void search(ArrayList<NameValuePair> params) {
+		new HttpsGetAsyncTask(httpclient, true, activity).execute(formatUrl(mainUrl + "/activity", params));
 	}
 	
 	/**
@@ -242,8 +257,6 @@ public class HttpsConnector {
 		}
 		return unreadStatuses;
 	}
-	
-
 	
 	/**
 	 * Marks all post read

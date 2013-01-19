@@ -30,6 +30,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	DisplayThreadsFragment dtf;
 	HttpsConnector hc;
 	NewsgroupListMenu newsgroupListMenu;
+	public boolean requestedAdditionalThreads = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -118,12 +119,21 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		Log.d("MyDebugging",jsonString);
 		try {
 			JSONObject obj = new JSONObject(jsonString);
-			if (obj.has("posts_older")) { // recent
-				Log.d("MyDebugging", "DisplayThreadsActivity updating the threads sdfk");
-				ArrayList<PostThread> threads = hc.getThreadsFromString(jsonString);
-				lastFetchedThreads.clear();
-				lastFetchedThreads = (ArrayList<PostThread>) threads.clone();
-				( dtf).update(threads);
+			if (obj.has("posts_older")) { 
+				if(!requestedAdditionalThreads)
+				{
+					Log.d("MyDebugging", "DisplayThreadsActivity updating the threads sdfk");
+					ArrayList<PostThread> threads = hc.getThreadsFromString(jsonString);
+					lastFetchedThreads.clear();
+					lastFetchedThreads = (ArrayList<PostThread>) threads.clone();
+					dtf.update(threads);
+				}
+				else
+				{
+					ArrayList<PostThread> newThreads = hc.getThreadsFromString(jsonString);
+					dtf.addThreads(newThreads);
+					requestedAdditionalThreads = false;
+				}
 			} else {  // newsgroups
 				Log.d("MyDebugging", "DisplayThreadsActivity updating the newsgroups sdf");
 				newsgroupListMenu.update(hc.getNewsGroupFromString(jsonString));
@@ -140,6 +150,4 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		startActivity(myIntent);
 		finish();
 	}
-	
-	
 }
