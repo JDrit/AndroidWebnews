@@ -72,7 +72,7 @@ public class UpdaterService extends IntentService {
 				  }
 				  
 			      // Creates an explicit intent for an Activity in your app
-				  Intent resultIntent = new Intent(this, NewsgroupsListActivity.class);
+				  Intent resultIntent = new Intent(this, RecentActivity.class);
 				
 				  // The stack builder object will contain an artificial back stack for the
 				  // started Activity.
