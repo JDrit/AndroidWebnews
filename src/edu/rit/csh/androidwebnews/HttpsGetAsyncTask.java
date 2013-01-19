@@ -4,11 +4,14 @@ package edu.rit.csh.androidwebnews;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.HttpParams;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -19,7 +22,7 @@ import android.util.Log;
  * The asynchronous task used to do the get and post request
  * @author JD
  */
-public class HttpsGetAsyncTask extends AsyncTask<String, Integer, String> {
+public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
 	WebnewsHttpClient httpclient;
 	Activity activity;
 	boolean showProgress;
@@ -58,8 +61,9 @@ public class HttpsGetAsyncTask extends AsyncTask<String, Integer, String> {
 	 * @return String representation of page results
 	 */
 	@Override
-	protected String doInBackground(String... params) {
+	protected String doInBackground(URI... params) {
 		Log.d("jddebug", "back started");
+		Log.d("URI", params[0].toString());
 		try {
         	HttpGet request = new HttpGet(params[0]);
         	request.addHeader("accept", "application/json");
@@ -95,7 +99,6 @@ public class HttpsGetAsyncTask extends AsyncTask<String, Integer, String> {
 			Log.d("jddebug", "p ended");
 			Log.d("jddebug", activity.getLocalClassName());
 		}
-		Log.d("MyDebugging", "!s! "+ s);
 		if(activity != null)
 			((ActivityInterface) activity).update(s);
 		

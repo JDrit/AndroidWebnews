@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.support.v4.app.FragmentActivity;
 
 public class SearchActivity extends FragmentActivity implements ActivityInterface {
@@ -65,7 +66,7 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 	@Override
 	public void update(String jsonString) {
 		Log.d("jddebug", "update act");
-		Log.d("jddebug", jsonString);
+		Log.d("jddebug2", jsonString);
 		sf.update(hc.getNewsGroupFromString(jsonString));
 	}
 	
@@ -75,7 +76,8 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 		
 	}
 	
-	public void search() {
-		
+	public void search(View view) {
+		Log.d("newdebug", sf.getParams().toString());
+		hc.search(sf.getParams());
 	}
 }

@@ -29,8 +29,6 @@ public final class R {
         public static final int Viewbutton=0x7f0a0022;
         public static final int aboutButton=0x7f0a0002;
         public static final int aboutTextView=0x7f0a0001;
-        public static final int datePicker1=0x7f0a001b;
-        public static final int datePicker2=0x7f0a001c;
         public static final int imageView1=0x7f0a0020;
         public static final int list=0x7f0a0004;
         public static final int mainListView=0x7f0a000b;
@@ -53,6 +51,8 @@ public final class R {
         public static final int search_authors_edit=0x7f0a001a;
         public static final int search_authors_text=0x7f0a0019;
         public static final int search_button=0x7f0a001e;
+        public static final int search_datePicker1=0x7f0a001b;
+        public static final int search_datePicker2=0x7f0a001c;
         public static final int search_fragment=0x7f0a0009;
         public static final int search_from_text=0x7f0a0014;
         public static final int search_keywords_edit=0x7f0a0017;
@@ -81,7 +81,8 @@ public final class R {
         public static final int postbuttons=0x7f03000b;
         public static final int rowlayout=0x7f03000c;
         public static final int search_fragment=0x7f03000d;
-        public static final int threadlayout=0x7f03000e;
+        public static final int thread_progress_bar=0x7f03000e;
+        public static final int threadlayout=0x7f03000f;
     }
     public static final class menu {
         public static final int activity_default=0x7f090000;
