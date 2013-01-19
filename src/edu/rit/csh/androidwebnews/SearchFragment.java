@@ -1,8 +1,9 @@
 package edu.rit.csh.androidwebnews;
 
 import java.util.ArrayList;
-
-import android.content.Context;
+import java.util.Calendar;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,46 +11,78 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.DatePicker;
 
 public class SearchFragment extends Fragment {
 	View view;
-	ArrayList<Newsgroup> newsgroups;
 	ArrayAdapter<String> listAdapter;
 	ArrayList<String> groupNames;
+	Spinner spinner;
 	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.search_fragment, container, false);
-		newsgroups = new ArrayList<Newsgroup>();
 		groupNames = new ArrayList<String>();
 		
-		for (Newsgroup ng : newsgroups) {
-			groupNames.add(ng.name);
-		}
+		listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.rowlayout, groupNames);
+		spinner = ((Spinner) view.findViewById(R.id.search_newsgroup_list));
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+		int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
 		
-		listAdapter = new ArrayAdapter<String>(getActivity(), R.id.search_newsgroup_list, groupNames);
-		((Spinner) view.findViewById(R.id.search_newsgroup_list)).setAdapter(listAdapter);
+		if (month == 0) {
+			month = 11;
+		} else {
+			month -= 1;
+			year -=1 ;
+		}
+		((DatePicker) view.findViewById(R.id.search_datePicker1)).updateDate(year, month, dayOfMonth);
+		spinner.setAdapter(listAdapter);
 		return view;
 	}
 
 	public void update(ArrayList<Newsgroup> newsgroups) {
-		Log.d("jddebug", "update frag");
-		this.newsgroups = newsgroups;
-		Log.d("jddebug", "update frag2");
 		listAdapter.clear();
-		Log.d("jddebug", "update frag3");
-		for (Newsgroup ng : newsgroups) {
-			listAdapter.add(ng.name);
+		listAdapter.add("(All)");
+		for (Newsgroup newsgroup : newsgroups) {
+			listAdapter.add(newsgroup.name);
 		}
-//		/listAdapter.notifyDataSetChanged();
-		Log.d("jddebug", "update frag4");
 		
+		listAdapter.notifyDataSetChanged();	
+	}
+	
+	/**
+	 * Gets the user's input to give it to the activity to do the actual search
+	 * @return ArrayList<NameValuePair> - list of the parameters for the search
+	 */
+	public ArrayList<NameValuePair> getParams() {
+		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+		if (spinner.getSelectedItem() != "(All)") {
+			params.add(new BasicNameValuePair("newsgroup", (String) spinner.getSelectedItem()));
+		}
+		
+		params.add(new BasicNameValuePair("keywords", ((EditText) view.findViewById(R.id.search_keywords_edit)).getText().toString()));
+		params.add(new BasicNameValuePair("authors", ((EditText) view.findViewById(R.id.search_authors_edit)).getText().toString()));
+		
+		params.add(new BasicNameValuePair("date_from",  Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker1)).getYear()).toString() + 
+				"-" + Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker1)).getMonth() + 1).toString() + 
+				"-" +  Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker1)).getDayOfMonth()).toString()));
+		params.add(new BasicNameValuePair("date_to",  Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getYear()).toString() + 
+				"-" + Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getMonth() + 1).toString() + 
+				"-" +  Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getDayOfMonth()).toString()));
+		
+		/* params.add(new BasicNameValuePair("date_from",  Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker1)).getMonth() + 1).toString() + 
+				"-" + Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker1)).getDayOfMonth()).toString() + 
+				"-" + Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker1)).getYear()).toString() )); */
+		/*params.add(new BasicNameValuePair("date_to", Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getYear()).toString() + 
+				"-" + Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getMonth() + 1).toString() + 
+				"-" + Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getDayOfMonth()).toString())); */
+		
+		return params;
 	}
 
 }
