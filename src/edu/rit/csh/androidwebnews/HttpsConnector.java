@@ -16,6 +16,8 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -32,15 +34,21 @@ public class HttpsConnector {
 	int idCounter = 1;
 	int numChildren;
 	Activity activity;
+	NoInternetDialog dialog;
+	Context context;
 
 	public HttpsConnector(Activity activity) {
 		this.activity = activity;
+		context = activity.getApplicationContext();
+		dialog = new NoInternetDialog(activity);
 		httpclient = new WebnewsHttpClient(activity.getApplicationContext());
 		sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);	
 	}
 	
 	public HttpsConnector(Context context) {
 		httpclient = new WebnewsHttpClient(context);
+		this.context = context;
+		dialog = new NoInternetDialog(context);
 	    sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 	}
 
@@ -82,8 +90,11 @@ public class HttpsConnector {
 	 * @return ArrayList<Thread> - list of the 20 newest or sticky threads
 	 */
 	public void getNewest(boolean bol) {
-		//String url = formatUrl(mainUrl + "/activity", new ArrayList<NameValuePair>());
-		new HttpsGetAsyncTask(httpclient, bol, activity).execute(formatUrl("activity", new ArrayList<NameValuePair>()));
+		if (checkInternet()) {
+			new HttpsGetAsyncTask(httpclient, bol, activity).execute(formatUrl("activity", new ArrayList<NameValuePair>()));
+		} else {
+			dialog.show();
+		}
 	}
 	
 	/**
@@ -129,17 +140,20 @@ public class HttpsConnector {
 	 * @return ArrayList<Thread> - list of the top level threads for the newsgroup
 	 */
 	public void getNewsgroupThreads(String name, int amount) {
-		ArrayList<PostThread> threads = new ArrayList<PostThread>();
-		if (amount == -1) {
-			amount = 10;
-		} else if (amount > 20) {
-			amount = 20;
+		if (checkInternet()) {
+			if (amount == -1) {
+				amount = 10;
+			} else if (amount > 20) {
+				amount = 20;
+			}
+			List<NameValuePair> params = new LinkedList<NameValuePair>();
+			params.add(new BasicNameValuePair("limit", Integer.valueOf(amount).toString()));
+			params.add(new BasicNameValuePair("thread_mode", "normal"));
+			//String url = formatUrl(mainUrl + "/" + name + "/index", params);
+			new HttpsGetAsyncTask(httpclient, true, activity).execute(formatUrl(name + "/index", params));
+		} else {
+			dialog.show();
 		}
-		List<NameValuePair> params = new LinkedList<NameValuePair>();
-		params.add(new BasicNameValuePair("limit", new Integer(amount).toString()));
-		params.add(new BasicNameValuePair("thread_mode", "normal"));
-		//String url = formatUrl(mainUrl + "/" + name + "/index", params);
-		new HttpsGetAsyncTask(httpclient, true, activity).execute(formatUrl(name + "/index", params));
 	}
 	
 	/**
@@ -189,8 +203,11 @@ public class HttpsConnector {
 	 * @param params - ArrayList<NameValuePair> of he parameters for the search query
 	 */
 	public void search(ArrayList<NameValuePair> params) {
-		//Log.d("newdebug", formatUrl(mainUrl + "/search", params));
-		new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl("search", params));
+		if (checkInternet()) {
+			new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl("search", params));
+		} else {
+			dialog.show();
+		}
 	}
 	
 	/**
@@ -233,9 +250,11 @@ public class HttpsConnector {
 	 * @return String - the body of the post
 	 */
 	public void getPostBody(String newsgroup, int id) {
-		List<NameValuePair> params = new LinkedList<NameValuePair>();
-		//String url = formatUrl(mainUrl + "/" + newsgroup + "/" + id, params);
-		new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl(newsgroup + "/" + id, new ArrayList<NameValuePair>()));
+		if (checkInternet()) {
+			new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl(newsgroup + "/" + id, new ArrayList<NameValuePair>()));
+		} else {
+			dialog.show();
+		}
 	}
 	
 	public String getPostBodyFromString(String jsonObj) {
@@ -284,12 +303,16 @@ public class HttpsConnector {
 	 * Marks all post read
 	 */
 	public void markRead() {
-		String url = formatUrl("mark_read", new ArrayList<NameValuePair>()).toString();
-		BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
-		BasicNameValuePair allVP = new BasicNameValuePair("all_posts", "");
-		
-		Log.d("jsonurl", url);
-		new HttpsPutAsyncTask(httpclient).execute(urlVP, allVP);
+		if (checkInternet()) {
+			String url = formatUrl("mark_read", new ArrayList<NameValuePair>()).toString();
+			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
+			BasicNameValuePair allVP = new BasicNameValuePair("all_posts", "");
+			
+			Log.d("jsonurl", url);
+			new HttpsPutAsyncTask(httpclient).execute(urlVP, allVP);
+		} else {
+			dialog.show();
+		}
 	}
 	
 	/**
@@ -298,13 +321,17 @@ public class HttpsConnector {
 	 * @param id
 	 */
 	public void markRead(String newsgroup, int id) {
-		String url = formatUrl("mark_read", new ArrayList<NameValuePair>()).toString();
-		BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
-		BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
-		BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
-		
-		Log.d("jsonurl", url);
-		new HttpsPutAsyncTask(httpclient).execute(urlVP, newsgroupVP, numberVP);
+		if (checkInternet()) {
+			String url = formatUrl("mark_read", new ArrayList<NameValuePair>()).toString();
+			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
+			BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
+			BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
+			
+			Log.d("jsonurl", url);
+			new HttpsPutAsyncTask(httpclient).execute(urlVP, newsgroupVP, numberVP);
+		} else {
+			dialog.show();
+		}
 	}
 	
 	/**
@@ -313,13 +340,17 @@ public class HttpsConnector {
 	 * @param id - the id of the post
 	 */
 	public void markUnread(String newsgroup, int id) {
-		String url = formatUrl("mark_read", new ArrayList<NameValuePair>()).toString();
-		BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
-		BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
-		BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
-		BasicNameValuePair markUnreadVP = new BasicNameValuePair("mark_unread", "");
-		
-		new HttpsPutAsyncTask(httpclient).execute(urlVP, newsgroupVP, numberVP, markUnreadVP);
+		if (checkInternet()) {
+			String url = formatUrl("mark_read", new ArrayList<NameValuePair>()).toString();
+			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
+			BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
+			BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
+			BasicNameValuePair markUnreadVP = new BasicNameValuePair("mark_unread", "");
+			
+			new HttpsPutAsyncTask(httpclient).execute(urlVP, newsgroupVP, numberVP, markUnreadVP);
+		} else {
+			dialog.show();
+		}
 	}
 
 	/**
@@ -409,5 +440,25 @@ public class HttpsConnector {
 			Log.d("jsonError", "JSONException");
 		}
 		return null;
+	}
+	
+	/**
+	 * Checks to see if there is network connection
+	 * @return boolean - true if there is internet, false otherwise
+	 */
+	public boolean checkInternet() 
+	{
+	    ConnectivityManager connec = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    //android.net.NetworkInfo wifi = connec.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+	    //android.net.NetworkInfo mobile = connec.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+	    NetworkInfo ni = connec.getActiveNetworkInfo();
+	    // Here if condition check for wifi and mobile network is available or not.
+	    // If anyone of them is available or connected then it will return true, otherwise false;
+
+	    if (ni != null && ni.isConnected()) {
+	        return true;
+	    }  else {
+	    	return false;
+	    }
 	}
 }
