@@ -42,7 +42,7 @@ public class UpdaterService extends IntentService {
 		  String apiKey = sharedPref.getString("api_key", "");
 		  HttpsConnector hc = new HttpsConnector(this);
 		  int[] statuses = new int[3];
-		  Log.d("jddebug", hc.getUnreadCount().toString());
+		  //Log.d("jddebug", hc.getUnreadCount().toString());
 		  if ((statuses = hc.getUnreadCount()) != null) { // if valid api key
 			  
 			  if (statuses[0] != 0 && statuses[0] != sharedPref.getInt("number_of_unread", 0)) { // if there are new posts and that number is different than last time the update ran

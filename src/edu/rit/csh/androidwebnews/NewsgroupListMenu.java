@@ -46,7 +46,6 @@ public class NewsgroupListMenu {
 	private static int menuSize;
 	private static int statusHeight = 0;
 	private Activity act;
-	HttpsConnector hc;
 	public ArrayList<Newsgroup> newsgroupList;
 	ListView list;
 	NewsgroupsListAdapter newsgroupAdapter;

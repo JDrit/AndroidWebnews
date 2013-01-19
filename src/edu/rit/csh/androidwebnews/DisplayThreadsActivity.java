@@ -32,6 +32,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	HttpsConnector hc;
 	NewsgroupListMenu newsgroupListMenu;
 	public boolean requestedAdditionalThreads = false;
+	SharedPreferences sharedPref;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -39,8 +40,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		super.onCreate(savedInstanceState);
 		Log.d("MyDebugging", "newsgroupView creation started");
 		
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-	    String apiKey = sharedPref.getString("api_key", "");	    
+		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);	    
 	    hc = new HttpsConnector(this);
 	    dialog = new InvalidApiKeyDialog(this);
 		Bundle extras = getIntent().getExtras();
@@ -50,7 +50,9 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 			newsgroupName = extras.getString("SELECTED_NEWSGROUP");
 		}
 		else
+		{
 			newsgroupName = "none";
+		}
 		
 		threadsDirectMap = new ArrayList<PostThread>();
 		
@@ -66,7 +68,14 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		
 		dtf = (DisplayThreadsFragment)getSupportFragmentManager().findFragmentById(R.id.threadsfragment);
 		
-		hc.getNewsGroups();
+		if (sharedPref.getString("newsgroups_json_string", "") != "") {
+			Log.d("jddebugcache", "from file");
+			newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));	
+		} else {
+			Log.d("jddebugcache", "from file not");
+			hc.getNewsGroups();
+		}
+		
 		hc.getNewsgroupThreads(newsgroupName, 20);
 	}
 	
@@ -102,6 +111,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		
 		case R.id.menu_refresh:
 			hc.getNewsgroupThreads(newsgroupName, 20);
+			hc.getNewsGroups();
 			return true;
 			
 		case R.id.menu_about:
@@ -115,7 +125,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	
 	@Override
 	public void update(String jsonString) {
-		Log.d("MyDebugging",jsonString);
+		Log.d("MyDebugging","Updating displayhthreadsdsf");
 		try {
 			JSONObject obj = new JSONObject(jsonString);
 			if (obj.has("error")) {
@@ -140,6 +150,10 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 					requestedAdditionalThreads = false;
 				}
 			} else {  // newsgroups
+				SharedPreferences.Editor editor = sharedPref.edit();
+				editor.putString("newsgroups_json_string", jsonString);
+				editor.commit();
+				Log.d("jddebugcache", "update cache2");
 				Log.d("MyDebugging", "DisplayThreadsActivity updating the newsgroups sdf");
 				newsgroupListMenu.update(hc.getNewsGroupFromString(jsonString));
 			}

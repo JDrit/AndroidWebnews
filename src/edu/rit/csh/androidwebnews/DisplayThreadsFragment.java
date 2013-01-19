@@ -168,7 +168,7 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 		super.onResume();
 		if(listAdapter != null)
 		{
-			hc.getNewsGroups();
+			//hc.getNewsGroups();
 			listAdapter.clear();
 			listAdapter.addAll(threads);
 			listAdapter.notifyDataSetChanged();
