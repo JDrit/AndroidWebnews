@@ -24,20 +24,28 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	RecentFragment rf;
 	HttpsConnector hc;
 	NewsgroupListMenu newsgroupListMenu;
+	SharedPreferences sharedPref;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		newsgroupListMenu = new NewsgroupListMenu(this);
 		newsgroupListMenu.checkEnabled();
 		
     
 	    hc = new HttpsConnector( this);	    	    
 	    dialog = new InvalidApiKeyDialog(this);
-	    hc.getNewsGroups();
+	    
 		setContentView(R.layout.activity_recent);
 		rf = (RecentFragment)getSupportFragmentManager().findFragmentById(R.id.recent_fragment);
+		
+		if (sharedPref.getString("newsgroups_json_string", "") != "") {
+			newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));	
+		} else {
+			hc.getNewsGroups();
+		}
+		
 	}
 	
 
@@ -58,6 +66,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		
 		case R.id.menu_refresh:
 			hc.getNewest(true);
+			hc.getNewsGroups();
 			return true;
 			
 		case R.id.menu_about:
@@ -70,7 +79,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	}
 
 	public void onThreadSelected(final PostThread thread) {
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+		
 	    String apiKey = sharedPref.getString("api_key", "");	    
 	    HttpsConnector hc = new HttpsConnector(this);
 		//hc.getNewsgroupThreads(thread.newsgroup, 20);
@@ -83,13 +92,17 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	public void update(String jsonString) {
 		try {
 			JSONObject obj = new JSONObject(jsonString);
-			if (obj.has("error")) {
+			if (obj.has("error")) { // invalid api key
 				if (!dialog.isShowing()) {
 					dialog.show();
 				}
 			} else if (obj.has("activity")) { // recent
 				rf.update(hc.getNewestFromString(jsonString));
 			} else {  // newsgroups
+				SharedPreferences.Editor editor = sharedPref.edit();
+				editor.putString("newsgroups_json_string", jsonString);
+				editor.commit();
+				Log.d("jddebugcache", "update cache1");
 				newsgroupListMenu.update(hc.getNewsGroupFromString(jsonString));
 			}
 		} catch (JSONException e) {

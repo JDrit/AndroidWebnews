@@ -31,11 +31,15 @@ public class RecentFragment extends Fragment {
 		recentPostThreads = new ArrayList<PostThread>();
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-	    String apiKey = sharedPref.getString("api_key", "");
 		hc = new HttpsConnector(getActivity());
 		
-		
-		
+		String ng;
+		if ((ng = sharedPref.getString("newsgroups_json_string", "")) != "") {
+			listAdapter = new RecentListAdapter<PostThread>(getActivity(), R.layout.rowlayout, hc.getNewestFromString(ng));
+			lv.setAdapter(listAdapter);
+			Log.d("jddebug - from file", ng);
+		}
+		Log.d("jddebug - from file", ng);
 		listAdapter = new RecentListAdapter<PostThread>(getActivity(), R.layout.rowlayout, new ArrayList<PostThread>());
 		lv.setAdapter(listAdapter);
 		
@@ -76,7 +80,7 @@ public class RecentFragment extends Fragment {
 		Log.d("MyDebugging", "Refreshing view!");
 		if(listAdapter != null)
 		{
-			hc.getNewsGroups();
+			//hc.getNewsGroups();
 			hc.getNewest(false);
 		}
 	}
