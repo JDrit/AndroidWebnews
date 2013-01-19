@@ -77,7 +77,7 @@ public class RecentFragment extends Fragment {
 		if(listAdapter != null)
 		{
 			hc.getNewsGroups();
-			hc.getNewest();
+			hc.getNewest(false);
 		}
 	}
 }
