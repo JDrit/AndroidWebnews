@@ -43,12 +43,14 @@ public class UpdaterService extends IntentService {
 		  HttpsConnector hc = new HttpsConnector(this);
 		  int[] statuses = new int[3];
 		  Log.d("jddebug", hc.getUnreadCount().toString());
-		  if ((statuses = hc.getUnreadCount()) != null) {
-			  Log.d("jddebug", "valid api key");
-			 //int[] statuses = hc.getUnreadCount();
-			  Log.d("jddebug - UpdaterService", statuses.toString());
-			  if (statuses[0] != 0) { // if there are new posts
-
+		  if ((statuses = hc.getUnreadCount()) != null) { // if valid api key
+			  
+			  if (statuses[0] != 0 && statuses[0] != sharedPref.getInt("number_of_unread", 0)) { // if there are new posts and that number is different than last time the update ran
+				  
+				  SharedPreferences.Editor editor = sharedPref.edit();
+				  editor.putInt("number_of_unread", statuses[0]);
+				  editor.commit();
+				  
 				  NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 				  mBuilder.setContentTitle("CSH Webnews");
 				  mBuilder.setSmallIcon(R.drawable.favicon);
@@ -97,7 +99,9 @@ public class UpdaterService extends IntentService {
 				  mNotificationManager.notify(0, mBuilder.build());
 			  }
 			  Log.d("jddebug", "notify");
-		  } else {
+		  
+		  } else { // invalid api key
+			  
 			  Log.d("jddebug - UpdaterService", "invalid api key");
 			  NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 			  mBuilder.setContentTitle("CSH Webnews");
