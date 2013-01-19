@@ -42,27 +42,11 @@ public class HttpsConnector {
 	 * @return ArrayList<Newsgroup> - the current newsgroups located on webnews, null if
 	 * there was an error in the procedure.
 	 */
-	public ArrayList<Newsgroup> getNewsGroups() {
-		ArrayList<Newsgroup> newsgroups = new ArrayList<Newsgroup>();
+	public void getNewsGroups() {
+		
 		String url = formatUrl(mainUrl + "/newsgroups", new LinkedList<NameValuePair>());
-		Log.d("jsonurl", url);
-		try {
-			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, false, activity).execute(url).get());
-			JSONArray jArray = new JSONArray(jObj.getString("newsgroups"));
-			for (int i = 0 ; i < jArray.length() ; i++) {
-				newsgroups.add(new Newsgroup(new JSONObject(jArray.getString(i)).getString("name"),
-						new JSONObject(jArray.getString(i)).getInt("unread_count"),
-						new JSONObject(jArray.getString(i)).getString("unread_class")));
-			}
-			return newsgroups;				
-		} catch (JSONException e) {
-			Log.d("jsonError", "JSONException");
-		} catch (InterruptedException e) {
-			Log.d("jsonError", "InterruptedException");
-		} catch (ExecutionException e) {
-			Log.d("jsonError", "ExecutionException");
-		}
-		return new ArrayList<Newsgroup>();
+		new HttpsGetAsyncTask(httpclient, false, activity).execute(url);
+			
 	}
 
 	
