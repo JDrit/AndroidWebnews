@@ -21,5 +21,6 @@
     <string name="title_activity_base">BaseActivity</string>
     <string name="title_activity_recent">RecentActivity</string>
     <string name="title_activity_newsgroupslist">NewsgroupListActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
 
 </resources>

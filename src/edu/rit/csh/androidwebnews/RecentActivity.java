@@ -38,6 +38,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	         new InvalidApiKeyDialog(this).show();
 	    }
 	    hc.getNewsGroups();
+	    hc.getNewest();
 		setContentView(R.layout.activity_recent);
 		rf = (RecentFragment)getSupportFragmentManager().findFragmentById(R.id.recent_fragment);
 	}
@@ -64,6 +65,10 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 			
 		case R.id.menu_about:
 			startActivity(new Intent(this, InfoActivity.class));
+			return true;
+			
+		case R.id.menu_search:
+			startActivity(new Intent(this, SearchActivity.class));
 			return true;
 		}
 		return false;

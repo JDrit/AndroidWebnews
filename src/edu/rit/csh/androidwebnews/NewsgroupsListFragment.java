@@ -37,7 +37,7 @@ public class NewsgroupsListFragment extends Fragment {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
 		hc = new HttpsConnector(apiKey, getActivity());
-		hc.getNewsGroups();
+		//hc.getNewsGroups();
 		
 	    
 	    //groups = hc.getNewsGroups();
