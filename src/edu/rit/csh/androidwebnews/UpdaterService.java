@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.HandlerThread;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -18,7 +19,7 @@ import android.util.Log;
 
 
 public class UpdaterService extends IntentService {
-
+	Vibrator mVibrator;
 	  /** 
 	   * A constructor is required, and must call the super IntentService(String)
 	   * constructor with a name for the worker thread.
@@ -41,13 +42,13 @@ public class UpdaterService extends IntentService {
 		  String apiKey = sharedPref.getString("api_key", "");
 		  HttpsConnector hc = new HttpsConnector(this);
 		  int[] statuses = new int[3];
-		  
+		  Log.d("jddebug", hc.getUnreadCount().toString());
 		  if ((statuses = hc.getUnreadCount()) != null) {
 			  Log.d("jddebug", "valid api key");
 			 //int[] statuses = hc.getUnreadCount();
 			  Log.d("jddebug - UpdaterService", statuses.toString());
 			  if (statuses[0] != 0) { // if there are new posts
-				  
+
 				  NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 				  mBuilder.setContentTitle("CSH Webnews");
 				  mBuilder.setSmallIcon(R.drawable.favicon);
@@ -71,16 +72,19 @@ public class UpdaterService extends IntentService {
 						  mBuilder.setContentText(statuses[0] + " unread posts");
 					  }
 				  }
-				  
+				  if (sharedPref.getBoolean("vibrate_service", true)) {
+					  mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+					  mVibrator.vibrate(500);  
+				  }
 			      // Creates an explicit intent for an Activity in your app
 				  Intent resultIntent = new Intent(this, RecentActivity.class);
-				
+
 				  // The stack builder object will contain an artificial back stack for the
 				  // started Activity.
 				  // This ensures that navigating backward from the Activity leads out of
 				  // your application to the Home screen.
 				  TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-	
+
 				  // Adds the back stack for the Intent (but not the Intent itself)
 				  stackBuilder.addParentStack(SettingsActivity.class);
 				  // Adds the Intent that starts the Activity to the top of the stack
@@ -99,10 +103,10 @@ public class UpdaterService extends IntentService {
 			  mBuilder.setSmallIcon(android.R.drawable.alert_dark_frame);
 			  mBuilder.setContentText("Invalid API Key");
 			  mBuilder.setAutoCancel(true);
-			  
+
 		      // Creates an explicit intent for an Activity in your app
 			  Intent resultIntent = new Intent(this, SettingsActivity.class);
-			
+
 			  // The stack builder object will contain an artificial back stack for the
 			  // started Activity.
 			  // This ensures that navigating backward from the Activity leads out of
@@ -119,9 +123,9 @@ public class UpdaterService extends IntentService {
 			  // mId allows you to update the notification later on.
 			  mNotificationManager.notify(0, mBuilder.build());
 		  }
-		  
-		  
-	     
-		  
+
+
+
+
 	  }
 	}

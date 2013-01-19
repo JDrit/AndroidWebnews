@@ -12,6 +12,12 @@
         android:title="Run background service"
         android:summary="Have the application check webnews in the background for new posts"
         android:defaultValue="true" />
+    
+    <CheckBoxPreference
+        android:key="vibrate_service"
+        android:title="Vibrate on Notification"
+        android:summary="Have the application vibrate when there is a new post of an invalid api key"
+        android:defaultValue="true" />
 	
     <EditTextPreference
         android:key="time_between_checks"
