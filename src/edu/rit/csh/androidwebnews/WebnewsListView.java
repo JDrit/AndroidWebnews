@@ -42,10 +42,11 @@ public class WebnewsListView extends ListView implements OnGestureListener {
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
 	{
+		super.onTouchEvent(event);
 		if(gesturescanner.onTouchEvent(event))
 			return true;
 		else
-			return super.onTouchEvent(event);
+			return false;
 	}
 
 	@Override

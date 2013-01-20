@@ -16,7 +16,7 @@
     <string name="title_activity_info">InfoActivity</string>
     <string name="title_activity_info_activity1">InfoActivity1</string>
     <string name="about_text">Android Webnews\nAuthors: jd@csh.rit.edu and Derek Gonyeo (dgonyeo@csh.rit.edu)\nSource code: http://www.github.com/JDrit/AndroidWebnews\n\nThis is a Computer Science House (C.S.H.) application to view Webnews via Android. This application relies on the Webnews API to work. Users are identified via their API key, to obtain your API key, go to the settings page in Webnews. At the bottom of the page will be your API key. Type the key into settings to authenticate yourself.</string>
-    <string name="license_text">Copyright (c) 2012\nThis file is part of the Android Webnews Application.\n\nThe Android Webnews Application is free software: you can redistribute\nit and/or modify it under the terms of the GNU General Public License\nas published by the Free Software Foundation, either version 3 of the\nLicense, or (at your option) any later version.\n\nThe Android Webnews Application is distributed in the hope that it\nwill be useful, but WITHOUT ANY WARRANTY; without even the implied\nwarranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\nSee the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with Android Webnews Application.  If not, see http://www.gnu.org/licenses.</string>
+    <string name="license_text"></string>
     <string name="title_activity_post_swipable">CSH News</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="title_activity_recent">RecentActivity</string>

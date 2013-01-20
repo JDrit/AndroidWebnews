@@ -43,23 +43,11 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		setContentView(R.layout.activity_recent);
 		rf = (RecentFragment)getSupportFragmentManager().findFragmentById(R.id.recent_fragment);
 		
-		// checks to see if there is a localy cached copy to use
 		if (sharedPref.getString("newsgroups_json_string", "") != "") {
 			newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));	
 		} else {
 			hc.getNewsGroups();
 		}
-		hc.getUnreadCount();
-		// sees if the locally cache copy shows the correct number of unread threads
-		/*int unread = hc.getUnreadCount()[0];
-		int groupUnread = 0;
-		for (Newsgroup group : hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", ""))) {
-			groupUnread += group.unreadCount;
-		}
-		if (unread != groupUnread) {
-			hc.getNewsGroups();
-			Log.d("jddebug - RecentActivity", "newsgroups updated");
-		}*/
 		
 		Intent intent = new Intent(this, UpdaterService.class);
 		PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
@@ -126,23 +114,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 				}
 			} else if (obj.has("activity")) { // recent
 				rf.update(hc.getNewestFromString(jsonString));
-				
-			} else if (obj.has("unread_counts")) {
-
-				int unread = hc.getUnreadCountFromString(jsonString)[0];
-				int groupUnread = 0;
-				for (Newsgroup group : hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", ""))) {
-					groupUnread += group.unreadCount;
-				}
-				if (unread != groupUnread) {
-					hc.getNewsGroups();
-					Log.d("jddebug - RecentActivity-update", "newsgroups updated");
-				} else {
-					newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
-				}
-				Log.d("jddebug-RecentActivity", unread + " " + groupUnread);
 			} else {  // newsgroups
-				
 				SharedPreferences.Editor editor = sharedPref.edit();
 				editor.putString("newsgroups_json_string", jsonString);
 				editor.commit();
@@ -156,16 +128,19 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		Intent myIntent = new Intent(RecentActivity.this, DisplayThreadsActivity.class);
 		myIntent.putExtra("SELECTED_NEWSGROUP", newsgroupName);
 		startActivity(myIntent);
-		finish();
 	}
 	
 	@Override
 	public void onResume()
 	{
-		Log.d("jddebug-RecentActivity", "unresume");
 		super.onResume();
-		hc.getUnreadCount();
-		
+		if(newsgroupListMenu.newsgroupAdapter != null)
+		{
+			newsgroupListMenu.newsgroupAdapter.clear();
+			for(Newsgroup ng : newsgroupListMenu.newsgroupList)
+				newsgroupListMenu.newsgroupAdapter.add(ng);
+			newsgroupListMenu.newsgroupAdapter.notifyDataSetChanged();
+		}
 	}
 
 }
