@@ -1,21 +1,20 @@
 /**
-Licensed to the Apache Software Foundation (ASF) under one
-or more contributor license agreements.  See the NOTICE file
+See the NOTICE file
 distributed with this work for additional information
-regarding copyright ownership.  The ASF licenses this file
+regarding copyright ownership.  This code is licensed
 to you under the Apache License, Version 2.0 (the
 "License"); you may not use this file except in compliance
 with the License.  You may obtain a copy of the License at
 
 http://www.apache.org/licenses/LICENSE-2.0
 
-Uless required by applicable law or agreed to in writing,
+Unless required by applicable law or agreed to in writing,
 software distributed under the License is distributed on an
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
-*/	
+*/		
 package edu.rit.csh.androidwebnews;
 
 import java.util.ArrayList;
@@ -279,7 +278,7 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 			int lastItem = firstVisibleItem + visibleItemCount;
 			if(lastItem == totalItemCount && threads != null && threads.size() != 0 && !((DisplayThreadsActivity)getActivity()).requestedAdditionalThreads)
 			{
-				hc.getNewsgroupThreadsByDate(newsgroupName, threads.get(threads.size() - 1).date, 20);
+				//hc.getNewsgroupThreadsByDate(newsgroupName, threads.get(threads.size() - 1).date, 20);
 				((DisplayThreadsActivity)getActivity()).requestedAdditionalThreads = true;
 				//Log.d("MyDebugging", "We're at the bottom!");
 			}

@@ -1,3 +1,20 @@
+/**
+See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  This code is licensed
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+*/	
 package edu.rit.csh.androidwebnews;
 
 import java.util.ArrayList;
@@ -118,8 +135,15 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		case R.id.menu_about:
 			startActivity(new Intent(this, InfoActivity.class));
 			return true;
+			
 		case R.id.menu_search:
 			startActivity(new Intent(this, SearchActivity.class));
+			return true;
+		
+		case R.id.menu_mark_all_read:
+			hc.markRead(newsgroupName);
+			
+			return true;
 		}
 		return false;
 	}
@@ -127,6 +151,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	@Override
 	public void update(String jsonString) {
 		Log.d("MyDebugging","Updating displayhthreads");
+		Log.d("MyDebugging","sdfk" + jsonString);
 		try {
 			JSONObject obj = new JSONObject(jsonString);
 			if (obj.has("error")) {
@@ -184,9 +209,10 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		finish();
 	}
 	
+	
 	@Override
-	public void onResume() {
+	public void onResume() { // throwing issue when we try to call any hc.get..., need to fix for updating newsgroups
 		super.onResume();
-	//	hc.startUnreadCountTask();
+		//hc.getNewsGroups();
 	}
 }
