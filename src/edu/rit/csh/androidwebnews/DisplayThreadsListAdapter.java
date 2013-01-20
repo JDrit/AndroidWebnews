@@ -6,7 +6,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -76,7 +75,6 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	        if (thread.unread != "null") {
 	        	tv.setText(text);
 	        	tv.setTypeface(null, Typeface.BOLD);
-	        	convertView.setBackgroundColor(Color.LTGRAY);
 	        } else {
 	        	tv.setText(text);
 	        }
