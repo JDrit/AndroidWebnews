@@ -109,6 +109,10 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 			return true;
 		case R.id.menu_search:
 			startActivity(new Intent(this, SearchActivity.class));
+		
+		case R.id.menu_mark_all_read:
+			hc.markRead();
+			hc.getNewest(false);
 		}
 		return false;
 	}

@@ -41,6 +41,7 @@ import android.util.Log;
 /**
  * The object that the app interfaces with to get all the information 
  * to and from webnews 
+ * JD's baby
  */
 public class HttpsConnector {
 	SharedPreferences sharedPref;
@@ -167,6 +168,31 @@ public class HttpsConnector {
 			params.add(new BasicNameValuePair("thread_mode", "normal"));
 			//String url = formatUrl(mainUrl + "/" + name + "/index", params);
 			new HttpsGetAsyncTask(httpclient, true, activity).execute(formatUrl(name + "/index", params));
+		} else {
+			dialog.show();
+		}
+	}
+	
+	/**
+	 * Gets the threads for a certain newsgroup. All the threads have an ArrayList
+	 * of their sub-threads.
+	 * @param name - the name of the newsgroup
+	 * @param amount - the amount of threads to return, has to be <= 20, -1 == default of 10 
+	 * @param bol - boolean to decide to display the progress wheel or not
+	 * @return ArrayList<Thread> - list of the top level threads for the newsgroup
+	 */
+	public void getNewsgroupThreads(String name, int amount, boolean bol) {
+		if (checkInternet()) {
+			if (amount == -1) {
+				amount = 10;
+			} else if (amount > 20) {
+				amount = 20;
+			}
+			List<NameValuePair> params = new LinkedList<NameValuePair>();
+			params.add(new BasicNameValuePair("limit", Integer.valueOf(amount).toString()));
+			params.add(new BasicNameValuePair("thread_mode", "normal"));
+			//String url = formatUrl(mainUrl + "/" + name + "/index", params);
+			new HttpsGetAsyncTask(httpclient, bol, activity).execute(formatUrl(name + "/index", params));
 		} else {
 			dialog.show();
 		}
@@ -353,7 +379,15 @@ public class HttpsConnector {
 			BasicNameValuePair allVP = new BasicNameValuePair("all_posts", "");
 			
 			Log.d("jsonurl", url);
-			new HttpsPutAsyncTask(httpclient).execute(urlVP, allVP);
+			try {
+				new HttpsPutAsyncTask(httpclient).execute(urlVP, allVP).get();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
 			dialog.show();
 		}
@@ -383,8 +417,16 @@ public class HttpsConnector {
 			String url = formatUrl("mark_read", new ArrayList<NameValuePair>()).toString();
 			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
 			BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);			
-			
-			new HttpsPutAsyncTask(httpclient).execute(urlVP, newsgroupVP);
+			Log.d("newdebug", "mark post read: " + newsgroup);
+			try {
+				new HttpsPutAsyncTask(httpclient).execute(urlVP, newsgroupVP).get();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
 			dialog.show();
 		}

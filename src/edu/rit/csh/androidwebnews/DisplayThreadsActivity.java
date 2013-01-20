@@ -142,6 +142,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		
 		case R.id.menu_mark_all_read:
 			hc.markRead(newsgroupName);
+			hc.getNewsgroupThreads(newsgroupName, 20, false);
 			
 			return true;
 		}
@@ -213,6 +214,6 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	@Override
 	public void onResume() { // throwing issue when we try to call any hc.get..., need to fix for updating newsgroups
 		super.onResume();
-		//hc.getNewsGroups();
+		//hc.startUnreadCountTask();
 	}
 }

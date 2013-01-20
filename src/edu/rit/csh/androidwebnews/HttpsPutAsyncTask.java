@@ -35,6 +35,7 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 /**
  * The asynchronous task used to do the get and post request
@@ -82,12 +83,15 @@ public class HttpsPutAsyncTask extends AsyncTask<BasicNameValuePair, Integer, St
             }
             in.close();
             String page = sb.toString();
+            Log.d("newdebug", " : " + page);
     		return page;
             
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
+			Log.d("newdebug", e.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
+			Log.d("newdebug", e.toString());
 		}
 		return "";
 	}
