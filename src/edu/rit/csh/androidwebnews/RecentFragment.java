@@ -57,6 +57,7 @@ public class RecentFragment extends Fragment {
 			} else {
 				listAdapter = new RecentListAdapter<PostThread>(getActivity(), R.layout.rowlayout, hc.getNewestFromString(ng));
 			}
+			
 			lv.setAdapter(listAdapter);
 			Log.d("jddebug - from file", ng);
 		}

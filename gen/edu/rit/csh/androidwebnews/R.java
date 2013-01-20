@@ -22,9 +22,10 @@ public final class R {
         public static final int favicon=0x7f020002;
         public static final int ic_launcher=0x7f020003;
         public static final int notification_icon=0x7f020004;
-        public static final int uparrow=0x7f020005;
-        public static final int webnews_icon=0x7f020006;
-        public static final int webnews_logo=0x7f020007;
+        public static final int play_store_icon=0x7f020005;
+        public static final int uparrow=0x7f020006;
+        public static final int webnews_icon=0x7f020007;
+        public static final int webnews_logo=0x7f020008;
     }
     public static final class id {
         public static final int LicenseButton=0x7f0a0003;

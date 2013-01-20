@@ -60,7 +60,6 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 
 		rf = (RecentFragment)getSupportFragmentManager().findFragmentById(R.id.recent_fragment);
 		
-		
 		if (!sharedPref.getBoolean("first_time", true)) {
 
 			if (sharedPref.getString("newsgroups_json_string", "") != "") {
