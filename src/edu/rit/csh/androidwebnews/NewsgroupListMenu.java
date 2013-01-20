@@ -39,7 +39,7 @@ import android.widget.TextView;
  */
 public class NewsgroupListMenu {
 	
-	private static boolean menuShown = false;
+	public static boolean menuShown = false;
 	private static View menu;
 	private static LinearLayout content;
 	private static FrameLayout parent;
