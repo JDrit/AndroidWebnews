@@ -8,7 +8,10 @@ import org.json.JSONObject;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
@@ -44,6 +47,19 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 			newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));	
 		} else {
 			hc.getNewsGroups();
+		}
+		
+		Intent intent = new Intent(this, UpdaterService.class);
+		PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
+		AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+
+		// if the run service is selected, an alarm is started to repeat over given time
+		if (sharedPref.getBoolean("run_service", false)) {
+			alarm.cancel(pintent);
+			alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), Integer.valueOf(sharedPref.getString("time_between_checks", "15")) * 60000, pintent);
+			Log.d("jddebug", "alarm set");
+		} else {
+			alarm.cancel(pintent);
 		}
 		
 	}
