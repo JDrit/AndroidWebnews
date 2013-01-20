@@ -82,7 +82,7 @@ public class WebnewsListView extends ListView implements OnGestureListener {
 		int scaledVelocity = (int) (velocityX / (densityDpi / 160f));
 		float distanceX = Math.abs(start.getX() - finish.getX());
 		float distanceY = Math.abs(start.getY() - finish.getY());
-		if(start.getRawX() < 70  && scaledVelocity > 500 && !NewsgroupListMenu.menuShown && distanceX > distanceY)
+		if(scaledVelocity > 500 && !NewsgroupListMenu.menuShown && distanceX > distanceY)
 		{
 			newsGroupListMenu.show();
 			return true;
