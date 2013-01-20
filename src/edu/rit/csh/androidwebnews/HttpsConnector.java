@@ -1,15 +1,14 @@
 /**
-Licensed to the Apache Software Foundation (ASF) under one
-or more contributor license agreements.  See the NOTICE file
+See the NOTICE file
 distributed with this work for additional information
-regarding copyright ownership.  The ASF licenses this file
+regarding copyright ownership.  This code is licensed
 to you under the Apache License, Version 2.0 (the
 "License"); you may not use this file except in compliance
 with the License.  You may obtain a copy of the License at
 
 http://www.apache.org/licenses/LICENSE-2.0
 
-Uless required by applicable law or agreed to in writing,
+Unless required by applicable law or agreed to in writing,
 software distributed under the License is distributed on an
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 KIND, either express or implied.  See the License for the
@@ -42,7 +41,6 @@ import android.util.Log;
 /**
  * The object that the app interfaces with to get all the information 
  * to and from webnews 
- * @author JD
  */
 public class HttpsConnector {
 	SharedPreferences sharedPref;
@@ -196,10 +194,16 @@ public class HttpsConnector {
 		params.add(new BasicNameValuePair("thread_mode", "normal"));
 		params.add(new BasicNameValuePair("from_older", date));
 	//	String url = formatUrl(mainUrl + "/" + newsgroup + "/index", params);
-		new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl("newsgroups", params));
+		new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl(newsgroup + "/index", params));
 			
 	}
 	
+	/**
+	 * Pulls out the threads from the given string representation of the 
+	 * json object
+	 * @param s - the string representation of the json object
+	 * @return ArrayList<PostThread> - the list of threads
+	 */
 	public ArrayList<PostThread> getThreadsFromString(String s) {
 		ArrayList<PostThread> threads = new ArrayList<PostThread>();
 		
@@ -275,6 +279,12 @@ public class HttpsConnector {
 		}
 	}
 	
+	/**
+	 * Pulls out the post's body from the given string representation of the 
+	 * json object
+	 * @param jsonObj - the string representation of the json object
+	 * @return the post's body
+	 */
 	public String getPostBodyFromString(String jsonObj) {
 		try {	
 			JSONObject jObj = new JSONObject(jsonObj);
@@ -287,9 +297,7 @@ public class HttpsConnector {
 		} 
 		return "";
 	}
-	
-	
-	
+		
 	/**
 	 * Gets the statuses about unread threads
 	 * @return int[] - array of the statuses
@@ -365,6 +373,18 @@ public class HttpsConnector {
 			
 			Log.d("jsonurl", url);
 			new HttpsPutAsyncTask(httpclient).execute(urlVP, newsgroupVP, numberVP);
+		} else {
+			dialog.show();
+		}
+	}
+	
+	public void markRead(String newsgroup) {
+		if (checkInternet()) {
+			String url = formatUrl("mark_read", new ArrayList<NameValuePair>()).toString();
+			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
+			BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);			
+			
+			new HttpsPutAsyncTask(httpclient).execute(urlVP, newsgroupVP);
 		} else {
 			dialog.show();
 		}
