@@ -94,7 +94,12 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	@Override
 	public int getCount()
 	{
-		return super.getCount() + 1;
+		int count = super.getCount();
+		if(count == 0)
+			return count;
+		else
+			return count+1;
+		
 	}
 	
 	@Override
