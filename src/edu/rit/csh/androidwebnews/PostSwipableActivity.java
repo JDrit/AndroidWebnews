@@ -97,7 +97,7 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 			{
 				PostThread returnValue = findThisThread(t,id);
 				if(returnValue != null)
-					return null;
+					return returnValue;
 			}
 		return null;
 	}
