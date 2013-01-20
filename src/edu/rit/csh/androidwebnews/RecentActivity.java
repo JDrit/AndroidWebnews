@@ -45,44 +45,56 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	HttpsConnector hc;
 	NewsgroupListMenu newsgroupListMenu;
 	SharedPreferences sharedPref;
-	
+	FirstTimeDialog ftd;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		newsgroupListMenu = new NewsgroupListMenu(this);
 		newsgroupListMenu.checkEnabled();
-		
-    
-	    hc = new HttpsConnector( this);	    	    
-	    dialog = new InvalidApiKeyDialog(this);
-	    
+		hc = new HttpsConnector( this);	    	    
+		dialog = new InvalidApiKeyDialog(this);
+		ftd = new FirstTimeDialog(this);
 		setContentView(R.layout.activity_recent);
+
 		rf = (RecentFragment)getSupportFragmentManager().findFragmentById(R.id.recent_fragment);
 		
-		if (sharedPref.getString("newsgroups_json_string", "") != "") {
-			newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
-			hc.startUnreadCountTask();
-		} else {
-			hc.getNewsGroups();
-		}
 		
-		Intent intent = new Intent(this, UpdaterService.class);
-		PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
-		AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+		if (!sharedPref.getBoolean("first_time", true)) {
 
-		// if the run service is selected, an alarm is started to repeat over given time
-		if (sharedPref.getBoolean("run_service", false)) {
-			alarm.cancel(pintent);
-			alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), Integer.valueOf(sharedPref.getString("time_between_checks", "15")) * 60000, pintent);
-			Log.d("jddebug", "alarm set");
+			if (sharedPref.getString("newsgroups_json_string", "") != "") {
+				newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
+				hc.startUnreadCountTask();
+			} else {
+				hc.getNewsGroups();
+			}
+	
+			Intent intent = new Intent(this, UpdaterService.class);
+			PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
+			AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+	
+			// if the run service is selected, an alarm is started to repeat over given time
+			if (sharedPref.getBoolean("run_service", false)) {
+				alarm.cancel(pintent);
+				alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), Integer.valueOf(sharedPref.getString("time_between_checks", "15")) * 60000, pintent);
+				Log.d("jddebug", "alarm set");
+			} else {
+				alarm.cancel(pintent);
+			}
 		} else {
-			alarm.cancel(pintent);
+
+			ftd.show();
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.putBoolean("first_time", false);
+			editor.commit();
+			
+			
 		}
-		
+
 		setTitle("Recent Posts");
 	}
-	
+
 
 
 	@Override
@@ -91,25 +103,25 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		getMenuInflater().inflate(R.menu.activity_default, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_settings:
 			startActivity(new Intent(this, SettingsActivity.class));
 			return true;
-		
+
 		case R.id.menu_refresh:
 			hc.getNewest(true);
 			hc.getNewsGroups();
 			return true;
-			
+
 		case R.id.menu_about:
 			startActivity(new Intent(this, InfoActivity.class));
 			return true;
 		case R.id.menu_search:
 			startActivity(new Intent(this, SearchActivity.class));
-		
+
 		case R.id.menu_mark_all_read:
 			hc.markRead();
 			hc.getNewest(false);
@@ -118,7 +130,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	}
 
 	public void onThreadSelected(final PostThread thread) {
-		
+
 	    String apiKey = sharedPref.getString("api_key", "");	    
 	    //HttpsConnector hc = new HttpsConnector(this);
 		//hc.getNewsgroupThreads(thread.newsgroup, 20);
@@ -141,9 +153,12 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 			JSONObject obj = new JSONObject(jsonString);
 			if (obj.has("error")) { // invalid api key
 				if (!dialog.isShowing()) {
-					dialog.show();
+					if (!ftd.isShowing()) {
+						dialog.show();
+					}
 				}
 			} else if (obj.has("activity")) { // recent
+				//Log.d("string", hc.getNewestFromString(jsonString).toString());
 				rf.update(hc.getNewestFromString(jsonString));
 			} else if (obj.has("unread_counts")) {  // unread count
 				int unread = hc.getUnreadCountFromString(jsonString)[0];
@@ -173,7 +188,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		myIntent.putExtra("SELECTED_NEWSGROUP", newsgroupName);
 		startActivity(myIntent);
 	}
-	
+
 	@Override
 	public void onResume()
 	{
