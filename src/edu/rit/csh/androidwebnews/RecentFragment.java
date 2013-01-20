@@ -38,18 +38,18 @@ public class RecentFragment extends Fragment {
 	NewsgroupListMenu newsgroupListMenu;
 	ArrayList<PostThread> recentPostThreads;
 	HttpsConnector hc;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.d("jddebug", "frag");
 		newsgroupListMenu = ((RecentActivity)getActivity()).newsgroupListMenu;
 		lv = new WebnewsListView(getActivity(), newsgroupListMenu);
-		
+
 		recentPostThreads = new ArrayList<PostThread>();
-		
+
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		hc = new HttpsConnector(getActivity());
-		
+
 		String ng;
 		if ((ng = sharedPref.getString("newsgroups_json_string", "")) != "") {
 			listAdapter = new RecentListAdapter<PostThread>(getActivity(), R.layout.rowlayout, hc.getNewestFromString(ng));
@@ -59,7 +59,7 @@ public class RecentFragment extends Fragment {
 		Log.d("jddebug - from file", ng);
 		listAdapter = new RecentListAdapter<PostThread>(getActivity(), R.layout.rowlayout, new ArrayList<PostThread>());
 		lv.setAdapter(listAdapter);
-		
+
 
 		lv.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -68,17 +68,17 @@ public class RecentFragment extends Fragment {
 			public void onItemClick(AdapterView<?> adapter, View arg1, int position, long id) {
 				PostThread thread = (PostThread) adapter.getItemAtPosition(position);
 				((RecentActivity)getActivity()).onThreadSelected(thread);
-				
+
 			}
-				
+
 
 		});
-		
-		
-		
+
+
+
 		return lv;
 	}
-	
+
 
 	public void update(ArrayList<PostThread> newestFromString) {
 		listAdapter.clear();
@@ -87,9 +87,9 @@ public class RecentFragment extends Fragment {
 			listAdapter.add(t);
 		}
 		listAdapter.notifyDataSetChanged();
-		
+
 	}
-	
+
 	@Override
 	public void onResume()
 	{
