@@ -52,7 +52,11 @@ public class RecentFragment extends Fragment {
 
 		String ng;
 		if ((ng = sharedPref.getString("newsgroups_json_string", "")) != "") {
-			listAdapter = new RecentListAdapter<PostThread>(getActivity(), R.layout.rowlayout, hc.getNewestFromString(ng));
+			if (sharedPref.getBoolean("first_time", true)) {
+				listAdapter = new RecentListAdapter<PostThread>(getActivity(), R.layout.rowlayout, new ArrayList<PostThread>());
+			} else {
+				listAdapter = new RecentListAdapter<PostThread>(getActivity(), R.layout.rowlayout, hc.getNewestFromString(ng));
+			}
 			lv.setAdapter(listAdapter);
 			Log.d("jddebug - from file", ng);
 		}
@@ -97,7 +101,7 @@ public class RecentFragment extends Fragment {
 		Log.d("MyDebugging", "Refreshing view!");
 		if(listAdapter != null)
 		{
-			//hc.getNewsGroups();
+			hc.getNewsGroups();
 			hc.getNewest(false);
 		}
 	}

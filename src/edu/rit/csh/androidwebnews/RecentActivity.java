@@ -66,8 +66,10 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 			if (sharedPref.getString("newsgroups_json_string", "") != "") {
 				newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
 				hc.startUnreadCountTask();
+				Log.d("newdebug", "3");
 			} else {
 				hc.getNewsGroups();
+				Log.d("newdebug", "4");
 			}
 	
 			Intent intent = new Intent(this, UpdaterService.class);
@@ -194,6 +196,14 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	{
 		super.onResume();
 		hc.startUnreadCountTask();
+		if (sharedPref.getString("newsgroups_json_string", "") != "") {
+			Log.d("newdebug", "1");
+			newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
+			hc.startUnreadCountTask();
+		} else {
+			Log.d("newdebug", "2");
+			hc.getNewsGroups();
+		}
 		/*hc.getNewsGroups();
 		
 		if(newsgroupListMenu.newsgroupAdapter != null)
