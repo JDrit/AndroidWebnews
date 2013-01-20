@@ -97,7 +97,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	public void onThreadSelected(final PostThread thread) {
 		
 	    String apiKey = sharedPref.getString("api_key", "");	    
-	    HttpsConnector hc = new HttpsConnector(this);
+	    //HttpsConnector hc = new HttpsConnector(this);
 		//hc.getNewsgroupThreads(thread.newsgroup, 20);
 		Intent myIntent = new Intent(RecentActivity.this, DisplayThreadsActivity.class);
 		myIntent.putExtra("SELECTED_NEWSGROUP", thread.newsgroup);
@@ -134,6 +134,8 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	public void onResume()
 	{
 		super.onResume();
+		//hc.getNewsGroups();
+		
 		if(newsgroupListMenu.newsgroupAdapter != null)
 		{
 			newsgroupListMenu.newsgroupAdapter.clear();
