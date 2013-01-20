@@ -454,6 +454,21 @@ public class HttpsConnector {
 			dialog.show();
 		}
 	}
+	
+	/**
+	 * Marks a given post as starred
+	 * @param newsgroup - the name of the newsgroup
+	 * @param id - the id of the post in the given newsgroup
+	 */
+	public void markStarred(String newsgroup, int id) {
+		if (checkInternet()) {
+			String url = formatUrl(newsgroup + "/" + id + "/star", new ArrayList<NameValuePair>()).toString();
+			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
+			new HttpsPutAsyncTask(httpclient).execute(urlVP);
+		} else {
+			dialog.show();
+		}
+	}
 
 	/**
 	 * Validates that the API key is valid
