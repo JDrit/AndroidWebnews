@@ -68,13 +68,14 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		
 		dtf = (DisplayThreadsFragment)getSupportFragmentManager().findFragmentById(R.id.threadsfragment);
 		
+		// checks to see if there is a locally cached copy to use
 		if (sharedPref.getString("newsgroups_json_string", "") != "") {
-			Log.d("jddebugcache", "from file");
 			newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));	
 		} else {
-			Log.d("jddebugcache", "from file not");
 			hc.getNewsGroups();
 		}
+		hc.getUnreadCount();
+
 		
 		hc.getNewsgroupThreads(newsgroupName, 20);
 	}
@@ -149,6 +150,18 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 					dtf.addThreads(newThreads);
 					requestedAdditionalThreads = false;
 				}
+			} else if (obj.has("unread_counts")) {
+				int unread = hc.getUnreadCountFromString(jsonString)[0];
+				int groupUnread = 0;
+				for (Newsgroup group : hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", ""))) {
+					groupUnread += group.unreadCount;
+				}
+				if (unread != groupUnread) {
+					hc.getNewsGroups();
+					Log.d("jddebug-RecentActivity-update", "newsgroups updated");
+				} else {
+					newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
+				}
 			} else {  // newsgroups
 				SharedPreferences.Editor editor = sharedPref.edit();
 				editor.putString("newsgroups_json_string", jsonString);
@@ -168,5 +181,11 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		myIntent.putExtra("SELECTED_NEWSGROUP", newsgroupName);
 		startActivity(myIntent);
 		finish();
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		hc.getUnreadCount();
 	}
 }

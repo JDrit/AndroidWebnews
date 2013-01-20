@@ -279,7 +279,7 @@ public class HttpsConnector {
 	 * 			[1] - number of unread threads in a thread the user has posted in
 	 * 			[2] - the number of unread replies to a user's post
 	 */
-	public int[] getUnreadCount() {
+/*	public int[] getUnreadCount() {
 		URI url = formatUrl("unread_counts", new LinkedList<NameValuePair>());
 		int[] unreadStatuses = new int[3];
 		try {
@@ -295,6 +295,50 @@ public class HttpsConnector {
 			Log.d("jsonError", "InterruptedException");
 		} catch (ExecutionException e) {
 			Log.d("jsonError", "ExecutionException");
+		}
+		return unreadStatuses;
+	}*/
+	
+	public void getUnreadCount() {
+		URI url = formatUrl("unread_counts", new LinkedList<NameValuePair>());
+		new HttpsGetAsyncTask(httpclient, false, activity).execute(url);
+	}
+	
+	public int[] getUnreadCountFromString(String jsonString) {
+		int[] unreadStatuses = new int[3];
+		try {
+			JSONObject  jObj = new JSONObject(jsonString).getJSONObject("unread_counts");
+			Log.d("jddebug", jObj.toString());
+			unreadStatuses[0] = jObj.getInt("normal");
+			unreadStatuses[1] = jObj.getInt("in_thread");
+			unreadStatuses[2] = jObj.getInt("in_reply");
+		} catch (JSONException e) {
+			Log.d("jsonError", "JSONException");
+			return null;
+		} 
+		return unreadStatuses;
+	}
+	
+	public int[] getUnreadCountHold() {
+		URI url = formatUrl("unread_counts", new LinkedList<NameValuePair>());
+		int[] unreadStatuses = new int[3];
+		try {
+			JSONObject jObj;
+			jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, false, activity).execute(url).get()).getJSONObject("unread_counts");
+			
+			Log.d("jddebug", jObj.toString());
+			unreadStatuses[0] = jObj.getInt("normal");
+			unreadStatuses[1] = jObj.getInt("in_thread");
+			unreadStatuses[2] = jObj.getInt("in_reply");
+		} catch (JSONException e) {
+			Log.d("jsonError", "JSONException");
+			return null;
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return unreadStatuses;
 	}
