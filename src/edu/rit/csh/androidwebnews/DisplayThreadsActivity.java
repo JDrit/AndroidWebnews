@@ -77,6 +77,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		}
 		
 		hc.getNewsgroupThreads(newsgroupName, 20);
+		setTitle(newsgroupName + " newsgroup");
 	}
 	
 	@Override
@@ -125,7 +126,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	
 	@Override
 	public void update(String jsonString) {
-		Log.d("MyDebugging","Updating displayhthreadsdsf");
+		Log.d("MyDebugging","Updating displayhthreads");
 		try {
 			JSONObject obj = new JSONObject(jsonString);
 			if (obj.has("error")) {
@@ -149,6 +150,19 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 					dtf.addThreads(newThreads);
 					requestedAdditionalThreads = false;
 				}
+			} else if (obj.has("unread_counts")) {  // unread count
+				int unread = hc.getUnreadCountFromString(jsonString)[0];
+				int groupUnread = 0;
+				for (Newsgroup group : hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", ""))) {
+					groupUnread += group.unreadCount;
+				}
+				if (unread != groupUnread) {
+					hc.getNewsGroups();
+					Log.d("jddebug - RecentActivity-update", "newsgroups updated");
+				} else {
+					newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
+				}
+				Log.d("jddebug-RecentActivity", unread + " " + groupUnread);
 			} else {  // newsgroups
 				SharedPreferences.Editor editor = sharedPref.edit();
 				editor.putString("newsgroups_json_string", jsonString);
@@ -168,5 +182,11 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		myIntent.putExtra("SELECTED_NEWSGROUP", newsgroupName);
 		startActivity(myIntent);
 		finish();
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+	//	hc.startUnreadCountTask();
 	}
 }

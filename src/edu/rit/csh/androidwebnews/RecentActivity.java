@@ -1,3 +1,21 @@
+/**
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Uless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+*/	
 package edu.rit.csh.androidwebnews;
 
 import java.util.ArrayList;
@@ -44,7 +62,8 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		rf = (RecentFragment)getSupportFragmentManager().findFragmentById(R.id.recent_fragment);
 		
 		if (sharedPref.getString("newsgroups_json_string", "") != "") {
-			newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));	
+			newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
+			hc.startUnreadCountTask();
 		} else {
 			hc.getNewsGroups();
 		}
@@ -61,7 +80,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		} else {
 			alarm.cancel(pintent);
 		}
-		
+		setTitle("Recent Posts");
 	}
 	
 
@@ -104,6 +123,14 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		startActivity(myIntent);
 	}
 
+	/**
+	 * This is called to by the async task when there is an fragment to update.
+	 * This then updates the correct fragment based on what is given. The options
+	 * are: show an error dialog, update recent posts, update newgroups, and update
+	 * unread counts. When unread counts is updated and is different from what it used
+	 * to be, then it updates the newsgroups to get the correct display.
+	 * @param jsonString - a string representing the json object of the data
+	 */
 	@Override
 	public void update(String jsonString) {
 		try {
@@ -114,6 +141,19 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 				}
 			} else if (obj.has("activity")) { // recent
 				rf.update(hc.getNewestFromString(jsonString));
+			} else if (obj.has("unread_counts")) {  // unread count
+				int unread = hc.getUnreadCountFromString(jsonString)[0];
+				int groupUnread = 0;
+				for (Newsgroup group : hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", ""))) {
+					groupUnread += group.unreadCount;
+				}
+				if (unread != groupUnread) {
+					hc.getNewsGroups();
+					Log.d("jddebug - RecentActivity-update", "newsgroups updated");
+				} else {
+					newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
+				}
+				Log.d("jddebug-RecentActivity", unread + " " + groupUnread);
 			} else {  // newsgroups
 				SharedPreferences.Editor editor = sharedPref.edit();
 				editor.putString("newsgroups_json_string", jsonString);
@@ -134,7 +174,8 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	public void onResume()
 	{
 		super.onResume();
-		//hc.getNewsGroups();
+		hc.startUnreadCountTask();
+		/*hc.getNewsGroups();
 		
 		if(newsgroupListMenu.newsgroupAdapter != null)
 		{
@@ -142,7 +183,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 			for(Newsgroup ng : newsgroupListMenu.newsgroupList)
 				newsgroupListMenu.newsgroupAdapter.add(ng);
 			newsgroupListMenu.newsgroupAdapter.notifyDataSetChanged();
-		}
+		}*/
 	}
 
 }
