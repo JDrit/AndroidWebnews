@@ -67,7 +67,7 @@ public class WebnewsListView extends ListView implements OnGestureListener {
 
 	@Override
 	public boolean onDown(MotionEvent e) {
-		return true;
+		return false;
 	}
 
 	/**
