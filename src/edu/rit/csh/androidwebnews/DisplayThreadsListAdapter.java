@@ -97,6 +97,14 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	        } else {
 	        	tv.setText(text);
 	        }
+
+	        if(thread.personal_class.equals("mine"))
+	        	convertView.setBackgroundColor(0xffb7ffb9);
+	        if(thread.personal_class.equals("mine_reply"))
+	        	convertView.setBackgroundColor(0xfff7b7ff);
+	        if(thread.personal_class.equals("mine_in_thread"))
+	        	convertView.setBackgroundColor(0xffb7d2ff);
+	        
 	        ((Button) convertView.findViewById(R.id.Viewbutton)).setTag(position);
 	        return convertView;
 		}
