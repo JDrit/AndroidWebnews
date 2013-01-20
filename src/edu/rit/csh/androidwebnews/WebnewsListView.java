@@ -18,7 +18,7 @@ import android.widget.ListView;
 public class WebnewsListView extends ListView implements OnGestureListener {
 	GestureDetector gesturescanner;
 	NewsgroupListMenu newsGroupListMenu;
-	final float densityDpi = getResources().getDisplayMetrics().densityDpi;
+	final float densityDpi = getResources().getDisplayMetrics().density;
 
 	public WebnewsListView(Context context, NewsgroupListMenu slidemenu) {
 		super(context);
@@ -50,7 +50,6 @@ public class WebnewsListView extends ListView implements OnGestureListener {
 
 	@Override
 	public boolean onDown(MotionEvent e) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -64,7 +63,14 @@ public class WebnewsListView extends ListView implements OnGestureListener {
 			float velocityY) {
 		Log.d("MyDebugging","onFling() called!");
 		int scaledVelocity = (int) (velocityX / (densityDpi / 160f));
-		if(start.getRawX() < 50  && scaledVelocity > 500)
+		float distanceX = Math.abs(start.getX() - finish.getX());
+		float distanceY = Math.abs(start.getY() - finish.getY());
+		if(start.getRawX() < 150  && scaledVelocity > 300 && !NewsgroupListMenu.menuShown && distanceX > distanceY)
+		{
+			newsGroupListMenu.show();
+			return true;
+		}
+		if(scaledVelocity < -300 && NewsgroupListMenu.menuShown && distanceX > distanceY)
 		{
 			newsGroupListMenu.show();
 			return true;
@@ -81,7 +87,6 @@ public class WebnewsListView extends ListView implements OnGestureListener {
 	@Override
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
