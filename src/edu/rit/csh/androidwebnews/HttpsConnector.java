@@ -127,6 +127,7 @@ public class HttpsConnector {
 			JSONArray jArray = jObj.getJSONArray("activity");
 
 			for (int i = 0 ; i < jArray.length() ; i++) {
+				Log.d("newdebug", jArray.get(i).toString());
 				JSONObject newObj = jArray.getJSONObject(i).getJSONObject("newest_post");
 				String count = jArray.getJSONObject(i).getString("unread_count");
 				if (jArray.getJSONObject(i).getInt("unread_count") == 0) {
@@ -141,7 +142,7 @@ public class HttpsConnector {
 						newObj.getString("newsgroup"),
 						false,
 						count,
-						"",
+						jArray.getJSONObject(i).getString("personal_class"),
 						newObj.getString("sticky_until")));
 			}
 		} catch (JSONException e) {

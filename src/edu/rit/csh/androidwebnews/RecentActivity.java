@@ -59,7 +59,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		setContentView(R.layout.activity_recent);
 
 		rf = (RecentFragment)getSupportFragmentManager().findFragmentById(R.id.recent_fragment);
-		
+
 		if (!sharedPref.getBoolean("first_time", true)) {
 
 			if (sharedPref.getString("newsgroups_json_string", "") != "") {
@@ -70,11 +70,11 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 				hc.getNewsGroups();
 				Log.d("newdebug", "4");
 			}
-	
+
 			Intent intent = new Intent(this, UpdaterService.class);
 			PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
 			AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-	
+
 			// if the run service is selected, an alarm is started to repeat over given time
 			if (sharedPref.getBoolean("run_service", false)) {
 				alarm.cancel(pintent);
@@ -89,8 +89,8 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 			SharedPreferences.Editor editor = sharedPref.edit();
 			editor.putBoolean("first_time", false);
 			editor.commit();
-			
-			
+
+
 		}
 
 		setTitle("Recent Posts");
@@ -159,7 +159,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 					}
 				}
 			} else if (obj.has("activity")) { // recent
-				//Log.d("string", hc.getNewestFromString(jsonString).toString());
+				Log.d("string", hc.getNewestFromString(jsonString).toString());
 				rf.update(hc.getNewestFromString(jsonString));
 			} else if (obj.has("unread_counts")) {  // unread count
 				int unread = hc.getUnreadCountFromString(jsonString)[0];
