@@ -45,7 +45,7 @@ public class PostFragmentAdapter<T> extends ArrayAdapter<T> {
 	                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	        convertView = infalInflater.inflate(R.layout.postbuttons, null);
 	        convertView.setPadding(10, 10, 10, 10);
-	        ((Button) convertView.findViewById(R.id.replyButton)).setTag(getItem(0));
+	        //((Button) convertView.findViewById(R.id.replyButton)).setTag(getItem(0));
 	        ((Button) convertView.findViewById(R.id.unreadButton)).setTag(getItem(0));
 	        return convertView;
 		}

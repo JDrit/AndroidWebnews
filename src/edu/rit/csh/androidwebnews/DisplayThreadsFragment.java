@@ -278,7 +278,8 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 			int lastItem = firstVisibleItem + visibleItemCount;
 			if(lastItem == totalItemCount && threads != null && threads.size() != 0 && !((DisplayThreadsActivity)getActivity()).requestedAdditionalThreads)
 			{
-				//hc.getNewsgroupThreadsByDate(newsgroupName, threads.get(threads.size() - 1).date, 20);
+				Log.d("MyDebugging","Asking for posts in " + newsgroupName + " older than " + threads.get(threads.size() - 1).getDate() );
+				hc.getNewsgroupThreadsByDate(newsgroupName, threads.get(threads.size() - 1).date, 10);
 				((DisplayThreadsActivity)getActivity()).requestedAdditionalThreads = true;
 				//Log.d("MyDebugging", "We're at the bottom!");
 			}
