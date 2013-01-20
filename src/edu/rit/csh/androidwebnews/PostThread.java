@@ -24,7 +24,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 public class PostThread {
-	String date, subject, authorName, authorEmail, newsgroup, unread, personal_class;
+	String date, subject, authorName, authorEmail, newsgroup, unread, personal_class, sticky;
 	int number, depth;
 	boolean starred;
 	ArrayList<PostThread> children;
@@ -39,7 +39,8 @@ public class PostThread {
 			String newsgroup, 
 			boolean starred, 
 			String unread,
-			String personal_class) {
+			String personal_class,
+			String sticky) {
 		this.date = date;
 		this.number = number;
 		this.subject = subject;
@@ -49,6 +50,7 @@ public class PostThread {
 		this.starred = starred;
 		this.unread = unread;
 		this.personal_class = personal_class;
+		this.sticky = sticky;
 		children = new ArrayList<PostThread>();
 	}
 	
