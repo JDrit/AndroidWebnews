@@ -141,7 +141,8 @@ public class HttpsConnector {
 						newObj.getString("newsgroup"),
 						false,
 						count,
-						""));
+						"",
+						newObj.getString("sticky_until")));
 			}
 		} catch (JSONException e) {
 			Log.d("jsonError", "JSONException");
@@ -282,7 +283,8 @@ public class HttpsConnector {
 						newObj.getString("newsgroup"),
 						false,
 						"",
-						""));
+						"",
+						newObj.getString("sticky_until")));
 			}
 		} catch (JSONException e) {
 			Log.d("jsonError", "JSONException");
@@ -523,7 +525,8 @@ public class HttpsConnector {
 					post.getString("newsgroup"),
 					post.getBoolean("starred"),
 					post.getString("unread_class"),
-					post.getString("personal_class"));
+					post.getString("personal_class"),
+					post.getString("sticky_until"));
 			thread.depth = depthLevel;
 			Log.d("thread", thread.authorName + ": " + thread.depth);
 			if (obj.getJSONArray("children") != null ) {
