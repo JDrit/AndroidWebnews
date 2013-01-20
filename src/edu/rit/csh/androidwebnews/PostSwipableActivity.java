@@ -50,7 +50,7 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_post_swipable);	    	    
 	    hc = new HttpsConnector(this);
-		
+	    
 		Bundle extras = getIntent().getExtras();
 		newsgroupName = extras.getString("SELECTED_NEWSGROUP");
 		id = extras.getInt("SELECTED_ID");	
@@ -86,6 +86,11 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 		int threadId = Integer.parseInt((String)view.getTag());
 		findThisThread(rootThread, threadId).unread = "manual";
 		hc.markUnread(newsgroupName, threadId);
+	}
+	
+	public void markStarred(View view) {
+		int threadId = Integer.parseInt((String)view.getTag());
+		hc.markStarred(newsgroupName, threadId);
 	}
 	
 	private PostThread findThisThread(PostThread thread, int id)
