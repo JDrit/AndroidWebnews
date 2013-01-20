@@ -41,14 +41,33 @@ public class RecentListAdapter<T> extends ArrayAdapter<T> {
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		PostThread thread = ((PostThread) getItem(position));
-		LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		convertView = infalInflater.inflate(R.layout.rowlayout, null);
-		TextView tv = (TextView) convertView.findViewById(R.id.rowTextView);
-		tv.setText(thread.newsgroup + " : " + thread.toString());
-		if (thread.unread != "null") {
-			tv.setTypeface(null, Typeface.BOLD);
+		if(super.getCount() > 0)
+		{
+			PostThread thread = ((PostThread) getItem(position));
+			LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			convertView = infalInflater.inflate(R.layout.rowlayout, null);
+			TextView tv = (TextView) convertView.findViewById(R.id.rowTextView);
+			tv.setText(thread.newsgroup + " : " + thread.toString());
+			if (thread.unread != "null") {
+				tv.setTypeface(null, Typeface.BOLD);
+			}
+			return convertView;
 		}
-		return convertView;
+		else
+		{
+			LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			convertView = infalInflater.inflate(R.layout.thread_progress_bar, null);
+			return convertView;
+		}
+	}
+	
+	@Override
+	public int getCount()
+	{
+		int count = super.getCount();
+		if(count > 0)
+			return count;
+		else
+			return 1;
 	}
 }
