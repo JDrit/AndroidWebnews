@@ -53,7 +53,7 @@ public class UpdaterService extends IntentService {
 				  
 				  NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 				  mBuilder.setContentTitle("CSH Webnews");
-				  mBuilder.setSmallIcon(R.drawable.favicon);
+				  mBuilder.setSmallIcon(R.drawable.notification_icon);
 				  mBuilder.setAutoCancel(true);
 				  if (statuses[2] != 0) {
 					  if (statuses[2] == 1) {
@@ -79,6 +79,7 @@ public class UpdaterService extends IntentService {
 					  mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 					  mVibrator.vibrate(500);  
 				  }
+				  
 			      // Creates an explicit intent for an Activity in your app
 				  Intent resultIntent = new Intent(this, RecentActivity.class);
 
@@ -105,7 +106,7 @@ public class UpdaterService extends IntentService {
 			  Log.d("jddebug - UpdaterService", "invalid api key");
 			  NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 			  mBuilder.setContentTitle("CSH Webnews");
-			  mBuilder.setSmallIcon(android.R.drawable.alert_dark_frame);
+			  mBuilder.setSmallIcon(R.drawable.notification_icon);
 			  mBuilder.setContentText("Invalid API Key");
 			  mBuilder.setAutoCancel(true);
 
