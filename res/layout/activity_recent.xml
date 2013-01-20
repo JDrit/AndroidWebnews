@@ -12,11 +12,16 @@
         android:text="CSH Webnews"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="40sp" />
-		
+
     <fragment android:name="edu.rit.csh.androidwebnews.RecentFragment"
         android:id="@+id/recent_fragment"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    <Button
+        android:text="Mark Read"
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 
 </LinearLayout>
