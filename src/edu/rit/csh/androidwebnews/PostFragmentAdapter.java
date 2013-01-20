@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class PostFragmentAdapter<T> extends ArrayAdapter<T> {
 	        convertView.setPadding(10, 10, 10, 10);
 	        //((Button) convertView.findViewById(R.id.replyButton)).setTag(getItem(0));
 	        ((Button) convertView.findViewById(R.id.unreadButton)).setTag(getItem(0));
+	        ((Button) convertView.findViewById(R.id.starButton)).setTag(getItem(0));
 	        return convertView;
 		}
 		LayoutInflater infalInflater = (LayoutInflater) getContext()
@@ -55,8 +57,7 @@ public class PostFragmentAdapter<T> extends ArrayAdapter<T> {
         convertView.setPadding(10, 10, 10, 10);
         TextView tv = ((TextView) convertView.findViewById(R.id.rowTextView));
         
-        	tv.setText((String) getItem(position));
-        
+        tv.setText((String) getItem(position));
         
         return convertView;
 	}

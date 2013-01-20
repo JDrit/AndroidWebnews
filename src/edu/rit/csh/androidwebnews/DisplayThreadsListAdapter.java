@@ -93,11 +93,11 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	        if (thread.unread != "null") {
 	        	tv.setText(text);
 	        	tv.setTypeface(null, Typeface.BOLD);
-	        	convertView.setBackgroundColor(Color.LTGRAY);
+	        	//convertView.setBackgroundColor(0xffcbcbcb);
 	        } else {
 	        	tv.setText(text);
 	        }
-
+	        
 	        if(thread.personal_class.equals("mine"))
 	        	convertView.setBackgroundColor(0xffb7ffb9);
 	        if(thread.personal_class.equals("mine_reply"))
