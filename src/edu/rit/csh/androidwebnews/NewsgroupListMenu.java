@@ -117,6 +117,7 @@ public class NewsgroupListMenu {
 	    menu.setLayoutParams(lays);
 	    parent.addView(menu);
 	    ListView list = (ListView) act.findViewById(R.id.menu_listview);
+	    list.setBackgroundResource(R.drawable.shadow);
 	    list.setOnItemClickListener(new OnItemClickListener() {
 	        @Override
 	        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
