@@ -30,7 +30,7 @@
         android:layout_marginRight="70dp"
         android:src="@drawable/empty" />
 
-	<Button
+	<!-- <Button
         android:id="@+id/Viewbutton"
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
@@ -40,6 +40,6 @@
         android:layout_alignParentRight="true"
         android:text="View"
         android:textSize="20dp"
-        android:onClick="viewPost" />
+        android:onClick="viewPost" /> -->
 
 </RelativeLayout>

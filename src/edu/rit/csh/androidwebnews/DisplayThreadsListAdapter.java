@@ -28,6 +28,7 @@ import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
@@ -49,15 +50,17 @@ import android.widget.TextView;
  */
 public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	Context context;
+	DisplayThreadsFragment dtf;
 
 	public DisplayThreadsListAdapter(Context context, int textViewResourceId,
-			List<T> objects) {
+			List<T> objects, DisplayThreadsFragment dtf) {
 		super(context, textViewResourceId, objects);
 		this.context = context;
+		this.dtf = dtf;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent)
+	public View getView(final int position, View convertView, ViewGroup parent)
 	{
 		if(position < super.getCount())
 		{
@@ -72,6 +75,21 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	        {	
 	            ((ImageView) convertView.findViewById(R.id.imageView1)).setImageResource(R.drawable.empty);
 	        	
+	        }
+	        else
+	        {
+	        	ImageView iv = (ImageView) convertView.findViewById(R.id.imageView1);
+	        	iv.setClickable(true);
+	        	iv.setOnClickListener(new OnClickListener()
+	        	{
+
+					@Override
+					public void onClick(View arg0) {
+						dtf.onArrowClick(position);
+						
+					}
+	        		
+	        	});
 	        }
 	        
 	        if(position + 1 < super.getCount() && thread.children.size() > 0)
@@ -89,7 +107,7 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 			Log.d("thread depth", thread.depth + " " + thread.authorName);
 	
 			
-	        tv.setPadding(75,0,150,0);
+	        tv.setPadding(85,0,10,0);
 	        if (thread.unread != "null") {
 	        	tv.setText(text);
 	        	tv.setTypeface(null, Typeface.BOLD);
@@ -115,7 +133,7 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	        else
 	        	convertView.setBackgroundColor(Color.WHITE);
 	        
-	        ((Button) convertView.findViewById(R.id.Viewbutton)).setTag(position);
+	        //((Button) convertView.findViewById(R.id.Viewbutton)).setTag(position);
 	        return convertView;
 		}
 		else
