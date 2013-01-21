@@ -211,10 +211,13 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 
 	@Override
 	public void onNewsgroupSelected(String newsgroupName) {
-		Intent myIntent = new Intent(DisplayThreadsActivity.this, DisplayThreadsActivity.class);
-		myIntent.putExtra("SELECTED_NEWSGROUP", newsgroupName);
-		startActivity(myIntent);
-		finish();
+		if(!newsgroupName.equals(this.newsgroupName))
+		{
+			Intent myIntent = new Intent(DisplayThreadsActivity.this, DisplayThreadsActivity.class);
+			myIntent.putExtra("SELECTED_NEWSGROUP", newsgroupName);
+			startActivity(myIntent);
+			finish();
+		}
 	}
 	
 	
