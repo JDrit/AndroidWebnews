@@ -23,7 +23,7 @@ import java.util.Queue;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -65,7 +65,7 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
 	}
 	
 	@Override
-    public android.support.v4.app.Fragment getItem(int i) {
+    public Fragment getItem(int i) {
 		Log.d("MyDebugging", "item " + i + " requested");
         PostFragment fragment = new PostFragment(rootThread.getThisThread(i));
 		Log.d("MyDebugging", "Fragment initialized");
