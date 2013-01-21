@@ -32,20 +32,19 @@ public final class R {
     }
     public static final class id {
         public static final int LicenseButton=0x7f0a0003;
-        public static final int Viewbutton=0x7f0a0024;
         public static final int aboutButton=0x7f0a0002;
         public static final int aboutTextView=0x7f0a0001;
         public static final int imageView1=0x7f0a0021;
         public static final int list=0x7f0a0004;
         public static final int mainListView=0x7f0a000c;
-        public static final int menu_about=0x7f0a0027;
+        public static final int menu_about=0x7f0a0026;
         public static final int menu_icon=0x7f0a000f;
         public static final int menu_label=0x7f0a0010;
         public static final int menu_listview=0x7f0a000d;
-        public static final int menu_mark_all_read=0x7f0a0028;
-        public static final int menu_refresh=0x7f0a0025;
-        public static final int menu_search=0x7f0a0029;
-        public static final int menu_settings=0x7f0a0026;
+        public static final int menu_mark_all_read=0x7f0a0027;
+        public static final int menu_refresh=0x7f0a0024;
+        public static final int menu_search=0x7f0a0028;
+        public static final int menu_settings=0x7f0a0025;
         public static final int newsgroup_list=0x7f0a0000;
         public static final int overlay=0x7f0a000e;
         public static final int pager=0x7f0a0006;
