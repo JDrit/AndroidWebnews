@@ -89,7 +89,7 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 		
 		
 	    mainListView.setAdapter(listAdapter);
-		Log.d("MyDebugging", "listadapter set");
+		Log.d("MyDebugging", "listadapter set"); 
 		mainListView.setOnItemClickListener(new OnItemClickListener()
 		{
 

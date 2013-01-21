@@ -123,7 +123,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	}
 	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item) { 
 		switch (item.getItemId()) {
 		case R.id.menu_settings:
 			startActivity(new Intent(this, SettingsActivity.class));
