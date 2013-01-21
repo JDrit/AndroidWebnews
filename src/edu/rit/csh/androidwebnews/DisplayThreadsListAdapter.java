@@ -108,7 +108,7 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	
 			
 	        tv.setPadding(85,0,10,0);
-	        if (thread.unread != "null") {
+	        if (thread.unread != "null") { 
 	        	tv.setText(text);
 	        	tv.setTypeface(null, Typeface.BOLD);
 	        	//convertView.setBackgroundColor(0xffcbcbcb);
