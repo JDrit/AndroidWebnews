@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -45,10 +46,15 @@ public class PostFragmentAdapter<T> extends ArrayAdapter<T> {
 			LayoutInflater infalInflater = (LayoutInflater) getContext()
 	                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	        convertView = infalInflater.inflate(R.layout.postbuttons, null);
+	        
+	        ImageButton ib =(ImageButton) convertView.findViewById(R.id.starButton);
+	        if(super.getItem(getCount()).equals("true"))
+	        	ib.setImageResource(R.drawable.starred);
+	        
 	        convertView.setPadding(10, 10, 10, 10);
 	        //((Button) convertView.findViewById(R.id.replyButton)).setTag(getItem(0));
 	        ((Button) convertView.findViewById(R.id.unreadButton)).setTag(getItem(0));
-	        ((Button) convertView.findViewById(R.id.starButton)).setTag(getItem(0));
+	        ib.setTag(getItem(0));
 	        return convertView;
 		}
 		LayoutInflater infalInflater = (LayoutInflater) getContext()
@@ -65,7 +71,7 @@ public class PostFragmentAdapter<T> extends ArrayAdapter<T> {
 	@Override
 	public int getCount()
 	{
-		return super.getCount();
+		return super.getCount() - 1;
 	}
 
 }

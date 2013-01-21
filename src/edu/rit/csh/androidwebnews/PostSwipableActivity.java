@@ -33,6 +33,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.ImageButton;
 
 public class PostSwipableActivity extends FragmentActivity implements ActivityInterface {
 	InvalidApiKeyDialog dialog;
@@ -90,6 +91,13 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 	
 	public void markStarred(View view) {
 		int threadId = Integer.parseInt((String)view.getTag());
+		PostThread thread = findThisThread(rootThread, threadId);
+		thread.starred = !thread.starred;
+		ImageButton ib = (ImageButton)view;
+		if(thread.starred)
+			ib.setImageResource(R.drawable.starred);
+		else
+			ib.setImageResource(R.drawable.unstarred);
 		hc.markStarred(newsgroupName, threadId);
 	}
 	
