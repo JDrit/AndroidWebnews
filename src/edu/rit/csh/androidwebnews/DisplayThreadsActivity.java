@@ -58,6 +58,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		super.onCreate(savedInstanceState);
 		Log.d("MyDebugging", "newsgroupView creation started");
 		
+		hitBottom=false;
 		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);	    
 	    hc = new HttpsConnector(this);
 	    dialog = new InvalidApiKeyDialog(this);
