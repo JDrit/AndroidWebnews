@@ -20,6 +20,15 @@
 		android:maxLines="2"
  		android:padding="10dp" 
  		android:textSize="20sp" />  
+    
+    <ImageView
+        android:id="@+id/starImage"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="70dp"
+        android:src="@drawable/empty" />
 
 	<Button
         android:id="@+id/Viewbutton"

@@ -19,12 +19,12 @@
         android:focusable="false"
         android:text="Mark Unread"
         android:onClick="markUnread" />
-	<Button
+	<ImageButton
         android:id="@+id/starButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:focusable="false"
-        android:text="Star"
+        android:src="@drawable/unstarred"
         android:onClick="markStarred" />
 </LinearLayout>
