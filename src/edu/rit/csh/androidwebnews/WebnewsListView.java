@@ -42,6 +42,7 @@ public class WebnewsListView extends ListView implements OnGestureListener {
 		gesturescanner = new GestureDetector(getContext(), this);
 		this.newsGroupListMenu = slidemenu;
 		Log.d("MyDebugging", "Slidemenu: " + slidemenu);
+		this.setFocusable(false);
 	}
 
 	public WebnewsListView(Context context, AttributeSet attrs) {
