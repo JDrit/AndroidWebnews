@@ -203,6 +203,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 			Log.d("newdebug", "2");
 			hc.getNewsGroups();
 		}
+		NewsgroupListMenu.menuShown = false;
 		/*hc.getNewsGroups();
 		
 		if(newsgroupListMenu.newsgroupAdapter != null)
