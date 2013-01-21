@@ -112,6 +112,8 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	        	convertView.setBackgroundColor(0xfff7b7ff);
 	        else if(thread.personal_class.equals("mine_in_thread"))
 	        	convertView.setBackgroundColor(0xffb7d2ff);
+	        else
+	        	convertView.setBackgroundColor(Color.WHITE);
 	        
 	        ((Button) convertView.findViewById(R.id.Viewbutton)).setTag(position);
 	        return convertView;
