@@ -50,6 +50,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	NewsgroupListMenu newsgroupListMenu;
 	public boolean requestedAdditionalThreads = false;
 	SharedPreferences sharedPref;
+	public static boolean hitBottom = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -160,7 +161,12 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 					dialog.show();
 				}
 			} else if (obj.has("posts_older")) { 
-				if(!requestedAdditionalThreads)
+				if(hc.getThreadsFromString(jsonString).size() == 0)
+				{
+					hitBottom = true;
+					dtf.addThreads(new ArrayList<PostThread>());
+				}
+				else if(!requestedAdditionalThreads)
 				{
 					Log.d("MyDebugging", "DisplayThreadsActivity updating the threads sdfk");
 					ArrayList<PostThread> threads = hc.getThreadsFromString(jsonString);
