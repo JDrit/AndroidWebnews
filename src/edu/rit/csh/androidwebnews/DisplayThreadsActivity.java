@@ -106,8 +106,8 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		return true;
 	}
 	
-	public void viewPost(View view) {
-		PostThread thread = threadsDirectMap.get(((Integer)view.getTag()));
+	public void viewPost(int item) {
+		PostThread thread = threadsDirectMap.get(item);
 		PostThread selected = thread;
 		
 		while(thread.parent != null)
@@ -123,7 +123,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	}
 	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item) { 
 		switch (item.getItemId()) {
 		case R.id.menu_settings:
 			startActivity(new Intent(this, SettingsActivity.class));

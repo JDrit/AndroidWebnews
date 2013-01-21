@@ -83,58 +83,58 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 	    }
 		Log.d("MyDebugging", "displayedStrings populated");
 
-	    listAdapter = new DisplayThreadsListAdapter<PostThread>(getActivity(), R.layout.threadlayout, threads);
+	    listAdapter = new DisplayThreadsListAdapter<PostThread>(getActivity(), R.layout.threadlayout, threads, this);
 		Log.d("MyDebugging", "list adapter made");
 		
 		
 		
 	    mainListView.setAdapter(listAdapter);
-		Log.d("MyDebugging", "listadapter set");
+		Log.d("MyDebugging", "listadapter set"); 
 		mainListView.setOnItemClickListener(new OnItemClickListener()
 		{
 
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View arg1, int position,
 					long id) {
-				int originalPos = -1;
-				if(position < threads.size() - 1)
-					originalPos = findOriginalPos(((DisplayThreadsActivity)getActivity()).threadsDirectMap.get(position));
-				/*Log.d("MyDebugging", "item " + position + " clicked on");
-				Log.d("MyDebugging", "original position is " + originalPos);
-				Log.d("MyDebugging", "threadStatus[originalPos] = " + threadStatus[originalPos]);
-				Log.d("MyDebugging", "extraEntries[originalPos] = " + extraEntries[originalPos]);
-				Log.d("MyDebugging", "sub threads of threads.get(originalPosition) = " + rootThreads.get(originalPos).getSubThreadCount());*/
-				if(originalPos > -1)
-				{
-					if(threadStatus[originalPos])
-					{
-						for(int x = 0; x < extraEntries[originalPos]; x++)
-						{
-							threads.remove(position + 1);
-							((DisplayThreadsActivity)getActivity()).threadsDirectMap.remove(position + 1);
-						}
-						extraEntries[originalPos] = 0;
-						listAdapter.clear();
-						listAdapter.addAll(threads);
-						listAdapter.notifyDataSetChanged();
-						threadStatus[originalPos] = false;					
-					}
-					else
-					{
-						
-						expandThread(rootThreads.get(originalPos), position);
-						listAdapter.clear();
-						listAdapter.addAll(threads);
-						listAdapter.notifyDataSetChanged();
-						threadStatus[originalPos] = true;					
-					}
-				}
+				((DisplayThreadsActivity)getActivity()).viewPost(position);
 			}
 
 		});
 		Log.d("MyDebugging", "ThreadsListFragment made");
 
 	    return mainListView;
+	}
+	
+	public void onArrowClick(int position)
+	{
+		int originalPos = -1;
+		if(position < threads.size() - 1)
+			originalPos = findOriginalPos(((DisplayThreadsActivity)getActivity()).threadsDirectMap.get(position));
+		if(originalPos > -1)
+		{
+			if(threadStatus[originalPos])
+			{
+				for(int x = 0; x < extraEntries[originalPos]; x++)
+				{
+					threads.remove(position + 1);
+					((DisplayThreadsActivity)getActivity()).threadsDirectMap.remove(position + 1);
+				}
+				extraEntries[originalPos] = 0;
+				listAdapter.clear();
+				listAdapter.addAll(threads);
+				listAdapter.notifyDataSetChanged();
+				threadStatus[originalPos] = false;					
+			}
+			else
+			{
+				
+				expandThread(rootThreads.get(originalPos), position);
+				listAdapter.clear();
+				listAdapter.addAll(threads);
+				listAdapter.notifyDataSetChanged();
+				threadStatus[originalPos] = true;					
+			}
+		}
 	}
 
 	public void expandThread(PostThread thread, int pos)
