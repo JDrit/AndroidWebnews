@@ -84,6 +84,7 @@ public class PostFragment extends Fragment {
 		contents.add("Post Date: " + myThread.getDate());
 		swapBodies();
 		contents.add("[Post loading...]");
+		contents.add(myThread.starred + "");
 		
 		listAdapter = new PostFragmentAdapter<String>(getActivity(), R.layout.rowlayout, contents);
 		
@@ -100,7 +101,7 @@ public class PostFragment extends Fragment {
 				{
 					swapBodies();
 					contents.remove(5);
-					contents.add(body);
+					contents.add(5, body);
 					//listAdapter.clear();
 					//listAdapter.addAll(contents);
 					listAdapter.notifyDataSetChanged();
@@ -185,7 +186,7 @@ public class PostFragment extends Fragment {
 		processBody();
 		//swapBodies();
 		contents.remove(5);
-		contents.add(body);
+		contents.add(5, body);
 		listAdapter.notifyDataSetChanged();
 	}
 
