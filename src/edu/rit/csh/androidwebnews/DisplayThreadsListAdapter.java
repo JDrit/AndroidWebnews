@@ -119,7 +119,7 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	        if(thread.starred)
 	        {
 	        	((ImageView) convertView.findViewById(R.id.starImage)).setImageResource(R.drawable.starred);
-	        	tv.setPadding(75,0,220,0);
+	        	tv.setPadding(75,0,90,0);
 	        }
 	        
 	        if(!thread.sticky.equals("null"))
@@ -130,8 +130,6 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	        	convertView.setBackgroundColor(0xfff7b7ff);
 	        else if(thread.personal_class.equals("mine_in_thread"))
 	        	convertView.setBackgroundColor(0xffb7d2ff);
-	        else
-	        	convertView.setBackgroundColor(Color.WHITE);
 	        
 	        //((Button) convertView.findViewById(R.id.Viewbutton)).setTag(position);
 	        return convertView;
