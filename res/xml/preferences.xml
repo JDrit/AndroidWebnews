@@ -22,7 +22,7 @@
 	
     <EditTextPreference
         android:key="time_between_checks"
-        android:title="Time Between Checks"
+        android:title="Minutes Between Checks"
         android:summary="The time, in minutes, between checks for new posts"
         android:inputType="number"
         android:maxLength="3"
