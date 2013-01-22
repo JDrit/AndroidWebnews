@@ -502,8 +502,9 @@ public class HttpsConnector {
 			BasicNameValuePair bodyVP = new BasicNameValuePair("body", body);
 			BasicNameValuePair newsgroupParentVP = new BasicNameValuePair("reply_newsgroup", newsgroupParent);
 			BasicNameValuePair idParentVP = new BasicNameValuePair("reply_newsgroup", Integer.valueOf(parentId).toString());
+			BasicNameValuePair stickyVP = new BasicNameValuePair("sticky_until" , "1 second from now");
 			
-			new HttpsPostAsyncTask(httpclient).execute(urlVP, newsgroupVP, subjectVP, bodyVP, newsgroupParentVP, idParentVP);
+			new HttpsPostAsyncTask(httpclient).execute(urlVP, newsgroupVP, subjectVP, bodyVP, newsgroupParentVP, idParentVP, stickyVP);
 		} else {
 			dialog.show();
 		}
