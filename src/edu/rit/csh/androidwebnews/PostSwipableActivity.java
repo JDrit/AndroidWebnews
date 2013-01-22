@@ -34,6 +34,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class PostSwipableActivity extends FragmentActivity implements ActivityInterface {
 	InvalidApiKeyDialog dialog;
@@ -87,6 +88,7 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 		int threadId = Integer.parseInt((String)view.getTag());
 		findThisThread(rootThread, threadId).unread = "manual";
 		hc.markUnread(newsgroupName, threadId);
+		Toast.makeText(getApplicationContext(), "Marking post as unread", Toast.LENGTH_LONG).show();
 	}
 	
 	public void markStarred(View view) {
@@ -95,9 +97,15 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 		thread.starred = !thread.starred;
 		ImageButton ib = (ImageButton)view;
 		if(thread.starred)
+		{
 			ib.setImageResource(R.drawable.starred);
+			Toast.makeText(getApplicationContext(), "Post starred", Toast.LENGTH_LONG).show();
+		}
 		else
+		{
 			ib.setImageResource(R.drawable.unstarred);
+			Toast.makeText(getApplicationContext(), "Post unstarred", Toast.LENGTH_LONG).show();
+		}
 		hc.markStarred(newsgroupName, threadId);
 	}
 	
