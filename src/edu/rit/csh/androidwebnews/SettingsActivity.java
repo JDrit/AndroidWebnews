@@ -94,13 +94,21 @@ public class SettingsActivity extends PreferenceActivity {
 			PendingIntent pintent = PendingIntent.getService(SettingsActivity.this, 0, intent, 0);
 			AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 			if (key == "time_between_checks") {
-				
+				Log.d("newdebug22", prefs.getInt("time_between_checks", 15) + ""); 
 			}
 			// if the run service is selected, an alarm is started to repeat over given time
 			if (prefs.getBoolean("run_service", false)) {
 				alarm.cancel(pintent);
-				Log.d("newdebug", prefs.getInt("time_between_checks", 15) + " s");
-				alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), prefs.getInt("time_between_checks", 15) * 60000, pintent);
+				String timeString= prefs.getString("time_between_checks", "15");
+				int time;
+				Log.d("timeString", "(" + timeString + ")");
+				if (timeString.equals("")) {
+					time = 15;
+				} else {
+					time = Integer.valueOf(timeString);
+				}
+				
+				alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), time * 60000, pintent);
 			} else {
 				alarm.cancel(pintent);
 			}
