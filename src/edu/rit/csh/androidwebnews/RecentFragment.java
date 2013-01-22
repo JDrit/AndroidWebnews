@@ -20,6 +20,7 @@ package edu.rit.csh.androidwebnews;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -72,7 +73,20 @@ public class RecentFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View arg1, int position, long id) {
 				PostThread thread = (PostThread) adapter.getItemAtPosition(position);
-				((RecentActivity)getActivity()).onThreadSelected(thread);
+				
+				DisplayThreadsActivity.lastFetchedThreads = new ArrayList<PostThread>();
+				DisplayThreadsActivity.lastFetchedThreads.add(thread);
+				
+				while(thread.parent != null)
+					thread=thread.parent;
+				
+				Intent intent = new Intent(getActivity(), PostSwipableActivity.class);
+				intent.putExtra("SELECTED_NEWSGROUP", thread.newsgroup);
+				intent.putExtra("SELECTED_ID", thread.number);
+				//intent.putExtra("GOTO_THIS", threadsDirectMap.indexOf(selected) - threadsDirectMap.indexOf(thread));
+
+				Log.d("des", "intent made");
+				startActivity(intent);
 
 			}
 
