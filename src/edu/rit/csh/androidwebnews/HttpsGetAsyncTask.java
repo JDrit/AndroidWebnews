@@ -97,7 +97,6 @@ public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
             in.close();
             String page = sb.toString();
             Log.d("jddebug", "back ended");
-            Log.d("jddebug-getasynctask", params[0] + " : " + page);
     		return page;
             
 		} catch (ClientProtocolException e) {
@@ -106,6 +105,7 @@ public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
 		} catch (IOException e) {
 			e.printStackTrace();
 			Log.d("jddebug-getasynctask", e.toString());
+			Log.d("jddebug-getasynctask", params[0] + "");
 		}
 		Log.d("jddebug", "back ended");
 		//Log.d("jddebug-getasynctask", params[0] + " : " + page);

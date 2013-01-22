@@ -60,9 +60,9 @@ public class RecentFragment extends Fragment {
 			}
 			
 			lv.setAdapter(listAdapter);
-			Log.d("jddebug - from file", ng);
+			
 		}
-		Log.d("jddebug - from file", ng);
+		
 		listAdapter = new RecentListAdapter<PostThread>(getActivity(), R.layout.rowlayout, new ArrayList<PostThread>());
 		lv.setAdapter(listAdapter);
 

@@ -25,7 +25,8 @@
         android:title="Minutes Between Checks"
         android:summary="The time, in minutes, between checks for new posts"
         android:inputType="number"
+        android:numeric="integer"
         android:maxLength="3"
-        android:defaultValue="15" />
+         />
 
 </PreferenceScreen>

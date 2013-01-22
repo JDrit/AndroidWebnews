@@ -127,7 +127,7 @@ public class HttpsConnector {
 			JSONArray jArray = jObj.getJSONArray("activity");
 
 			for (int i = 0 ; i < jArray.length() ; i++) {
-				Log.d("newdebug", jArray.get(i).toString());
+				
 				JSONObject newObj = jArray.getJSONObject(i).getJSONObject("newest_post");
 				String count = jArray.getJSONObject(i).getString("unread_count");
 				if (jArray.getJSONObject(i).getInt("unread_count") == 0) {
@@ -476,6 +476,40 @@ public class HttpsConnector {
 			dialog.show();
 		}
 	}
+	
+	public void composePost(String newsgroup, String subject, String body) {
+		if (checkInternet()) {
+			String url = formatUrl("compose", new ArrayList<NameValuePair>()).toString();
+			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
+			BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
+			BasicNameValuePair subjectVP = new BasicNameValuePair("subject", subject);
+			BasicNameValuePair bodyVP = new BasicNameValuePair("body", body);
+			BasicNameValuePair stickyVP = new BasicNameValuePair("sticky_until" , "1 second from now");
+			
+			new HttpsPostAsyncTask(httpclient).execute(urlVP, newsgroupVP, subjectVP, bodyVP, stickyVP);
+		} else {
+			dialog.show();
+		}
+		
+	}
+	
+	public void composePost(String newsgroup, String subject, String body, String newsgroupParent, int parentId) {
+		if (checkInternet()) {
+			String url = formatUrl("compose", new ArrayList<NameValuePair>()).toString();
+			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
+			BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
+			BasicNameValuePair subjectVP = new BasicNameValuePair("subject", subject);
+			BasicNameValuePair bodyVP = new BasicNameValuePair("body", body);
+			BasicNameValuePair newsgroupParentVP = new BasicNameValuePair("reply_newsgroup", newsgroupParent);
+			BasicNameValuePair idParentVP = new BasicNameValuePair("reply_newsgroup", Integer.valueOf(parentId).toString());
+			
+			new HttpsPostAsyncTask(httpclient).execute(urlVP, newsgroupVP, subjectVP, bodyVP, newsgroupParentVP, idParentVP);
+		} else {
+			dialog.show();
+		}
+		
+	}
+	
 
 	/**
 	 * Validates that the API key is valid
