@@ -124,8 +124,23 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 	}
 	
 	public void postReply(View view) {
-		int threadId = Integer.parseInt((String)view.getTag());
-		//make reply
+		String threadInfo = (String)view.getTag();
+		int threadId = Integer.parseInt(threadInfo.substring(0, threadInfo.indexOf("|")));
+		PostThread thread = findThisThread(rootThread, threadId);
+		String subject = thread.subject;
+		String body = threadInfo.substring(threadInfo.indexOf("|") + 1, threadInfo.length());
+		
+		String newBody = "";
+		String[] lines = body.split("\n");
+		for(int t = 0; t < lines.length; t++)
+			newBody += ">" + lines[t] + "\n";
+		
+		newBody = "On " + thread.getDate() + ", " + thread.authorName + " wrote:\n" + newBody;
+		
+		Intent myIntent = new Intent(this, ComposeActivity.class);
+		myIntent.putExtra("SUBJECT", subject);
+		myIntent.putExtra("QUOTED_TEXT", newBody);
+		startActivity(myIntent);
 	}
 
 	@Override

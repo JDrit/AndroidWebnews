@@ -52,7 +52,7 @@ public class PostFragmentAdapter<T> extends ArrayAdapter<T> {
 	        	ib.setImageResource(R.drawable.starred);
 	        
 	        convertView.setPadding(10, 10, 10, 10);
-	        //((Button) convertView.findViewById(R.id.replyButton)).setTag(getItem(0));
+	        ((Button) convertView.findViewById(R.id.replyButton)).setTag(getItem(0) + "|" + getItem(5));
 	        ((Button) convertView.findViewById(R.id.unreadButton)).setTag(getItem(0));
 	        ib.setTag(getItem(0));
 	        return convertView;

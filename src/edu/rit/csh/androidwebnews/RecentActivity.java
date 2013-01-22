@@ -78,7 +78,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 			// if the run service is selected, an alarm is started to repeat over given time
 			if (sharedPref.getBoolean("run_service", false)) {
 				alarm.cancel(pintent);
-				alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), sharedPref.getInt("time_between_checks", 15) * 60000, pintent);
+				//alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), sharedPref.getInt("time_between_checks", 15) * 60000, pintent);
 				Log.d("jddebug", "alarm set");
 			} else {
 				alarm.cancel(pintent);
