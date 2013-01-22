@@ -97,7 +97,7 @@ public class SettingsActivity extends PreferenceActivity {
 			// if the run service is selected, an alarm is started to repeat over given time
 			if (prefs.getBoolean("run_service", false)) {
 				alarm.cancel(pintent);
-				alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), Integer.valueOf(prefs.getString("time_between_checks", "15")) * 60000, pintent);
+				alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), prefs.getInt("time_between_checks", 15) * 60000, pintent);
 			} else {
 				alarm.cancel(pintent);
 			}
