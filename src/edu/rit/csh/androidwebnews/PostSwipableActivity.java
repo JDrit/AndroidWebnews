@@ -137,7 +137,11 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 		
 		newBody = "On " + thread.getDate() + ", " + thread.authorName + " wrote:\n" + newBody;
 		
+		if(!subject.substring(0, 3).equals("Re:"))
+			subject = "Re: " + subject;
+		
 		Intent myIntent = new Intent(this, ComposeActivity.class);
+		myIntent.putExtra("NEWSGROUP", newsgroupName);
 		myIntent.putExtra("SUBJECT", subject);
 		myIntent.putExtra("QUOTED_TEXT", newBody);
 		startActivity(myIntent);
