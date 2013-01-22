@@ -80,18 +80,21 @@ public class WebnewsListView extends ListView implements OnGestureListener {
 	public boolean onFling(MotionEvent start, MotionEvent finish, float velocityX,
 			float velocityY) {
 		Log.d("MyDebugging","onFling() called!");
-		int scaledVelocity = (int) (velocityX / (densityDpi / 160f));
-		float distanceX = Math.abs(start.getX() - finish.getX());
-		float distanceY = Math.abs(start.getY() - finish.getY());
-		if(scaledVelocity > 500 && !NewsgroupListMenu.menuShown && distanceX > 2*distanceY)
+		if(start != null && finish != null)
 		{
-			newsGroupListMenu.show();
-			return true;
-		}
-		if(scaledVelocity < -300 && NewsgroupListMenu.menuShown && distanceX > 2*distanceY)
-		{
-			newsGroupListMenu.show();
-			return true;
+			int scaledVelocity = (int) (velocityX / (densityDpi / 160f));
+			float distanceX = Math.abs(start.getX() - finish.getX());
+			float distanceY = Math.abs(start.getY() - finish.getY());
+			if(scaledVelocity > 500 && !NewsgroupListMenu.menuShown && distanceX > 2*distanceY)
+			{
+				newsGroupListMenu.show();
+				return true;
+			}
+			if(scaledVelocity < -300 && NewsgroupListMenu.menuShown && distanceX > 2*distanceY)
+			{
+				newsGroupListMenu.show();
+				return true;
+			}
 		}
 		return false;
 	}
