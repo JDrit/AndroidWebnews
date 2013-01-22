@@ -9,6 +9,7 @@ import android.widget.Toast;
 public class ComposeActivity extends Activity {
 	String subject;
 	String body;
+	String newsgroup;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -21,6 +22,7 @@ public class ComposeActivity extends Activity {
 		{
 			subject = extras.getString("SUBJECT");
 			body = extras.getString("QUOTED_TEXT");
+			newsgroup = extras.getString("NEWSGROUP");
 		}
 		
 		setContentView(R.layout.activity_compose);
@@ -30,6 +32,8 @@ public class ComposeActivity extends Activity {
 		
 		EditText bodyText = (EditText) findViewById(R.id.post_body);
 		bodyText.setText(body);
+		
+		setTitle("Compose");
 	}
 	
 	public void abandon(View view)
