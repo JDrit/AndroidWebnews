@@ -41,14 +41,18 @@ public class PostFragment extends Fragment {
 	PostThread myThread;
 	HttpsConnector hc;
 	PostFragmentAdapter<String> listAdapter;
+	int me = 0;
+	int total = 0;
 	
-	public PostFragment(PostThread thread)
+	public PostFragment(PostThread thread, int me, int total)
 	{
 		super();
 		Log.d("MyDebugging", "Post Fragment being made");
 		Log.d("MyDebugging", "newsgroup = " + thread.newsgroup);
 		Log.d("MyDebugging", "Post Fragment made");
 		myThread = thread;
+		this.me = me;
+		this.total = total;
 	}
 	
 	public PostFragment()
@@ -160,6 +164,8 @@ public class PostFragment extends Fragment {
 			myThread.unread = "null";
 			hc.markRead(myThread.newsgroup, myThread.number);
 		}
+		if(getActivity() != null)
+			getActivity().setTitle("Post " + me + " of " + total);
 	}
 	
 	/*@Override
