@@ -59,7 +59,7 @@ public class UpdaterService extends IntentService {
 		  String apiKey = sharedPref.getString("api_key", "");
 		  HttpsConnector hc = new HttpsConnector(this);
 		  int[] statuses = new int[3];
-		  Log.d("newDebug-updater", hc.getUnreadCount()[0] + "");
+		  
 		  statuses = hc.getUnreadCount();
 		  
 		  if (statuses == null) { //invalid api key
