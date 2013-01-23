@@ -484,7 +484,7 @@ public class HttpsConnector {
 			BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
 			BasicNameValuePair subjectVP = new BasicNameValuePair("subject", subject);
 			BasicNameValuePair bodyVP = new BasicNameValuePair("body", body);
-			BasicNameValuePair stickyVP = new BasicNameValuePair("sticky_until" , "1 second from now");
+			BasicNameValuePair stickyVP = new BasicNameValuePair("unstick" , "");
 			
 			new HttpsPostAsyncTask(httpclient).execute(urlVP, newsgroupVP, subjectVP, bodyVP, stickyVP);
 		} else {
@@ -502,7 +502,7 @@ public class HttpsConnector {
 			BasicNameValuePair bodyVP = new BasicNameValuePair("body", body);
 			BasicNameValuePair newsgroupParentVP = new BasicNameValuePair("reply_newsgroup", newsgroupParent);
 			BasicNameValuePair idParentVP = new BasicNameValuePair("reply_number", Integer.valueOf(parentId).toString());
-			BasicNameValuePair stickyVP = new BasicNameValuePair("sticky_until" , "1 second from now");
+			BasicNameValuePair stickyVP = new BasicNameValuePair("unstick" , "");
 			
 			new HttpsPostAsyncTask(httpclient).execute(urlVP, newsgroupVP, subjectVP, bodyVP, newsgroupParentVP, idParentVP, stickyVP);
 		} else {
