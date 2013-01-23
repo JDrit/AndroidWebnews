@@ -492,7 +492,7 @@ public class HttpsConnector {
 		}
 		
 	}
-	
+
 	public void composePost(String newsgroup, String subject, String body, String newsgroupParent, int parentId) {
 		if (checkInternet()) {
 			String url = formatUrl("compose", new ArrayList<NameValuePair>()).toString();
