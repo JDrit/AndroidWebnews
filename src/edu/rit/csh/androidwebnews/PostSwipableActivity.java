@@ -144,6 +144,7 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 		myIntent.putExtra("NEWSGROUP", newsgroupName);
 		myIntent.putExtra("SUBJECT", subject);
 		myIntent.putExtra("QUOTED_TEXT", newBody);
+		myIntent.putExtra("PARENT", thread.number);
 		startActivity(myIntent);
 	}
 

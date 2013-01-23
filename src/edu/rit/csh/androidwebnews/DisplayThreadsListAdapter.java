@@ -122,9 +122,9 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	        	tv.setPadding(75,0,90,0);
 	        }
 	        
-	        if(!thread.sticky.equals("null"))
+	        /*if(!thread.sticky.equals("null"))
 	        	convertView.setBackgroundColor(0xfffff9b7);
-	        else if(thread.personal_class.equals("mine"))
+	        else*/ if(thread.personal_class.equals("mine"))
 	        	convertView.setBackgroundColor(0xffb7ffb9);
 	        else if(thread.personal_class.equals("mine_reply"))
 	        	convertView.setBackgroundColor(0xfff7b7ff);
