@@ -151,7 +151,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		case R.id.menu_mark_all_read:
 			hc.markRead(newsgroupName);
 			hc.getNewsgroupThreads(newsgroupName, 20, false);
-			
+			hc.getNewsGroups();
 			return true;
 		}
 		return false;

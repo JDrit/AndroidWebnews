@@ -130,6 +130,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		case R.id.menu_mark_all_read:
 			hc.markRead();
 			hc.getNewest(false);
+			hc.getNewsGroups();
 		}
 		return false;
 	}
