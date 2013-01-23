@@ -230,7 +230,6 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	@Override
 	public void onResume() { // throwing issue when we try to call any hc.get..., need to fix for updating newsgroups
 		super.onResume();
-
 		hc.startUnreadCountTask();
 	}
 }
