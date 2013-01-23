@@ -75,20 +75,11 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 			PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
 			AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 
-			String timeString= sharedPref.getString("time_between_checks", "15");
-			int time;
-			Log.d("timeString", "(" + timeString + ")");
-			if (timeString.equals("")) {
-				time = 15;
-			} else {
-				time = Integer.valueOf(timeString);
-			}
-			
 			// if the run service is selected, an alarm is started to repeat over given time
 			if (sharedPref.getBoolean("run_service", false)) {
 				alarm.cancel(pintent);
 				//Log.d("newdebug time between", sharedPref.getInt("time_between_checks", 15) + "");
-				alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), time * 60000, pintent);
+				//alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), sharedPref.getInt("time_between_checks", 15) * 60000, pintent);
 				Log.d("jddebug", "alarm set");
 			} else {
 				alarm.cancel(pintent);
