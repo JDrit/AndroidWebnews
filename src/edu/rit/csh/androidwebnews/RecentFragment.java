@@ -109,15 +109,4 @@ public class RecentFragment extends Fragment {
 
 	}
 
-	@Override
-	public void onResume()
-	{
-		super.onResume();
-		Log.d("MyDebugging", "Refreshing view!");
-		if(listAdapter != null)
-		{
-			hc.getNewsGroups();
-			hc.getNewest(false);
-		}
-	}
 }

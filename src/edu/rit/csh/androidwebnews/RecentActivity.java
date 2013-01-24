@@ -61,14 +61,12 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		rf = (RecentFragment)getSupportFragmentManager().findFragmentById(R.id.recent_fragment);
 
 		if (!sharedPref.getBoolean("first_time", true)) {
-
+			hc.getNewest(true);
 			if (sharedPref.getString("newsgroups_json_string", "") != "") {
 				newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
 				hc.startUnreadCountTask();
-				Log.d("newdebug", "3");
 			} else {
 				hc.getNewsGroups();
-				Log.d("newdebug", "4");
 			}
 
 			Intent intent = new Intent(this, UpdaterService.class);
@@ -77,9 +75,14 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 
 			// if the run service is selected, an alarm is started to repeat over given time
 			if (sharedPref.getBoolean("run_service", false)) {
+				String timeString= sharedPref.getString("time_between_checks", "15");
+				int time = 15;
+				Log.d("timeString", "(" + timeString + ")");
+				if (!timeString.equals("")) {
+					time = Integer.valueOf(timeString);
+				}
 				alarm.cancel(pintent);
-				//Log.d("newdebug time between", sharedPref.getInt("time_between_checks", 15) + "");
-				//alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), sharedPref.getInt("time_between_checks", 15) * 60000, pintent);
+				alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), time * 60000, pintent);
 				Log.d("jddebug", "alarm set");
 			} else {
 				alarm.cancel(pintent);
@@ -93,14 +96,8 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 
 
 		}
-
 		setTitle("Recent Posts");
-		
-		
-		hc.composePost("csh.test", "test", "test");
 	}
-
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -137,9 +134,6 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 
 	public void onThreadSelected(final PostThread thread) {
 
-	    String apiKey = sharedPref.getString("api_key", "");	    
-	    //HttpsConnector hc = new HttpsConnector(this);
-		//hc.getNewsgroupThreads(thread.newsgroup, 20);
 		Intent myIntent = new Intent(RecentActivity.this, DisplayThreadsActivity.class);
 		myIntent.putExtra("SELECTED_NEWSGROUP", thread.newsgroup);
 		startActivity(myIntent);
@@ -189,6 +183,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		} catch (JSONException e) {
 		}
 	}
+	
 	public void onNewsgroupSelected(final String newsgroupName) {
 		Intent myIntent = new Intent(RecentActivity.this, DisplayThreadsActivity.class);
 		myIntent.putExtra("SELECTED_NEWSGROUP", newsgroupName);
@@ -196,28 +191,17 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	}
 
 	@Override
-	public void onResume()
-	{
+	public void onRestart() {
 		super.onResume();
-		hc.startUnreadCountTask();
+		hc.getNewest(false);
 		if (sharedPref.getString("newsgroups_json_string", "") != "") {
-			Log.d("newdebug", "1");
 			newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
 			hc.startUnreadCountTask();
 		} else {
-			Log.d("newdebug", "2");
 			hc.getNewsGroups();
 		}
-		NewsgroupListMenu.menuShown = false;
-		/*hc.getNewsGroups();
 		
-		if(newsgroupListMenu.newsgroupAdapter != null)
-		{
-			newsgroupListMenu.newsgroupAdapter.clear();
-			for(Newsgroup ng : newsgroupListMenu.newsgroupList)
-				newsgroupListMenu.newsgroupAdapter.add(ng);
-			newsgroupListMenu.newsgroupAdapter.notifyDataSetChanged();
-		}*/
+		NewsgroupListMenu.menuShown = false;
 	}
 
 }

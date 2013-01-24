@@ -27,6 +27,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
 import android.app.Activity;
@@ -35,8 +37,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 /**
- * The asynchronous task used to do the get and post request
- * @author JD
+ * The asynchronous task used to do the GET requests. Displays a progress bar
+ * while the task is running, if told to 
  */
 public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
 	WebnewsHttpClient httpclient;
@@ -44,9 +46,12 @@ public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
 	boolean showProgress;
 	
 	ProgressDialog p;
+	
 	/**
-	 * 
-	 * @param httpclient
+	 * Constructor for the async task to do GET requests
+	 * @param httpclient - the client to use
+	 * @param showProgress - true to show progress dialog, false otherwise
+	 * @param activity - the activity that called the task
 	 */
 	public HttpsGetAsyncTask(WebnewsHttpClient httpclient, boolean showProgress, Activity activity) {
 		this.httpclient = httpclient;
@@ -72,7 +77,7 @@ public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
      
 	/**
 	 * The method that gets run when execute() is run. This sends the URL with the 
-	 * to get and post variables to the server and gets the results
+	 * GEt parameters to the server and gets the results
 	 * @param params - [0] is the URL to got to
 	 * @return String representation of page results
 	 */
@@ -80,12 +85,18 @@ public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
 	protected String doInBackground(URI... params) {
 		Log.d("jddebug", "back started");
 		Log.d("URI", params[0].toString());
+		String page = "";
+		BufferedReader in;
+		HttpResponse response;
+		HttpGet request;
+		
 		try {
-        	HttpGet request = new HttpGet(params[0]);
+			
+        	request = new HttpGet(params[0]);
         	request.addHeader("accept", "application/json");
         	
-			HttpResponse response = httpclient.execute(request);
-			BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+			response = httpclient.execute(request);
+			in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 			
 			StringBuffer sb = new StringBuffer("");
             String line = "";
@@ -94,22 +105,25 @@ public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
             while ((line = in.readLine()) != null) {
                 sb.append(line + NL);
             }
+            page = sb.toString();
             in.close();
-            String page = sb.toString();
-            Log.d("jddebug", "back ended");
-    		return page;
             
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
-			Log.d("jddebug-getasynctask", e.toString());
+			Log.d("threadsdebug-getasynctask", e.toString());
 		} catch (IOException e) {
+			
 			e.printStackTrace();
-			Log.d("jddebug-getasynctask", e.toString());
-			Log.d("jddebug-getasynctask", params[0] + "");
+			Log.d("threadsdebug-getasynctask", e.toString());
+			Log.d("threadsdebug-getasynctask", params[0] + "");
 		}
-		Log.d("jddebug", "back ended");
-		//Log.d("jddebug-getasynctask", params[0] + " : " + page);
-		return "";
+        
+        Log.d("threadsdebug", "back ended");
+        if (page.length() > 20 )
+        	Log.d("threadsdebug-page", page.substring(0, 20));
+        else
+        	Log.d("threadsdebug-page", page + "S");
+		return page;
 	}
 	
 	protected void onPostExecute(String s) {

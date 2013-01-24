@@ -75,7 +75,7 @@ public class HttpsConnector {
 	 * there was an error in the procedure.
 	 */
 	public void getNewsGroups() {
-		new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl("newsgroups", new ArrayList<NameValuePair>()));
+		new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("newsgroups", new ArrayList<NameValuePair>()));
 	}
 	
 	/**
@@ -108,7 +108,7 @@ public class HttpsConnector {
 	 */
 	public void getNewest(boolean bol) {
 		if (checkInternet()) {
-			new HttpsGetAsyncTask(httpclient, bol, activity).execute(formatUrl("activity", new ArrayList<NameValuePair>()));
+			new HttpsGetAsyncTask(new WebnewsHttpClient(context), bol, activity).execute(formatUrl("activity", new ArrayList<NameValuePair>()));
 		} else {
 			dialog.show();
 		}
@@ -133,7 +133,7 @@ public class HttpsConnector {
 				if (jArray.getJSONObject(i).getInt("unread_count") == 0) {
 					count = "null";
 				}
-				//String count = jArray.getJSONObject(i).getString("unread_class");
+
 				threads.add(new PostThread(newObj.getString("date"), 
 						newObj.getInt("number"), 
 						newObj.getString("subject"),
@@ -170,7 +170,7 @@ public class HttpsConnector {
 			params.add(new BasicNameValuePair("limit", Integer.valueOf(amount).toString()));
 			params.add(new BasicNameValuePair("thread_mode", "normal"));
 			//String url = formatUrl(mainUrl + "/" + name + "/index", params);
-			new HttpsGetAsyncTask(httpclient, true, activity).execute(formatUrl(name + "/index", params));
+			new HttpsGetAsyncTask(new WebnewsHttpClient(context), true, activity).execute(formatUrl(name + "/index", params));
 		} else {
 			dialog.show();
 		}
@@ -185,6 +185,7 @@ public class HttpsConnector {
 	 * @return ArrayList<Thread> - list of the top level threads for the newsgroup
 	 */
 	public void getNewsgroupThreads(String name, int amount, boolean bol) {
+		Log.d("threadsdebug", "getNewsgroupThreads");
 		if (checkInternet()) {
 			if (amount == -1) {
 				amount = 10;
@@ -195,7 +196,7 @@ public class HttpsConnector {
 			params.add(new BasicNameValuePair("limit", Integer.valueOf(amount).toString()));
 			params.add(new BasicNameValuePair("thread_mode", "normal"));
 			//String url = formatUrl(mainUrl + "/" + name + "/index", params);
-			new HttpsGetAsyncTask(httpclient, bol, activity).execute(formatUrl(name + "/index", params));
+			new HttpsGetAsyncTask(new WebnewsHttpClient(context), bol, activity).execute(formatUrl(name + "/index", params));
 		} else {
 			dialog.show();
 		}
@@ -223,7 +224,7 @@ public class HttpsConnector {
 		params.add(new BasicNameValuePair("thread_mode", "normal"));
 		params.add(new BasicNameValuePair("from_older", date));
 	//	String url = formatUrl(mainUrl + "/" + newsgroup + "/index", params);
-		new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl(newsgroup + "/index", params));
+		new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl(newsgroup + "/index", params));
 			
 	}
 	
@@ -255,7 +256,7 @@ public class HttpsConnector {
 	 */
 	public void search(ArrayList<NameValuePair> params) {
 		if (checkInternet()) {
-			new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl("search", params));
+			new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("search", params));
 		} else {
 			dialog.show();
 		}
@@ -303,7 +304,7 @@ public class HttpsConnector {
 	 */
 	public void getPostBody(String newsgroup, int id) {
 		if (checkInternet()) {
-			new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl(newsgroup + "/" + id, new ArrayList<NameValuePair>()));
+			new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl(newsgroup + "/" + id, new ArrayList<NameValuePair>()));
 		} else {
 			dialog.show();
 		}
@@ -343,7 +344,7 @@ public class HttpsConnector {
 		if (checkInternet()) {
 
 			try {
-				JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, false, activity).execute(url).get()).getJSONObject("unread_counts");
+				JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(url).get()).getJSONObject("unread_counts");
 				Log.d("jddebug", jObj.toString());
 				unreadStatuses[0] = jObj.getInt("normal");
 				unreadStatuses[1] = jObj.getInt("in_thread");
@@ -363,7 +364,7 @@ public class HttpsConnector {
 	}
 	
 	public void startUnreadCountTask() {
-		new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl("unread_counts", new LinkedList<NameValuePair>()));
+		new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("unread_counts", new LinkedList<NameValuePair>()));
 		
 	}
 	public int[] getUnreadCountFromString(String jsonString) {
@@ -391,7 +392,7 @@ public class HttpsConnector {
 			
 			Log.d("jsonurl", url);
 			try {
-				new HttpsPutAsyncTask(httpclient).execute(urlVP, allVP).get();
+				new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, allVP).get();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -417,7 +418,7 @@ public class HttpsConnector {
 			BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
 			
 			Log.d("jsonurl", url);
-			new HttpsPutAsyncTask(httpclient).execute(urlVP, newsgroupVP, numberVP);
+			new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, numberVP);
 		} else {
 			dialog.show();
 		}
@@ -430,7 +431,7 @@ public class HttpsConnector {
 			BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);			
 			Log.d("newdebug", "mark post read: " + newsgroup);
 			try {
-				new HttpsPutAsyncTask(httpclient).execute(urlVP, newsgroupVP).get();
+				new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP).get();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -456,7 +457,7 @@ public class HttpsConnector {
 			BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
 			BasicNameValuePair markUnreadVP = new BasicNameValuePair("mark_unread", "");
 			
-			new HttpsPutAsyncTask(httpclient).execute(urlVP, newsgroupVP, numberVP, markUnreadVP);
+			new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, numberVP, markUnreadVP);
 		} else {
 			dialog.show();
 		}
@@ -471,7 +472,7 @@ public class HttpsConnector {
 		if (checkInternet()) {
 			String url = formatUrl(newsgroup + "/" + id + "/star", new ArrayList<NameValuePair>()).toString();
 			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
-			new HttpsPutAsyncTask(httpclient).execute(urlVP);
+			new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP);
 		} else {
 			dialog.show();
 		}
@@ -486,7 +487,7 @@ public class HttpsConnector {
 			BasicNameValuePair bodyVP = new BasicNameValuePair("body", body);
 			BasicNameValuePair stickyVP = new BasicNameValuePair("unstick" , "");
 			
-			new HttpsPostAsyncTask(httpclient).execute(urlVP, newsgroupVP, subjectVP, bodyVP, stickyVP);
+			new HttpsPostAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, subjectVP, bodyVP, stickyVP);
 		} else {
 			dialog.show();
 		}
@@ -504,7 +505,7 @@ public class HttpsConnector {
 			BasicNameValuePair idParentVP = new BasicNameValuePair("reply_number", Integer.valueOf(parentId).toString());
 			BasicNameValuePair stickyVP = new BasicNameValuePair("unstick" , "");
 			
-			new HttpsPostAsyncTask(httpclient).execute(urlVP, newsgroupVP, subjectVP, bodyVP, newsgroupParentVP, idParentVP, stickyVP);
+			new HttpsPostAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, subjectVP, bodyVP, newsgroupParentVP, idParentVP, stickyVP);
 		} else {
 			dialog.show();
 		}
@@ -520,7 +521,7 @@ public class HttpsConnector {
 		//String url = formatUrl(mainUrl + "/user", new ArrayList<NameValuePair>());
 		try {
 			
-			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(httpclient, false, activity).execute(formatUrl("/user", new ArrayList<NameValuePair>())).get());
+			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("/user", new ArrayList<NameValuePair>())).get());
 			if (jObj.has("user")) {
 				return true;
 			} else {

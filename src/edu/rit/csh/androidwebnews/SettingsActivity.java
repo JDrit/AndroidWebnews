@@ -100,11 +100,9 @@ public class SettingsActivity extends PreferenceActivity {
 			if (prefs.getBoolean("run_service", false)) {
 				alarm.cancel(pintent);
 				String timeString= prefs.getString("time_between_checks", "15");
-				int time;
+				int time = 15;
 				Log.d("timeString", "(" + timeString + ")");
-				if (timeString.equals("")) {
-					time = 15;
-				} else {
+				if (!timeString.equals("")) {
 					time = Integer.valueOf(timeString);
 				}
 				

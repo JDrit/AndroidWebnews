@@ -55,33 +55,7 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 	    sf = (SearchFragment) getSupportFragmentManager().findFragmentById(R.id.search_fragment);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_default, menu);
-		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menu_settings:
-			startActivity(new Intent(this, SettingsActivity.class));
-			return true;
-		
-		case R.id.menu_refresh:
-			hc.getNewsGroups();
-			return true;
-			
-		case R.id.menu_about:
-			startActivity(new Intent(this, InfoActivity.class));
-			return true;
-			
-		case R.id.menu_search:
-			startActivity(new Intent(this, SearchActivity.class));
-		}
-		return false;
-	}
+
 
 	@Override
 	public void update(String jsonString) {

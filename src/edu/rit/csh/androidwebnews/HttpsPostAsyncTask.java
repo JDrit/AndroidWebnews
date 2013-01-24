@@ -38,15 +38,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 /**
- * The asynchronous task used to do the get and post request
+ * The asynchronous task used to do the POST requests
  * @author JD
  */
 public class HttpsPostAsyncTask extends AsyncTask<BasicNameValuePair, Integer, String> {
 	WebnewsHttpClient httpclient;
-	/**
-	 * 
-	 * @param httpclient
-	 */
+	
+	
 	public HttpsPostAsyncTask(WebnewsHttpClient httpclient) {
 		this.httpclient = httpclient;   
 	}
@@ -54,7 +52,7 @@ public class HttpsPostAsyncTask extends AsyncTask<BasicNameValuePair, Integer, S
 	
 	/**
 	 * The method that gets run when execute() is run. This sends the URL with the 
-	 * to get and post variables to the server and gets the results
+	 * POST parameters to the server and gets the results
 	 * @param params - [0] is the URL to got to, the rest are parameters to the request
 	 * @return String representation of page results
 	 */

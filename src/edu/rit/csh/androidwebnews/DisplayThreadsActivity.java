@@ -21,23 +21,16 @@ import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.LinearLayout;
 
 public class DisplayThreadsActivity extends FragmentActivity implements ActivityInterface {
 	
@@ -89,7 +82,8 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		
 		if (sharedPref.getString("newsgroups_json_string", "") != "") {
 			Log.d("jddebugcache", "from file");
-			newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));	
+			newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
+			hc.startUnreadCountTask();
 		} else {
 			Log.d("jddebugcache", "from file not");
 			hc.getNewsGroups();
@@ -152,6 +146,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 			hc.markRead(newsgroupName);
 			hc.getNewsgroupThreads(newsgroupName, 20, false);
 			hc.getNewsGroups();
+			
 			return true;
 		}
 		return false;
@@ -159,8 +154,11 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	
 	@Override
 	public void update(String jsonString) {
-		Log.d("MyDebugging","Updating displayhthreads");
-		Log.d("MyDebugging","sdfk" + jsonString);
+		if (jsonString.length() > 20)
+			Log.d("threadsdebug", "updating displaythreads" + ": " + jsonString.substring(0,  20));
+		else
+			Log.d("threadsdebug", "updating displaythreads" + ": " + jsonString);
+		
 		try {
 			JSONObject obj = new JSONObject(jsonString);
 			if (obj.has("error")) {
@@ -168,6 +166,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 					dialog.show();
 				}
 			} else if (obj.has("posts_older")) { 
+				Log.d("threadsdebug", "post_older");
 				if(hc.getThreadsFromString(jsonString).size() == 0)
 				{
 					hitBottom = true;
@@ -190,6 +189,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 					requestedAdditionalThreads = false;
 				}
 			} else if (obj.has("unread_counts")) {  // unread count
+				Log.d("threadsdebug", "unread_counts");
 				int unread = hc.getUnreadCountFromString(jsonString)[0];
 				int groupUnread = 0;
 				for (Newsgroup group : hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", ""))) {
@@ -203,6 +203,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 				}
 				Log.d("jddebug-RecentActivity", unread + " " + groupUnread);
 			} else {  // newsgroups
+				Log.d("threadsdebug", "newsgroups");
 				SharedPreferences.Editor editor = sharedPref.edit();
 				editor.putString("newsgroups_json_string", jsonString);
 				editor.commit();
@@ -228,8 +229,9 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	
 	
 	@Override
-	public void onResume() { // throwing issue when we try to call any hc.get..., need to fix for updating newsgroups
+	public void onRestart() { // throwing issue when we try to call any hc.get..., need to fix for updating newsgroups
 		super.onResume();
 		hc.startUnreadCountTask();
+		hc.getNewsgroupThreads(newsgroupName, 20, false);
 	}
 }
