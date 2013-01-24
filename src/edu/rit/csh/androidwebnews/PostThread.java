@@ -152,7 +152,7 @@ public class PostThread {
 		String month;
 		try
 		{
-			month = months[Integer.parseInt(s)];
+			month = months[Integer.parseInt(s) - 1];
 		}
 		catch (NumberFormatException nfe)
 		{
