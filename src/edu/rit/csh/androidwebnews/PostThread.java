@@ -147,31 +147,22 @@ public class PostThread {
 	
 	private String getMonth(String s)
 	{
-		if(s.equals("01"))
-			return "January";
-		if(s.equals("02"))
-			return "February";
-		if(s.equals("03"))
-			return "March";
-		if(s.equals("04"))
-			return "April";
-		if(s.equals("05"))
-			return "May";
-		if(s.equals("06"))
-			return "June";
-		if(s.equals("07"))
-			return "July";
-		if(s.equals("08"))
-			return "August";
-		if(s.equals("09"))
-			return "September";
-		if(s.equals("10"))
-			return "October";
-		if(s.equals("11"))
-			return "November";
-		if(s.equals("12"))
-			return "December";
-		return "Invalid Month";
+		String months[] = {"January", "February", "March", "April", "May", "June", 
+				"July", "August", "September", "October", "November", "December"};
+		String month;
+		try
+		{
+			month = months[Integer.parseInt(s) - 1];
+		}
+		catch (NumberFormatException nfe)
+		{
+			month = "Invalid Month";
+		}
+		catch (IndexOutOfBoundsException ioobe)
+		{
+			month = "Invalid Month";
+		}
+		return month;
 	}
 	
 	private String getTime(String h, String m)
