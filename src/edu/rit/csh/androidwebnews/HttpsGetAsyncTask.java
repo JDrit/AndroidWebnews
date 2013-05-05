@@ -21,16 +21,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
-
-import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -73,8 +66,6 @@ public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
     	 }
      }
     
-     
-     
 	/**
 	 * The method that gets run when execute() is run. This sends the URL with the 
 	 * GEt parameters to the server and gets the results
@@ -109,13 +100,7 @@ public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
             in.close();
             
 		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-			Log.d("threadsdebug-getasynctask", e.toString());
 		} catch (IOException e) {
-			
-			e.printStackTrace();
-			Log.d("threadsdebug-getasynctask", e.toString());
-			Log.d("threadsdebug-getasynctask", params[0] + "");
 		}
         
         Log.d("threadsdebug", "back ended");

@@ -56,45 +56,13 @@ public class UpdaterService extends IntentService {
 	  protected void onHandleIntent(Intent intent) {
 		  Log.d("jddebug", "service started");
 		  SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-		  String apiKey = sharedPref.getString("api_key", "");
 		  HttpsConnector hc = new HttpsConnector(this);
 		  int[] statuses = new int[3];
-		  
-		  statuses = hc.getUnreadCount();
-		  
-		  if (statuses == null) { //invalid api key
-			  Log.d("newDebug-UpdaterService", "invalid api key");
-			  NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-			  mBuilder.setContentTitle("CSH Webnews");
-			  mBuilder.setSmallIcon(R.drawable.notification_icon);
-			  mBuilder.setContentText("Invalid API Key");
-			  mBuilder.setAutoCancel(true);
-
-		      // Creates an explicit intent for an Activity in your app
-			  Intent resultIntent = new Intent(this, SettingsActivity.class);
-
-			  // The stack builder object will contain an artificial back stack for the
-			  // started Activity.
-			  // This ensures that navigating backward from the Activity leads out of
-			  // your application to the Home screen.
-			  TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-
-			  // Adds the back stack for the Intent (but not the Intent itself)
-			  stackBuilder.addParentStack(SettingsActivity.class);
-			  // Adds the Intent that starts the Activity to the top of the stack
-			  stackBuilder.addNextIntent(resultIntent);
-			  PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-			  mBuilder.setContentIntent(resultPendingIntent);
-			  NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-			  // mId allows you to update the notification later on.
-			  mNotificationManager.notify(0, mBuilder.build());
-		  } else if (statuses[0] == -1) {  // no internet
-			  // nothing for now
-			  Log.d("newdebug", "no internet");
-		  } else { // normal
+		  try {
+			  statuses = hc.getUnreadCount(); // throws all the errors
 			  
 			  if (statuses[0] != 0 && statuses[0] != sharedPref.getInt("number_of_unread", 0)) { // if there are new posts and that number is different than last time the update ran
-					  
+				  
 				  SharedPreferences.Editor editor = sharedPref.edit();
 				  editor.putInt("number_of_unread", statuses[0]);
 				  editor.commit();
@@ -147,7 +115,35 @@ public class UpdaterService extends IntentService {
 				  // mId allows you to update the notification later on.
 					  mNotificationManager.notify(0, mBuilder.build());
 			  }
-				  Log.d("jddebug", "notify"); 
+			  
+		  } catch (InvalidKeyException e) {
+			  Log.d("newDebug-UpdaterService", "invalid api key");
+			  NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+			  mBuilder.setContentTitle("CSH Webnews");
+			  mBuilder.setSmallIcon(R.drawable.notification_icon);
+			  mBuilder.setContentText("Invalid API Key");
+			  mBuilder.setAutoCancel(true);
+
+		      // Creates an explicit intent for an Activity in your app
+			  Intent resultIntent = new Intent(this, SettingsActivity.class);
+
+			  // The stack builder object will contain an artificial back stack for the
+			  // started Activity.
+			  // This ensures that navigating backward from the Activity leads out of
+			  // your application to the Home screen.
+			  TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+
+			  // Adds the back stack for the Intent (but not the Intent itself)
+			  stackBuilder.addParentStack(SettingsActivity.class);
+			  // Adds the Intent that starts the Activity to the top of the stack
+			  stackBuilder.addNextIntent(resultIntent);
+			  PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+			  mBuilder.setContentIntent(resultPendingIntent);
+			  NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			  // mId allows you to update the notification later on.
+			  mNotificationManager.notify(0, mBuilder.build());
+		  } catch (NoInternetException e) {
+	  		  Log.d("newdebug-UpdaterService", "no internet for service");
 		  }
 		  
 	  }

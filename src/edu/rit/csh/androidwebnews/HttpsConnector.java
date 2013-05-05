@@ -107,7 +107,9 @@ public class HttpsConnector {
 	 * @return ArrayList<Thread> - list of the 20 newest or sticky threads
 	 */
 	public void getNewest(boolean bol) {
+		Log.d("getNewest", "getNewest");
 		if (checkInternet()) {
+			
 			new HttpsGetAsyncTask(new WebnewsHttpClient(context), bol, activity).execute(formatUrl("activity", new ArrayList<NameValuePair>()));
 		} else {
 			dialog.show();
@@ -213,17 +215,15 @@ public class HttpsConnector {
 	 * date
 	 */
 	public void getNewsgroupThreadsByDate(String newsgroup, String date, int amount) {
-		ArrayList<PostThread> threads = new ArrayList<PostThread>();
 		if (amount == -1) {
 			amount = 10;
 		} else if (amount > 20) {
 			amount = 20;
 		}
 		List<NameValuePair> params = new LinkedList<NameValuePair>();
-		params.add(new BasicNameValuePair("limit", new Integer(amount).toString()));
+		params.add(new BasicNameValuePair("limit",  Integer.valueOf(amount).toString()));
 		params.add(new BasicNameValuePair("thread_mode", "normal"));
 		params.add(new BasicNameValuePair("from_older", date));
-	//	String url = formatUrl(mainUrl + "/" + newsgroup + "/index", params);
 		new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl(newsgroup + "/index", params));
 			
 	}
@@ -336,31 +336,31 @@ public class HttpsConnector {
 	 * 			[1] - number of unread threads in a thread the user has posted in
 	 * 			[2] - the number of unread replies to a user's post
 	 */
-	public int[] getUnreadCount() {
+	public int[] getUnreadCount() throws InvalidKeyException, NoInternetException {
 		URI url = formatUrl("unread_counts", new LinkedList<NameValuePair>());
 		int[] unreadStatuses = new int[3];
 		unreadStatuses[0] = -1;
-		unreadStatuses[0] = -1;
-		if (checkInternet()) {
-
-			try {
-				JSONObject  jObj = new JSONObject(new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(url).get()).getJSONObject("unread_counts");
-				Log.d("jddebug", jObj.toString());
+		JSONObject jObj = null;
+		String output = null;
+		
+		try {
+			output = new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(url).get();
+			if (output.equals(""))
+				throw new NoInternetException();
+			jObj = new JSONObject(output);
+			if (jObj.has("error")) {
+				throw new InvalidKeyException();
+			} else {
+				jObj = jObj.getJSONObject("unread_counts");
 				unreadStatuses[0] = jObj.getInt("normal");
 				unreadStatuses[1] = jObj.getInt("in_thread");
 				unreadStatuses[2] = jObj.getInt("in_reply");
-			} catch (JSONException e) {
-				Log.d("jsonError", "JSONException");
-				return null;
-			} catch (InterruptedException e) {
-				Log.d("jsonError", "InterruptedException");
-			} catch (ExecutionException e) {
-				Log.d("jsonError", "ExecutionException");
 			}
-	
+		} catch (JSONException e1) {
+		} catch (InterruptedException e1) {
+		} catch (ExecutionException e1) {
 		}
 		return unreadStatuses;
-		
 	}
 	
 	public void startUnreadCountTask() {
@@ -394,11 +394,9 @@ public class HttpsConnector {
 			try {
 				new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, allVP).get();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.d("jsonError", "InterruptedException");
 			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.d("jsonError", "ExecutionException");
 			}
 		} else {
 			dialog.show();
@@ -555,9 +553,6 @@ public class HttpsConnector {
 		if (addOns.size() != 0) {
 			params.addAll(addOns);
 		}
-		
-		String paramString = URLEncodedUtils.format(params,  "utf-8");
-		//url += paramString;
 		try {
 			Log.d("jddebug - HttpsConnector", URIUtils.createURI("https", "webnews.csh.rit.edu", -1, "/" + addOn, 
 				    URLEncodedUtils.format(params, "UTF-8"), null).toString());

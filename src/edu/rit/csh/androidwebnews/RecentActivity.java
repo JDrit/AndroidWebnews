@@ -17,14 +17,10 @@ under the License.
 */		
 package edu.rit.csh.androidwebnews;
 
-import java.util.ArrayList;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
