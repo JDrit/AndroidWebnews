@@ -113,7 +113,11 @@ public class UpdaterService extends IntentService {
 				  mBuilder.setContentIntent(resultPendingIntent);
 				  NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 				  // mId allows you to update the notification later on.
-					  mNotificationManager.notify(0, mBuilder.build());
+				  mNotificationManager.notify(0, mBuilder.build());
+			  } else if (statuses[0] == 0) { // if all post have been read
+				  /* if a user reads all the posts, the notification is removed */
+				  NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+				  mNotificationManager.cancel(0);
 			  }
 			  
 		  } catch (InvalidKeyException e) {
