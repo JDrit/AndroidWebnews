@@ -17,21 +17,33 @@ under the License.
 */
 package edu.rit.csh.androidwebnews;
 
+import java.util.ArrayList;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ComposeActivity extends Activity {
-	String subject;
-	String body;
-	String newsgroup;
-	int parentId = -1;
-	EditText subLine;
-	EditText bodyText;
+public class ComposeActivity extends Activity implements ActivityInterface {
+	private String subject;
+	private String body;
+	private String newsgroup;
+	private int parentId = -1;
+	private EditText subLine;
+	private EditText bodyText;
+	private Spinner spinner;
+	private ArrayList<String> groupNames;
+	private ArrayAdapter<String> listAdapter;
+	private HttpsConnector hc;
+	private InvalidApiKeyDialog dialog;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -39,19 +51,24 @@ public class ComposeActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		Bundle extras = getIntent().getExtras();
-		
+		hc = new HttpsConnector(this);	    	    
+	    hc.getNewsGroups(); // used for list of newsgroups to look through
 		if(extras != null)
 		{
 			subject = extras.getString("SUBJECT");
 			body = extras.getString("QUOTED_TEXT");
-			newsgroup = extras.getString("NEWSGROUP");
 			parentId = extras.getInt("PARENT");
+			newsgroup = extras.getString("NEWSGROUP");
 		}
 		
 		setContentView(R.layout.activity_compose);
-		
-		TextView tv = (TextView) findViewById(R.id.compose_text);
-		tv.setText("Compose a message in " + newsgroup);
+		dialog = new InvalidApiKeyDialog(this);
+		//TextView tv = (TextView) findViewById(R.id.compose_text);
+		//tv.setText("Compose a message in " + newsgroup);
+		groupNames = new ArrayList<String>();
+		listAdapter = new ArrayAdapter<String>(this, R.layout.rowlayout, groupNames);
+		spinner = (Spinner) findViewById(R.id.newsgroupSpinner);
+		spinner.setAdapter(listAdapter);
 		
 		subLine = (EditText) findViewById(R.id.subject_line);
 		subLine.setText(subject);
@@ -62,25 +79,53 @@ public class ComposeActivity extends Activity {
 		setTitle("Compose");
 	}
 	
-	public void abandon(View view)
-	{
+	public void update(String jsonString) {
+		JSONObject obj;
+		try {
+			obj = new JSONObject(jsonString);
+			if (obj.has("error")) {
+				if (!dialog.isShowing()) {
+					dialog.show();
+				}
+			} else if(obj.has("newsgroups")) {
+				listAdapter.clear();
+				for (Newsgroup newsgroup : hc.getNewsGroupFromString(jsonString)) {
+					listAdapter.add(newsgroup.name);
+				}
+				if (newsgroup != null) { // the composer was started from a newsgroup
+					spinner.setSelection(listAdapter.getPosition(newsgroup));
+				}
+				listAdapter.notifyDataSetChanged();	
+			}
+			
+		} catch (JSONException e) {
+			
+		}
+		
+	}
+	
+	public void abandon(View view) {
 		Toast.makeText(getApplicationContext(), "Post abandoned", Toast.LENGTH_LONG).show();
 		finish();
 	}
 	
-	public void submit(View view)
-	{
+	public void submit(View view) {
 
-		Log.d("newpost", "Newsgroup id: " + newsgroup);
+		Log.d("newpost", "Newsgroup id: " + (String)spinner.getSelectedItem());
 		Log.d("newpost", "Subject: " + subLine.getText().toString());
 		Log.d("newpost", "Body: " + bodyText.getText().toString());
 		Log.d("newpost", "ParentId: " + parentId);
 		
-		if(parentId == 0)
-			new HttpsConnector(this).composePost(newsgroup, subLine.getText().toString(), bodyText.getText().toString());
+		if(parentId == -1)
+			new HttpsConnector(this).composePost((String)spinner.getSelectedItem(), subLine.getText().toString(), bodyText.getText().toString());
 		else
-			new HttpsConnector(this).composePost(newsgroup, subLine.getText().toString(), bodyText.getText().toString(), newsgroup, parentId);
+			new HttpsConnector(this).composePost((String)spinner.getSelectedItem(), subLine.getText().toString(), bodyText.getText().toString(), (String)spinner.getSelectedItem(), parentId);
 		Toast.makeText(getApplicationContext(), "Post submitted, refresh your view!", Toast.LENGTH_LONG).show();
 		finish();
+	}
+
+	@Override
+	public void onNewsgroupSelected(String newsgroupName) {
+	
 	}
 }

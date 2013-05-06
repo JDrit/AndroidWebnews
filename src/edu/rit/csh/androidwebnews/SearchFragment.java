@@ -37,10 +37,10 @@ import android.widget.Spinner;
 import android.widget.DatePicker;
 
 public class SearchFragment extends Fragment {
-	View view;
-	ArrayAdapter<String> listAdapter;
-	ArrayList<String> groupNames;
-	Spinner spinner;
+	private View view;
+	private ArrayAdapter<String> listAdapter;
+	private ArrayList<String> groupNames;
+	private Spinner spinner;
 	
 	
 	@Override

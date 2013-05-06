@@ -97,32 +97,38 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_default, menu);
+		getMenuInflater().inflate(R.menu.activity_displaythreads_menu, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_settings:
-			startActivity(new Intent(this, SettingsActivity.class));
-			return true;
-
-		case R.id.menu_refresh:
-			hc.getNewest(true);
-			hc.getNewsGroups();
-			return true;
-
-		case R.id.menu_about:
-			startActivity(new Intent(this, InfoActivity.class));
-			return true;
-		case R.id.menu_search:
-			startActivity(new Intent(this, SearchActivity.class));
-
-		case R.id.menu_mark_all_read:
-			hc.markRead();
-			hc.getNewest(false);
-			hc.getNewsGroups();
+			case R.id.new_post:
+				Intent myIntent = new Intent(this, ComposeActivity.class);
+				//myIntent.putExtra("NEWSGROUP", newsgroupName);
+				startActivity(myIntent);
+				return true;
+				
+			case R.id.menu_settings:
+				startActivity(new Intent(this, SettingsActivity.class));
+				return true;
+		
+			case R.id.menu_refresh:
+				hc.getNewest(true);
+				hc.getNewsGroups();
+				return true;
+		
+			case R.id.menu_about:
+				startActivity(new Intent(this, InfoActivity.class));
+				return true;
+			case R.id.menu_search:
+				startActivity(new Intent(this, SearchActivity.class));
+		
+			case R.id.menu_mark_all_read:
+				hc.markRead();
+				hc.getNewest(false);
+				hc.getNewsGroups();
 		}
 		return false;
 	}

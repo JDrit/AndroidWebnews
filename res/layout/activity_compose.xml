@@ -3,6 +3,7 @@
 	android:layout_height="wrap_content"
 	android:orientation="vertical"
 	android:weightSum="1" >
+
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="wrap_content"
 	android:layout_height="wrap_content"
@@ -27,15 +28,11 @@
 	        android:textSize="20sp"
 	        android:onClick="submit" />
 	</LinearLayout>
-	
-    <TextView
-        android:id="@+id/compose_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Compose a message in "
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="20sp" />
+
+	<Spinner
+	    android:id="@+id/newsgroupSpinner"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" />
     
     <EditText
 	            android:id="@+id/subject_line"

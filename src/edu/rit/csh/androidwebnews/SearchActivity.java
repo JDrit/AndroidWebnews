@@ -38,73 +38,45 @@ import android.support.v4.app.FragmentTransaction;
 public class SearchActivity extends FragmentActivity implements ActivityInterface {
 	private HttpsConnector hc;
 	private SearchFragment sf;
-	private boolean buttonPushed = false;
 	private InvalidApiKeyDialog dialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
-		dialog = new InvalidApiKeyDialog(this);
-		
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-	    String apiKey = sharedPref.getString("api_key", "");	    
+		dialog = new InvalidApiKeyDialog(this);	    
 	    hc = new HttpsConnector(this);	    	    
-
 	    hc.getNewsGroups(); // used for list of newsgroups to look through
 	    sf = (SearchFragment) getSupportFragmentManager().findFragmentById(R.id.search_fragment);
 	}
-
-
-
+	
 	@Override
 	public void update(String jsonString) {
 		JSONObject obj;
-		Log.d("newdebug", "update called");
 		try {
 			obj = new JSONObject(jsonString);
 			if (obj.has("error")) {
 				if (!dialog.isShowing()) {
 					dialog.show();
 				}
-			} else if(obj.has("newsgroups")) // newsgroups
-			{
+			} else if(obj.has("newsgroups")) {
 				sf.update(hc.getNewsGroupFromString(jsonString));
 			}
-			else  // other
-			{
-				
-				if(buttonPushed)
-				{
-					/*Intent myIntent = new Intent(SearchActivity.this, SearchResultsActivity.class);
-					myIntent.putExtra("SEARCH_RESULTS", jsonString);
-					startActivity(myIntent);*/
-					Log.d("newdebug", "buttonpressed");
-									}
-			}
+			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
-		
 	}
 	
 	@Override
 	public void onNewsgroupSelected(String newsgroupName) {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	public void search(View view) {
-		
-		/*Log.d("newdebug", "Updating search!");
-		hc.search(sf.getParams());*/
 		Intent myIntent = new Intent(SearchActivity.this, SearchResultsActivity.class);
 		myIntent.putExtra("params", sf.getParams());
 		startActivity(myIntent);
-
-		Log.d("newdebug", "search called");
-		buttonPushed = true;
 	}
 }
  

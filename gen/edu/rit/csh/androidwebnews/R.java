@@ -35,7 +35,6 @@ public final class R {
         public static final int Viewbutton=0x7f0a0000;
         public static final int aboutButton=0x7f0a0006;
         public static final int aboutTextView=0x7f0a0005;
-        public static final int compose_text=0x7f0a0001;
         public static final int imageView1=0x7f0a0026;
         public static final int list=0x7f0a0008;
         public static final int mainListView=0x7f0a0010;
@@ -48,6 +47,7 @@ public final class R {
         public static final int menu_search=0x7f0a002d;
         public static final int menu_settings=0x7f0a002a;
         public static final int new_post=0x7f0a002e;
+        public static final int newsgroupSpinner=0x7f0a0001;
         public static final int newsgroup_list=0x7f0a0004;
         public static final int overlay=0x7f0a0012;
         public static final int pager=0x7f0a000a;

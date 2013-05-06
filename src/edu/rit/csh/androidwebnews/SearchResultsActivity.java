@@ -50,6 +50,7 @@ public class SearchResultsActivity extends FragmentActivity implements ActivityI
 		HashMap<String, String> params = (HashMap<String, String>) extras.get("params");
 		hc.search(params);
 		sf = (SearchResultsFragment) getSupportFragmentManager().findFragmentById(R.id.search_list_fragment);
+		setTitle("Search Results");
 	}
 
 	public void update(String jsonString) {
@@ -59,7 +60,6 @@ public class SearchResultsActivity extends FragmentActivity implements ActivityI
 			searchResults.add(thread.toString());
 		}
 		sf.update(searchResults);
-		
 	}
 	
 	public void onSelectThread(int threadPosition)
