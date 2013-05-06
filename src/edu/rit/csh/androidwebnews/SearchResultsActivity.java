@@ -18,6 +18,11 @@ under the License.
 package edu.rit.csh.androidwebnews;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -28,36 +33,34 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Menu;
 
-public class SearchResultsActivity extends FragmentActivity {
+public class SearchResultsActivity extends FragmentActivity implements ActivityInterface {
 	
-	public static ArrayList<String> searchResults;
-	public static ArrayList<PostThread> threads;
+	private ArrayList<PostThread> threads;
 	public static PostThread rootThread;
+	private HttpsConnector hc;
+	private SearchResultsFragment sf;
 
 	@Override
+	@SuppressWarnings("unchecked")
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.d("MyDebugging", "Starting SearchResultsActivity");
-		
-		searchResults = new ArrayList<String>();
-		
-		Bundle extras = getIntent().getExtras();
-		
-		if(extras != null)
-		{
-			String jsonString = extras.getString("SEARCH_RESULTS");
-			threads = new HttpsConnector(this).getSearchFromString(jsonString);
-			for(PostThread thread : threads)
-				searchResults.add(thread.toString());
-		}
-		
-		SearchResultsFragment sf = (SearchResultsFragment) getSupportFragmentManager().findFragmentById(R.id.search_list_fragment);
-		
 		setContentView(R.layout.activity_search_results);
-		
-		//sf.update(searchResults);
+		Bundle extras = getIntent().getExtras();
+		hc = new HttpsConnector(this);
+		HashMap<String, String> params = (HashMap<String, String>) extras.get("params");
+		hc.search(params);
+		sf = (SearchResultsFragment) getSupportFragmentManager().findFragmentById(R.id.search_list_fragment);
 	}
 
+	public void update(String jsonString) {
+		ArrayList<String> searchResults = new ArrayList<String>();
+		threads = hc.getSearchFromString(jsonString);
+		for(PostThread thread : threads) {
+			searchResults.add(thread.toString());
+		}
+		sf.update(searchResults);
+		
+	}
 	
 	public void onSelectThread(int threadPosition)
 	{
@@ -76,6 +79,11 @@ public class SearchResultsActivity extends FragmentActivity {
 
 		Log.d("des", "intent made");
 		startActivity(intent);
+	}
+
+	@Override
+	public void onNewsgroupSelected(String newsgroupName) {
+		
 	}
 
 }

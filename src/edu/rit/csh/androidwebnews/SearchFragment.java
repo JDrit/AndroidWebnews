@@ -19,6 +19,8 @@ package edu.rit.csh.androidwebnews;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import android.os.Bundle;
@@ -78,21 +80,22 @@ public class SearchFragment extends Fragment {
 	 * Gets the user's input to give it to the activity to do the actual search
 	 * @return ArrayList<NameValuePair> - list of the parameters for the search
 	 */
-	public ArrayList<NameValuePair> getParams() {
-		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+	public HashMap<String, String> getParams() {
+		//ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+		HashMap<String, String> map = new HashMap<String, String>();
 		if (spinner.getSelectedItem() != "(All)") {
-			params.add(new BasicNameValuePair("newsgroup", (String) spinner.getSelectedItem()));
+			map.put("newsgroup", (String) spinner.getSelectedItem());
 		}
 		
-		params.add(new BasicNameValuePair("keywords", ((EditText) view.findViewById(R.id.search_keywords_edit)).getText().toString()));
-		params.add(new BasicNameValuePair("authors", ((EditText) view.findViewById(R.id.search_authors_edit)).getText().toString()));
+		map.put("keywords", ((EditText) view.findViewById(R.id.search_keywords_edit)).getText().toString());
+		map.put("authors", ((EditText) view.findViewById(R.id.search_authors_edit)).getText().toString());
 		
-		params.add(new BasicNameValuePair("date_from",  Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker1)).getYear()).toString() + 
+		map.put("date_from",  Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker1)).getYear()).toString() + 
 				"-" + Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker1)).getMonth() + 1).toString() + 
-				"-" +  Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker1)).getDayOfMonth()).toString()));
-		params.add(new BasicNameValuePair("date_to",  Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getYear()).toString() + 
+				"-" +  Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker1)).getDayOfMonth()).toString());
+		map.put("date_to",  Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getYear()).toString() + 
 				"-" + Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getMonth() + 1).toString() + 
-				"-" +  Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getDayOfMonth()).toString()));
+				"-" +  Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getDayOfMonth()).toString());
 		
 		/* params.add(new BasicNameValuePair("date_from",  Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker1)).getMonth() + 1).toString() + 
 				"-" + Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker1)).getDayOfMonth()).toString() + 
@@ -101,7 +104,7 @@ public class SearchFragment extends Fragment {
 				"-" + Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getMonth() + 1).toString() + 
 				"-" + Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getDayOfMonth()).toString())); */
 		
-		return params;
+		return map;
 	}
 
 }

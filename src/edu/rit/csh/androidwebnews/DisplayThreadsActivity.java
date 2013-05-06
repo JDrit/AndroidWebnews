@@ -154,10 +154,6 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	
 	@Override
 	public void update(String jsonString) {
-		if (jsonString.length() > 20)
-			Log.d("threadsdebug", "updating displaythreads" + ": " + jsonString.substring(0,  20));
-		else
-			Log.d("threadsdebug", "updating displaythreads" + ": " + jsonString);
 		
 		try {
 			JSONObject obj = new JSONObject(jsonString);

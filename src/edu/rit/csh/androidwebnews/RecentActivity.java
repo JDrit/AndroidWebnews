@@ -73,7 +73,6 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 			if (sharedPref.getBoolean("run_service", false)) {
 				String timeString= sharedPref.getString("time_between_checks", "15");
 				int time = 15;
-				Log.d("timeString", "(" + timeString + ")");
 				if (!timeString.equals("")) {
 					time = Integer.valueOf(timeString);
 				}
@@ -168,12 +167,10 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 				} else {
 					newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
 				}
-				Log.d("jddebug-RecentActivity", unread + " " + groupUnread);
 			} else {  // newsgroups
 				SharedPreferences.Editor editor = sharedPref.edit();
 				editor.putString("newsgroups_json_string", jsonString);
 				editor.commit();
-				Log.d("jddebugcache", "update cache1");
 				newsgroupListMenu.update(hc.getNewsGroupFromString(jsonString));
 			}
 		} catch (JSONException e) {

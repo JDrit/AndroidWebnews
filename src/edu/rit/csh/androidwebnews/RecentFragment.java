@@ -42,7 +42,6 @@ public class RecentFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.d("jddebug", "frag");
 		newsgroupListMenu = ((RecentActivity)getActivity()).newsgroupListMenu;
 		lv = new WebnewsListView(getActivity(), newsgroupListMenu);
 

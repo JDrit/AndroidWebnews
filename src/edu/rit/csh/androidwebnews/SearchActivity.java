@@ -36,10 +36,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 public class SearchActivity extends FragmentActivity implements ActivityInterface {
-	HttpsConnector hc;
-	SearchFragment sf;
-	boolean buttonPushed = false;
-	InvalidApiKeyDialog dialog;
+	private HttpsConnector hc;
+	private SearchFragment sf;
+	private boolean buttonPushed = false;
+	private InvalidApiKeyDialog dialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +60,7 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 	@Override
 	public void update(String jsonString) {
 		JSONObject obj;
+		Log.d("newdebug", "update called");
 		try {
 			obj = new JSONObject(jsonString);
 			if (obj.has("error")) {
@@ -72,12 +73,14 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 			}
 			else  // other
 			{
+				
 				if(buttonPushed)
 				{
-					Intent myIntent = new Intent(SearchActivity.this, SearchResultsActivity.class);
+					/*Intent myIntent = new Intent(SearchActivity.this, SearchResultsActivity.class);
 					myIntent.putExtra("SEARCH_RESULTS", jsonString);
-					startActivity(myIntent);
-				}
+					startActivity(myIntent);*/
+					Log.d("newdebug", "buttonpressed");
+									}
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -93,8 +96,14 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 	}
 	
 	public void search(View view) {
-		Log.d("newdebug", "Updating search!");
-		hc.search(sf.getParams());
+		
+		/*Log.d("newdebug", "Updating search!");
+		hc.search(sf.getParams());*/
+		Intent myIntent = new Intent(SearchActivity.this, SearchResultsActivity.class);
+		myIntent.putExtra("params", sf.getParams());
+		startActivity(myIntent);
+
+		Log.d("newdebug", "search called");
 		buttonPushed = true;
 	}
 }

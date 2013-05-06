@@ -38,57 +38,39 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+/**
+ * Used to display the results from the search.
+ * @author JD
+ */
 public class SearchResultsFragment extends Fragment {
-	HttpsConnector hc;
-	ArrayList<String> threads;
-	ArrayAdapter<String> listAdapter;
+	private ArrayAdapter<String> listAdapter;
+	private ListView mainListView;
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-	{
-		threads = SearchResultsActivity.searchResults;
-		
-		Log.d("MyDebugging","Starting SearchListFragment view creation");
-		ListView mainListView = new ListView(getActivity());
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-	    String apiKey = sharedPref.getString("api_key", "");
-		hc = new HttpsConnector(getActivity());
-		//hc.getNewsGroups();
-		
-		listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.search_result_textview, threads);
-		
-		
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		mainListView = new ListView(getActivity());
+		listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.search_result_textview, new ArrayList<String>());
 		mainListView.setAdapter(listAdapter);
-		
-		Log.d("MyDebugging", "Setting click listener");
-		mainListView.setOnItemClickListener(new OnItemClickListener()
-		{
-
+		mainListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> adapter, View arg1, int position,
-					long id) {
-				Log.d("MyDebugging", "Clicky!");
-				//String value = (String) adapter.getItemAtPosition(position);
+			public void onItemClick(AdapterView<?> adapter, View arg1, int position, long id) {
 				((SearchResultsActivity)getActivity()).onSelectThread(position);
 			}
-			
 		});
-		Log.d("MyDebugging","SearchListFragment view creation done");
-		
 		return mainListView;
-	
 	}
 	
 	public void update(ArrayList<String> threads)
 	{
 		if(listAdapter != null)
 		{
-			this.threads = threads;
 			listAdapter.clear();
-			for(String s : threads)
+			for(String s : threads) {
 				listAdapter.add(s);
+			}
 			listAdapter.notifyDataSetChanged();
 		}
+		
 	}
 
 }

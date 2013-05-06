@@ -20,6 +20,7 @@ package edu.rit.csh.androidwebnews;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -75,7 +76,7 @@ public class HttpsConnector {
 	 * there was an error in the procedure.
 	 */
 	public void getNewsGroups() {
-		new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("newsgroups", new ArrayList<NameValuePair>()));
+		new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("newsgroups", null));
 	}
 	
 	/**
@@ -109,8 +110,7 @@ public class HttpsConnector {
 	public void getNewest(boolean bol) {
 		Log.d("getNewest", "getNewest");
 		if (checkInternet()) {
-			
-			new HttpsGetAsyncTask(new WebnewsHttpClient(context), bol, activity).execute(formatUrl("activity", new ArrayList<NameValuePair>()));
+			new HttpsGetAsyncTask(new WebnewsHttpClient(context), bol, activity).execute(formatUrl("activity", null));
 		} else {
 			dialog.show();
 		}
@@ -122,6 +122,7 @@ public class HttpsConnector {
 	 * @return ArrayList<PostThread> - list of recent threads
 	 */
 	public ArrayList<PostThread> getNewestFromString(String s) {
+		Log.d("newdebug", "getNewestFromString");
 		ArrayList<PostThread> threads = new ArrayList<PostThread>();
 		
 		try {
@@ -168,9 +169,9 @@ public class HttpsConnector {
 			} else if (amount > 20) {
 				amount = 20;
 			}
-			List<NameValuePair> params = new LinkedList<NameValuePair>();
-			params.add(new BasicNameValuePair("limit", Integer.valueOf(amount).toString()));
-			params.add(new BasicNameValuePair("thread_mode", "normal"));
+			HashMap<String, String> params = new HashMap<String, String>();
+			params.put("limit", Integer.valueOf(amount).toString());
+			params.put("thread_mode", "normal");
 			//String url = formatUrl(mainUrl + "/" + name + "/index", params);
 			new HttpsGetAsyncTask(new WebnewsHttpClient(context), true, activity).execute(formatUrl(name + "/index", params));
 		} else {
@@ -194,9 +195,9 @@ public class HttpsConnector {
 			} else if (amount > 20) {
 				amount = 20;
 			}
-			List<NameValuePair> params = new LinkedList<NameValuePair>();
-			params.add(new BasicNameValuePair("limit", Integer.valueOf(amount).toString()));
-			params.add(new BasicNameValuePair("thread_mode", "normal"));
+			HashMap<String, String> params = new HashMap<String, String>();
+			params.put("limit", Integer.valueOf(amount).toString());
+			params.put("thread_mode", "normal");
 			//String url = formatUrl(mainUrl + "/" + name + "/index", params);
 			new HttpsGetAsyncTask(new WebnewsHttpClient(context), bol, activity).execute(formatUrl(name + "/index", params));
 		} else {
@@ -220,10 +221,10 @@ public class HttpsConnector {
 		} else if (amount > 20) {
 			amount = 20;
 		}
-		List<NameValuePair> params = new LinkedList<NameValuePair>();
-		params.add(new BasicNameValuePair("limit",  Integer.valueOf(amount).toString()));
-		params.add(new BasicNameValuePair("thread_mode", "normal"));
-		params.add(new BasicNameValuePair("from_older", date));
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("limit",  Integer.valueOf(amount).toString());
+		params.put("thread_mode", "normal");
+		params.put("from_older", date);
 		new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl(newsgroup + "/index", params));
 			
 	}
@@ -254,9 +255,9 @@ public class HttpsConnector {
 	 * Starts an async task to get the results of a search query
 	 * @param params - ArrayList<NameValuePair> of he parameters for the search query
 	 */
-	public void search(ArrayList<NameValuePair> params) {
+	public void search(HashMap<String, String> params) {
 		if (checkInternet()) {
-			new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("search", params));
+			new HttpsGetAsyncTask(new WebnewsHttpClient(context), true, activity).execute(formatUrl("search", params));
 		} else {
 			dialog.show();
 		}
@@ -304,7 +305,7 @@ public class HttpsConnector {
 	 */
 	public void getPostBody(String newsgroup, int id) {
 		if (checkInternet()) {
-			new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl(newsgroup + "/" + id, new ArrayList<NameValuePair>()));
+			new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl(newsgroup + "/" + id, null));
 		} else {
 			dialog.show();
 		}
@@ -337,7 +338,7 @@ public class HttpsConnector {
 	 * 			[2] - the number of unread replies to a user's post
 	 */
 	public int[] getUnreadCount() throws InvalidKeyException, NoInternetException {
-		URI url = formatUrl("unread_counts", new LinkedList<NameValuePair>());
+		URI url = formatUrl("unread_counts", null);
 		int[] unreadStatuses = new int[3];
 		unreadStatuses[0] = -1;
 		JSONObject jObj = null;
@@ -364,7 +365,7 @@ public class HttpsConnector {
 	}
 	
 	public void startUnreadCountTask() {
-		new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("unread_counts", new LinkedList<NameValuePair>()));
+		new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("unread_counts", null));
 		
 	}
 	public int[] getUnreadCountFromString(String jsonString) {
@@ -386,7 +387,7 @@ public class HttpsConnector {
 	 */
 	public void markRead() {
 		if (checkInternet()) {
-			String url = formatUrl("mark_read", new ArrayList<NameValuePair>()).toString();
+			String url = formatUrl("mark_read",null).toString();
 			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
 			BasicNameValuePair allVP = new BasicNameValuePair("all_posts", "");
 			
@@ -410,7 +411,7 @@ public class HttpsConnector {
 	 */
 	public void markRead(String newsgroup, int id) {
 		if (checkInternet()) {
-			String url = formatUrl("mark_read", new ArrayList<NameValuePair>()).toString();
+			String url = formatUrl("mark_read", null).toString();
 			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
 			BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
 			BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
@@ -424,7 +425,7 @@ public class HttpsConnector {
 	
 	public void markRead(String newsgroup) {
 		if (checkInternet()) {
-			String url = formatUrl("mark_read", new ArrayList<NameValuePair>()).toString();
+			String url = formatUrl("mark_read", null).toString();
 			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
 			BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);			
 			Log.d("newdebug", "mark post read: " + newsgroup);
@@ -449,7 +450,7 @@ public class HttpsConnector {
 	 */
 	public void markUnread(String newsgroup, int id) {
 		if (checkInternet()) {
-			String url = formatUrl("mark_read", new ArrayList<NameValuePair>()).toString();
+			String url = formatUrl("mark_read", null).toString();
 			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
 			BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
 			BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
@@ -468,7 +469,7 @@ public class HttpsConnector {
 	 */
 	public void markStarred(String newsgroup, int id) {
 		if (checkInternet()) {
-			String url = formatUrl(newsgroup + "/" + id + "/star", new ArrayList<NameValuePair>()).toString();
+			String url = formatUrl(newsgroup + "/" + id + "/star", null).toString();
 			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
 			new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP);
 		} else {
@@ -478,7 +479,7 @@ public class HttpsConnector {
 	
 	public void composePost(String newsgroup, String subject, String body) {
 		if (checkInternet()) {
-			String url = formatUrl("compose", new ArrayList<NameValuePair>()).toString();
+			String url = formatUrl("compose", null).toString();
 			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
 			BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
 			BasicNameValuePair subjectVP = new BasicNameValuePair("subject", subject);
@@ -494,7 +495,7 @@ public class HttpsConnector {
 
 	public void composePost(String newsgroup, String subject, String body, String newsgroupParent, int parentId) {
 		if (checkInternet()) {
-			String url = formatUrl("compose", new ArrayList<NameValuePair>()).toString();
+			String url = formatUrl("compose", null).toString();
 			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
 			BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
 			BasicNameValuePair subjectVP = new BasicNameValuePair("subject", subject);
@@ -519,7 +520,7 @@ public class HttpsConnector {
 		//String url = formatUrl(mainUrl + "/user", new ArrayList<NameValuePair>());
 		try {
 			
-			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("/user", new ArrayList<NameValuePair>())).get());
+			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("/user", null)).get());
 			if (jObj.has("user")) {
 				return true;
 			} else {
@@ -542,7 +543,7 @@ public class HttpsConnector {
 	 * @param addOns - List<NameValuePair> of extra parameters, can be empty
 	 * @return String - the formated String
 	 */
-	private URI formatUrl(String addOn, List<NameValuePair> addOns) {
+	private URI formatUrl(String addOn, HashMap<String, String> addOns) {
 		//if (!url.endsWith("?")) {
 		//	url += "?";
 		//}
@@ -550,8 +551,10 @@ public class HttpsConnector {
 		Log.d("jddebug - HttpsConnector", sharedPref.getString("api_key", ""));
 		params.add(new BasicNameValuePair("api_key", sharedPref.getString("api_key", "")));
 		params.add(new BasicNameValuePair("api_agent", "Android_Webnews"));
-		if (addOns.size() != 0) {
-			params.addAll(addOns);
+		if (addOns != null) {
+			for (String key : addOns.keySet()) {
+				params.add(new BasicNameValuePair(key, addOns.get(key)));
+			}
 		}
 		try {
 			Log.d("jddebug - HttpsConnector", URIUtils.createURI("https", "webnews.csh.rit.edu", -1, "/" + addOn, 

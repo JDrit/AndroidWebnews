@@ -61,8 +61,6 @@ public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
 	         p.setMessage("Contacting Server...");
 	         p.setCancelable(false);
 	         p.show();
-	         
-	         Log.d("jddebug", "p started");
     	 }
      }
     
