@@ -120,9 +120,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	public boolean onOptionsItemSelected(MenuItem item) { 
 		switch (item.getItemId()) {
 		case R.id.new_post:
-			Intent myIntent = new Intent(this, ComposeActivity.class);
-			myIntent.putExtra("NEWSGROUP", newsgroupName);
-			startActivity(myIntent);
+			startActivity(new Intent(this, ComposeActivity.class));
 			return true;
 		
 		case R.id.menu_settings:

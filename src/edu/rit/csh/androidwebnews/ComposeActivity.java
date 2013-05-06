@@ -46,29 +46,33 @@ public class ComposeActivity extends Activity implements ActivityInterface {
 	private InvalidApiKeyDialog dialog;
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		Bundle extras = getIntent().getExtras();
 		hc = new HttpsConnector(this);	    	    
 	    hc.getNewsGroups(); // used for list of newsgroups to look through
-		if(extras != null)
-		{
+		
+	    if(extras != null) {
 			subject = extras.getString("SUBJECT");
 			body = extras.getString("QUOTED_TEXT");
 			parentId = extras.getInt("PARENT");
 			newsgroup = extras.getString("NEWSGROUP");
 		}
+		Log.d("newpost", "Newsgroup id: " + newsgroup);
+		Log.d("newpost", "ParentId: " + parentId);
 		
 		setContentView(R.layout.activity_compose);
 		dialog = new InvalidApiKeyDialog(this);
-		//TextView tv = (TextView) findViewById(R.id.compose_text);
-		//tv.setText("Compose a message in " + newsgroup);
+
 		groupNames = new ArrayList<String>();
 		listAdapter = new ArrayAdapter<String>(this, R.layout.rowlayout, groupNames);
 		spinner = (Spinner) findViewById(R.id.newsgroupSpinner);
-		spinner.setAdapter(listAdapter);
+		if (parentId <= 0) {// do not display the spinner if it is a reply to a post
+			spinner.setAdapter(listAdapter);
+		} else {
+			spinner.setVisibility(View.GONE);
+		}
 		
 		subLine = (EditText) findViewById(R.id.subject_line);
 		subLine.setText(subject);
@@ -110,16 +114,10 @@ public class ComposeActivity extends Activity implements ActivityInterface {
 	}
 	
 	public void submit(View view) {
-
-		Log.d("newpost", "Newsgroup id: " + (String)spinner.getSelectedItem());
-		Log.d("newpost", "Subject: " + subLine.getText().toString());
-		Log.d("newpost", "Body: " + bodyText.getText().toString());
-		Log.d("newpost", "ParentId: " + parentId);
-		
-		if(parentId == -1)
+		if(parentId <= 0)
 			new HttpsConnector(this).composePost((String)spinner.getSelectedItem(), subLine.getText().toString(), bodyText.getText().toString());
 		else
-			new HttpsConnector(this).composePost((String)spinner.getSelectedItem(), subLine.getText().toString(), bodyText.getText().toString(), (String)spinner.getSelectedItem(), parentId);
+			new HttpsConnector(this).composePost(newsgroup, subLine.getText().toString(), bodyText.getText().toString(), newsgroup, parentId);
 		Toast.makeText(getApplicationContext(), "Post submitted, refresh your view!", Toast.LENGTH_LONG).show();
 		finish();
 	}
