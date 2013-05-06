@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="30dp"
-    android:layout_width="30dp"
-    android:indeterminateOnly="true" >
-    
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center" >
 
-</ProgressBar>
+	<ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_height="60dp"
+	    android:layout_width="60dp"
+	    android:indeterminateOnly="true" 
+	    android:gravity="center" />
+    
+</RelativeLayout>

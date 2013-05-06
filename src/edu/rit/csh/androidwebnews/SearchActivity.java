@@ -31,6 +31,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -39,6 +40,7 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 	private HttpsConnector hc;
 	private SearchFragment sf;
 	private InvalidApiKeyDialog dialog;
+	private DatePicker startDate;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,8 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 	    hc = new HttpsConnector(this);	    	    
 	    hc.getNewsGroups(); // used for list of newsgroups to look through
 	    sf = (SearchFragment) getSupportFragmentManager().findFragmentById(R.id.search_fragment);
+	    startDate = (DatePicker) findViewById(R.id.search_datePicker1);
+	    startDate.init(startDate.getYear() - 1, startDate.getMonth(), startDate.getDayOfMonth(), null);
 	}
 	
 	@Override

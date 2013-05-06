@@ -121,6 +121,10 @@ public class ComposeActivity extends Activity implements ActivityInterface {
 		Toast.makeText(getApplicationContext(), "Post submitted, refresh your view!", Toast.LENGTH_LONG).show();
 		finish();
 	}
+	
+	public void plus1(View view) {
+		bodyText.setText(bodyText.getText() + "+1");
+	}
 
 	@Override
 	public void onNewsgroupSelected(String newsgroupName) {
