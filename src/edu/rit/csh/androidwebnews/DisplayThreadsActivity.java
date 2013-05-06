@@ -68,15 +68,10 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		
 		threadsDirectMap = new ArrayList<PostThread>();
 		
-		Log.d("MyDebugging", "Selected newsgroup is " + newsgroupName);
-		Log.d("jddebug", "content viewed1");
-		
 		newsgroupListMenu = new NewsgroupListMenu(this);
 		newsgroupListMenu.checkEnabled();
 		
 		setContentView(R.layout.displaythreads_activity);
-		Log.d("jddebug", "content viewed2");
-		Log.d("MyDebugging", "newsgroupView creation finished");
 		
 		dtf = (DisplayThreadsFragment)getSupportFragmentManager().findFragmentById(R.id.threadsfragment);
 		
@@ -104,12 +99,12 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		PostThread thread = threadsDirectMap.get(item);
 		PostThread selected = thread;
 		
-		while(thread.parent != null)
-			thread=thread.parent;
+		while(thread.getParent() != null)
+			thread=thread.getParent();
 		
 		Intent intent = new Intent(this, PostSwipableActivity.class);
-		intent.putExtra("SELECTED_NEWSGROUP", thread.newsgroup);
-		intent.putExtra("SELECTED_ID", thread.number);
+		intent.putExtra("SELECTED_NEWSGROUP", thread.getNewsgroup());
+		intent.putExtra("SELECTED_ID", thread.getNumber());
 		intent.putExtra("GOTO_THIS", threadsDirectMap.indexOf(selected) - threadsDirectMap.indexOf(thread));
 
 		Log.d("des", "intent made");

@@ -60,13 +60,16 @@ public class SearchResultsFragment extends Fragment {
 		return mainListView;
 	}
 	
-	public void update(ArrayList<String> threads)
-	{
-		if(listAdapter != null)
-		{
+	public void update(ArrayList<String> threads) {
+		if(listAdapter != null) {
 			listAdapter.clear();
-			for(String s : threads) {
-				listAdapter.add(s);
+			if (threads.size() == 0) {
+				
+			} else {
+				for(String s : threads) {
+					Log.d("newdebug-thread", s);
+					listAdapter.add(s);
+				}
 			}
 			listAdapter.notifyDataSetChanged();
 		}

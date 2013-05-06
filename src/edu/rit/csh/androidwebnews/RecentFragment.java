@@ -76,12 +76,12 @@ public class RecentFragment extends Fragment {
 				DisplayThreadsActivity.lastFetchedThreads = new ArrayList<PostThread>();
 				DisplayThreadsActivity.lastFetchedThreads.add(thread);
 				
-				while(thread.parent != null)
-					thread=thread.parent;
+				while(thread.getParent() != null)
+					thread=thread.getParent();
 				
 				Intent intent = new Intent(getActivity(), PostSwipableActivity.class);
-				intent.putExtra("SELECTED_NEWSGROUP", thread.newsgroup);
-				intent.putExtra("SELECTED_ID", thread.number);
+				intent.putExtra("SELECTED_NEWSGROUP", thread.getNewsgroup());
+				intent.putExtra("SELECTED_ID", thread.getNumber());
 				//intent.putExtra("GOTO_THIS", threadsDirectMap.indexOf(selected) - threadsDirectMap.indexOf(thread));
 
 				Log.d("des", "intent made");

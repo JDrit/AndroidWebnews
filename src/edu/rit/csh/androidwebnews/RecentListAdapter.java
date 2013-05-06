@@ -48,8 +48,8 @@ public class RecentListAdapter<T> extends ArrayAdapter<T> {
 			LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = infalInflater.inflate(R.layout.rowlayout, null);
 			TextView tv = (TextView) convertView.findViewById(R.id.rowTextView);
-			tv.setText(thread.newsgroup + " : " + thread.toString());
-			if (thread.unread != "null") {
+			tv.setText(thread.getNewsgroup() + " : " + thread.toString());
+			if (thread.getUnread() != "null") {
 				tv.setTypeface(null, Typeface.BOLD);
 				//convertView.setBackgroundColor(0xffcbcbcb);
 			}

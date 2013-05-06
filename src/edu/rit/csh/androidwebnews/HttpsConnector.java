@@ -585,13 +585,12 @@ public class HttpsConnector {
 					post.getString("unread_class"),
 					post.getString("personal_class"),
 					post.getString("sticky_until"));
-			thread.depth = depthLevel;
-			Log.d("thread", thread.authorName + ": " + thread.depth);
+			thread.setDepth(depthLevel);
 			if (obj.getJSONArray("children") != null ) {
 				for (int i = 0 ; i < obj.getJSONArray("children").length() ; i++) {
 					PostThread child = createThread(obj.getJSONArray("children").getJSONObject(i), depthLevel + 1);
-					child.parent = thread;
-					thread.children.add(child);
+					child.setParent(thread);
+					thread.addChild(child);
 				}
 			}
 			return thread;		

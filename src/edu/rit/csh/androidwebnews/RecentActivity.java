@@ -136,7 +136,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	public void onThreadSelected(final PostThread thread) {
 
 		Intent myIntent = new Intent(RecentActivity.this, DisplayThreadsActivity.class);
-		myIntent.putExtra("SELECTED_NEWSGROUP", thread.newsgroup);
+		myIntent.putExtra("SELECTED_NEWSGROUP", thread.getNewsgroup());
 		startActivity(myIntent);
 	}
 

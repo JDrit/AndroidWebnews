@@ -96,14 +96,6 @@ public class SearchFragment extends Fragment {
 		map.put("date_to",  Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getYear()).toString() + 
 				"-" + Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getMonth() + 1).toString() + 
 				"-" +  Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getDayOfMonth()).toString());
-		
-		/* params.add(new BasicNameValuePair("date_from",  Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker1)).getMonth() + 1).toString() + 
-				"-" + Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker1)).getDayOfMonth()).toString() + 
-				"-" + Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker1)).getYear()).toString() )); */
-		/*params.add(new BasicNameValuePair("date_to", Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getYear()).toString() + 
-				"-" + Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getMonth() + 1).toString() + 
-				"-" + Integer.valueOf(((DatePicker) view.findViewById(R.id.search_datePicker2)).getDayOfMonth()).toString())); */
-		
 		return map;
 	}
 

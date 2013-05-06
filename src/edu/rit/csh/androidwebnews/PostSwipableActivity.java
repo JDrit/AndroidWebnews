@@ -73,7 +73,7 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 		
 		for(int x = 0; x < DisplayThreadsActivity.lastFetchedThreads.size(); x++)
 		{
-			if(DisplayThreadsActivity.lastFetchedThreads.get(x).number == id)
+			if(DisplayThreadsActivity.lastFetchedThreads.get(x).getNumber() == id)
 			{
 				rootThread = DisplayThreadsActivity.lastFetchedThreads.get(x);
 				Log.d("MyDebugging", "rootThread found for PostSwipableActivity");
@@ -86,7 +86,7 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 	
 	public void markUnread(View view) {
 		int threadId = Integer.parseInt((String)view.getTag());
-		findThisThread(rootThread, threadId).unread = "manual";
+		findThisThread(rootThread, threadId).setUnread("manual");
 		hc.markUnread(newsgroupName, threadId);
 		Toast.makeText(getApplicationContext(), "Marking post as unread", Toast.LENGTH_LONG).show();
 	}
@@ -94,9 +94,9 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 	public void markStarred(View view) {
 		int threadId = Integer.parseInt((String)view.getTag());
 		PostThread thread = findThisThread(rootThread, threadId);
-		thread.starred = !thread.starred;
+		thread.starred();
 		ImageButton ib = (ImageButton)view;
-		if(thread.starred)
+		if(thread.getStarred())
 		{
 			ib.setImageResource(R.drawable.starred);
 			Toast.makeText(getApplicationContext(), "Post starred", Toast.LENGTH_LONG).show();
@@ -111,10 +111,10 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 	
 	private PostThread findThisThread(PostThread thread, int id)
 	{
-		if(thread.number == id)
+		if(thread.getNumber() == id)
 			return thread;
 		else
-			for(PostThread t : thread.children)
+			for(PostThread t : thread.getChildren())
 			{
 				PostThread returnValue = findThisThread(t,id);
 				if(returnValue != null)
@@ -127,7 +127,7 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 		String threadInfo = (String)view.getTag();
 		int threadId = Integer.parseInt(threadInfo.substring(0, threadInfo.indexOf("|")));
 		PostThread thread = findThisThread(rootThread, threadId);
-		String subject = thread.subject;
+		String subject = thread.getSubject();
 		String body = threadInfo.substring(threadInfo.indexOf("|") + 1, threadInfo.length());
 		
 		String newBody = "";
@@ -135,7 +135,7 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 		for(int t = 0; t < lines.length; t++)
 			newBody += ">" + lines[t] + "\n";
 		
-		newBody = "On " + thread.getDate() + ", " + thread.authorName + " wrote:\n" + newBody;
+		newBody = "On " + thread.getDate() + ", " + thread.getAuthorName() + " wrote:\n" + newBody;
 		
 		if(!subject.substring(0, 3).equals("Re:"))
 			subject = "Re: " + subject;
@@ -144,7 +144,7 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 		myIntent.putExtra("NEWSGROUP", newsgroupName);
 		myIntent.putExtra("SUBJECT", subject);
 		myIntent.putExtra("QUOTED_TEXT", newBody);
-		myIntent.putExtra("PARENT", thread.number);
+		myIntent.putExtra("PARENT", thread.getNumber());
 		startActivity(myIntent);
 	}
 

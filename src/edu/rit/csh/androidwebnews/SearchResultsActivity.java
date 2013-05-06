@@ -32,6 +32,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class SearchResultsActivity extends FragmentActivity implements ActivityInterface {
 	
@@ -39,6 +43,7 @@ public class SearchResultsActivity extends FragmentActivity implements ActivityI
 	public static PostThread rootThread;
 	private HttpsConnector hc;
 	private SearchResultsFragment sf;
+	private TextView tv;
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -51,6 +56,7 @@ public class SearchResultsActivity extends FragmentActivity implements ActivityI
 		hc.search(params);
 		sf = (SearchResultsFragment) getSupportFragmentManager().findFragmentById(R.id.search_list_fragment);
 		setTitle("Search Results");
+		tv = (TextView) findViewById(R.id.search_list_textview);
 	}
 
 	public void update(String jsonString) {
@@ -58,6 +64,11 @@ public class SearchResultsActivity extends FragmentActivity implements ActivityI
 		threads = hc.getSearchFromString(jsonString);
 		for(PostThread thread : threads) {
 			searchResults.add(thread.toString());
+		}
+		if (searchResults.size() == 0) {
+			tv.setText("NO RESULTS");
+		} else {
+			tv.setVisibility(View.GONE);
 		}
 		sf.update(searchResults);
 	}
@@ -68,12 +79,12 @@ public class SearchResultsActivity extends FragmentActivity implements ActivityI
 		
 		for(int e = 1; e < threads.size(); e++)
 		{
-			rootThread.children.add(threads.get(e));
+			rootThread.addChild(threads.get(e));
 		}
 		
 		Intent intent = new Intent(this, PostSwipableActivity.class);
-		intent.putExtra("SELECTED_NEWSGROUP", rootThread.newsgroup);
-		intent.putExtra("SELECTED_ID", rootThread.number);
+		intent.putExtra("SELECTED_NEWSGROUP", rootThread.getNewsgroup());
+		intent.putExtra("SELECTED_ID", rootThread.getNumber());
 		intent.putExtra("GOTO_THIS", threadPosition);
 		intent.putExtra("SEARCH_RESULTS", true);
 

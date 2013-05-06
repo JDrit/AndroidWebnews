@@ -139,14 +139,14 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 
 	public void expandThread(PostThread thread, int pos)
 	{
-		for(int x = thread.children.size() - 1; x > -1; x--)
+		for(int x = thread.getChildren().size() - 1; x > -1; x--)
 		{
-			PostThread childThread = thread.children.get(x);
+			PostThread childThread = thread.getChildren().get(x);
 			int originalPos = findOriginalPos(thread);
 			if(originalPos > -1)
 			{
-				if(childThread.children.size() != 0) {
-					Log.d("output", childThread.depth + childThread.authorName);
+				if(childThread.getChildren().size() != 0) {
+					Log.d("output", childThread.getDepth() + childThread.getAuthorName());
 					expandThread(childThread, originalPos, pos, 2);
 				}
 				
@@ -163,11 +163,11 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 		String temp = "";
 		for(int i = 0; i < level; i++)
 			temp += "||";
-		for(int x = thread.children.size() - 1; x > -1; x--)
+		for(int x = thread.getChildren().size() - 1; x > -1; x--)
 		{
-			PostThread childThread = thread.children.get(x);
-			if(childThread.children.size() != 0) {
-				Log.d("output", childThread.depth + childThread.authorName);
+			PostThread childThread = thread.getChildren().get(x);
+			if(childThread.getChildren().size() != 0) {
+				Log.d("output", childThread.getDepth() + childThread.getAuthorName());
 				expandThread(childThread, originalPos, pos, level + 1);
 				
 			}
@@ -236,7 +236,7 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 
 	private int findOriginalPos(PostThread thread)
 	{
-		Log.d("MyDebugging", thread.authorName + "'s original pos requested");
+		Log.d("MyDebugging", thread.getAuthorName() + "'s original pos requested");
 		for(int x = 0; x < rootThreads.size(); x++)
 			if(rootThreads.get(x).Equals(thread))
 			{
@@ -272,16 +272,15 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem,
-			int visibleItemCount, int totalItemCount) {
-		if(view.getId() == android.R.id.list)
-		{
+		int visibleItemCount, int totalItemCount) {
+		if(view.getId() == android.R.id.list) {
 			int lastItem = firstVisibleItem + visibleItemCount;
-			if(lastItem == totalItemCount && threads != null && threads.size() != 0 && !((DisplayThreadsActivity)getActivity()).requestedAdditionalThreads && !DisplayThreadsActivity.hitBottom)
-			{
+			if(lastItem == totalItemCount && threads != null && threads.size() != 0 && 
+					!((DisplayThreadsActivity)getActivity()).requestedAdditionalThreads && 
+					!DisplayThreadsActivity.hitBottom) {
 				Log.d("MyDebugging","Asking for posts in " + newsgroupName + " older than " + threads.get(threads.size() - 1).getDate() );
-				hc.getNewsgroupThreadsByDate(newsgroupName, threads.get(threads.size() - 1).date, 10);
+				hc.getNewsgroupThreadsByDate(newsgroupName, threads.get(threads.size() - 1).getDate(), 10);
 				((DisplayThreadsActivity)getActivity()).requestedAdditionalThreads = true;
-				//Log.d("MyDebugging", "We're at the bottom!");
 			}
 		}
 		

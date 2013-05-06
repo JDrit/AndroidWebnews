@@ -24,13 +24,12 @@ import android.os.Parcelable;
 import android.util.Log;
 
 public class PostThread {
-	String date, subject, authorName, authorEmail, newsgroup, unread, personal_class, sticky;
-	int number, depth;
-	boolean starred;
-	ArrayList<PostThread> children;
-	PostThread parent;
-	
-	
+	private String date, subject, authorName, authorEmail, newsgroup, unread, personal_class, sticky;
+	private int number, depth;
+	private boolean starred;
+	private ArrayList<PostThread> children;
+	private PostThread parent;
+
 	public PostThread(String date, 
 			int number, 
 			String subject, 
@@ -178,5 +177,65 @@ public class PostThread {
 			hours = 12;
 		
 		return hours + ":" + m + " " + a;
+	}
+	
+	public void starred() {
+		starred = !starred;
+	}
+	
+	public String getNewsgroup() {
+		return(newsgroup);
+	}
+	
+	public PostThread getParent() {
+		return(parent);
+	}
+	
+	public int getNumber() {
+		return(number);
+	}
+	
+	public ArrayList<PostThread> getChildren() {
+		return(children);
+	}
+	
+	public int getDepth() {
+		return(depth);
+	}
+	
+	public String getAuthorName() {
+		return(authorName);
+	}
+	
+	public String getUnread() {
+		return(unread);
+	}
+	
+	public String getPersonal_class() {
+		return(personal_class);
+	}
+	
+	public String getSubject() {
+		return(subject);
+	}
+	
+	public boolean getStarred() {
+		return(starred);
+	}
+	
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
+	
+	public void setParent(PostThread parent) {
+		this.parent = parent;
+	}
+	
+	public void addChild(PostThread child) {
+		children.add(child);
+	}
+	
+	public void setUnread(String unread) {
+		this.unread = unread;
 	}
 }

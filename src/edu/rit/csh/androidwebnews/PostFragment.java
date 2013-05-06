@@ -47,9 +47,6 @@ public class PostFragment extends Fragment {
 	public PostFragment(PostThread thread, int me, int total)
 	{
 		super();
-		Log.d("MyDebugging", "Post Fragment being made");
-		Log.d("MyDebugging", "newsgroup = " + thread.newsgroup);
-		Log.d("MyDebugging", "Post Fragment made");
 		myThread = thread;
 		this.me = me;
 		this.total = total;
@@ -70,7 +67,7 @@ public class PostFragment extends Fragment {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
 		hc = new HttpsConnector(getActivity());
-		hc.getPostBody(myThread.newsgroup, myThread.number);
+		hc.getPostBody(myThread.getNewsgroup(), myThread.getNumber());
 	}
 	
 	
@@ -81,14 +78,14 @@ public class PostFragment extends Fragment {
 		contents = new ArrayList<String>();
 		body = "";
 		
-    	contents.add(myThread.number + "");
-		contents.add("Newsgroup: " + myThread.newsgroup);
-		contents.add("Author Name: " + myThread.authorName);
-		contents.add("Subject: " + myThread.subject);
+    	contents.add(myThread.getNumber() + "");
+		contents.add("Newsgroup: " + myThread.getNewsgroup());
+		contents.add("Author Name: " + myThread.getAuthorName());
+		contents.add("Subject: " + myThread.getSubject());
 		contents.add("Post Date: " + myThread.getDate());
 		swapBodies();
 		contents.add("[Post loading...]");
-		contents.add(myThread.starred + "");
+		contents.add(myThread.getStarred() + "");
 		
 		listAdapter = new PostFragmentAdapter<String>(getActivity(), R.layout.rowlayout, contents);
 		
@@ -158,11 +155,11 @@ public class PostFragment extends Fragment {
 	public void setUserVisibleHint(boolean isVisibleToUser)
 	{
 		super.setUserVisibleHint(isVisibleToUser);
-		if(isVisibleToUser && myThread.unread != "null")
+		if(isVisibleToUser && myThread.getUnread() != "null")
 		{
-			Log.d("MyDebugging", "Marking " + myThread.authorName + "'s post as read");
-			myThread.unread = "null";
-			hc.markRead(myThread.newsgroup, myThread.number);
+			
+			myThread.setUnread("null");
+			hc.markRead(myThread.getNewsgroup(), myThread.getNumber());
 		}
 		if(getActivity() != null)
 			getActivity().setTitle("Post " + me + " of " + total);

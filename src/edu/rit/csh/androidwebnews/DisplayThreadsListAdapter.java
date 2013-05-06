@@ -65,13 +65,13 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 		if(position < super.getCount())
 		{
 			PostThread thread = ((PostThread)getItem(position));
-			boolean isRoot = thread.depth == 0;
+			boolean isRoot = thread.getDepth() == 0;
 			LayoutInflater infalInflater = (LayoutInflater) context
 	                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	        convertView = infalInflater.inflate(R.layout.threadlayout, null);
 			TextView tv = (TextView) convertView.findViewById(R.id.threadtextview);
-			convertView.setPadding(30 * thread.depth + 10,10,10,10);
-	        if(!isRoot || thread.children.size() == 0)
+			convertView.setPadding(30 * thread.getDepth() + 10,10,10,10);
+	        if(!isRoot || thread.getChildren().size() == 0)
 	        {	
 	            ((ImageView) convertView.findViewById(R.id.imageView1)).setImageResource(R.drawable.empty);
 	        	
@@ -92,9 +92,9 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	        	});
 	        }
 	        
-	        if(position + 1 < super.getCount() && thread.children.size() > 0)
+	        if(position + 1 < super.getCount() && thread.getChildren().size() > 0)
 	        {
-		        if(isRoot && ((PostThread)getItem(position + 1)).equals(thread.children.get(0)))
+		        if(isRoot && ((PostThread)getItem(position + 1)).equals(thread.getChildren().get(0)))
 		        {
 		        		((ImageView) convertView.findViewById(R.id.imageView1)).setImageResource(R.drawable.uparrow);
 		        }
@@ -103,12 +103,10 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 		    		((ImageView) convertView.findViewById(R.id.imageView1)).setImageResource(R.drawable.downarrow);
 		        }
 	        }
-			String text = thread.toString();
-			Log.d("thread depth", thread.depth + " " + thread.authorName);
-	
+			String text = thread.toString();	
 			
 	        tv.setPadding(85,0,10,0);
-	        if (thread.unread != "null") { 
+	        if (thread.getUnread() != "null") { 
 	        	tv.setText(text);
 	        	tv.setTypeface(null, Typeface.BOLD);
 	        	//convertView.setBackgroundColor(0xffcbcbcb);
@@ -116,7 +114,7 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	        	tv.setText(text);
 	        }
 	        
-	        if(thread.starred)
+	        if(thread.getStarred())
 	        {
 	        	((ImageView) convertView.findViewById(R.id.starImage)).setImageResource(R.drawable.starred);
 	        	tv.setPadding(75,0,90,0);
@@ -124,11 +122,11 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	        
 	        /*if(!thread.sticky.equals("null"))
 	        	convertView.setBackgroundColor(0xfffff9b7);
-	        else*/ if(thread.personal_class.equals("mine"))
+	        else*/ if(thread.getPersonal_class().equals("mine"))
 	        	convertView.setBackgroundColor(0xffb7ffb9);
-	        else if(thread.personal_class.equals("mine_reply"))
+	        else if(thread.getPersonal_class().equals("mine_reply"))
 	        	convertView.setBackgroundColor(0xfff7b7ff);
-	        else if(thread.personal_class.equals("mine_in_thread"))
+	        else if(thread.getPersonal_class().equals("mine_in_thread"))
 	        	convertView.setBackgroundColor(0xffb7d2ff);
 	        
 	        //((Button) convertView.findViewById(R.id.Viewbutton)).setTag(position);

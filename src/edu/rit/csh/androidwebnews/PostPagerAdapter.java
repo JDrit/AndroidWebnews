@@ -46,7 +46,7 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
 		{
 			for(int x = 0; x < DisplayThreadsActivity.lastFetchedThreads.size(); x++)
 			{
-				if(DisplayThreadsActivity.lastFetchedThreads.get(x).number == id)
+				if(DisplayThreadsActivity.lastFetchedThreads.get(x).getNumber() == id)
 				{
 					rootThread = DisplayThreadsActivity.lastFetchedThreads.get(x);
 					Log.d("MyDebugging", "rootThread found");
@@ -93,13 +93,7 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
 	
 	public void printT(PostThread t)
 	{
-		if(t.parent != null)
-			Log.d("MyDebugging", t.authorName + ", " + t.parent.authorName);
-		else
-		{
-			Log.d("MyDebugging", t.authorName);
-		}
-		for(PostThread thread : t.children)
+		for(PostThread thread : t.getChildren())
 		{
 			printT(thread);
 		}
@@ -116,7 +110,7 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
 		{
 			if(f != null)
 			{
-				if(f.myThread.number == id)
+				if(f.myThread.getNumber() == id)
 				{
 					Log.d("MyDebugging", "Updating thread " + id);
 					f.update(jsonString);
