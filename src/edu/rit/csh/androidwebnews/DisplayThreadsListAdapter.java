@@ -146,7 +146,7 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	public int getCount()
 	{
 		int count = super.getCount();
-		if(count == 0 || DisplayThreadsActivity.hitBottom)
+		if(count == 0)// || DisplayThreadsActivity.hitBottom)
 			return count;
 		else
 			return count+1;

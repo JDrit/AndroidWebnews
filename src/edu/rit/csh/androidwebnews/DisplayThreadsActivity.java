@@ -43,7 +43,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	NewsgroupListMenu newsgroupListMenu;
 	public boolean requestedAdditionalThreads = false;
 	SharedPreferences sharedPref;
-	public static boolean hitBottom = false;
+	//public static boolean hitBottom = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -51,7 +51,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		super.onCreate(savedInstanceState);
 		Log.d("MyDebugging", "newsgroupView creation started");
 		
-		hitBottom=false;
+		//hitBottom=false;
 		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);	    
 	    hc = new HttpsConnector(this);
 	    dialog = new InvalidApiKeyDialog(this);
@@ -158,7 +158,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 				Log.d("threadsdebug", "post_older");
 				if(hc.getThreadsFromString(jsonString).size() == 0)
 				{
-					hitBottom = true;
+					//hitBottom = true;
 					dtf.addThreads(new ArrayList<PostThread>());
 				}
 				else if(!requestedAdditionalThreads)

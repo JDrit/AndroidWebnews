@@ -196,42 +196,45 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 	{
 		this.threads = threads;
 		rootThreads.clear();
-		((DisplayThreadsActivity)getActivity()).threadsDirectMap.clear();
-		for(PostThread thread : threads)
-		{
-	    	rootThreads.add(thread);
-	    	((DisplayThreadsActivity)getActivity()).threadsDirectMap.add(thread);
-		}
-		for(int d = 0; d < threadStatus.length; d++)
-			threadStatus[d] = false;
-		for(int l = 0; l < extraEntries.length; l++)
-			extraEntries[l] = 0;
-		
-		// Opens threads with unread posts in them
-				ArrayList<Integer> toOpenIndexes = new ArrayList<Integer>(); // list of indexes to open
-				for (int i = threads.size() - 1 ; i >= 0  ; i--) {
-					Log.d("ints", threads.size() + "");
-					if (threads.get(i).containsUnread()) {
-						int originalPos = findOriginalPos(((DisplayThreadsActivity)getActivity()).threadsDirectMap.get(i));
-						Log.d("ints", originalPos + ":" + i);
-						expandThread(threads.get(originalPos), i);
-						listAdapter.notifyDataSetChanged();
-						threadStatus[originalPos] = true;	
-					}
-					
-				}
-				// Opens the unread posts in the list of indexes
-				for (Integer i : toOpenIndexes) {
-					int originalPos = findOriginalPos(((DisplayThreadsActivity)getActivity()).threadsDirectMap.get(i));
-					Log.d("ints", originalPos + ":" + i);
-					expandThread(threads.get(originalPos), i);
-					listAdapter.notifyDataSetChanged();
-					threadStatus[originalPos] = true;	
-				}
-		
-		listAdapter.clear();
-		listAdapter.addAll(threads);
-		listAdapter.notifyDataSetChanged();
+        if(getActivity() instanceof DisplayThreadsActivity)
+        {
+            ((DisplayThreadsActivity)getActivity()).threadsDirectMap.clear();
+            for(PostThread thread : threads)
+            {
+                rootThreads.add(thread);
+                ((DisplayThreadsActivity)getActivity()).threadsDirectMap.add(thread);
+            }
+            for(int d = 0; d < threadStatus.length; d++)
+                threadStatus[d] = false;
+            for(int l = 0; l < extraEntries.length; l++)
+                extraEntries[l] = 0;
+
+            // Opens threads with unread posts in them
+                    ArrayList<Integer> toOpenIndexes = new ArrayList<Integer>(); // list of indexes to open
+                    for (int i = threads.size() - 1 ; i >= 0  ; i--) {
+                        Log.d("ints", threads.size() + "");
+                        if (threads.get(i).containsUnread()) {
+                            int originalPos = findOriginalPos(((DisplayThreadsActivity)getActivity()).threadsDirectMap.get(i));
+                            Log.d("ints", originalPos + ":" + i);
+                            expandThread(threads.get(originalPos), i);
+                            listAdapter.notifyDataSetChanged();
+                            threadStatus[originalPos] = true;
+                        }
+
+                    }
+                    // Opens the unread posts in the list of indexes
+                    for (Integer i : toOpenIndexes) {
+                        int originalPos = findOriginalPos(((DisplayThreadsActivity)getActivity()).threadsDirectMap.get(i));
+                        Log.d("ints", originalPos + ":" + i);
+                        expandThread(threads.get(originalPos), i);
+                        listAdapter.notifyDataSetChanged();
+                        threadStatus[originalPos] = true;
+                    }
+
+            listAdapter.clear();
+            listAdapter.addAll(threads);
+            listAdapter.notifyDataSetChanged();
+        }
 	}
 
 	private int findOriginalPos(PostThread thread)
@@ -276,8 +279,8 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 		if(view.getId() == android.R.id.list) {
 			int lastItem = firstVisibleItem + visibleItemCount;
 			if(lastItem == totalItemCount && threads != null && threads.size() != 0 && 
-					!((DisplayThreadsActivity)getActivity()).requestedAdditionalThreads && 
-					!DisplayThreadsActivity.hitBottom) {
+					!((DisplayThreadsActivity)getActivity()).requestedAdditionalThreads) {// &&
+					//!DisplayThreadsActivity.hitBottom) {
 				Log.d("MyDebugging","Asking for posts in " + newsgroupName + " older than " + threads.get(threads.size() - 1).getDate() );
 				hc.getNewsgroupThreadsByDate(newsgroupName, threads.get(threads.size() - 1).getDate(), 10);
 				((DisplayThreadsActivity)getActivity()).requestedAdditionalThreads = true;
