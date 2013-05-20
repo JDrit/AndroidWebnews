@@ -19,10 +19,11 @@
         android:label="@string/app_name"
         android:logo="@drawable/webnews_icon"
         android:theme="@style/AppTheme" >
-        <receiver android:name="edu.rit.csh.androidwebnews.BootCompletedIntentReceiver">  
+        <receiver android:name="edu.rit.csh.androidwebnews.BootCompletedIntentReceiver">
+
     		<intent-filter>  
     			<action android:name="android.intent.action.BOOT_COMPLETED" />  
-   			</intent-filter>  
+   			</intent-filter>
   		</receiver> 
         <activity
             android:name="edu.rit.csh.androidwebnews.DisplayThreadsActivity"
@@ -33,11 +34,6 @@
             android:name="edu.rit.csh.androidwebnews.InfoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_info" >
-        </activity>
-        <activity
-            android:name="edu.rit.csh.androidwebnews.NewsgroupsListActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_newsgroupslist" >
         </activity>
         <activity
             android:name="edu.rit.csh.androidwebnews.PostSwipableActivity"
