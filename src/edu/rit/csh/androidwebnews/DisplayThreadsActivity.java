@@ -21,8 +21,6 @@ import java.util.ArrayList;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -35,23 +33,21 @@ import android.view.MenuItem;
 public class DisplayThreadsActivity extends FragmentActivity implements ActivityInterface {
 	
 	public String newsgroupName;
-	InvalidApiKeyDialog dialog;
+	private InvalidApiKeyDialog dialog;
 	public ArrayList<PostThread> threadsDirectMap;
-	static public ArrayList<PostThread> lastFetchedThreads = new ArrayList<PostThread>();
-	DisplayThreadsFragment dtf;
-	HttpsConnector hc;
+	static public ArrayList<PostThread> lastFetchedThreads;
+	private DisplayThreadsFragment dtf;
+	private HttpsConnector hc;
 	NewsgroupListMenu newsgroupListMenu;
 	public boolean requestedAdditionalThreads = false;
-	SharedPreferences sharedPref;
+	private SharedPreferences sharedPref;
 	//public static boolean hitBottom = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		Log.d("MyDebugging", "newsgroupView creation started");
-		
-		//hitBottom=false;
+        lastFetchedThreads = new ArrayList<PostThread>();
 		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);	    
 	    hc = new HttpsConnector(this);
 	    dialog = new InvalidApiKeyDialog(this);
@@ -75,7 +71,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		
 		dtf = (DisplayThreadsFragment)getSupportFragmentManager().findFragmentById(R.id.threadsfragment);
 		
-		if (sharedPref.getString("newsgroups_json_string", "") != "") {
+		if (!sharedPref.getString("newsgroups_json_string", "").equals("")) {
 			Log.d("jddebugcache", "from file");
 			newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
 			hc.startUnreadCountTask();

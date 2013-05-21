@@ -23,25 +23,21 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 
 public class RecentActivity extends FragmentActivity implements ActivityInterface {
-	InvalidApiKeyDialog dialog;
-	ProgressDialog p;
-	RecentFragment rf;
-	HttpsConnector hc;
-	NewsgroupListMenu newsgroupListMenu;
-	SharedPreferences sharedPref;
-	FirstTimeDialog ftd;
+	private InvalidApiKeyDialog dialog;
+	private RecentFragment rf;
+	private HttpsConnector hc;
+	private NewsgroupListMenu newsgroupListMenu;
+	private SharedPreferences sharedPref;
+	private FirstTimeDialog ftd;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +54,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 
 		if (!sharedPref.getBoolean("first_time", true)) {
 			hc.getNewest(true);
-			if (sharedPref.getString("newsgroups_json_string", "") != "") {
+			if (!sharedPref.getString("newsgroups_json_string", "").equals("")) {
 				newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
 				hc.startUnreadCountTask();
 			} else {
@@ -133,13 +129,6 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		return false;
 	}
 
-	public void onThreadSelected(final PostThread thread) {
-
-		Intent myIntent = new Intent(RecentActivity.this, DisplayThreadsActivity.class);
-		myIntent.putExtra("SELECTED_NEWSGROUP", thread.getNewsgroup());
-		startActivity(myIntent);
-	}
-
 	/**
 	 * This is called to by the async task when there is an fragment to update.
 	 * This then updates the correct fragment based on what is given. The options
@@ -180,6 +169,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 				newsgroupListMenu.update(hc.getNewsGroupFromString(jsonString));
 			}
 		} catch (JSONException e) {
+            e.printStackTrace();
 		}
 	}
 	
@@ -193,7 +183,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	public void onRestart() {
 		super.onResume();
 		hc.getNewest(false);
-		if (sharedPref.getString("newsgroups_json_string", "") != "") {
+		if (!sharedPref.getString("newsgroups_json_string", "").equals("")) {
 			newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
 			hc.startUnreadCountTask();
 		} else {
@@ -202,5 +192,9 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		
 		NewsgroupListMenu.menuShown = false;
 	}
+
+    public NewsgroupListMenu getNewsgroupListMenu() {
+        return(newsgroupListMenu);
+    }
 
 }

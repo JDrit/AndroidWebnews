@@ -18,8 +18,6 @@ under the License.
 package edu.rit.csh.androidwebnews;
 
 import java.util.ArrayList;
-
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -42,7 +40,7 @@ public class RecentFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		newsgroupListMenu = ((RecentActivity)getActivity()).newsgroupListMenu;
+		newsgroupListMenu = ((RecentActivity)getActivity()).getNewsgroupListMenu();
 		lv = new WebnewsListView(getActivity(), newsgroupListMenu);
 
 		recentPostThreads = new ArrayList<PostThread>();
@@ -51,17 +49,17 @@ public class RecentFragment extends Fragment {
 		hc = new HttpsConnector(getActivity());
 
 		String ng;
-		if ((ng = sharedPref.getString("newsgroups_json_string", "")) != "") {
+		if (!(ng = sharedPref.getString("newsgroups_json_string", "")).equals("")) {
 			if (sharedPref.getBoolean("first_time", true)) {
 				listAdapter = new RecentListAdapter<PostThread>(getActivity(), R.layout.rowlayout, new ArrayList<PostThread>());
 			} else {
 				listAdapter = new RecentListAdapter<PostThread>(getActivity(), R.layout.rowlayout, hc.getNewestFromString(ng));
 			}
-			
+
 			lv.setAdapter(listAdapter);
-			
+
 		}
-		
+
 		listAdapter = new RecentListAdapter<PostThread>(getActivity(), R.layout.rowlayout, new ArrayList<PostThread>());
 		lv.setAdapter(listAdapter);
 

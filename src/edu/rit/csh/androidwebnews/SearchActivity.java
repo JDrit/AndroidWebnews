@@ -17,24 +17,13 @@ under the License.
 */	
 package edu.rit.csh.androidwebnews;
 
-import java.util.ArrayList;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
 public class SearchActivity extends FragmentActivity implements ActivityInterface {
 	private HttpsConnector hc;
@@ -52,6 +41,7 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 	    sf = (SearchFragment) getSupportFragmentManager().findFragmentById(R.id.search_fragment);
 	    startDate = (DatePicker) findViewById(R.id.search_datePicker1);
 	    startDate.init(startDate.getYear() - 1, startDate.getMonth(), startDate.getDayOfMonth(), null);
+        setTitle("Search");
 	}
 	
 	@Override

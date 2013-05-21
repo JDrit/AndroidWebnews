@@ -24,7 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 /**
  * Used to start the updater service, if selected by the user's configuration, when
@@ -37,9 +36,7 @@ public class BootCompletedIntentReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        Log.d("testing", "on  receive");
-		if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) { 
-			Log.d("testing", "boot completed");
+		if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
 
 			PendingIntent pintent = PendingIntent.getService(context, 0, intent, 0);
 			AlarmManager alarm = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
@@ -52,7 +49,6 @@ public class BootCompletedIntentReceiver extends BroadcastReceiver {
 					time = Integer.valueOf(timeString);
 				}
 				alarm.cancel(pintent);
-                Log.d("testing", "service started");
 				alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), time * 60000, pintent);
 			} else {
 				alarm.cancel(pintent);
