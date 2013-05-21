@@ -24,12 +24,10 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class ComposeActivity extends Activity implements ActivityInterface {
@@ -59,8 +57,6 @@ public class ComposeActivity extends Activity implements ActivityInterface {
 			parentId = extras.getInt("PARENT");
 			newsgroup = extras.getString("NEWSGROUP");
 		}
-		Log.d("newpost", "Newsgroup id: " + newsgroup);
-		Log.d("newpost", "ParentId: " + parentId);
 		
 		setContentView(R.layout.activity_compose);
 		dialog = new InvalidApiKeyDialog(this);
@@ -102,8 +98,7 @@ public class ComposeActivity extends Activity implements ActivityInterface {
 				listAdapter.notifyDataSetChanged();	
 			}
 			
-		} catch (JSONException e) {
-			
+		} catch (JSONException ignored) {
 		}
 		
 	}

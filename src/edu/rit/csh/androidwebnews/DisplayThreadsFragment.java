@@ -48,8 +48,6 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-
-		Log.d("MyDebugging", "Starting ThreadsListFragment constructor");
 		newsgroupName = ((DisplayThreadsActivity)getActivity()).newsgroupName;
 
 		NewsgroupListMenu newsgroupListMenu = ((DisplayThreadsActivity)getActivity()).newsgroupListMenu;
@@ -61,8 +59,7 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	    String apiKey = sharedPref.getString("api_key", "");
 		hc = new HttpsConnector(getActivity());
-		//hc.getNewsgroupThreads(newsgroupName, 20);
-	    threads = new ArrayList<PostThread>();//hc.getNewsgroupThreads(newsgroupName, 20);
+	    threads = new ArrayList<PostThread>();
 	    rootThreads = new ArrayList<PostThread>();
 	    
 	    for(PostThread thread : threads)
@@ -80,16 +77,10 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 	    {
 	    	threadStatus[x] = false;
 	    	extraEntries[x] = 0;
-	    }
-		Log.d("MyDebugging", "displayedStrings populated");
-
+        }
 	    listAdapter = new DisplayThreadsListAdapter<PostThread>(getActivity(), R.layout.threadlayout, threads, this);
-		Log.d("MyDebugging", "list adapter made");
-		
-		
-		
+
 	    mainListView.setAdapter(listAdapter);
-		Log.d("MyDebugging", "listadapter set"); 
 		mainListView.setOnItemClickListener(new OnItemClickListener()
 		{
 
@@ -100,7 +91,6 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 			}
 
 		});
-		Log.d("MyDebugging", "ThreadsListFragment made");
 		
 	    return mainListView;
 	}

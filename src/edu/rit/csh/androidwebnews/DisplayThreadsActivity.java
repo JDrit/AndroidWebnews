@@ -145,6 +145,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	public void update(String jsonString) {
 		
 		try {
+            dtf = (DisplayThreadsFragment) getSupportFragmentManager().findFragmentById(R.id.threadsfragment);
 			JSONObject obj = new JSONObject(jsonString);
 			if (obj.has("error")) {
 				if (!dialog.isShowing()) {
@@ -174,7 +175,6 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 					requestedAdditionalThreads = false;
 				}
 			} else if (obj.has("unread_counts")) {  // unread count
-				Log.d("threadsdebug", "unread_counts");
 				int unread = hc.getUnreadCountFromString(jsonString)[0];
 				int groupUnread = 0;
 				for (Newsgroup group : hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", ""))) {
@@ -182,18 +182,13 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 				}
 				if (unread != groupUnread) {
 					hc.getNewsGroups();
-					Log.d("jddebug - RecentActivity-update", "newsgroups updated");
 				} else {
 					newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
 				}
-				Log.d("jddebug-RecentActivity", unread + " " + groupUnread);
 			} else {  // newsgroups
-				Log.d("threadsdebug", "newsgroups");
 				SharedPreferences.Editor editor = sharedPref.edit();
 				editor.putString("newsgroups_json_string", jsonString);
 				editor.commit();
-				Log.d("jddebugcache", "update cache2");
-				Log.d("MyDebugging", "DisplayThreadsActivity updating the newsgroups sdf");
 				newsgroupListMenu.update(hc.getNewsGroupFromString(jsonString));
 			}
 		} catch (JSONException e) {

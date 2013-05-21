@@ -21,8 +21,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIUtils;
@@ -45,26 +43,19 @@ import android.util.Log;
  * JD's baby
  */
 public class HttpsConnector {
-	SharedPreferences sharedPref;
-	String mainUrl = "https://webnews.csh.rit.edu";
-	String apiKey;
-	WebnewsHttpClient httpclient;
-	int idCounter = 1;
-	int numChildren;
-	Activity activity;
-	NoInternetDialog dialog;
-	Context context;
+	private SharedPreferences sharedPref;
+	private Activity activity;
+	private NoInternetDialog dialog;
+	private Context context;
 
 	public HttpsConnector(Activity activity) {
 		this.activity = activity;
 		context = activity.getApplicationContext();
 		dialog = new NoInternetDialog(activity);
-		httpclient = new WebnewsHttpClient(activity.getApplicationContext());
 		sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);	
 	}
 	
 	public HttpsConnector(Context context) {
-		httpclient = new WebnewsHttpClient(context);
 		this.context = context;
 		dialog = new NoInternetDialog(context);
 	    sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -267,14 +258,14 @@ public class HttpsConnector {
 	 * Deals with the search results. This is a varient of getThreadsFromString but is
 	 * different since search results does not return children or unread statuses. Unread
 	 * statuses are set to read (null)
-	 * @param s
-	 * @return
+	 * @param jsonString - the String version of the JSON object
+	 * @return the threads found in the search
 	 */
-	public ArrayList<PostThread> getSearchFromString(String s) {
+	public ArrayList<PostThread> getSearchFromString(String jsonString) {
 		ArrayList<PostThread> threads = new ArrayList<PostThread>();
 		
 		try {
-			JSONObject jObj = new JSONObject(s);
+			JSONObject jObj = new JSONObject(jsonString);
 			JSONArray jArray = jObj.getJSONArray("posts_older");
 
 			for (int i = 0 ; i < jArray.length() ; i++) {
@@ -321,9 +312,7 @@ public class HttpsConnector {
 		try {	
 			JSONObject jObj = new JSONObject(jsonObj);
 			JSONObject jsonPost = jObj.getJSONObject("post");
-			String body = jsonPost.getString("body");
-			
-			return body;			
+            return jsonPost.getString("body");
 		} catch (JSONException e) {
 			Log.d("jsonError", "JSONException");
 		} 
@@ -337,12 +326,12 @@ public class HttpsConnector {
 	 * 			[1] - number of unread threads in a thread the user has posted in
 	 * 			[2] - the number of unread replies to a user's post
 	 */
-	public int[] getUnreadCount() throws InvalidKeyException, NoInternetException {
+	public int[] getUnreadCount() throws InvalidKeyException, NoInternetException, InterruptedException, ExecutionException {
 		URI url = formatUrl("unread_counts", null);
 		int[] unreadStatuses = new int[3];
 		unreadStatuses[0] = -1;
-		JSONObject jObj = null;
-		String output = null;
+		JSONObject jObj;
+		String output;
 		
 		try {
 			output = new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(url).get();
@@ -358,10 +347,8 @@ public class HttpsConnector {
 				unreadStatuses[2] = jObj.getInt("in_reply");
 			}
 		} catch (JSONException e1) {
-		} catch (InterruptedException e1) {
-		} catch (ExecutionException e1) {
 		}
-		return unreadStatuses;
+        return unreadStatuses;
 	}
 	
 	public void startUnreadCountTask() {
@@ -407,7 +394,7 @@ public class HttpsConnector {
 	/**
 	 * Marks the given thread as read
 	 * @param newsgroup - the name of the newsgroup 
-	 * @param id
+	 * @param id - the id of the post
 	 */
 	public void markRead(String newsgroup, int id) {
 		if (checkInternet()) {
@@ -432,11 +419,7 @@ public class HttpsConnector {
 			try {
 				new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP).get();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		} else {
 			dialog.show();
@@ -516,16 +499,11 @@ public class HttpsConnector {
 	 * Validates that the API key is valid
 	 * @return True if the api key is good, false otherwise
 	 */
-	public boolean validApiKey() {
-		//String url = formatUrl(mainUrl + "/user", new ArrayList<NameValuePair>());
+    private boolean validApiKey() {
+        JSONObject jObj;
 		try {
-			
-			JSONObject jObj = new JSONObject(new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("/user", null)).get());
-			if (jObj.has("user")) {
-				return true;
-			} else {
-				return false;
-			}
+			jObj = new JSONObject(new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("/user", null)).get());
+            return jObj.has("user");
 		} catch (JSONException e) {
 			Log.d("jsonError", "JSONException");
 		} catch (InterruptedException e) {
@@ -539,7 +517,7 @@ public class HttpsConnector {
 	
 	/**
 	 * Formats the URL String with the API key and all the extra parameters for GET requests
-	 * @param url - the add on to the url to format
+	 * @param addOn - the add on to the url to format
 	 * @param addOns - List<NameValuePair> of extra parameters, can be empty
 	 * @return String - the formated String
 	 */
@@ -613,10 +591,6 @@ public class HttpsConnector {
 	    // Here if condition check for wifi and mobile network is available or not.
 	    // If anyone of them is available or connected then it will return true, otherwise false;
 
-	    if (ni != null && ni.isConnected()) {
-	        return true;
-	    }  else {
-	    	return false;
-	    }
+        return ni != null && ni.isConnected();
 	}
 }

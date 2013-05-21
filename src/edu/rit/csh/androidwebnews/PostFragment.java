@@ -35,14 +35,14 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class PostFragment extends Fragment {
-	ArrayList<String> contents;
-	String body; 
-	String otherBody;
-	PostThread myThread;
-	HttpsConnector hc;
-	PostFragmentAdapter<String> listAdapter;
-	int me = 0;
-	int total = 0;
+	private ArrayList<String> contents;
+	private String body;
+	private String otherBody;
+	private PostThread myThread;
+	private HttpsConnector hc;
+	private PostFragmentAdapter<String> listAdapter;
+	private int me = 0;
+	private int total = 0;
 	
 	public PostFragment(PostThread thread, int me, int total)
 	{
@@ -69,8 +69,7 @@ public class PostFragment extends Fragment {
 		hc = new HttpsConnector(getActivity());
 		hc.getPostBody(myThread.getNewsgroup(), myThread.getNumber());
 	}
-	
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		ListView mainListView = new ListView(getActivity());

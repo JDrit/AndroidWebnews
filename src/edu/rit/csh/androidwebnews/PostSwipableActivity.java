@@ -37,15 +37,15 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class PostSwipableActivity extends FragmentActivity implements ActivityInterface {
-	InvalidApiKeyDialog dialog;
-	public static String newsgroupName;
-	public static int id;
-	PostPagerAdapter ppa;
-	ViewPager mViewPager;
-	PostThread rootThread;
-	HttpsConnector hc;
-	PostFragment pf;
-	boolean fromSearch = false;
+	private InvalidApiKeyDialog dialog;
+	private static String newsgroupName;
+	private static int id;
+    private PostPagerAdapter ppa;
+    private ViewPager mViewPager;
+    private PostThread rootThread;
+    private HttpsConnector hc;
+    private PostFragment pf;
+    private boolean fromSearch = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,30 +58,21 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 		id = extras.getInt("SELECTED_ID");	
 		int selected_id = extras.getInt("GOTO_THIS");
 		boolean fromSearch = extras.getBoolean("SEARCH_RESULTS");
-		
-		Log.d("MyDebugging", "PostSwipableActivity creation started");
-		Log.d("MyDebugging", "fromSearch = " + fromSearch);
+
 		ppa = new PostPagerAdapter(getSupportFragmentManager(), fromSearch);
-		Log.d("MyDebugging", "ppa made");
 		mViewPager = (ViewPager) findViewById(R.id.pager);
-		Log.d("MyDebugging", "ViewPager found");
 		mViewPager.setAdapter(ppa);
-		Log.d("MyDebugging", "adapter set");
 		dialog = new InvalidApiKeyDialog(this);
 		mViewPager.setCurrentItem(selected_id);
-		Log.d("MyDebugging","current item set");
 		
 		for(int x = 0; x < DisplayThreadsActivity.lastFetchedThreads.size(); x++)
 		{
 			if(DisplayThreadsActivity.lastFetchedThreads.get(x).getNumber() == id)
 			{
 				rootThread = DisplayThreadsActivity.lastFetchedThreads.get(x);
-				Log.d("MyDebugging", "rootThread found for PostSwipableActivity");
 			}
 		}
-		Log.d("MyDebugging","done search for rootThread");
 		pf = (PostFragment)getSupportFragmentManager().findFragmentById(R.id.post_fragment);
-		Log.d("MyDebugging","Fragment found");
 	}
 	
 	public void markUnread(View view) {
@@ -104,7 +95,7 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 		else
 		{
 			ib.setImageResource(R.drawable.unstarred);
-			Toast.makeText(getApplicationContext(), "Post unstarred", Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), "Post un-starred", Toast.LENGTH_LONG).show();
 		}
 		hc.markStarred(newsgroupName, threadId);
 	}
@@ -177,7 +168,6 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 	public void update(String jsonString) {
 		try {
 			JSONObject obj = new JSONObject(jsonString);
-			Log.d("jddebug", jsonString);
 			if (obj.has("error")) {
 				if (!dialog.isShowing()) {
 					dialog.show();
@@ -194,7 +184,6 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
 	@Override
 	public void onNewsgroupSelected(String newsgroupName) {
 		//intentionally blank
-		
 	}
 
 }
