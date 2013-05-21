@@ -35,12 +35,11 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 /**
  * The object that the app interfaces with to get all the information 
- * to and from webnews 
- * JD's baby
+ * to and from webNews
+ * @author JD
  */
 public class HttpsConnector {
 	private SharedPreferences sharedPref;
@@ -88,8 +87,6 @@ public class HttpsConnector {
 						new JSONObject(jArray.getString(i)).getString("unread_class")));
 			}
 		} catch (JSONException e) {
-			
-			Log.d("jsonError", "JSONException");
 		}
 		return newsgroups;		
 	}
@@ -99,7 +96,6 @@ public class HttpsConnector {
 	 * @return ArrayList<Thread> - list of the 20 newest or sticky threads
 	 */
 	public void getNewest(boolean bol) {
-		Log.d("getNewest", "getNewest");
 		if (checkInternet()) {
 			new HttpsGetAsyncTask(new WebnewsHttpClient(context), bol, activity).execute(formatUrl("activity", null));
 		} else {
@@ -113,7 +109,6 @@ public class HttpsConnector {
 	 * @return ArrayList<PostThread> - list of recent threads
 	 */
 	public ArrayList<PostThread> getNewestFromString(String s) {
-		Log.d("newdebug", "getNewestFromString");
 		ArrayList<PostThread> threads = new ArrayList<PostThread>();
 		
 		try {
@@ -140,7 +135,6 @@ public class HttpsConnector {
 						newObj.getString("sticky_until")));
 			}
 		} catch (JSONException e) {
-			Log.d("jsonError", "JSONException");
 		}
 		return threads;
 	}
@@ -179,7 +173,6 @@ public class HttpsConnector {
 	 * @return ArrayList<Thread> - list of the top level threads for the newsgroup
 	 */
 	public void getNewsgroupThreads(String name, int amount, boolean bol) {
-		Log.d("threadsdebug", "getNewsgroupThreads");
 		if (checkInternet()) {
 			if (amount == -1) {
 				amount = 10;
@@ -237,7 +230,6 @@ public class HttpsConnector {
 			}
 			return threads;
 		} catch (JSONException e) {
-			Log.d("jsonError", "JSONException");
 		} 
 		return new ArrayList<PostThread>();
 	}
@@ -282,7 +274,6 @@ public class HttpsConnector {
 						newObj.getString("sticky_until")));
 			}
 		} catch (JSONException e) {
-			Log.d("jsonError", "JSONException");
 		}
 		return threads;
 	}
@@ -314,7 +305,6 @@ public class HttpsConnector {
 			JSONObject jsonPost = jObj.getJSONObject("post");
             return jsonPost.getString("body");
 		} catch (JSONException e) {
-			Log.d("jsonError", "JSONException");
 		} 
 		return "";
 	}
@@ -346,7 +336,7 @@ public class HttpsConnector {
 				unreadStatuses[1] = jObj.getInt("in_thread");
 				unreadStatuses[2] = jObj.getInt("in_reply");
 			}
-		} catch (JSONException e1) {
+		} catch (JSONException ignored) {
 		}
         return unreadStatuses;
 	}
@@ -355,16 +345,15 @@ public class HttpsConnector {
 		new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("unread_counts", null));
 		
 	}
+
 	public int[] getUnreadCountFromString(String jsonString) {
 		int[] unreadStatuses = new int[3];
 		try {
 			JSONObject  jObj = new JSONObject(jsonString).getJSONObject("unread_counts");
-			Log.d("jddebug", jObj.toString());
 			unreadStatuses[0] = jObj.getInt("normal");
 			unreadStatuses[1] = jObj.getInt("in_thread");
 			unreadStatuses[2] = jObj.getInt("in_reply");
 		} catch (JSONException e) {
-			Log.d("jsonError", "JSONException");
 		}
 		return unreadStatuses;
 	}
@@ -377,14 +366,11 @@ public class HttpsConnector {
 			String url = formatUrl("mark_read",null).toString();
 			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
 			BasicNameValuePair allVP = new BasicNameValuePair("all_posts", "");
-			
-			Log.d("jsonurl", url);
+
 			try {
 				new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, allVP).get();
 			} catch (InterruptedException e) {
-				Log.d("jsonError", "InterruptedException");
 			} catch (ExecutionException e) {
-				Log.d("jsonError", "ExecutionException");
 			}
 		} else {
 			dialog.show();
@@ -402,28 +388,29 @@ public class HttpsConnector {
 			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
 			BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
 			BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
-			
-			Log.d("jsonurl", url);
 			new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, numberVP);
 		} else {
 			dialog.show();
 		}
 	}
-	
+
+    /**
+     * Marks a newsgroup as all read
+     * @param newsgroup - the newsgroup to be marked read
+     */
 	public void markRead(String newsgroup) {
 		if (checkInternet()) {
 			String url = formatUrl("mark_read", null).toString();
 			BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
-			BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);			
-			Log.d("newdebug", "mark post read: " + newsgroup);
+			BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
 			try {
 				new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP).get();
 			} catch (InterruptedException e) {
-			} catch (ExecutionException e) {
+			} catch (ExecutionException ignored) {
 			}
 		} else {
-			dialog.show();
-		}
+            dialog.show();
+        }
 	}
 	
 	/**
@@ -459,7 +446,13 @@ public class HttpsConnector {
 			dialog.show();
 		}
 	}
-	
+
+    /**
+     * Composes a new post and uses an Async task to publish it
+     * @param newsgroup - the newsgroup to post to
+     * @param subject - the subject of the post
+     * @param body - the body of the post
+     */
 	public void composePost(String newsgroup, String subject, String body) {
 		if (checkInternet()) {
 			String url = formatUrl("compose", null).toString();
@@ -473,9 +466,16 @@ public class HttpsConnector {
 		} else {
 			dialog.show();
 		}
-		
 	}
 
+    /**
+     * Composes a post as a response to another, to be sent using an Async task
+     * @param newsgroup - the newsgroup to be posted to
+     * @param subject - the subject of the post
+     * @param body - the body of the message
+     * @param newsgroupParent - the newsgroup of the parent
+     * @param parentId - the ID of the parent
+     */
 	public void composePost(String newsgroup, String subject, String body, String newsgroupParent, int parentId) {
 		if (checkInternet()) {
 			String url = formatUrl("compose", null).toString();
@@ -486,35 +486,13 @@ public class HttpsConnector {
 			BasicNameValuePair newsgroupParentVP = new BasicNameValuePair("reply_newsgroup", newsgroupParent);
 			BasicNameValuePair idParentVP = new BasicNameValuePair("reply_number", Integer.valueOf(parentId).toString());
 			BasicNameValuePair stickyVP = new BasicNameValuePair("unstick" , "");
-			
 			new HttpsPostAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, subjectVP, bodyVP, newsgroupParentVP, idParentVP, stickyVP);
 		} else {
 			dialog.show();
 		}
 		
 	}
-	
 
-	/**
-	 * Validates that the API key is valid
-	 * @return True if the api key is good, false otherwise
-	 */
-    private boolean validApiKey() {
-        JSONObject jObj;
-		try {
-			jObj = new JSONObject(new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("/user", null)).get());
-            return jObj.has("user");
-		} catch (JSONException e) {
-			Log.d("jsonError", "JSONException");
-		} catch (InterruptedException e) {
-			Log.d("jsonError", "InterruptedException");
-		} catch (ExecutionException e) {
-			Log.d("jsonError", "ExecutionException");
-		}
-		return false;
-		
-	}
-	
 	/**
 	 * Formats the URL String with the API key and all the extra parameters for GET requests
 	 * @param addOn - the add on to the url to format
@@ -526,7 +504,6 @@ public class HttpsConnector {
 		//	url += "?";
 		//}
 		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-		Log.d("jddebug - HttpsConnector", sharedPref.getString("api_key", ""));
 		params.add(new BasicNameValuePair("api_key", sharedPref.getString("api_key", "")));
 		params.add(new BasicNameValuePair("api_agent", "Android_Webnews"));
 		if (addOns != null) {
@@ -535,8 +512,6 @@ public class HttpsConnector {
 			}
 		}
 		try {
-			Log.d("jddebug - HttpsConnector", URIUtils.createURI("https", "webnews.csh.rit.edu", -1, "/" + addOn, 
-				    URLEncodedUtils.format(params, "UTF-8"), null).toString());
 			return URIUtils.createURI("https", "webnews.csh.rit.edu", -1, "/" + addOn, 
 				    URLEncodedUtils.format(params, "UTF-8"), null);
 		} catch (URISyntaxException e) {
@@ -573,7 +548,6 @@ public class HttpsConnector {
 			}
 			return thread;		
 		} catch (JSONException e) {
-			Log.d("jsonError", "JSONException");
 		}
 		return null;
 	}
@@ -582,15 +556,9 @@ public class HttpsConnector {
 	 * Checks to see if there is network connection
 	 * @return boolean - true if there is internet, false otherwise
 	 */
-	public boolean checkInternet() 
-	{
+	public boolean checkInternet() {
 	    ConnectivityManager connec = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-	    //android.net.NetworkInfo wifi = connec.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-	    //android.net.NetworkInfo mobile = connec.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 	    NetworkInfo ni = connec.getActiveNetworkInfo();
-	    // Here if condition check for wifi and mobile network is available or not.
-	    // If anyone of them is available or connected then it will return true, otherwise false;
-
         return ni != null && ni.isConnected();
 	}
 }

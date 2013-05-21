@@ -33,6 +33,7 @@ import android.view.MenuItem;
 
 public class RecentActivity extends FragmentActivity implements ActivityInterface {
 	private InvalidApiKeyDialog dialog;
+    private ConnectionExceptionDialog connectionDialog;
 	private RecentFragment rf;
 	private HttpsConnector hc;
 	private NewsgroupListMenu newsgroupListMenu;
@@ -44,9 +45,11 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 		super.onCreate(savedInstanceState);
 		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		newsgroupListMenu = new NewsgroupListMenu(this);
+
 		newsgroupListMenu.checkEnabled();
 		hc = new HttpsConnector( this);	    	    
 		dialog = new InvalidApiKeyDialog(this);
+        connectionDialog = new ConnectionExceptionDialog(this);
 		ftd = new FirstTimeDialog(this);
 		setContentView(R.layout.activity_recent);
 
@@ -139,38 +142,43 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	 */
 	@Override
 	public void update(String jsonString) {
-		try {
-			JSONObject obj = new JSONObject(jsonString);
-			if (obj.has("error")) { // invalid api key
-				if (!dialog.isShowing()) {
-					if (!ftd.isShowing()) {
-						dialog.show();
-					}
-				}
-			} else if (obj.has("activity")) { // recent
-				Log.d("string", hc.getNewestFromString(jsonString).toString());
-				rf.update(hc.getNewestFromString(jsonString));
-			} else if (obj.has("unread_counts")) {  // unread count
-				int unread = hc.getUnreadCountFromString(jsonString)[0];
-				int groupUnread = 0;
-				for (Newsgroup group : hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", ""))) {
-					groupUnread += group.unreadCount;
-				}
-				if (unread != groupUnread) {
-					hc.getNewsGroups();
-					Log.d("jddebug - RecentActivity-update", "newsgroups updated");
-				} else {
-					newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
-				}
-			} else {  // newsgroups
-				SharedPreferences.Editor editor = sharedPref.edit();
-				editor.putString("newsgroups_json_string", jsonString);
-				editor.commit();
-				newsgroupListMenu.update(hc.getNewsGroupFromString(jsonString));
-			}
-		} catch (JSONException e) {
-            e.printStackTrace();
-		}
+        if (jsonString.startsWith("Error:")) { // error in the Async Task
+            connectionDialog.setMessage(jsonString);
+            if (!connectionDialog.isShowing())
+                connectionDialog.show();
+        } else {
+            try {
+                JSONObject obj = new JSONObject(jsonString);
+                if (obj.has("error")) { // invalid api key
+                    if (!dialog.isShowing()) {
+                        if (!ftd.isShowing()) {
+                            dialog.show();
+                        }
+                    }
+                } else if (obj.has("activity")) { // recent
+                    Log.d("string", hc.getNewestFromString(jsonString).toString());
+                    rf.update(hc.getNewestFromString(jsonString));
+                } else if (obj.has("unread_counts")) {  // unread count
+                    int unread = hc.getUnreadCountFromString(jsonString)[0];
+                    int groupUnread = 0;
+                    for (Newsgroup group : hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", ""))) {
+                        groupUnread += group.unreadCount;
+                    }
+                    if (unread != groupUnread) {
+                        hc.getNewsGroups();
+                    } else {
+                        newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
+                    }
+                } else {  // newsgroups
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("newsgroups_json_string", jsonString);
+                    editor.commit();
+                    newsgroupListMenu.update(hc.getNewsGroupFromString(jsonString));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 	}
 	
 	public void onNewsgroupSelected(final String newsgroupName) {

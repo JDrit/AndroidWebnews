@@ -17,17 +17,12 @@ under the License.
 */	
 package edu.rit.csh.androidwebnews;
 
-import java.util.ArrayList;
-import java.util.Queue;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
 
 public class PostPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -39,25 +34,17 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
 	public PostPagerAdapter(FragmentManager fm, boolean fromSearch) {
 		super(fm);
 		this.fromSearch = fromSearch;
-		Log.d("MyDebugging", "ppa creation started");
 		id = PostSwipableActivity.id;
-		Log.d("MyDebugging", "id retrieved. id = " + id);
 		if(!fromSearch)
 		{
 			for(int x = 0; x < DisplayThreadsActivity.lastFetchedThreads.size(); x++)
 			{
 				if(DisplayThreadsActivity.lastFetchedThreads.get(x).getNumber() == id)
-				{
 					rootThread = DisplayThreadsActivity.lastFetchedThreads.get(x);
-					Log.d("MyDebugging", "rootThread found");
-				}
 			}
-			if(rootThread == null)
-				Log.d("MyDebugging", "rootThread is null!");
 		}
 		else
 		{
-			Log.d("MyDebugging","From a search!");
 			rootThread = SearchResultsActivity.rootThread;
 		}
 		
@@ -66,13 +53,9 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
 	
 	@Override
     public Fragment getItem(int i) {
-		Log.d("MyDebugging", "item " + i + " requested");
         PostFragment fragment = new PostFragment(rootThread.getThisThread(i), i+1, getCount());
-		Log.d("MyDebugging", "Fragment initialized");
         Bundle args = new Bundle();
-		Log.d("MyDebugging", "Bundle initialized");
         fragment.setArguments(args);
-		Log.d("MyDebugging", "Fragment returned");
 		
 		fragments[i] = fragment;
         
@@ -88,9 +71,11 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         return rootThread.getThisThread( position).toString();
     }
-	
-	
-	
+
+    /**
+     * Testing method, never used outside of development
+     * @param t - the thread to print
+     */
 	public void printT(PostThread t)
 	{
 		for(PostThread thread : t.getChildren())
@@ -111,10 +96,7 @@ public class PostPagerAdapter extends FragmentStatePagerAdapter {
 			if(f != null)
 			{
 				if(f.myThread.getNumber() == id)
-				{
-					Log.d("MyDebugging", "Updating thread " + id);
 					f.update(jsonString);
-				}
 			}
 		}
 	}

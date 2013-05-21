@@ -35,8 +35,8 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
-		dialog = new InvalidApiKeyDialog(this);	    
-	    hc = new HttpsConnector(this);	    	    
+		dialog = new InvalidApiKeyDialog(this);
+	    hc = new HttpsConnector(this);
 	    hc.getNewsGroups(); // used for list of newsgroups to look through
 	    sf = (SearchFragment) getSupportFragmentManager().findFragmentById(R.id.search_fragment);
 	    startDate = (DatePicker) findViewById(R.id.search_datePicker1);
@@ -47,19 +47,24 @@ public class SearchActivity extends FragmentActivity implements ActivityInterfac
 	@Override
 	public void update(String jsonString) {
 		JSONObject obj;
-		try {
-			obj = new JSONObject(jsonString);
-			if (obj.has("error")) {
-				if (!dialog.isShowing()) {
-					dialog.show();
-				}
-			} else if(obj.has("newsgroups")) {
-				sf.update(hc.getNewsGroupFromString(jsonString));
-			}
-			
-		} catch (JSONException e) {
-			
-		}
+        if (jsonString.startsWith("Error:")) { // error in the Async Task
+            ConnectionExceptionDialog dialog = new ConnectionExceptionDialog(this, jsonString);
+            dialog.show();
+        } else {
+            try {
+                obj = new JSONObject(jsonString);
+                if (obj.has("error")) {
+                    if (!dialog.isShowing()) {
+                        dialog.show();
+                    }
+                } else if(obj.has("newsgroups")) {
+                    sf.update(hc.getNewsGroupFromString(jsonString));
+                }
+
+            } catch (JSONException e) {
+
+            }
+        }
 	}
 	
 	@Override

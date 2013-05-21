@@ -20,7 +20,6 @@ package edu.rit.csh.androidwebnews;
 import java.util.ArrayList;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -30,15 +29,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class PostFragment extends Fragment {
 	private ArrayList<String> contents;
 	private String body;
 	private String otherBody;
-	private PostThread myThread;
+	PostThread myThread;
 	private HttpsConnector hc;
 	private PostFragmentAdapter<String> listAdapter;
 	private int me = 0;
@@ -52,12 +49,6 @@ public class PostFragment extends Fragment {
 		this.total = total;
 	}
 	
-	public PostFragment()
-	{
-		super();
-		Log.d("MyDebugging", "Wrong PostFragment constructor called!");
-	}
-	
 	@Override
 	public void onCreate(Bundle savedInstanceBundle)
 	{
@@ -65,7 +56,6 @@ public class PostFragment extends Fragment {
 		Log.d("MyDebugging", "Post Fragment onCreate called");
 		
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-	    String apiKey = sharedPref.getString("api_key", "");
 		hc = new HttpsConnector(getActivity());
 		hc.getPostBody(myThread.getNewsgroup(), myThread.getNumber());
 	}
@@ -154,7 +144,7 @@ public class PostFragment extends Fragment {
 	public void setUserVisibleHint(boolean isVisibleToUser)
 	{
 		super.setUserVisibleHint(isVisibleToUser);
-		if(isVisibleToUser && myThread.getUnread() != "null")
+		if(isVisibleToUser && !myThread.getUnread().equals("null"))
 		{
 			
 			myThread.setUnread("null");

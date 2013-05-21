@@ -80,8 +80,11 @@ public class ComposeActivity extends Activity implements ActivityInterface {
 	}
 	
 	public void update(String jsonString) {
-		JSONObject obj;
-		try {
+        JSONObject obj;
+        if (jsonString.startsWith("Error:")) { // error in the Async Task
+            ConnectionExceptionDialog dialog = new ConnectionExceptionDialog(this, jsonString);
+            dialog.show();
+        } else try {
 			obj = new JSONObject(jsonString);
 			if (obj.has("error")) {
 				if (!dialog.isShowing()) {

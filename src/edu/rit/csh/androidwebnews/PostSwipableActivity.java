@@ -21,31 +21,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class PostSwipableActivity extends FragmentActivity implements ActivityInterface {
 	private InvalidApiKeyDialog dialog;
 	private static String newsgroupName;
-	private static int id;
+	static int id;
     private PostPagerAdapter ppa;
     private ViewPager mViewPager;
     private PostThread rootThread;
     private HttpsConnector hc;
     private PostFragment pf;
-    private boolean fromSearch = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

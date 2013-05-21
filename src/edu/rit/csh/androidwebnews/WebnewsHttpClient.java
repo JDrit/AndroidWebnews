@@ -25,9 +25,12 @@ import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.SingleClientConnManager;
-
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.BasicHttpParams;
 import java.io.InputStream;
 import java.security.KeyStore;
+
+import static org.apache.http.params.HttpConnectionParams.setConnectionTimeout;
 
 /**
  * The HTTP client used in the get and post request to webnews.csh.rit.edu.
@@ -40,6 +43,9 @@ public class WebnewsHttpClient extends DefaultHttpClient {
     final Context context;
  
     public WebnewsHttpClient(Context context) {
+        HttpParams hp = new BasicHttpParams();
+        setConnectionTimeout(hp, 1000);
+        setParams(hp);
         this.context = context;
     }
     

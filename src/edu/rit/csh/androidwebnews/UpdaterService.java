@@ -19,20 +19,17 @@ package edu.rit.csh.androidwebnews;
 
 
 import android.app.IntentService;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.HandlerThread;
-import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
+import java.util.concurrent.ExecutionException;
 
 
 public class UpdaterService extends IntentService {
@@ -57,7 +54,7 @@ public class UpdaterService extends IntentService {
 		  Log.d("jddebug", "service started");
 		  SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		  HttpsConnector hc = new HttpsConnector(this);
-		  int[] statuses = new int[3];
+		  int[] statuses;
 		  try {
 			  statuses = hc.getUnreadCount(); // throws all the errors
 			  
@@ -123,18 +120,12 @@ public class UpdaterService extends IntentService {
 		  } catch (InvalidKeyException e) {
 			  Log.d("newDebug-UpdaterService", "invalid api key");
 			  NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-			  mBuilder.setContentTitle("CSH Webnews");
+			  mBuilder.setContentTitle("CSH WebNews");
 			  mBuilder.setSmallIcon(R.drawable.notification_icon);
 			  mBuilder.setContentText("Invalid API Key");
 			  mBuilder.setAutoCancel(true);
 
-		      // Creates an explicit intent for an Activity in your app
 			  Intent resultIntent = new Intent(this, SettingsActivity.class);
-
-			  // The stack builder object will contain an artificial back stack for the
-			  // started Activity.
-			  // This ensures that navigating backward from the Activity leads out of
-			  // your application to the Home screen.
 			  TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 
 			  // Adds the back stack for the Intent (but not the Intent itself)
@@ -147,8 +138,12 @@ public class UpdaterService extends IntentService {
 			  // mId allows you to update the notification later on.
 			  mNotificationManager.notify(0, mBuilder.build());
 		  } catch (NoInternetException e) {
-	  		  Log.d("newdebug-UpdaterService", "no internet for service");
-		  }
+              // do nothing if there is no internet for the background service
+		  } catch (InterruptedException e) {
+
+          } catch (ExecutionException e) {
+
+          }
 		  
 	  }
 	}

@@ -41,7 +41,6 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	NewsgroupListMenu newsgroupListMenu;
 	public boolean requestedAdditionalThreads = false;
 	private SharedPreferences sharedPref;
-	//public static boolean hitBottom = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -143,57 +142,55 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	
 	@Override
 	public void update(String jsonString) {
-		
-		try {
+        try {
             dtf = (DisplayThreadsFragment) getSupportFragmentManager().findFragmentById(R.id.threadsfragment);
-			JSONObject obj = new JSONObject(jsonString);
-			if (obj.has("error")) {
-				if (!dialog.isShowing()) {
-					dialog.show();
-				}
-			} else if (obj.has("posts_older")) { 
-				Log.d("threadsdebug", "post_older");
-				if(hc.getThreadsFromString(jsonString).size() == 0)
-				{
-					//hitBottom = true;
-					dtf.addThreads(new ArrayList<PostThread>());
-				}
-				else if(!requestedAdditionalThreads)
-				{
-					Log.d("MyDebugging", "DisplayThreadsActivity updating the threads sdfk");
-					ArrayList<PostThread> threads = hc.getThreadsFromString(jsonString);
-					lastFetchedThreads.clear();
-					lastFetchedThreads = (ArrayList<PostThread>) threads.clone();
-					dtf.update(threads);
-				}
-				else
-				{
-					ArrayList<PostThread> newThreads = hc.getThreadsFromString(jsonString);
-					for(PostThread thread : newThreads)
-						lastFetchedThreads.add(thread);
-					dtf.addThreads(newThreads);
-					requestedAdditionalThreads = false;
-				}
-			} else if (obj.has("unread_counts")) {  // unread count
-				int unread = hc.getUnreadCountFromString(jsonString)[0];
-				int groupUnread = 0;
-				for (Newsgroup group : hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", ""))) {
-					groupUnread += group.unreadCount;
-				}
-				if (unread != groupUnread) {
-					hc.getNewsGroups();
-				} else {
-					newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
-				}
-			} else {  // newsgroups
-				SharedPreferences.Editor editor = sharedPref.edit();
-				editor.putString("newsgroups_json_string", jsonString);
-				editor.commit();
-				newsgroupListMenu.update(hc.getNewsGroupFromString(jsonString));
-			}
-		} catch (JSONException e) {
-			Log.d("MyDebugging", "json error");
-		}
+            JSONObject obj = new JSONObject(jsonString);
+            if (obj.has("error")) {
+                if (!dialog.isShowing()) {
+                    dialog.show();
+                }
+            } else if (obj.has("posts_older")) {
+                Log.d("threadsdebug", "post_older");
+                if(hc.getThreadsFromString(jsonString).size() == 0)
+                {
+                    //hitBottom = true;
+                    dtf.addThreads(new ArrayList<PostThread>());
+                }
+                else if(!requestedAdditionalThreads)
+                {
+                    Log.d("MyDebugging", "DisplayThreadsActivity updating the threads sdfk");
+                    ArrayList<PostThread> threads = hc.getThreadsFromString(jsonString);
+                    lastFetchedThreads.clear();
+                    lastFetchedThreads = (ArrayList<PostThread>) threads.clone();
+                    dtf.update(threads);
+                }
+                else
+                {
+                    ArrayList<PostThread> newThreads = hc.getThreadsFromString(jsonString);
+                    for(PostThread thread : newThreads)
+                        lastFetchedThreads.add(thread);
+                    dtf.addThreads(newThreads);
+                    requestedAdditionalThreads = false;
+                }
+            } else if (obj.has("unread_counts")) {  // unread count
+                int unread = hc.getUnreadCountFromString(jsonString)[0];
+                int groupUnread = 0;
+                for (Newsgroup group : hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", ""))) {
+                    groupUnread += group.unreadCount;
+                }
+                if (unread != groupUnread) {
+                    hc.getNewsGroups();
+                } else {
+                    newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
+                }
+            } else {  // newsgroups
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("newsgroups_json_string", jsonString);
+                editor.commit();
+                newsgroupListMenu.update(hc.getNewsGroupFromString(jsonString));
+            }
+        } catch (JSONException e) {
+        }
 	}
 
 	@Override

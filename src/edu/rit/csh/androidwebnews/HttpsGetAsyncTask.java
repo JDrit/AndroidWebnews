@@ -27,16 +27,16 @@ import org.apache.http.client.methods.HttpGet;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.util.Log;
+import org.apache.http.conn.HttpHostConnectException;
 
 /**
  * The asynchronous task used to do the GET requests. Displays a progress bar
  * while the task is running, if told to 
  */
 public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
-	WebnewsHttpClient httpclient;
-	Activity activity;
-	boolean showProgress;
+	private WebnewsHttpClient httpclient;
+	private Activity activity;
+	private boolean showProgress;
 	
 	ProgressDialog p;
 	
@@ -72,9 +72,7 @@ public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
 	 */
 	@Override
 	protected String doInBackground(URI... params) {
-		Log.d("jddebug", "back started");
-		Log.d("URI", params[0].toString());
-		String page = "";
+		String page;
 		BufferedReader in;
 		HttpResponse response;
 		HttpGet request;
@@ -83,12 +81,11 @@ public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
 			
         	request = new HttpGet(params[0]);
         	request.addHeader("accept", "application/json");
-        	
 			response = httpclient.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 			
 			StringBuffer sb = new StringBuffer("");
-            String line = "";
+            String line;
             String NL = System.getProperty("line.separator");
             
             while ((line = in.readLine()) != null) {
@@ -98,14 +95,13 @@ public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
             in.close();
             
 		} catch (ClientProtocolException e) {
+            return("Error: Client Exception while connecting to " + params[0].getHost());
+        } catch (HttpHostConnectException e) {  // could not connect to WebNews
+            return("Error: Could not connect to " + params[0].getHost() + ". Mostly likely caused by the server not being up");
 		} catch (IOException e) {
+            return("Error: IO Connection exception while connection to " + params[0].getHost());
 		}
-        
-        Log.d("threadsdebug", "back ended");
-        if (page.length() > 20 )
-        	Log.d("threadsdebug-page", page.substring(0, 20));
-        else
-        	Log.d("threadsdebug-page", page + "S");
+
 		return page;
 	}
 	
@@ -113,8 +109,6 @@ public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
 		super.onPostExecute(s);
 		if (showProgress) {
 			p.dismiss();
-			Log.d("jddebug", "p ended");
-			Log.d("jddebug", activity.getLocalClassName());
 		}
 		
 		if(activity != null)
