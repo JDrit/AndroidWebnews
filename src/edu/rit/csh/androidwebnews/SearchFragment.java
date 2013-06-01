@@ -81,7 +81,7 @@ public class SearchFragment extends Fragment {
 	 * @return ArrayList<NameValuePair> - list of the parameters for the search
 	 */
 	public HashMap<String, String> getParams() {
-		//ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+		//ArrayList<NameValuePair> params = webnews_new ArrayList<NameValuePair>();
 		HashMap<String, String> map = new HashMap<String, String>();
 		if (spinner.getSelectedItem() != "(All)") {
 			map.put("newsgroup", (String) spinner.getSelectedItem());

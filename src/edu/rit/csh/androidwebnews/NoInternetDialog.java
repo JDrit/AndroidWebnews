@@ -50,7 +50,7 @@ public class NoInternetDialog extends AlertDialog {
 		public void onClick(DialogInterface dialog, int which) {
 			Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
 			c.startActivity(intent);
-			//c.startActivity(new Intent(c, SettingsActivity.class));
+			//c.startActivity(webnews_new Intent(c, SettingsActivity.class));
 			
 		}
 		

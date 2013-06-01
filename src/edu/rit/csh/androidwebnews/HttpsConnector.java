@@ -448,7 +448,7 @@ public class HttpsConnector {
 	}
 
     /**
-     * Composes a new post and uses an Async task to publish it
+     * Composes a webnews_new post and uses an Async task to publish it
      * @param newsgroup - the newsgroup to post to
      * @param subject - the subject of the post
      * @param body - the body of the post

@@ -58,7 +58,7 @@ public class UpdaterService extends IntentService {
 		  try {
 			  statuses = hc.getUnreadCount(); // throws all the errors
 			  
-			  if (statuses[0] != 0 && statuses[0] != sharedPref.getInt("number_of_unread", 0)) { // if there are new posts and that number is different than last time the update ran
+			  if (statuses[0] != 0 && statuses[0] != sharedPref.getInt("number_of_unread", 0)) { // if there are webnews_new posts and that number is different than last time the update ran
 				  
 				  SharedPreferences.Editor editor = sharedPref.edit();
 				  editor.putInt("number_of_unread", statuses[0]);
