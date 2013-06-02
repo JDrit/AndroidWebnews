@@ -21,19 +21,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.message.BasicNameValuePair;
-
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -63,11 +57,10 @@ public class HttpsPostAsyncTask extends AsyncTask<BasicNameValuePair, Integer, S
         	HttpPost request = new HttpPost(params[0].getValue());
         	request.addHeader("accept", "application/json");
         	//params = Arrays.copyOfRange(params, 1, params.length);
-        	
-        	for (int i = 0 ; i < params.length ; i++) {
-        		nvp.add(new BasicNameValuePair(params[i].getName(), params[i].getValue()));
-        	}
-        	
+        	for (BasicNameValuePair pair : params) {
+                nvp.add(new BasicNameValuePair(pair.getName(), pair.getValue()));
+            }
+
         	request.setEntity(new UrlEncodedFormEntity(nvp));
         	
 			HttpResponse response = httpclient.execute(request);
@@ -82,15 +75,16 @@ public class HttpsPostAsyncTask extends AsyncTask<BasicNameValuePair, Integer, S
             }
             in.close();
             String page = sb.toString();
-            Log.d("newdebug", " : " + page);
+            Log.d("jd - post result", " : " + page);
     		return page;
             
 		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-			Log.d("newdebug", e.toString());
+            Log.d("jd - post error", e.toString());
+        } catch (ConnectTimeoutException e) {
+            Log.d("jd - post timeout error ", e.toString());
+            doInBackground(params);
 		} catch (IOException e) {
-			e.printStackTrace();
-			Log.d("newdebug", e.toString());
+            Log.d("jd - post error", e.toString());
 		}
 		return "";
 	}

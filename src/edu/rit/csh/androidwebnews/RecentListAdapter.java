@@ -20,9 +20,7 @@ package edu.rit.csh.androidwebnews;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,10 +47,17 @@ public class RecentListAdapter<T> extends ArrayAdapter<T> {
 			convertView = infalInflater.inflate(R.layout.rowlayout, null);
 			TextView tv = (TextView) convertView.findViewById(R.id.rowTextView);
 			tv.setText(thread.getNewsgroup() + " : " + thread.toString());
-			if (thread.getUnread() != "null") {
+			if (!(thread.getUnread().equals("null"))) {
 				tv.setTypeface(null, Typeface.BOLD);
 				//convertView.setBackgroundColor(0xffcbcbcb);
 			}
+            if(thread.getPersonal_class().equals("mine"))
+                convertView.setBackgroundColor(0xffb7ffb9);
+            else if(thread.getPersonal_class().equals("mine_reply"))
+                convertView.setBackgroundColor(0xfff7b7ff);
+            else if(thread.getPersonal_class().equals("mine_in_thread"))
+                convertView.setBackgroundColor(0xffb7d2ff);
+
 			return convertView;
 		}
 		else

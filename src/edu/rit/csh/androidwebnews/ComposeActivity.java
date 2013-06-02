@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -52,9 +53,12 @@ public class ComposeActivity extends Activity implements ActivityInterface {
 	    hc.getNewsGroups(); // used for list of newsgroups to look through
 		
 	    if(extras != null) {
-			subject = extras.getString("SUBJECT");
-			body = extras.getString("QUOTED_TEXT");
-			parentId = extras.getInt("PARENT");
+            if (extras.containsKey("SUBJECT")) { // coming from a reply
+			    subject = extras.getString("SUBJECT");
+			    body = extras.getString("QUOTED_TEXT");
+    			parentId = extras.getInt("PARENT");
+            }
+            // for when a new post is done from a newsgroup
 			newsgroup = extras.getString("NEWSGROUP");
 		}
 		
@@ -66,6 +70,7 @@ public class ComposeActivity extends Activity implements ActivityInterface {
 		spinner = (Spinner) findViewById(R.id.newsgroupSpinner);
 		if (parentId <= 0) {// do not display the spinner if it is a reply to a post
 			spinner.setAdapter(listAdapter);
+            spinner.setSelection(listAdapter.getPosition(newsgroup));
 		} else {
 			spinner.setVisibility(View.GONE);
 		}
@@ -112,10 +117,20 @@ public class ComposeActivity extends Activity implements ActivityInterface {
 	}
 	
 	public void submit(View view) {
-		if(parentId <= 0)
+
+        if(parentId <= 0) {
+            Log.d("jd", new Integer(parentId).toString());
+            Log.d("jd", (String)spinner.getSelectedItem());
+            Log.d("jd", subLine.getText().toString());
+            Log.d("jd", bodyText.getText().toString());
 			new HttpsConnector(this).composePost((String)spinner.getSelectedItem(), subLine.getText().toString(), bodyText.getText().toString());
-		else
+        } else {
+            Log.d("jd", new Integer(parentId).toString());
+            Log.d("jd", newsgroup);
+            Log.d("jd", subLine.getText().toString());
+            Log.d("jd", bodyText.getText().toString());
 			new HttpsConnector(this).composePost(newsgroup, subLine.getText().toString(), bodyText.getText().toString(), newsgroup, parentId);
+        }
 		Toast.makeText(getApplicationContext(), "Post submitted, refresh your view!", Toast.LENGTH_LONG).show();
 		finish();
 	}

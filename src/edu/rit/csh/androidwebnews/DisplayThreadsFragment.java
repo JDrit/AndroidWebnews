@@ -20,7 +20,6 @@ package edu.rit.csh.androidwebnews;
 import java.util.ArrayList;
 
 import android.support.v4.app.Fragment;
-import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -31,9 +30,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ExpandableListView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class DisplayThreadsFragment extends Fragment implements OnScrollListener {
@@ -57,7 +53,6 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 		mainListView.setOnScrollListener(this);
 
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-	    String apiKey = sharedPref.getString("api_key", "");
 		hc = new HttpsConnector(getActivity());
 	    threads = new ArrayList<PostThread>();
 	    rootThreads = new ArrayList<PostThread>();
@@ -150,9 +145,6 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
 
 	private void expandThread(PostThread thread, int originalPos, int pos, int level)
 	{
-		String temp = "";
-		for(int i = 0; i < level; i++)
-			temp += "||";
 		for(int x = thread.getChildren().size() - 1; x > -1; x--)
 		{
 			PostThread childThread = thread.getChildren().get(x);
@@ -202,10 +194,8 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
             // Opens threads with unread posts in them
                     ArrayList<Integer> toOpenIndexes = new ArrayList<Integer>(); // list of indexes to open
                     for (int i = threads.size() - 1 ; i >= 0  ; i--) {
-                        Log.d("ints", threads.size() + "");
                         if (threads.get(i).containsUnread()) {
                             int originalPos = findOriginalPos(((DisplayThreadsActivity)getActivity()).threadsDirectMap.get(i));
-                            Log.d("ints", originalPos + ":" + i);
                             expandThread(threads.get(originalPos), i);
                             listAdapter.notifyDataSetChanged();
                             threadStatus[originalPos] = true;
@@ -215,7 +205,6 @@ public class DisplayThreadsFragment extends Fragment implements OnScrollListener
                     // Opens the unread posts in the list of indexes
                     for (Integer i : toOpenIndexes) {
                         int originalPos = findOriginalPos(((DisplayThreadsActivity)getActivity()).threadsDirectMap.get(i));
-                        Log.d("ints", originalPos + ":" + i);
                         expandThread(threads.get(originalPos), i);
                         listAdapter.notifyDataSetChanged();
                         threadStatus[originalPos] = true;

@@ -30,6 +30,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * This is used to display all the threads from a particular newsgroup
+ */
 public class DisplayThreadsActivity extends FragmentActivity implements ActivityInterface {
 	
 	public String newsgroupName;
@@ -71,11 +74,9 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		dtf = (DisplayThreadsFragment)getSupportFragmentManager().findFragmentById(R.id.threadsfragment);
 		
 		if (!sharedPref.getString("newsgroups_json_string", "").equals("")) {
-			Log.d("jddebugcache", "from file");
 			newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
 			hc.startUnreadCountTask();
 		} else {
-			Log.d("jddebugcache", "from file not");
 			hc.getNewsGroups();
 		}
 		
@@ -110,7 +111,9 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	public boolean onOptionsItemSelected(MenuItem item) { 
 		switch (item.getItemId()) {
 		case R.id.new_post:
-			startActivity(new Intent(this, ComposeActivity.class));
+            Intent intent = new Intent(this, ComposeActivity.class);
+            intent.putExtra("NEWSGROUP", newsgroupName);
+			startActivity(intent);
 			return true;
 		
 		case R.id.menu_settings:
@@ -150,22 +153,15 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
                     dialog.show();
                 }
             } else if (obj.has("posts_older")) {
-                Log.d("threadsdebug", "post_older");
-                if(hc.getThreadsFromString(jsonString).size() == 0)
-                {
+                if(hc.getThreadsFromString(jsonString).size() == 0) {
                     //hitBottom = true;
                     dtf.addThreads(new ArrayList<PostThread>());
-                }
-                else if(!requestedAdditionalThreads)
-                {
-                    Log.d("MyDebugging", "DisplayThreadsActivity updating the threads sdfk");
+                } else if(!requestedAdditionalThreads) {
                     ArrayList<PostThread> threads = hc.getThreadsFromString(jsonString);
                     lastFetchedThreads.clear();
                     lastFetchedThreads = (ArrayList<PostThread>) threads.clone();
                     dtf.update(threads);
-                }
-                else
-                {
+                } else {
                     ArrayList<PostThread> newThreads = hc.getThreadsFromString(jsonString);
                     for(PostThread thread : newThreads)
                         lastFetchedThreads.add(thread);

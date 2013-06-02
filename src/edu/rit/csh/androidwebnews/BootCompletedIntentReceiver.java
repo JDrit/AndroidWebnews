@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 /**
  * Used to start the updater service, if selected by the user's configuration, when
@@ -36,13 +37,16 @@ public class BootCompletedIntentReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        Log.d("jd", "1");
 		if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
-
-			PendingIntent pintent = PendingIntent.getService(context, 0, intent, 0);
+            Log.d("jd", "2");
+            Intent updaterIntent = new Intent(context, UpdaterService.class);
+			PendingIntent pintent = PendingIntent.getService(context, 0, updaterIntent, 0);
 			AlarmManager alarm = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 
 			// if the run service is selected, an alarm is started to repeat over given time
 			if (sharedPref.getBoolean("run_service", false)) {
+                Log.d("jd", "3");
 				String timeString= sharedPref.getString("time_between_checks", "15");
 				int time = 15;
 				if (!timeString.equals("")) {
@@ -51,6 +55,7 @@ public class BootCompletedIntentReceiver extends BroadcastReceiver {
 				alarm.cancel(pintent);
 				alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), time * 60000, pintent);
 			} else {
+                Log.d("jd" , "4");
 				alarm.cancel(pintent);
 			}  
 		}  

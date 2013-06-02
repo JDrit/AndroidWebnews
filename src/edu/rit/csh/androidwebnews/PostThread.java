@@ -18,33 +18,21 @@ under the License.
 package edu.rit.csh.androidwebnews;
 
 import java.util.ArrayList;
-
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 public class PostThread {
-	private String date, subject, authorName, authorEmail, newsgroup, unread, personal_class, sticky;
+	private String date, subject, authorName, newsgroup, unread, personal_class, sticky;
 	private int number, depth;
 	private boolean starred;
 	private ArrayList<PostThread> children;
 	private PostThread parent;
 
-	public PostThread(String date, 
-			int number, 
-			String subject, 
-			String authorName, 
-			String authorEmail, 
-			String newsgroup, 
-			boolean starred, 
-			String unread,
-			String personal_class,
-			String sticky) {
+	public PostThread(String date, int number, String subject, String authorName, String authorEmail, String newsgroup,
+			boolean starred, String unread,	String personal_class, String sticky) {
 		this.date = date;
 		this.number = number;
 		this.subject = subject;
 		this.authorName = authorName;
-		this.authorEmail = authorEmail;
 		this.newsgroup = newsgroup;
 		this.starred = starred;
 		this.unread = unread;
@@ -68,8 +56,8 @@ public class PostThread {
 	 */
 	public int getSubThreadCount() {
 		int count = 1;
-		for (int i = 0 ; i < children.size() ; i++) {
-			count += children.get(i).getSubThreadCount();
+        for (PostThread thread : children) {
+			count += thread.getSubThreadCount();
 		}
 		return count;
 	}
@@ -78,7 +66,7 @@ public class PostThread {
 	{
 		if(!(object instanceof PostThread))
 			return false;
-		if(((PostThread)object).newsgroup == newsgroup && ((PostThread)object).number == number)
+		if(((PostThread)object).newsgroup.equals(newsgroup) && ((PostThread)object).number == number)
 			return true;
 		else
 			return false;
@@ -113,7 +101,7 @@ public class PostThread {
 	 */
 	public boolean containsUnread() {
 		Log.d("children", depth + ":" + authorName + ":" + unread + ":" + children.size());
-		if (unread != "null") {
+		if (!(unread.equals("null"))) {
 			Log.d("children", "good");
 			return true;
 		} else {

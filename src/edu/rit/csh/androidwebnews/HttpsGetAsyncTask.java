@@ -27,6 +27,9 @@ import org.apache.http.client.methods.HttpGet;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.util.Log;
+
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.HttpHostConnectException;
 
 /**
@@ -82,6 +85,7 @@ public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
         	request = new HttpGet(params[0]);
         	request.addHeader("accept", "application/json");
 			response = httpclient.execute(request);
+
 			in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 			
 			StringBuffer sb = new StringBuffer("");
@@ -93,12 +97,16 @@ public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
             }
             page = sb.toString();
             in.close();
-            
+            Log.d("jd - getAsync response", page);
 		} catch (ClientProtocolException e) {
             return("Error: Client Exception while connecting to " + params[0].getHost());
         } catch (HttpHostConnectException e) {  // could not connect to WebNews
             return("Error: Could not connect to " + params[0].getHost() + ". Mostly likely caused by the server not being up");
+        } catch (ConnectTimeoutException e) { // redoes the request if there is a timeout
+            Log.d("jd - getAsync Error", e.toString());
+            return doInBackground(params[0]);
 		} catch (IOException e) {
+            Log.d("jd - GetAsync Error", e.toString());
             return("Error: IO Connection exception while connection to " + params[0].getHost());
 		}
 

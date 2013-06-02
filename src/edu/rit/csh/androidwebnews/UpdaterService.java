@@ -24,6 +24,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -51,7 +54,7 @@ public class UpdaterService extends IntentService {
 	   */
 	  @Override
 	  protected void onHandleIntent(Intent intent) {
-		  Log.d("jddebug", "service started");
+		  Log.d("jd - service", "service started");
 		  SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		  HttpsConnector hc = new HttpsConnector(this);
 		  int[] statuses;
@@ -88,10 +91,16 @@ public class UpdaterService extends IntentService {
 					  mBuilder.setContentText(statuses[0] + " unread posts");
 					  }
 				  }
-				  if (sharedPref.getBoolean("vibrate_service", true)) {
+
+                  if (sharedPref.getBoolean("vibrate_service", true)) {
 					  mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 					  mVibrator.vibrate(500);  
 				  }
+                  if (sharedPref.getBoolean("ring_service", false)) {
+                      Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                      Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+                      r.play();
+                  }
 				  
 				  // Creates an explicit intent for an Activity in your app
 				  Intent resultIntent = new Intent(this, RecentActivity.class);
@@ -111,6 +120,7 @@ public class UpdaterService extends IntentService {
 				  NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 				  // mId allows you to update the notification later on.
 				  mNotificationManager.notify(0, mBuilder.build());
+
 			  } else if (statuses[0] == 0) { // if all post have been read
 				  /* if a user reads all the posts, the notification is removed */
 				  NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -140,9 +150,9 @@ public class UpdaterService extends IntentService {
 		  } catch (NoInternetException e) {
               // do nothing if there is no internet for the background service
 		  } catch (InterruptedException e) {
-
+              // normally never hit
           } catch (ExecutionException e) {
-
+              // normally never hit
           }
 		  
 	  }

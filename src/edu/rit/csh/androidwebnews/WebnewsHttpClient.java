@@ -30,8 +30,6 @@ import org.apache.http.params.BasicHttpParams;
 import java.io.InputStream;
 import java.security.KeyStore;
 
-import static org.apache.http.params.HttpConnectionParams.setConnectionTimeout;
-
 /**
  * The HTTP client used in the get and post request to webnews.csh.rit.edu.
  * This client allows the use of the custom CSH certificate and can work with
@@ -43,9 +41,6 @@ public class WebnewsHttpClient extends DefaultHttpClient {
     final Context context;
  
     public WebnewsHttpClient(Context context) {
-        HttpParams hp = new BasicHttpParams();
-        setConnectionTimeout(hp, 1000);
-        setParams(hp);
         this.context = context;
     }
     

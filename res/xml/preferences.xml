@@ -11,14 +11,20 @@
     <CheckBoxPreference
         android:key="run_service"
         android:title="Run background service"
-        android:summary="Have the application check webnews in the background for new posts"
+        android:summary="Have the application check WebNews in the background for new posts"
         android:defaultValue="true" />
     
     <CheckBoxPreference
         android:key="vibrate_service"
         android:title="Vibrate on Notification"
-        android:summary="Have the application vibrate when there is a new post of an invalid api key"
+        android:summary="Have the application vibrate when there is a new post"
         android:defaultValue="true" />
+
+    <CheckBoxPreference
+        android:key="ring_service"
+        android:title="Ring on Notification"
+        android:summary="Have the application ring when there is a new post"
+        android:defaultValue="false" />
 	
     <EditTextPreference
         android:key="time_between_checks"

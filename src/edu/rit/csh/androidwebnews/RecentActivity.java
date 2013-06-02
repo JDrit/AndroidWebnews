@@ -143,6 +143,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 	@Override
 	public void update(String jsonString) {
         if (jsonString.startsWith("Error:")) { // error in the Async Task
+            Log.d("jd - recentActivity - error", jsonString);
             connectionDialog.setMessage(jsonString);
             if (!connectionDialog.isShowing())
                 connectionDialog.show();
