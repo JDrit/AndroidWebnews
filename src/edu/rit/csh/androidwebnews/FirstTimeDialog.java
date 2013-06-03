@@ -36,10 +36,8 @@ public class FirstTimeDialog extends AlertDialog {
 		
 		c = context;
 		setTitle("CSH News - BETA");
-		setMessage("Welcome to CSH News\n" + 
-				"We recognize that there may still be errors with the code and ask if you find any, please let us know. Please submit errors via the issue tracker on github.com/JDrit/AndroidWebnews.\n" + 
-				"If you find a valid bug, we will buy you a cookie from Sol\'s\n\n" +
-				"To view newsgroups, swipe from the left to open the menu. To start, enter in your API key into settings. You can find your API key in the settings tab of WebNews.");
+		setMessage("Welcome to CSH News\n" +
+				"To view newsgroups, swipe from the left to open the menu. To start, enter in your API key into settings. You can find your API key in the settings tab of WebNews website");
 		setCancelable(true);
 		setButton(BUTTON_POSITIVE, "Settings", new okListener());
 		

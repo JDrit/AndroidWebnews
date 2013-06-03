@@ -39,6 +39,7 @@ public class RecentListAdapter<T> extends ArrayAdapter<T> {
 	}
 	
 	@Override
+
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if(super.getCount() > 0)
 		{

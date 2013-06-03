@@ -119,17 +119,9 @@ public class ComposeActivity extends Activity implements ActivityInterface {
 	public void submit(View view) {
 
         if(parentId <= 0) {
-            Log.d("jd", new Integer(parentId).toString());
-            Log.d("jd", (String)spinner.getSelectedItem());
-            Log.d("jd", subLine.getText().toString());
-            Log.d("jd", bodyText.getText().toString());
 			new HttpsConnector(this).composePost((String)spinner.getSelectedItem(), subLine.getText().toString(), bodyText.getText().toString());
         } else {
-            Log.d("jd", new Integer(parentId).toString());
-            Log.d("jd", newsgroup);
-            Log.d("jd", subLine.getText().toString());
-            Log.d("jd", bodyText.getText().toString());
-			new HttpsConnector(this).composePost(newsgroup, subLine.getText().toString(), bodyText.getText().toString(), newsgroup, parentId);
+            new HttpsConnector(this).composePost(newsgroup, subLine.getText().toString(), bodyText.getText().toString(), newsgroup, parentId);
         }
 		Toast.makeText(getApplicationContext(), "Post submitted, refresh your view!", Toast.LENGTH_LONG).show();
 		finish();

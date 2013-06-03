@@ -29,6 +29,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 /**
  * This is used to display all the threads from a particular newsgroup
@@ -39,7 +40,6 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	private InvalidApiKeyDialog dialog;
 	public ArrayList<PostThread> threadsDirectMap;
 	static public ArrayList<PostThread> lastFetchedThreads;
-	private DisplayThreadsFragment dtf;
 	private HttpsConnector hc;
 	NewsgroupListMenu newsgroupListMenu;
 	public boolean requestedAdditionalThreads = false;
@@ -71,8 +71,6 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 		
 		setContentView(R.layout.displaythreads_activity);
 		
-		dtf = (DisplayThreadsFragment)getSupportFragmentManager().findFragmentById(R.id.threadsfragment);
-		
 		if (!sharedPref.getString("newsgroups_json_string", "").equals("")) {
 			newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
 			hc.startUnreadCountTask();
@@ -87,7 +85,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_displaythreads_menu, menu);
+		getMenuInflater().inflate(R.menu.displaythreads_menu, menu);
 		return true;
 	}
 	
@@ -137,7 +135,8 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 			hc.markRead(newsgroupName);
 			hc.getNewsgroupThreads(newsgroupName, 20, false);
 			hc.getNewsGroups();
-			
+            Toast.makeText(getApplicationContext(), "Marking all posts in " + newsgroupName +
+                    " as read", Toast.LENGTH_LONG).show();
 			return true;
 		}
 		return false;
@@ -146,7 +145,6 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
 	@Override
 	public void update(String jsonString) {
         try {
-            dtf = (DisplayThreadsFragment) getSupportFragmentManager().findFragmentById(R.id.threadsfragment);
             JSONObject obj = new JSONObject(jsonString);
             if (obj.has("error")) {
                 if (!dialog.isShowing()) {
@@ -155,17 +153,20 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
             } else if (obj.has("posts_older")) {
                 if(hc.getThreadsFromString(jsonString).size() == 0) {
                     //hitBottom = true;
-                    dtf.addThreads(new ArrayList<PostThread>());
+                    ((DisplayThreadsFragment) getSupportFragmentManager().
+                            findFragmentById(R.id.threadsfragment)).addThreads(new ArrayList<PostThread>());
                 } else if(!requestedAdditionalThreads) {
                     ArrayList<PostThread> threads = hc.getThreadsFromString(jsonString);
                     lastFetchedThreads.clear();
                     lastFetchedThreads = (ArrayList<PostThread>) threads.clone();
-                    dtf.update(threads);
+                    ((DisplayThreadsFragment) getSupportFragmentManager().findFragmentById(R.id.threadsfragment)).
+                            update(threads);
                 } else {
                     ArrayList<PostThread> newThreads = hc.getThreadsFromString(jsonString);
                     for(PostThread thread : newThreads)
                         lastFetchedThreads.add(thread);
-                    dtf.addThreads(newThreads);
+                    ((DisplayThreadsFragment) getSupportFragmentManager().findFragmentById(R.id.threadsfragment)).
+                            addThreads(newThreads);
                     requestedAdditionalThreads = false;
                 }
             } else if (obj.has("unread_counts")) {  // unread count

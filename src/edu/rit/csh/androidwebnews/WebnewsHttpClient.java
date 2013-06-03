@@ -51,7 +51,7 @@ public class WebnewsHttpClient extends DefaultHttpClient {
     @Override
     protected ClientConnectionManager createClientConnectionManager() {
         SchemeRegistry registry = new SchemeRegistry();
-        registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+        //registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
         // Register for port 443 our SSLSocketFactory with our keystore
         // to the ConnectionManager
         registry.register(new Scheme("https", newSslSocketFactory(), 443));

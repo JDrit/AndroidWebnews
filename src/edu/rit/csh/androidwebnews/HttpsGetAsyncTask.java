@@ -84,6 +84,7 @@ public class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
 			
         	request = new HttpGet(params[0]);
         	request.addHeader("accept", "application/json");
+
 			response = httpclient.execute(request);
 
 			in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));

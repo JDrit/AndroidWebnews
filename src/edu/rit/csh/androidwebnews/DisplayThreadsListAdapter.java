@@ -56,7 +56,6 @@ public class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
 	                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	        convertView = infalInflater.inflate(R.layout.threadlayout, null);
 			TextView tv = (TextView) convertView.findViewById(R.id.threadtextview);
-            Log.d("jd - adapter", thread.toString() + " " + thread.getDepth());
             if (thread.getDepth() >= 9) // the max indent is 9
                 convertView.setPadding(30 * 9 + 10,10,10,10);
             else
