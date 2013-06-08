@@ -12,7 +12,6 @@
     <string name="title_section3">Section 3</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section1">Section 1</string>
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_info">InfoActivity</string>
     <string name="title_activity_info_activity1">InfoActivity1</string>
     <string name="about_text">CSH News\n\nAuthors: jd@csh.rit.edu and Derek Gonyeo (dgonyeo@csh.rit.edu)\nSource code: http://www.github.com/JDrit/AndroidWebnews\n\nThis is a Computer Science House (C.S.H.) application to view Webnews via Android. This application relies on the Webnews API to work. Users are identified via their API key, to obtain your API key, go to the settings page in Webnews. At the bottom of the page will be your API key. Type the key into settings to authenticate yourself.</string>
@@ -23,5 +22,5 @@
     <string name="title_activity_newsgroupslist">NewsgroupListActivity</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="title_activity_search_results">SearchResultsActivity</string>
-
+    <string name="activity_recent_text">Recent Activity</string>
 </resources>

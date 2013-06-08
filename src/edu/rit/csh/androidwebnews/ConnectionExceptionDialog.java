@@ -21,12 +21,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
-public class ConnectionExceptionDialog extends AlertDialog {
-    private Context c;
+class ConnectionExceptionDialog extends AlertDialog {
 
-    protected ConnectionExceptionDialog(Context context, String message) {
+    public ConnectionExceptionDialog(Context context, String message) {
         super(context);
-        c = context;
         setTitle("Connection Exception");
         setMessage(message);
         setCancelable(true);
@@ -34,9 +32,8 @@ public class ConnectionExceptionDialog extends AlertDialog {
 
     }
 
-    protected ConnectionExceptionDialog(Context context) {
+    ConnectionExceptionDialog(Context context) {
         super(context);
-        c = context;
         setTitle("Connection Exception");
         setCancelable(true);
         setButton(BUTTON_NEGATIVE, "OK", new cancelListener());

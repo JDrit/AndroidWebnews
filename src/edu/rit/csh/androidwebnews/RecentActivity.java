@@ -1,147 +1,149 @@
 /**
-See the NOTICE file
-distributed with this work for additional information
-regarding copyright ownership.  This code is licensed
-to you under the Apache License, Version 2.0 (the
-"License"); you may not use this file except in compliance
-with the License.  You may obtain a copy of the License at
+ See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  This code is licensed
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
 
-http://www.apache.org/licenses/LICENSE-2.0
+ http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing,
-software distributed under the License is distributed on an
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, either express or implied.  See the License for the
-specific language governing permissions and limitations
-under the License.
-*/		
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+ */
 package edu.rit.csh.androidwebnews;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class RecentActivity extends FragmentActivity implements ActivityInterface {
-	private InvalidApiKeyDialog dialog;
+    private InvalidApiKeyDialog dialog;
     private ConnectionExceptionDialog connectionDialog;
-	private RecentFragment rf;
-	private HttpsConnector hc;
-	private NewsgroupListMenu newsgroupListMenu;
-	private SharedPreferences sharedPref;
-	private FirstTimeDialog ftd;
+    private RecentFragment rf;
+    private HttpsConnector hc;
+    private NewsgroupListMenu newsgroupListMenu;
+    private SharedPreferences sharedPref;
+    private FirstTimeDialog ftd;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-		newsgroupListMenu = new NewsgroupListMenu(this);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        newsgroupListMenu = new NewsgroupListMenu(this);
 
-		newsgroupListMenu.checkEnabled();
-		hc = new HttpsConnector( this);	    	    
-		dialog = new InvalidApiKeyDialog(this);
+        newsgroupListMenu.checkEnabled();
+        hc = new HttpsConnector(this);
+        dialog = new InvalidApiKeyDialog(this);
         connectionDialog = new ConnectionExceptionDialog(this);
-		ftd = new FirstTimeDialog(this);
-		setContentView(R.layout.activity_recent);
+        ftd = new FirstTimeDialog(this);
+        setContentView(R.layout.activity_recent);
 
-		rf = (RecentFragment)getSupportFragmentManager().findFragmentById(R.id.recent_fragment);
+        rf = (RecentFragment) getSupportFragmentManager().findFragmentById(R.id.recent_fragment);
 
-		if (!sharedPref.getBoolean("first_time", true)) {
-			hc.getNewest(true);
-			if (!sharedPref.getString("newsgroups_json_string", "").equals("")) {
-				newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
-				hc.startUnreadCountTask();
-			} else {
-				hc.getNewsGroups();
-			}
+        if (!sharedPref.getBoolean("first_time", true)) {
+            hc.getNewest(true);
+            if (!sharedPref.getString("newsgroups_json_string", "").equals("")) {
+                newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
+                hc.startUnreadCountTask();
+            } else {
+                hc.getNewsGroups();
+            }
 
-			Intent intent = new Intent(this, UpdaterService.class);
-			PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
-			AlarmManager alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(this, UpdaterService.class);
+            PendingIntent pintent = PendingIntent.getService(this, 0, intent, 0);
+            AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-			// if the run service is selected, an alarm is started to repeat over given time
-			if (sharedPref.getBoolean("run_service", false)) {
-				String timeString= sharedPref.getString("time_between_checks", "15");
-				int time = 15;
-				if (!timeString.equals("")) {
-					time = Integer.valueOf(timeString);
-				}
-				alarm.cancel(pintent);
-				alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), time * 60000, pintent);
-				Log.d("jddebug", "alarm set");
-			} else {
-				alarm.cancel(pintent);
-			}
-		} else {
+            // if the run service is selected, an alarm is started to repeat over given time
+            if (sharedPref.getBoolean("run_service", false)) {
+                String timeString = sharedPref.getString("time_between_checks", "15");
+                int time = 15;
+                if (!timeString.equals("")) {
+                    time = Integer.valueOf(timeString);
+                }
+                alarm.cancel(pintent);
+                alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), time * 60000, pintent);
+                Log.d("jddebug", "alarm set");
+            } else {
+                alarm.cancel(pintent);
+            }
+        } else {
 
-			ftd.show();
-			SharedPreferences.Editor editor = sharedPref.edit();
-			editor.putBoolean("first_time", false);
-			editor.commit();
+            ftd.show();
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean("first_time", false);
+            editor.commit();
 
 
-		}
-		setTitle("Recent Posts");
-	}
+        }
+        setTitle("Recent Posts");
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.displaythreads_menu, menu);
-		return true;
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.displaythreads_menu, menu);
+        return true;
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.new_post:
-				Intent myIntent = new Intent(this, ComposeActivity.class);
-				//myIntent.putExtra("NEWSGROUP", newsgroupName);
-				startActivity(myIntent);
-				return true;
-				
-			case R.id.menu_settings:
-				startActivity(new Intent(this, SettingsActivity.class));
-				return true;
-		
-			case R.id.menu_refresh:
-				hc.getNewest(true);
-				hc.getNewsGroups();
-				return true;
-		
-			case R.id.menu_about:
-				startActivity(new Intent(this, InfoActivity.class));
-				return true;
-			case R.id.menu_search:
-				startActivity(new Intent(this, SearchActivity.class));
-		
-			case R.id.menu_mark_all_read:
-				hc.markRead();
-				hc.getNewest(false);
-				hc.getNewsGroups();
-		}
-		return false;
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.new_post:
+                Intent myIntent = new Intent(this, ComposeActivity.class);
+                //myIntent.putExtra("NEWSGROUP", newsgroupName);
+                startActivity(myIntent);
+                return true;
 
-	/**
-	 * This is called to by the async task when there is an fragment to update.
-	 * This then updates the correct fragment based on what is given. The options
-	 * are: show an error dialog, update recent posts, update newgroups, and update
-	 * unread counts. When unread counts is updated and is different from what it used
-	 * to be, then it updates the newsgroups to get the correct display.
-	 * @param jsonString - a string representing the json object of the data
-	 */
-	@Override
-	public void update(String jsonString) {
+            case R.id.menu_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+
+            case R.id.menu_refresh:
+                hc.getNewest(true);
+                hc.getNewsGroups();
+                return true;
+
+            case R.id.menu_about:
+                startActivity(new Intent(this, InfoActivity.class));
+                return true;
+            case R.id.menu_search:
+                startActivity(new Intent(this, SearchActivity.class));
+
+            case R.id.menu_mark_all_read:
+                hc.markRead();
+                hc.getNewest(false);
+                hc.getNewsGroups();
+        }
+        return false;
+    }
+
+    /**
+     * This is called to by the async task when there is an fragment to update.
+     * This then updates the correct fragment based on what is given. The options
+     * are: show an error dialog, update recent posts, update newgroups, and update
+     * unread counts. When unread counts is updated and is different from what it used
+     * to be, then it updates the newsgroups to get the correct display.
+     *
+     * @param jsonString - a string representing the json object of the data
+     */
+    @Override
+    public void update(String jsonString) {
         if (jsonString.startsWith("Error:")) { // error in the Async Task
             Log.d("jd - recentActivity - error", jsonString);
             connectionDialog.setMessage(jsonString);
@@ -180,30 +182,30 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
                 e.printStackTrace();
             }
         }
-	}
-	
-	public void onNewsgroupSelected(final String newsgroupName) {
-		Intent myIntent = new Intent(RecentActivity.this, DisplayThreadsActivity.class);
-		myIntent.putExtra("SELECTED_NEWSGROUP", newsgroupName);
-		startActivity(myIntent);
-	}
+    }
 
-	@Override
-	public void onRestart() {
-		super.onResume();
-		hc.getNewest(false);
-		if (!sharedPref.getString("newsgroups_json_string", "").equals("")) {
-			newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
-			hc.startUnreadCountTask();
-		} else {
-			hc.getNewsGroups();
-		}
-		
-		NewsgroupListMenu.menuShown = false;
-	}
+    public void onNewsgroupSelected(final String newsgroupName) {
+        Intent myIntent = new Intent(RecentActivity.this, DisplayThreadsActivity.class);
+        myIntent.putExtra("SELECTED_NEWSGROUP", newsgroupName);
+        startActivity(myIntent);
+    }
+
+    @Override
+    public void onRestart() {
+        super.onResume();
+        hc.getNewest(false);
+        if (!sharedPref.getString("newsgroups_json_string", "").equals("")) {
+            newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
+            hc.startUnreadCountTask();
+        } else {
+            hc.getNewsGroups();
+        }
+
+        NewsgroupListMenu.menuShown = false;
+    }
 
     public NewsgroupListMenu getNewsgroupListMenu() {
-        return(newsgroupListMenu);
+        return (newsgroupListMenu);
     }
 
 }
