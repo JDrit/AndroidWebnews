@@ -21,12 +21,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 /**
  * The activity used to control the About and License page for the application.
  * It is a TextView and 2 Buttons used to switch the content of the TextView.
  */
-public class InfoActivity extends Activity {
+public class InfoActivity extends SherlockFragmentActivity {
     private TextView tv;
 
     @Override

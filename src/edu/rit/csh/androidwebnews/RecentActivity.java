@@ -24,15 +24,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.SubMenu;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RecentActivity extends FragmentActivity implements ActivityInterface {
+public class RecentActivity extends SherlockFragmentActivity implements ActivityInterface {
     private InvalidApiKeyDialog dialog;
     private ConnectionExceptionDialog connectionDialog;
     private RecentFragment rf;
@@ -43,8 +44,18 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String layout = sharedPref.getString("layout_pick", "default");
+        if (layout.equals("default")) {
+            setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
+        } else if (layout.equals("dark")) {
+            setTheme(R.style.Theme_Sherlock);
+        } else {
+            setTheme(R.style.Theme_Sherlock_Light);
+        }
+
+        super.onCreate(savedInstanceState);
+
         newsgroupListMenu = new NewsgroupListMenu(this);
 
         newsgroupListMenu.checkEnabled();
@@ -78,7 +89,6 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
                 }
                 alarm.cancel(pintent);
                 alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), time * 60000, pintent);
-                Log.d("jddebug", "alarm set");
             } else {
                 alarm.cancel(pintent);
             }
@@ -94,10 +104,11 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
         setTitle("Recent Posts");
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.displaythreads_menu, menu);
+        getSupportMenuInflater().inflate(R.menu.displaythreads_menu, menu);
         return true;
     }
 
@@ -133,6 +144,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
         return false;
     }
 
+
     /**
      * This is called to by the async task when there is an fragment to update.
      * This then updates the correct fragment based on what is given. The options
@@ -160,6 +172,7 @@ public class RecentActivity extends FragmentActivity implements ActivityInterfac
                     }
                 } else if (obj.has("activity")) { // recent
                     Log.d("string", hc.getNewestFromString(jsonString).toString());
+                    Log.d("string", rf.toString());
                     rf.update(hc.getNewestFromString(jsonString));
                 } else if (obj.has("unread_counts")) {  // unread count
                     int unread = hc.getUnreadCountFromString(jsonString)[0];

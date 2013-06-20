@@ -24,10 +24,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SearchResultsActivity extends FragmentActivity implements ActivityInterface {
+public class SearchResultsActivity extends SherlockFragmentActivity implements ActivityInterface {
 
     private ArrayList<PostThread> threads;
     public static PostThread rootThread;

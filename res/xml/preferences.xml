@@ -35,4 +35,14 @@
         android:maxLength="3"
          />
 
+    <ListPreference
+        android:key="layout_pick"
+        android:title="Layout"
+        android:summary="Pick what style of layout you want"
+        android:entries="@array/layout_names"
+        android:entryValues="@array/layout_values"
+        android:defaultValue="default"
+        />
+
+
 </PreferenceScreen>

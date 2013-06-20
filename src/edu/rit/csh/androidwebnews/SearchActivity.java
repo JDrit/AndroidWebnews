@@ -23,10 +23,12 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.DatePicker;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SearchActivity extends FragmentActivity implements ActivityInterface {
+public class SearchActivity extends SherlockFragmentActivity implements ActivityInterface {
     private HttpsConnector hc;
     private SearchFragment sf;
     private InvalidApiKeyDialog dialog;

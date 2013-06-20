@@ -27,9 +27,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.SherlockFragment;
+
 import java.util.ArrayList;
 
-public class PostFragment extends Fragment {
+public class PostFragment extends SherlockFragment {
     private ArrayList<String> contents;
     private String body;
     private String otherBody;
@@ -133,22 +135,6 @@ public class PostFragment extends Fragment {
         if (getActivity() != null)
             getActivity().setTitle("Post " + me + " of " + total);
     }
-
-	/*@Override
-	public void onListItemClick(ListView l, View v, int position, long id)
-	{
-		super.onListItemClick(l, v, position, id);
-		Log.d("MyDebugging", "Clicky!");
-		if(position == 3)
-		{
-			swapBodies();
-			contents.remove(3);
-			contents.add(body);
-			//listAdapter.clear();
-			//listAdapter.addAll(contents);
-			listAdapter.notifyDataSetChanged();
-		}
-	}*/
 
     public void update(String jsonstuff) {
         String otherBody = hc.getPostBodyFromString(jsonstuff);

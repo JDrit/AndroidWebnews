@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidWebnews.iml" filepath="$PROJECT_DIR$/AndroidWebnews.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libs/actionbarsherlock/actionbarsherlock.iml" filepath="$PROJECT_DIR$/libs/actionbarsherlock/actionbarsherlock.iml" />
     </modules>
   </component>
 </project>

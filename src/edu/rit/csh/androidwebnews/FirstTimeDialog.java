@@ -33,7 +33,7 @@ class FirstTimeDialog extends AlertDialog {
         super(context);
 
         c = context;
-        setTitle("CSH News - BETA");
+        setTitle("CSH News");
         setMessage("Welcome to CSH News\n" +
                 "To view newsgroups, swipe from the left to open the menu. To start, enter in your API key into settings. You can find your API key in the settings tab of WebNews website");
         setCancelable(true);

@@ -19,18 +19,17 @@ package edu.rit.csh.androidwebnews;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PostSwipableActivity extends FragmentActivity implements ActivityInterface {
+public class PostSwipableActivity extends SherlockFragmentActivity implements ActivityInterface {
     private InvalidApiKeyDialog dialog;
     private static String newsgroupName;
     static int id;
@@ -126,7 +125,7 @@ public class PostSwipableActivity extends FragmentActivity implements ActivityIn
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.postswipable_menu, menu);
+        getSupportMenuInflater().inflate(R.menu.postswipable_menu, menu);
         return true;
     }
 

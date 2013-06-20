@@ -17,20 +17,19 @@
  */
 package edu.rit.csh.androidwebnews;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import java.util.ArrayList;
 
-public class ComposeActivity extends Activity implements ActivityInterface {
+public class ComposeActivity extends SherlockFragmentActivity implements ActivityInterface {
     private String subject;
     private String body;
     private String newsgroup;

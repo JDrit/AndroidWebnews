@@ -30,9 +30,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.SherlockFragment;
+
 import java.util.ArrayList;
 
-public class RecentFragment extends Fragment {
+public class RecentFragment extends SherlockFragment {
     private RecentListAdapter<PostThread> listAdapter;
 
     @Override

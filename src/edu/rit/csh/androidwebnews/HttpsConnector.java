@@ -343,6 +343,7 @@ class HttpsConnector {
                 unreadStatuses[2] = jObj.getInt("in_reply");
             }
         } catch (JSONException ignored) {
+            throw new NoInternetException();
         }
         return unreadStatuses;
     }

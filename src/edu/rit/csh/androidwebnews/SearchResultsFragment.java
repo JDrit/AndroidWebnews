@@ -27,6 +27,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.SherlockFragment;
+
 import java.util.ArrayList;
 
 /**
@@ -34,7 +36,7 @@ import java.util.ArrayList;
  *
  * @author JD
  */
-public class SearchResultsFragment extends Fragment {
+public class SearchResultsFragment extends SherlockFragment {
     private ArrayAdapter<String> listAdapter;
 
     @Override

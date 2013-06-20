@@ -21,21 +21,22 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
 
 /**
  * This is used to display all the threads from a particular newsgroup
  */
-public class DisplayThreadsActivity extends FragmentActivity implements ActivityInterface {
+public class DisplayThreadsActivity extends SherlockFragmentActivity implements ActivityInterface {
 
     public String newsgroupName;
     private InvalidApiKeyDialog dialog;
@@ -82,7 +83,7 @@ public class DisplayThreadsActivity extends FragmentActivity implements Activity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.displaythreads_menu, menu);
+        getSupportMenuInflater().inflate(R.menu.displaythreads_menu, menu);
         return true;
     }
 
