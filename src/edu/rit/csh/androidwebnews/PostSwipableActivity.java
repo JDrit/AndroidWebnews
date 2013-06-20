@@ -18,7 +18,9 @@
 package edu.rit.csh.androidwebnews;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageButton;
@@ -41,6 +43,17 @@ public class PostSwipableActivity extends SherlockFragmentActivity implements Ac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String layout = sharedPref.getString("layout_pick", "default");
+        if (layout.equals("default")) {
+            setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
+        } else if (layout.equals("dark")) {
+            setTheme(R.style.Theme_Sherlock);
+        } else {
+            setTheme(R.style.Theme_Sherlock_Light);
+        }
+
         ViewPager mViewPager;
         setContentView(R.layout.activity_post_swipable);
         hc = new HttpsConnector(this);

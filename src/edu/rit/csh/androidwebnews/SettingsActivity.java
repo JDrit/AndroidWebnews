@@ -51,9 +51,17 @@ public class SettingsActivity extends PreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String layout = sharedPref.getString("layout_pick", "default");
+        if (layout.equals("default")) {
+            setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
+        } else if (layout.equals("dark")) {
+            setTheme(R.style.Theme_Sherlock);
+        } else {
+            setTheme(R.style.Theme_Sherlock_Light);
+        }
         //getFragmentManager().beginTransaction().replace(android.R.id.content, webnews_new SettingsFragment()).commit();
         addPreferencesFromResource(R.xml.preferences);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPref.registerOnSharedPreferenceChangeListener(listener);
     }
 
