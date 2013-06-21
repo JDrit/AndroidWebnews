@@ -45,15 +45,6 @@ public class PostSwipableActivity extends SherlockFragmentActivity implements Ac
         super.onCreate(savedInstanceState);
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String layout = sharedPref.getString("layout_pick", "default");
-        if (layout.equals("default")) {
-            setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
-        } else if (layout.equals("dark")) {
-            setTheme(R.style.Theme_Sherlock);
-        } else {
-            setTheme(R.style.Theme_Sherlock_Light);
-        }
-
         ViewPager mViewPager;
         setContentView(R.layout.activity_post_swipable);
         hc = new HttpsConnector(this);

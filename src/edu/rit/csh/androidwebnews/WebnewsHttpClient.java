@@ -72,6 +72,7 @@ class WebnewsHttpClient extends DefaultHttpClient {
             // Get the raw resource, which contains the keystore with
             // your trusted certificates (root and any intermediate certs)
             InputStream in = context.getResources().openRawResource(R.raw.keystore);
+
             try {
                 // Initialize the keystore with the provided trusted certificates
                 // Also provide the password of the keystore

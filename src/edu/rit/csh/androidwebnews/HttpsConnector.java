@@ -97,11 +97,7 @@ class HttpsConnector {
      * Gets the newest threads on webnews to display on the front page
      */
     public void getNewest(boolean bol) {
-        if (checkInternet()) {
-            new HttpsGetAsyncTask(new WebnewsHttpClient(context), bol, activity).execute(formatUrl("activity", null));
-        } else {
-            dialog.show();
-        }
+        new HttpsGetAsyncTask(new WebnewsHttpClient(context), bol, activity).execute(formatUrl("activity", null));
     }
 
     /**
@@ -150,20 +146,16 @@ class HttpsConnector {
      * @param amount - the amount of threads to return, has to be <= 20, -1 == default of 10
      */
     public void getNewsgroupThreads(String name, int amount) {
-        if (checkInternet()) {
-            if (amount == -1) {
-                amount = 10;
-            } else if (amount > 20) {
-                amount = 20;
-            }
-            HashMap<String, String> params = new HashMap<String, String>();
-            params.put("limit", Integer.valueOf(amount).toString());
-            params.put("thread_mode", "normal");
-            //String url = formatUrl(mainUrl + "/" + name + "/index", params);
-            new HttpsGetAsyncTask(new WebnewsHttpClient(context), true, activity).execute(formatUrl(name + "/index", params));
-        } else {
-            dialog.show();
+        if (amount == -1) {
+            amount = 10;
+        } else if (amount > 20) {
+            amount = 20;
         }
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("limit", Integer.valueOf(amount).toString());
+        params.put("thread_mode", "normal");
+        //String url = formatUrl(mainUrl + "/" + name + "/index", params);
+        new HttpsGetAsyncTask(new WebnewsHttpClient(context), true, activity).execute(formatUrl(name + "/index", params));
     }
 
     /**
@@ -175,20 +167,16 @@ class HttpsConnector {
      * @param bol    - boolean to decide to display the progress wheel or not
      */
     public void getNewsgroupThreads(String name, int amount, boolean bol) {
-        if (checkInternet()) {
-            if (amount == -1) {
-                amount = 10;
-            } else if (amount > 20) {
-                amount = 20;
-            }
-            HashMap<String, String> params = new HashMap<String, String>();
-            params.put("limit", Integer.valueOf(amount).toString());
-            params.put("thread_mode", "normal");
-            //String url = formatUrl(mainUrl + "/" + name + "/index", params);
-            new HttpsGetAsyncTask(new WebnewsHttpClient(context), bol, activity).execute(formatUrl(name + "/index", params));
-        } else {
-            dialog.show();
+        if (amount == -1) {
+            amount = 10;
+        } else if (amount > 20) {
+            amount = 20;
         }
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("limit", Integer.valueOf(amount).toString());
+        params.put("thread_mode", "normal");
+        //String url = formatUrl(mainUrl + "/" + name + "/index", params);
+        new HttpsGetAsyncTask(new WebnewsHttpClient(context), bol, activity).execute(formatUrl(name + "/index", params));
     }
 
     /**
@@ -242,11 +230,7 @@ class HttpsConnector {
      * @param params - ArrayList<NameValuePair> of he parameters for the search query
      */
     public void search(HashMap<String, String> params) {
-        if (checkInternet()) {
-            new HttpsGetAsyncTask(new WebnewsHttpClient(context), true, activity).execute(formatUrl("search", params));
-        } else {
-            dialog.show();
-        }
+        new HttpsGetAsyncTask(new WebnewsHttpClient(context), true, activity).execute(formatUrl("search", params));
     }
 
     /**
@@ -290,11 +274,7 @@ class HttpsConnector {
      * @param id        - the number of the post
      */
     public void getPostBody(String newsgroup, int id) {
-        if (checkInternet()) {
-            new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl(newsgroup + "/" + id, null));
-        } else {
-            dialog.show();
-        }
+        new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl(newsgroup + "/" + id, null));
     }
 
     /**
@@ -322,7 +302,8 @@ class HttpsConnector {
      *         [1] - number of unread threads in a thread the user has posted in
      *         [2] - the number of unread replies to a user's post
      */
-    public int[] getUnreadCount() throws InvalidKeyException, NoInternetException, InterruptedException, ExecutionException {
+    public int[] getUnreadCount() throws InvalidKeyException, NoInternetException,
+            InterruptedException, ExecutionException {
         URI url = formatUrl("unread_counts", null);
         int[] unreadStatuses = new int[3];
         unreadStatuses[0] = -1;
@@ -369,18 +350,14 @@ class HttpsConnector {
      * Marks all post read
      */
     public void markRead() {
-        if (checkInternet()) {
-            String url = formatUrl("mark_read", null).toString();
-            BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
-            BasicNameValuePair allVP = new BasicNameValuePair("all_posts", "");
+        String url = formatUrl("mark_read", null).toString();
+        BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
+        BasicNameValuePair allVP = new BasicNameValuePair("all_posts", "");
 
-            try {
-                new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, allVP).get();
-            } catch (InterruptedException ignored) {
-            } catch (ExecutionException ignored) {
-            }
-        } else {
-            dialog.show();
+        try {
+            new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, allVP).get();
+        } catch (InterruptedException ignored) {
+        } catch (ExecutionException ignored) {
         }
     }
 
@@ -391,15 +368,11 @@ class HttpsConnector {
      * @param id        - the id of the post
      */
     public void markRead(String newsgroup, int id) {
-        if (checkInternet()) {
-            String url = formatUrl("mark_read", null).toString();
-            BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
-            BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
-            BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
-            new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, numberVP);
-        } else {
-            dialog.show();
-        }
+        String url = formatUrl("mark_read", null).toString();
+        BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
+        BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
+        BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
+        new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, numberVP);
     }
 
     /**
@@ -408,17 +381,13 @@ class HttpsConnector {
      * @param newsgroup - the newsgroup to be marked read
      */
     public void markRead(String newsgroup) {
-        if (checkInternet()) {
-            String url = formatUrl("mark_read", null).toString();
-            BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
-            BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
-            try {
-                new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP).get();
-            } catch (InterruptedException ignored) {
-            } catch (ExecutionException ignored) {
-            }
-        } else {
-            dialog.show();
+        String url = formatUrl("mark_read", null).toString();
+        BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
+        BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
+        try {
+            new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP).get();
+        } catch (InterruptedException ignored) {
+        } catch (ExecutionException ignored) {
         }
     }
 
@@ -429,17 +398,12 @@ class HttpsConnector {
      * @param id        - the id of the post
      */
     public void markUnread(String newsgroup, int id) {
-        if (checkInternet()) {
-            String url = formatUrl("mark_read", null).toString();
-            BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
-            BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
-            BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
-            BasicNameValuePair markUnreadVP = new BasicNameValuePair("mark_unread", "");
-
-            new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, numberVP, markUnreadVP);
-        } else {
-            dialog.show();
-        }
+        String url = formatUrl("mark_read", null).toString();
+        BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
+        BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
+        BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
+        BasicNameValuePair markUnreadVP = new BasicNameValuePair("mark_unread", "");
+        new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, numberVP, markUnreadVP);
     }
 
     /**
@@ -449,13 +413,9 @@ class HttpsConnector {
      * @param id        - the id of the post in the given newsgroup
      */
     public void markStarred(String newsgroup, int id) {
-        if (checkInternet()) {
-            String url = formatUrl(newsgroup + "/" + id + "/star", null).toString();
-            BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
-            new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP);
-        } else {
-            dialog.show();
-        }
+        String url = formatUrl(newsgroup + "/" + id + "/star", null).toString();
+        BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
+        new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP);
     }
 
     /**
@@ -466,18 +426,13 @@ class HttpsConnector {
      * @param body      - the body of the post
      */
     public void composePost(String newsgroup, String subject, String body) {
-        if (checkInternet()) {
-            String url = formatUrl("compose", null).toString();
-            BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
-            BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
-            BasicNameValuePair subjectVP = new BasicNameValuePair("subject", subject);
-            BasicNameValuePair bodyVP = new BasicNameValuePair("body", body);
-            BasicNameValuePair stickyVP = new BasicNameValuePair("unstick", "");
-
-            new HttpsPostAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, subjectVP, bodyVP, stickyVP);
-        } else {
-            dialog.show();
-        }
+        String url = formatUrl("compose", null).toString();
+        BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
+        BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
+        BasicNameValuePair subjectVP = new BasicNameValuePair("subject", subject);
+        BasicNameValuePair bodyVP = new BasicNameValuePair("body", body);
+        BasicNameValuePair stickyVP = new BasicNameValuePair("unstick", "");
+        new HttpsPostAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, subjectVP, bodyVP, stickyVP);
     }
 
     /**
@@ -490,20 +445,15 @@ class HttpsConnector {
      * @param parentId        - the ID of the parent
      */
     public void composePost(String newsgroup, String subject, String body, String newsgroupParent, int parentId) {
-        if (checkInternet()) {
-            String url = formatUrl("compose", null).toString();
-            BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
-            BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
-            BasicNameValuePair subjectVP = new BasicNameValuePair("subject", subject);
-            BasicNameValuePair bodyVP = new BasicNameValuePair("body", body);
-            BasicNameValuePair newsgroupParentVP = new BasicNameValuePair("reply_newsgroup", newsgroupParent);
-            BasicNameValuePair idParentVP = new BasicNameValuePair("reply_number", Integer.valueOf(parentId).toString());
-            BasicNameValuePair stickyVP = new BasicNameValuePair("unstick", "");
-            new HttpsPostAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, subjectVP, bodyVP, newsgroupParentVP, idParentVP, stickyVP);
-        } else {
-            dialog.show();
-        }
-
+        String url = formatUrl("compose", null).toString();
+        BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
+        BasicNameValuePair newsgroupVP = new BasicNameValuePair("newsgroup", newsgroup);
+        BasicNameValuePair subjectVP = new BasicNameValuePair("subject", subject);
+        BasicNameValuePair bodyVP = new BasicNameValuePair("body", body);
+        BasicNameValuePair newsgroupParentVP = new BasicNameValuePair("reply_newsgroup", newsgroupParent);
+        BasicNameValuePair idParentVP = new BasicNameValuePair("reply_number", Integer.valueOf(parentId).toString());
+        BasicNameValuePair stickyVP = new BasicNameValuePair("unstick", "");
+        new HttpsPostAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, subjectVP, bodyVP, newsgroupParentVP, idParentVP, stickyVP);
     }
 
     /**

@@ -136,7 +136,12 @@ public class UpdaterService extends IntentService {
             mBuilder.setAutoCancel(true);
 
             Intent resultIntent = new Intent(this, SettingsActivity.class);
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            TaskStackBuilder stackBuilder;
+            try {
+                stackBuilder = TaskStackBuilder.create(this);
+            } catch (Exception e1) {
+                return;
+            }
 
             // Adds the back stack for the Intent (but not the Intent itself)
             stackBuilder.addParentStack(SettingsActivity.class);

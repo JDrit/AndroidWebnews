@@ -44,18 +44,8 @@ public class RecentActivity extends SherlockFragmentActivity implements Activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String layout = sharedPref.getString("layout_pick", "default");
-        if (layout.equals("default")) {
-            setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
-        } else if (layout.equals("dark")) {
-            setTheme(R.style.Theme_Sherlock);
-        } else {
-            setTheme(R.style.Theme_Sherlock_Light);
-        }
-
         super.onCreate(savedInstanceState);
-
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         newsgroupListMenu = new NewsgroupListMenu(this);
 
         newsgroupListMenu.checkEnabled();
