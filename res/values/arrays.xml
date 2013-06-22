@@ -2,9 +2,9 @@
 <resources>
 
     <string-array name="layout_names">
-        <item>Default_layout</item>
-        <item>Light_layout</item>
-        <item>Dark layout</item>
+        <item>Default Layout</item>
+        <item>Light Layout</item>
+        <item>Dark Layout</item>
     </string-array>
     <string-array name="layout_values">
         <item>default</item>
