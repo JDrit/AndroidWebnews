@@ -38,11 +38,11 @@ public class SearchResultsActivity extends SherlockFragmentActivity implements A
     private HttpsConnector hc;
     private SearchResultsFragment sf;
     private TextView tv;
+    private ConnectionExceptionDialog connectionDialog;
 
     @Override
     @SuppressWarnings("unchecked")
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String layout = sharedPref.getString("layout_pick", "default");
         if (layout.equals("default")) {
@@ -52,6 +52,8 @@ public class SearchResultsActivity extends SherlockFragmentActivity implements A
         } else {
             setTheme(R.style.Theme_Sherlock_Light);
         }
+        super.onCreate(savedInstanceState);
+        connectionDialog = new ConnectionExceptionDialog(this);
         setContentView(R.layout.activity_search_results);
         Bundle extras = getIntent().getExtras();
         hc = new HttpsConnector(this);
@@ -63,17 +65,24 @@ public class SearchResultsActivity extends SherlockFragmentActivity implements A
     }
 
     public void update(String jsonString) {
-        ArrayList<String> searchResults = new ArrayList<String>();
-        threads = hc.getSearchFromString(jsonString);
-        for (PostThread thread : threads) {
-            searchResults.add(thread.toString());
-        }
-        if (searchResults.size() == 0) {
-            tv.setText("NO RESULTS");
+        if (jsonString.startsWith("Error:")) { // error in the Async Task
+            connectionDialog.setMessage(jsonString);
+            if (!connectionDialog.isShowing()) {
+                connectionDialog.show();
+            }
         } else {
-            tv.setVisibility(View.GONE);
+            ArrayList<String> searchResults = new ArrayList<String>();
+            threads = hc.getSearchFromString(jsonString);
+            for (PostThread thread : threads) {
+                searchResults.add(thread.toString());
+            }
+            if (searchResults.size() == 0) {
+                tv.setText("NO RESULTS");
+            } else {
+                tv.setVisibility(View.GONE);
+            }
+            sf.update(searchResults);
         }
-        sf.update(searchResults);
     }
 
     public void onSelectThread(int threadPosition) {

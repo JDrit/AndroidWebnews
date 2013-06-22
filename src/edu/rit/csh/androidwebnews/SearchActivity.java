@@ -37,7 +37,6 @@ public class SearchActivity extends SherlockFragmentActivity implements Activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String layout = sharedPref.getString("layout_pick", "default");
         if (layout.equals("default")) {
@@ -47,6 +46,7 @@ public class SearchActivity extends SherlockFragmentActivity implements Activity
         } else {
             setTheme(R.style.Theme_Sherlock_Light);
         }
+        super.onCreate(savedInstanceState);
         DatePicker startDate;
         setContentView(R.layout.activity_search);
         dialog = new InvalidApiKeyDialog(this);

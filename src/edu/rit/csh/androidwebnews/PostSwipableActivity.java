@@ -42,7 +42,6 @@ public class PostSwipableActivity extends SherlockFragmentActivity implements Ac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String layout = sharedPref.getString("layout_pick", "default");
@@ -53,6 +52,7 @@ public class PostSwipableActivity extends SherlockFragmentActivity implements Ac
         } else {
             setTheme(R.style.Theme_Sherlock_Light);
         }
+        super.onCreate(savedInstanceState);
 
         ViewPager mViewPager;
         setContentView(R.layout.activity_post_swipable);
@@ -145,6 +145,12 @@ public class PostSwipableActivity extends SherlockFragmentActivity implements Ac
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.new_post:
+                Intent intent = new Intent(this, ComposeActivity.class);
+                intent.putExtra("NEWSGROUP", newsgroupName);
+                startActivity(intent);
+                return true;
+
             case R.id.menu_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;

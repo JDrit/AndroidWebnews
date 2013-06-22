@@ -47,19 +47,17 @@ import java.util.concurrent.ExecutionException;
 class HttpsConnector {
     private final SharedPreferences sharedPref;
     private Activity activity;
-    private final NoInternetDialog dialog;
     private final Context context;
+    private String noInternet = "Error: No Internet";
 
     public HttpsConnector(Activity activity) {
         this.activity = activity;
         context = activity.getApplicationContext();
-        dialog = new NoInternetDialog(activity);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
     }
 
     public HttpsConnector(Context context) {
         this.context = context;
-        dialog = new NoInternetDialog(context);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -67,7 +65,10 @@ class HttpsConnector {
      * Gets a list of Newsgroup objects that represent the current newsgroup on webnews.
      */
     public void getNewsGroups() {
-        new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("newsgroups", null));
+        if (checkInternet())
+            new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("newsgroups", null));
+        else
+            ((ActivityInterface)activity).update(noInternet);
     }
 
     /**
@@ -97,11 +98,10 @@ class HttpsConnector {
      * Gets the newest threads on webnews to display on the front page
      */
     public void getNewest(boolean bol) {
-        if (checkInternet()) {
+        if (checkInternet())
             new HttpsGetAsyncTask(new WebnewsHttpClient(context), bol, activity).execute(formatUrl("activity", null));
-        } else {
-            dialog.show();
-        }
+
+
     }
 
     /**
@@ -162,7 +162,8 @@ class HttpsConnector {
             //String url = formatUrl(mainUrl + "/" + name + "/index", params);
             new HttpsGetAsyncTask(new WebnewsHttpClient(context), true, activity).execute(formatUrl(name + "/index", params));
         } else {
-            dialog.show();
+            ((ActivityInterface)activity).update(noInternet);
+
         }
     }
 
@@ -176,6 +177,7 @@ class HttpsConnector {
      */
     public void getNewsgroupThreads(String name, int amount, boolean bol) {
         if (checkInternet()) {
+
             if (amount == -1) {
                 amount = 10;
             } else if (amount > 20) {
@@ -187,13 +189,13 @@ class HttpsConnector {
             //String url = formatUrl(mainUrl + "/" + name + "/index", params);
             new HttpsGetAsyncTask(new WebnewsHttpClient(context), bol, activity).execute(formatUrl(name + "/index", params));
         } else {
-            dialog.show();
+            ((ActivityInterface)activity).update(noInternet);
         }
     }
 
     /**
      * Gets the threads for a certain newsgroup past a certain date. This is done
-     * to work around the 20 max thread return of the webnews api. All of the threads
+     * to work around the 20 max thread return of the webnews API. All of the threads
      * contain an ArrayList of their sub-threads
      *
      * @param newsgroup - the newsgroup name
@@ -201,17 +203,20 @@ class HttpsConnector {
      * @param amount    - the amount of threads to return
      */
     public void getNewsgroupThreadsByDate(String newsgroup, String date, int amount) {
-        if (amount == -1) {
-            amount = 10;
-        } else if (amount > 20) {
-            amount = 20;
+        if (checkInternet()) {
+            if (amount == -1) {
+                amount = 10;
+            } else if (amount > 20) {
+                amount = 20;
+            }
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put("limit", Integer.valueOf(amount).toString());
+            params.put("thread_mode", "normal");
+            params.put("from_older", date);
+            new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl(newsgroup + "/index", params));
+        } else {
+            ((ActivityInterface)activity).update(noInternet);
         }
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("limit", Integer.valueOf(amount).toString());
-        params.put("thread_mode", "normal");
-        params.put("from_older", date);
-        new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl(newsgroup + "/index", params));
-
     }
 
     /**
@@ -245,7 +250,7 @@ class HttpsConnector {
         if (checkInternet()) {
             new HttpsGetAsyncTask(new WebnewsHttpClient(context), true, activity).execute(formatUrl("search", params));
         } else {
-            dialog.show();
+            ((ActivityInterface)activity).update(noInternet);
         }
     }
 
@@ -293,7 +298,7 @@ class HttpsConnector {
         if (checkInternet()) {
             new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl(newsgroup + "/" + id, null));
         } else {
-            dialog.show();
+            ((ActivityInterface)activity).update(noInternet);
         }
     }
 
@@ -349,7 +354,10 @@ class HttpsConnector {
     }
 
     public void startUnreadCountTask() {
-        new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("unread_counts", null));
+        if (checkInternet())
+            new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("unread_counts", null));
+        else
+            ((ActivityInterface)activity).update(noInternet);
 
     }
 
@@ -380,7 +388,7 @@ class HttpsConnector {
             } catch (ExecutionException ignored) {
             }
         } else {
-            dialog.show();
+            ((ActivityInterface)activity).update(noInternet);
         }
     }
 
@@ -398,7 +406,7 @@ class HttpsConnector {
             BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
             new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, numberVP);
         } else {
-            dialog.show();
+            ((ActivityInterface)activity).update(noInternet);
         }
     }
 
@@ -418,7 +426,7 @@ class HttpsConnector {
             } catch (ExecutionException ignored) {
             }
         } else {
-            dialog.show();
+            ((ActivityInterface)activity).update(noInternet);
         }
     }
 
@@ -438,7 +446,7 @@ class HttpsConnector {
 
             new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, numberVP, markUnreadVP);
         } else {
-            dialog.show();
+            ((ActivityInterface)activity).update(noInternet);
         }
     }
 
@@ -454,7 +462,7 @@ class HttpsConnector {
             BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
             new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP);
         } else {
-            dialog.show();
+            ((ActivityInterface)activity).update(noInternet);
         }
     }
 
@@ -476,7 +484,7 @@ class HttpsConnector {
 
             new HttpsPostAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, subjectVP, bodyVP, stickyVP);
         } else {
-            dialog.show();
+            ((ActivityInterface)activity).update(noInternet);
         }
     }
 
@@ -501,7 +509,7 @@ class HttpsConnector {
             BasicNameValuePair stickyVP = new BasicNameValuePair("unstick", "");
             new HttpsPostAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, subjectVP, bodyVP, newsgroupParentVP, idParentVP, stickyVP);
         } else {
-            dialog.show();
+            ((ActivityInterface)activity).update(noInternet);
         }
 
     }
@@ -518,7 +526,8 @@ class HttpsConnector {
         //	url += "?";
         //}
         ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("api_key", sharedPref.getString("api_key", "")));
+        //params.add(new BasicNameValuePair("api_key", sharedPref.getString("api_key", "")));
+        params.add(new BasicNameValuePair("api_key", "174f36ef8ddb6329"));
         params.add(new BasicNameValuePair("api_agent", "Android_Webnews"));
         if (addOns != null) {
             for (String key : addOns.keySet()) {
@@ -573,7 +582,8 @@ class HttpsConnector {
      * @return boolean - true if there is internet, false otherwise
      */
     boolean checkInternet() {
-        ConnectivityManager connec = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connec = (ConnectivityManager) activity.getApplicationContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = connec.getActiveNetworkInfo();
         return ni != null && ni.isConnected();
     }

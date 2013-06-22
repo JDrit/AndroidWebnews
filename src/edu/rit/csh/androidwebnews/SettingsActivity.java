@@ -45,12 +45,13 @@ public class SettingsActivity extends PreferenceActivity {
      * as a master/detail two-pane view on tablets. When true, a single pane is
      * shown on tablets.
      */
+    private boolean layoutChanged = false;
 
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
+
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String layout = sharedPref.getString("layout_pick", "default");
         if (layout.equals("default")) {
@@ -60,11 +61,23 @@ public class SettingsActivity extends PreferenceActivity {
         } else {
             setTheme(R.style.Theme_Sherlock_Light);
         }
+        super.onCreate(savedInstanceState);
         //getFragmentManager().beginTransaction().replace(android.R.id.content, webnews_new SettingsFragment()).commit();
         addPreferencesFromResource(R.xml.preferences);
         sharedPref.registerOnSharedPreferenceChangeListener(listener);
     }
 
+
+    public void onPause() {
+        super.onPause();
+        if (layoutChanged) {
+            finish();
+            Intent intent = new Intent(this, RecentActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+    }
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -90,6 +103,9 @@ public class SettingsActivity extends PreferenceActivity {
                 alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), time * 60000, pintent);
             } else {
                 alarm.cancel(pintent);
+            }
+            if (key.equals("layout_pick")) {
+                layoutChanged = true;
             }
         }
     };

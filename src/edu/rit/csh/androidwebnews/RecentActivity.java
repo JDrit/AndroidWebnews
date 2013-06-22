@@ -102,6 +102,19 @@ public class RecentActivity extends SherlockFragmentActivity implements Activity
 
         }
         setTitle("Recent Posts");
+
+        SharedPreferences.OnSharedPreferenceChangeListener spChanged = new
+                SharedPreferences.OnSharedPreferenceChangeListener() {
+                    @Override
+                    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+                        finish();
+                        Intent intent = new Intent(RecentActivity.this, RecentActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                    // your stuff here
+                };
     }
 
 
@@ -133,6 +146,7 @@ public class RecentActivity extends SherlockFragmentActivity implements Activity
             case R.id.menu_about:
                 startActivity(new Intent(this, InfoActivity.class));
                 return true;
+
             case R.id.menu_search:
                 startActivity(new Intent(this, SearchActivity.class));
 
@@ -144,6 +158,11 @@ public class RecentActivity extends SherlockFragmentActivity implements Activity
         return false;
     }
 
+    @Override
+    public boolean onSearchRequested() {
+        startActivity(new Intent(this, SearchActivity.class));
+        return true;
+    }
 
     /**
      * This is called to by the async task when there is an fragment to update.
@@ -157,10 +176,10 @@ public class RecentActivity extends SherlockFragmentActivity implements Activity
     @Override
     public void update(String jsonString) {
         if (jsonString.startsWith("Error:")) { // error in the Async Task
-            Log.d("jd - recentActivity - error", jsonString);
             connectionDialog.setMessage(jsonString);
-            if (!connectionDialog.isShowing())
+            if (!connectionDialog.isShowing()) {
                 connectionDialog.show();
+            }
         } else {
             try {
                 JSONObject obj = new JSONObject(jsonString);
@@ -203,10 +222,13 @@ public class RecentActivity extends SherlockFragmentActivity implements Activity
         startActivity(myIntent);
     }
 
+
     @Override
     public void onRestart() {
         super.onResume();
+
         hc.getNewest(false);
+
         if (!sharedPref.getString("newsgroups_json_string", "").equals("")) {
             newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
             hc.startUnreadCountTask();
@@ -215,6 +237,11 @@ public class RecentActivity extends SherlockFragmentActivity implements Activity
         }
 
         NewsgroupListMenu.menuShown = false;
+        /*finish();
+        Intent intent = new Intent(this, RecentActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);*/
     }
 
     public NewsgroupListMenu getNewsgroupListMenu() {

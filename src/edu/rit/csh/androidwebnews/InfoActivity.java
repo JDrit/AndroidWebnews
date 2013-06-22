@@ -18,7 +18,9 @@
 package edu.rit.csh.androidwebnews;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -32,7 +34,17 @@ public class InfoActivity extends SherlockFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String layout = sharedPref.getString("layout_pick", "default");
+        if (layout.equals("default")) {
+            setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
+        } else if (layout.equals("dark")) {
+            setTheme(R.style.Theme_Sherlock);
+        } else {
+            setTheme(R.style.Theme_Sherlock_Light);
+        }
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_info);
         tv = (TextView) findViewById(R.id.aboutTextView);
         setTitle("Info");

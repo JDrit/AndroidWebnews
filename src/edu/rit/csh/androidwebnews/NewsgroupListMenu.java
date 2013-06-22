@@ -107,11 +107,12 @@ public class NewsgroupListMenu {
         LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         menu = inflater.inflate(R.layout.menu, null);
         FrameLayout.LayoutParams lays = new FrameLayout.LayoutParams(-1, -1, 3);
-        lays.setMargins(0, statusHeight, 0, 0);
+       // lays.setMargins(0, -35, 0, 0);
+
         menu.setLayoutParams(lays);
         parent.addView(menu);
         ListView list = (ListView) act.findViewById(R.id.menu_listview);
-        list.setBackgroundResource(R.drawable.shadow);
+        //list.setBackgroundResource(R.drawable.shadow);
         list.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -135,17 +136,13 @@ public class NewsgroupListMenu {
 
     void fill() {
         ListView list = (ListView) act.findViewById(R.id.menu_listview);
-
-
         list.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapter, View arg1, int position,
                                     long id) {
-                Log.d("MyDebugging", "Clicky!");
                 Newsgroup newsgroup = (Newsgroup) adapter.getItemAtPosition(position);
                 String value = newsgroup.getName();
-                Log.d("MyDebugging", "Newsgroup " + value + " selected");
                 ((ActivityInterface) act).onNewsgroupSelected(value);
                 hide();
             }

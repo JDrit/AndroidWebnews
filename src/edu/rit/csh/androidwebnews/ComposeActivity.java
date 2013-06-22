@@ -45,7 +45,6 @@ public class ComposeActivity extends SherlockFragmentActivity implements Activit
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String layout = sharedPref.getString("layout_pick", "default");
         if (layout.equals("default")) {
@@ -55,7 +54,7 @@ public class ComposeActivity extends SherlockFragmentActivity implements Activit
         } else {
             setTheme(R.style.Theme_Sherlock_Light);
         }
-
+        super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
         hc = new HttpsConnector(this);
         hc.getNewsGroups(); // used for list of newsgroups to look through

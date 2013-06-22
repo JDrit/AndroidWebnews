@@ -41,6 +41,7 @@ public class DisplayThreadsActivity extends SherlockFragmentActivity implements 
     public String newsgroupName;
     private InvalidApiKeyDialog dialog;
     public ArrayList<PostThread> threadsDirectMap;
+    private ConnectionExceptionDialog connectionDialog;
     static public ArrayList<PostThread> lastFetchedThreads;
     private HttpsConnector hc;
     NewsgroupListMenu newsgroupListMenu;
@@ -49,7 +50,6 @@ public class DisplayThreadsActivity extends SherlockFragmentActivity implements 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String layout = sharedPref.getString("layout_pick", "default");
         if (layout.equals("default")) {
@@ -59,12 +59,13 @@ public class DisplayThreadsActivity extends SherlockFragmentActivity implements 
         } else {
             setTheme(R.style.Theme_Sherlock_Light);
         }
+        super.onCreate(savedInstanceState);
         lastFetchedThreads = new ArrayList<PostThread>();
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         hc = new HttpsConnector(this);
         dialog = new InvalidApiKeyDialog(this);
         Bundle extras = getIntent().getExtras();
-
+        connectionDialog = new ConnectionExceptionDialog(this);
         if (extras != null) {
             newsgroupName = extras.getString("SELECTED_NEWSGROUP");
         } else {
@@ -151,49 +152,56 @@ public class DisplayThreadsActivity extends SherlockFragmentActivity implements 
 
     @Override
     public void update(String jsonString) {
-        try {
-            JSONObject obj = new JSONObject(jsonString);
-            if (obj.has("error")) {
-                if (!dialog.isShowing()) {
-                    dialog.show();
-                }
-            } else if (obj.has("posts_older")) {
-                if (hc.getThreadsFromString(jsonString).size() == 0) {
-                    //hitBottom = true;
-                    ((DisplayThreadsFragment) getSupportFragmentManager().
-                            findFragmentById(R.id.threadsfragment)).addThreads(new ArrayList<PostThread>());
-                } else if (!requestedAdditionalThreads) {
-                    ArrayList<PostThread> threads = hc.getThreadsFromString(jsonString);
-                    lastFetchedThreads.clear();
-                    lastFetchedThreads = (ArrayList<PostThread>) threads.clone();
-                    ((DisplayThreadsFragment) getSupportFragmentManager().findFragmentById(R.id.threadsfragment)).
-                            update(threads);
-                } else {
-                    ArrayList<PostThread> newThreads = hc.getThreadsFromString(jsonString);
-                    for (PostThread thread : newThreads)
-                        lastFetchedThreads.add(thread);
-                    ((DisplayThreadsFragment) getSupportFragmentManager().findFragmentById(R.id.threadsfragment)).
-                            addThreads(newThreads);
-                    requestedAdditionalThreads = false;
-                }
-            } else if (obj.has("unread_counts")) {  // unread count
-                int unread = hc.getUnreadCountFromString(jsonString)[0];
-                int groupUnread = 0;
-                for (Newsgroup group : hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", ""))) {
-                    groupUnread += group.unreadCount;
-                }
-                if (unread != groupUnread) {
-                    hc.getNewsGroups();
-                } else {
-                    newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
-                }
-            } else {  // newsgroups
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString("newsgroups_json_string", jsonString);
-                editor.commit();
-                newsgroupListMenu.update(hc.getNewsGroupFromString(jsonString));
+        if (jsonString.startsWith("Error:")) { // error in the Async Task
+            connectionDialog.setMessage(jsonString);
+            if (!connectionDialog.isShowing()) {
+                connectionDialog.show();
             }
-        } catch (JSONException ignored) {
+        } else {
+            try {
+                JSONObject obj = new JSONObject(jsonString);
+                if (obj.has("error")) {
+                    if (!dialog.isShowing()) {
+                        dialog.show();
+                    }
+                } else if (obj.has("posts_older")) {
+                    if (hc.getThreadsFromString(jsonString).size() == 0) {
+                        //hitBottom = true;
+                        ((DisplayThreadsFragment) getSupportFragmentManager().
+                                findFragmentById(R.id.threadsfragment)).addThreads(new ArrayList<PostThread>());
+                    } else if (!requestedAdditionalThreads) {
+                        ArrayList<PostThread> threads = hc.getThreadsFromString(jsonString);
+                        lastFetchedThreads.clear();
+                        lastFetchedThreads = (ArrayList<PostThread>) threads.clone();
+                        ((DisplayThreadsFragment) getSupportFragmentManager().findFragmentById(R.id.threadsfragment)).
+                                update(threads);
+                    } else {
+                        ArrayList<PostThread> newThreads = hc.getThreadsFromString(jsonString);
+                        for (PostThread thread : newThreads)
+                            lastFetchedThreads.add(thread);
+                        ((DisplayThreadsFragment) getSupportFragmentManager().findFragmentById(R.id.threadsfragment)).
+                                addThreads(newThreads);
+                        requestedAdditionalThreads = false;
+                    }
+                } else if (obj.has("unread_counts")) {  // unread count
+                    int unread = hc.getUnreadCountFromString(jsonString)[0];
+                    int groupUnread = 0;
+                    for (Newsgroup group : hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", ""))) {
+                        groupUnread += group.unreadCount;
+                    }
+                    if (unread != groupUnread) {
+                        hc.getNewsGroups();
+                    } else {
+                        newsgroupListMenu.update(hc.getNewsGroupFromString(sharedPref.getString("newsgroups_json_string", "")));
+                    }
+                } else {  // newsgroups
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("newsgroups_json_string", jsonString);
+                    editor.commit();
+                    newsgroupListMenu.update(hc.getNewsGroupFromString(jsonString));
+                }
+            } catch (JSONException ignored) {
+            }
         }
     }
 
