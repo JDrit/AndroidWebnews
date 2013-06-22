@@ -104,6 +104,8 @@ class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
             Log.d("jd - getAsync response", page);
         } catch (ClientProtocolException e) {
             return ("Error: Client Exception while connecting to " + params[0].getHost());
+        } catch (HttpHostConnectException e) {
+            return ("Error: Could not connect to " + params[0].getHost() + ". Mostly likely caused by the server not being up");
         } catch (ConnectTimeoutException e) { // redoes the request if there is a timeout
             Log.d("jd - getAsync Error", e.toString());
             return doInBackground(params[0]);
