@@ -296,7 +296,9 @@ class HttpsConnector {
      */
     public void getPostBody(String newsgroup, int id) {
         if (checkInternet()) {
-            new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl(newsgroup + "/" + id, null));
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put("mark_read", "");
+            new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl(newsgroup + "/" + id, params));
         } else {
             ((ActivityInterface)activity).update(noInternet);
         }
@@ -526,8 +528,7 @@ class HttpsConnector {
         //	url += "?";
         //}
         ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        //params.add(new BasicNameValuePair("api_key", sharedPref.getString("api_key", "")));
-        params.add(new BasicNameValuePair("api_key", "9cc582784be1febd"));
+        params.add(new BasicNameValuePair("api_key", sharedPref.getString("api_key", "")));
         params.add(new BasicNameValuePair("api_agent", "Android_Webnews"));
         if (addOns != null) {
             for (String key : addOns.keySet()) {
