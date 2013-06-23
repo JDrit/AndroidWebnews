@@ -22,8 +22,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="jdk" jdkName="Android 4.2.2" jdkType="Android SDK" />
-    <orderEntry type="module" module-name="actionbarsherlock" exported="" />
-    <orderEntry type="module-library" exported="" scope="PROVIDED">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/libs/android-support-v4.jar!/" />
@@ -33,6 +32,7 @@
       </library>
     </orderEntry>
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="actionbarsherlock" exported="" />
   </component>
 </module>
 

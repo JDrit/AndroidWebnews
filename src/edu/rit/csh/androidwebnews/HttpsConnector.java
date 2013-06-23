@@ -527,7 +527,7 @@ class HttpsConnector {
         //}
         ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
         //params.add(new BasicNameValuePair("api_key", sharedPref.getString("api_key", "")));
-        params.add(new BasicNameValuePair("api_key", "174f36ef8ddb6329"));
+        params.add(new BasicNameValuePair("api_key", "9cc582784be1febd"));
         params.add(new BasicNameValuePair("api_agent", "Android_Webnews"));
         if (addOns != null) {
             for (String key : addOns.keySet()) {

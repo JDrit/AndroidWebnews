@@ -2,5 +2,9 @@
 bin/
 
 bin/
-/gen
-/libs
+gen/
+
+.idea/
+.settings/
+.project
+.classpath
