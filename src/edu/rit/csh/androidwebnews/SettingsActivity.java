@@ -67,7 +67,7 @@ public class SettingsActivity extends PreferenceActivity {
         sharedPref.registerOnSharedPreferenceChangeListener(listener);
     }
 
-
+    @Override
     public void onPause() {
         super.onPause();
         if (layoutChanged) {

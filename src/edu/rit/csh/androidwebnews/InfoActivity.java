@@ -17,20 +17,21 @@
  */
 package edu.rit.csh.androidwebnews;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.View;
-import android.widget.TextView;
+import android.support.v4.app.FragmentTransaction;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 /**
  * The activity used to control the About and License page for the application.
- * It is a TextView and 2 Buttons used to switch the content of the TextView.
  */
 public class InfoActivity extends SherlockFragmentActivity {
-    private TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,16 +47,99 @@ public class InfoActivity extends SherlockFragmentActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_info);
-        tv = (TextView) findViewById(R.id.aboutTextView);
+        //tv = (TextView) findViewById(R.id.aboutTextView);
         setTitle("Info");
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayShowTitleEnabled(false);
+        ActionBar.Tab aboutTab = actionBar.newTab()
+                .setText("About")
+                .setTabListener(new TabListener<InfoAboutFragment>(this, "about",
+                        InfoAboutFragment.class));
+        actionBar.addTab(aboutTab);
+        ActionBar.Tab licenseTab = actionBar.newTab()
+                .setText("License")
+                .setTabListener(new TabListener<InfoLicenseFragment>(this, "License",
+                        InfoLicenseFragment.class));
+        actionBar.addTab(licenseTab);
+
     }
 
-    public void showAbout(View view) {
-        tv.setText(R.string.about_text);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getSupportMenuInflater().inflate(R.menu.info_menu, menu);
+        return true;
     }
 
-    public void showLicense(View view) {
-        tv.setText(R.string.license_text);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.new_post:
+                Intent intent = new Intent(this, ComposeActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.menu_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+
+            case R.id.menu_search:
+                startActivity(new Intent(this, SearchActivity.class));
+                return true;
+        }
+        return false;
     }
 
+    /**
+     * This is the listener for the About and License tabs
+     * @param <T>
+     */
+    private  class TabListener<T extends SherlockFragment> implements ActionBar.TabListener {
+        private SherlockFragment mFragment;
+        private final SherlockFragmentActivity mActivity;
+        private final String mTag;
+        private final Class<T> mClass;
+
+        /** Constructor used each time a new tab is created.
+         * @param activity  The host Activity, used to instantiate the fragment
+         * @param tag  The identifier tag for the fragment
+         * @param clz  The fragment's Class, used to instantiate the fragment
+         */
+        public TabListener(SherlockFragmentActivity activity, String tag, Class<T> clz) {
+            mActivity = activity;
+            mTag = tag;
+            mClass = clz;
+        }
+
+    /* The following are each of the ActionBar.TabListener callbacks */
+
+        @Override
+        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+            // Check if the fragment is already initialized
+            if (mFragment == null) {
+                // If not, instantiate and add it to the activity
+                mFragment = (SherlockFragment) SherlockFragment.instantiate(mActivity, mClass.getName());
+                ft.add(android.R.id.content, mFragment, mTag);
+            } else {
+                // If it exists, simply attach it in order to show it
+                ft.attach(mFragment);
+            }
+        }
+
+        @Override
+        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+            if (mFragment != null) {
+                // Detach the fragment, because another one is being attached
+                ft.detach(mFragment);
+            }
+        }
+
+        @Override
+        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+            // User selected the already selected tab. Usually do nothing.
+        }
+
+    }
 }

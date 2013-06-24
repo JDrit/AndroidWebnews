@@ -98,6 +98,8 @@ public class DisplayThreadsActivity extends SherlockFragmentActivity implements 
     }
 
     public void viewPost(int item) {
+        if (item >= threadsDirectMap.size())
+            return;
         PostThread thread = threadsDirectMap.get(item);
         PostThread selected = thread;
 

@@ -28,7 +28,6 @@ import android.util.Log;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.SubMenu;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,8 +43,16 @@ public class RecentActivity extends SherlockFragmentActivity implements Activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String layout = sharedPref.getString("layout_pick", "default");
+        if (layout.equals("default")) {
+            setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
+        } else if (layout.equals("dark")) {
+            setTheme(R.style.Theme_Sherlock);
+        } else {
+            setTheme(R.style.Theme_Sherlock_Light);
+        }
+        super.onCreate(savedInstanceState);
         newsgroupListMenu = new NewsgroupListMenu(this);
 
         newsgroupListMenu.checkEnabled();
@@ -103,7 +110,6 @@ public class RecentActivity extends SherlockFragmentActivity implements Activity
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }
-                    // your stuff here
                 };
     }
 
