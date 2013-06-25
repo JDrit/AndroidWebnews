@@ -2,6 +2,11 @@
 <!--suppress AndroidLintHardcodedText -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/menu_search"
+          android:title="search"
+          android:icon="@drawable/webnews_search"
+          android:showAsAction="always|collapseActionView"
+          android:actionViewClass="com.actionbarsherlock.widget.SearchView" />
 	<item
         android:showAsAction="always"
         android:id="@+id/new_post"
@@ -35,13 +40,13 @@
         android:icon="@drawable/webnews_allread"
         android:showAsAction="never"
         android:title="Mark All Read"/>
-	
+
 	<item
-        android:id="@+id/menu_search"
+        android:id="@+id/menu_adv_search"
         android:icon="@drawable/webnews_search"
         android:orderInCategory="100"
-        android:showAsAction="ifRoom"
-        android:title="Search"/>
+        android:showAsAction="never"
+        android:title="Adv. Search"/>
 	
 
 </menu>

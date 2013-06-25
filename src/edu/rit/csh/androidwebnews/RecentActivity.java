@@ -19,18 +19,27 @@ package edu.rit.csh.androidwebnews;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SearchRecentSuggestionsProvider;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.SearchRecentSuggestions;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.SearchView;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class RecentActivity extends SherlockFragmentActivity implements ActivityInterface {
     private InvalidApiKeyDialog dialog;
@@ -60,6 +69,7 @@ public class RecentActivity extends SherlockFragmentActivity implements Activity
         dialog = new InvalidApiKeyDialog(this);
         connectionDialog = new ConnectionExceptionDialog(this);
         ftd = new FirstTimeDialog(this);
+
         setContentView(R.layout.activity_recent);
 
         rf = (RecentFragment) getSupportFragmentManager().findFragmentById(R.id.recent_fragment);
@@ -100,17 +110,7 @@ public class RecentActivity extends SherlockFragmentActivity implements Activity
         }
         setTitle("Recent Posts");
 
-        SharedPreferences.OnSharedPreferenceChangeListener spChanged = new
-                SharedPreferences.OnSharedPreferenceChangeListener() {
-                    @Override
-                    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-                        finish();
-                        Intent intent = new Intent(RecentActivity.this, RecentActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }
-                };
+
     }
 
 
@@ -118,6 +118,26 @@ public class RecentActivity extends SherlockFragmentActivity implements Activity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getSupportMenuInflater().inflate(R.menu.displaythreads_menu, menu);
+        // Get the SearchView and set the searchable configuration
+        final SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            public boolean onQueryTextChange(String newText) {
+                return true;
+            }
+
+            public boolean onQueryTextSubmit(String query) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+                Intent intent = new Intent(RecentActivity.this, SearchResultsActivity.class);
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put("keywords", query);
+                intent.putExtra("params", params);
+                startActivity(intent);
+                return true;
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
         return true;
     }
 
@@ -128,37 +148,41 @@ public class RecentActivity extends SherlockFragmentActivity implements Activity
                 Intent myIntent = new Intent(this, ComposeActivity.class);
                 //myIntent.putExtra("NEWSGROUP", newsgroupName);
                 startActivity(myIntent);
-                return true;
+                break;
 
             case R.id.menu_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
-                return true;
+                break;
 
             case R.id.menu_refresh:
                 hc.getNewest(true);
                 hc.getNewsGroups();
-                return true;
+                break;
 
             case R.id.menu_about:
                 startActivity(new Intent(this, InfoActivity.class));
-                return true;
+                break;
 
-            case R.id.menu_search:
+            case R.id.menu_adv_search:
                 startActivity(new Intent(this, SearchActivity.class));
+                break;
 
             case R.id.menu_mark_all_read:
                 hc.markRead();
                 hc.getNewest(false);
                 hc.getNewsGroups();
+                break;
+
+
         }
         return false;
     }
 
-    @Override
     public boolean onSearchRequested() {
         startActivity(new Intent(this, SearchActivity.class));
-        return true;
+        return super.onSearchRequested();
     }
+
 
     /**
      * This is called to by the async task when there is an fragment to update.
@@ -222,7 +246,7 @@ public class RecentActivity extends SherlockFragmentActivity implements Activity
     @Override
     public void onRestart() {
         super.onResume();
-
+        setSupportProgressBarIndeterminateVisibility(Boolean.TRUE);
         hc.getNewest(false);
 
         if (!sharedPref.getString("newsgroups_json_string", "").equals("")) {

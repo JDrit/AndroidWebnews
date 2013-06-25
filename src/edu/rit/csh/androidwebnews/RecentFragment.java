@@ -54,7 +54,6 @@ public class RecentFragment extends SherlockFragment {
             }
 
             lv.setAdapter(listAdapter);
-
         }
 
         listAdapter = new RecentListAdapter<PostThread>(getActivity(), R.layout.rowlayout, new ArrayList<PostThread>());
