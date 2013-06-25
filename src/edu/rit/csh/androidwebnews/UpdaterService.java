@@ -19,7 +19,6 @@ package edu.rit.csh.androidwebnews;
 
 
 import android.app.IntentService;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -69,28 +68,28 @@ public class UpdaterService extends IntentService {
                 editor.putInt("number_of_unread", statuses[0]);
                 editor.commit();
 
-                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-                mBuilder.setContentTitle(getString(R.string.app_name));
-                mBuilder.setSmallIcon(R.drawable.notification_icon);
-                mBuilder.setAutoCancel(true);
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+                builder.setContentTitle(getString(R.string.app_name));
+                builder.setSmallIcon(R.drawable.notification_icon);
+                builder.setAutoCancel(true);
                 if (statuses[2] != 0) {
                     if (statuses[2] == 1) {
-                        mBuilder.setContentText(statuses[2] + " reply to your post");
+                        builder.setContentText(statuses[2] + " reply to your post");
                     } else {
-                        mBuilder.setContentText(statuses[2] + " reply to your posts");
+                        builder.setContentText(statuses[2] + " reply to your posts");
                     }
                 } else if (statuses[1] != 0) {
                     if (statuses[1] == 1) {
-                        mBuilder.setContentText(statuses[1] + " unread post in your thread");
+                        builder.setContentText(statuses[1] + " unread post in your thread");
                     } else {
-                        mBuilder.setContentText(statuses[1] + " unread posts in your thread");
+                        builder.setContentText(statuses[1] + " unread posts in your thread");
                     }
 
                 } else {
                     if (statuses[0] == 1) {
-                        mBuilder.setContentText(statuses[0] + " unread post");
+                        builder.setContentText(statuses[0] + " unread post");
                     } else {
-                        mBuilder.setContentText(statuses[0] + " unread posts");
+                        builder.setContentText(statuses[0] + " unread posts");
                     }
                 }
 
@@ -117,17 +116,28 @@ public class UpdaterService extends IntentService {
 
                 // notification is selected
 
-                android.support.v4.app.TaskStackBuilder stackBuilder = android.support.v4.app.TaskStackBuilder.create(this);
+              /*  TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+
 
                 // Adds the back stack for the Intent (but not the Intent itself)
                 stackBuilder.addParentStack(SettingsActivity.class);
                 // Adds the Intent that starts the Activity to the top of the stack
                 stackBuilder.addNextIntent(resultIntent);
                 PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-                mBuilder.setContentIntent(resultPendingIntent);
+                builder.setContentIntent(resultPendingIntent);
                 NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 // mId allows you to update the notification later on.
-                mNotificationManager.notify(0, mBuilder.build());
+                mNotificationManager.notify(0, builder.build()); */
+
+
+                Intent notificationIntent = new Intent(this, RecentActivity.class);
+                PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+                builder.setContentIntent(contentIntent);
+
+                // Add as notification
+                NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                manager.notify(0, builder.build());
 
             } else if (statuses[0] == 0) { // if all post have been read
                   /* if a user reads all the posts, the notification is removed */

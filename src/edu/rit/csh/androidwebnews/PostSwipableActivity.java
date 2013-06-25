@@ -17,19 +17,25 @@
  */
 package edu.rit.csh.androidwebnews;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.SearchView;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class PostSwipableActivity extends SherlockFragmentActivity implements ActivityInterface {
     private InvalidApiKeyDialog dialog;
@@ -139,6 +145,26 @@ public class PostSwipableActivity extends SherlockFragmentActivity implements Ac
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getSupportMenuInflater().inflate(R.menu.postswipable_menu, menu);
+        // Get the SearchView and set the searchable configuration
+        final SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            public boolean onQueryTextChange(String newText) {
+                return true;
+            }
+
+            public boolean onQueryTextSubmit(String query) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+                Intent intent = new Intent(PostSwipableActivity.this, SearchResultsActivity.class);
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put("keywords", query);
+                intent.putExtra("params", params);
+                startActivity(intent);
+                return true;
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
         return true;
     }
 
@@ -146,24 +172,44 @@ public class PostSwipableActivity extends SherlockFragmentActivity implements Ac
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.new_post:
-                Intent intent = new Intent(this, ComposeActivity.class);
-                intent.putExtra("NEWSGROUP", newsgroupName);
-                startActivity(intent);
-                return true;
+                Intent myIntent = new Intent(this, ComposeActivity.class);
+                //myIntent.putExtra("NEWSGROUP", newsgroupName);
+                startActivity(myIntent);
+                break;
 
             case R.id.menu_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
-                return true;
+                break;
+
+            case R.id.menu_refresh:
+                hc.getNewest(true);
+                hc.getNewsGroups();
+                break;
 
             case R.id.menu_about:
                 startActivity(new Intent(this, InfoActivity.class));
-                return true;
+                break;
 
-            case R.id.menu_search:
+            case R.id.menu_adv_search:
                 startActivity(new Intent(this, SearchActivity.class));
-                return true;
+                break;
+
+            case R.id.menu_mark_all_read:
+                hc.markRead();
+                hc.getNewest(false);
+                hc.getNewsGroups();
+                break;
+
+
         }
         return false;
+    }
+
+
+    @Override
+    public boolean onSearchRequested() {
+        startActivity(new Intent(this, SearchActivity.class));
+        return super.onSearchRequested();
     }
 
     @Override

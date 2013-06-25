@@ -178,6 +178,7 @@ public class RecentActivity extends SherlockFragmentActivity implements Activity
         return false;
     }
 
+    @Override
     public boolean onSearchRequested() {
         startActivity(new Intent(this, SearchActivity.class));
         return super.onSearchRequested();
