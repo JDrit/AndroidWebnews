@@ -17,23 +17,16 @@
  */
 package edu.rit.csh.androidwebnews;
 
-import android.app.SearchManager;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.SearchRecentSuggestions;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SearchResultsActivity extends SherlockFragmentActivity implements ActivityInterface {
+public class SearchResultsActivity extends BaseActivity {
 
     private ArrayList<PostThread> threads;
     public static PostThread rootThread;
@@ -45,15 +38,6 @@ public class SearchResultsActivity extends SherlockFragmentActivity implements A
     @Override
     @SuppressWarnings("unchecked")
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String layout = sharedPref.getString("layout_pick", "default");
-        if (layout.equals("default")) {
-            setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
-        } else if (layout.equals("dark")) {
-            setTheme(R.style.Theme_Sherlock);
-        } else {
-            setTheme(R.style.Theme_Sherlock_Light);
-        }
         super.onCreate(savedInstanceState);
         connectionDialog = new ConnectionExceptionDialog(this);
         setContentView(R.layout.activity_search_results);
@@ -94,7 +78,7 @@ public class SearchResultsActivity extends SherlockFragmentActivity implements A
             rootThread.addChild(threads.get(e));
         }
 
-        Intent intent = new Intent(this, PostSwipableActivity.class);
+        Intent intent = new Intent(this, PostSwipeableActivity.class);
         intent.putExtra("SELECTED_NEWSGROUP", rootThread.getNewsgroup());
         intent.putExtra("SELECTED_ID", rootThread.getNumber());
         intent.putExtra("GOTO_THIS", threadPosition);

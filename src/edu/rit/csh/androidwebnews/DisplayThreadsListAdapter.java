@@ -91,12 +91,12 @@ class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
             }
 
             if (thread.getStarred()) {
-                ((ImageView) convertView.findViewById(R.id.starImage)).setImageResource(R.drawable.starred);
+                ((ImageView) convertView.findViewById(R.id.starImage)).setImageResource(R.drawable.webnews_star);
                 tv.setPadding(75, 0, 90, 0);
             }
 
 	        /*if(!thread.sticky.equals("null"))
-	        	convertView.setBackgroundColor(0xfffff9b7);
+                convertView.setBackgroundColor(0xfffff9b7);
 	        else*/
             if (thread.getPersonal_class().equals("mine"))
                 convertView.setBackgroundColor(0xffb7ffb9);

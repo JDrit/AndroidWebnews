@@ -19,53 +19,36 @@ package edu.rit.csh.androidwebnews;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SearchRecentSuggestionsProvider;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.SearchRecentSuggestions;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
-
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class RecentActivity extends SherlockFragmentActivity implements ActivityInterface {
+public class RecentActivity extends BaseActivity {
     private InvalidApiKeyDialog dialog;
     private ConnectionExceptionDialog connectionDialog;
     private RecentFragment rf;
-    private HttpsConnector hc;
     private NewsgroupListMenu newsgroupListMenu;
-    private SharedPreferences sharedPref;
     private FirstTimeDialog ftd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String layout = sharedPref.getString("layout_pick", "default");
-        if (layout.equals("default")) {
-            setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
-        } else if (layout.equals("dark")) {
-            setTheme(R.style.Theme_Sherlock);
-        } else {
-            setTheme(R.style.Theme_Sherlock_Light);
-        }
         super.onCreate(savedInstanceState);
         newsgroupListMenu = new NewsgroupListMenu(this);
 
         newsgroupListMenu.checkEnabled();
-        hc = new HttpsConnector(this);
+
         dialog = new InvalidApiKeyDialog(this);
         connectionDialog = new ConnectionExceptionDialog(this);
         ftd = new FirstTimeDialog(this);
@@ -127,7 +110,7 @@ public class RecentActivity extends SherlockFragmentActivity implements Activity
             }
 
             public boolean onQueryTextSubmit(String query) {
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
                 Intent intent = new Intent(RecentActivity.this, SearchResultsActivity.class);
                 HashMap<String, String> params = new HashMap<String, String>();

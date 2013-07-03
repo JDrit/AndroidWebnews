@@ -17,21 +17,19 @@
  */
 package edu.rit.csh.androidwebnews;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import java.util.ArrayList;
 
-public class ComposeActivity extends SherlockFragmentActivity implements ActivityInterface {
+public class ComposeActivity extends BaseActivity {
     private String subject;
     private String body;
     private String newsgroup;
@@ -40,23 +38,12 @@ public class ComposeActivity extends SherlockFragmentActivity implements Activit
     private EditText bodyText;
     private Spinner spinner;
     private ArrayAdapter<String> listAdapter;
-    private HttpsConnector hc;
     private InvalidApiKeyDialog dialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String layout = sharedPref.getString("layout_pick", "default");
-        if (layout.equals("default")) {
-            setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
-        } else if (layout.equals("dark")) {
-            setTheme(R.style.Theme_Sherlock);
-        } else {
-            setTheme(R.style.Theme_Sherlock_Light);
-        }
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
-        hc = new HttpsConnector(this);
         hc.getNewsGroups(); // used for list of newsgroups to look through
 
         if (extras != null) {

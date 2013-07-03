@@ -48,7 +48,7 @@ class HttpsConnector {
     private final SharedPreferences sharedPref;
     private Activity activity;
     private final Context context;
-    private String noInternet = "Error: No Internet";
+    private final String noInternet = "Error: No Internet";
 
     public HttpsConnector(Activity activity) {
         this.activity = activity;
@@ -68,7 +68,7 @@ class HttpsConnector {
         if (checkInternet())
             new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("newsgroups", null));
         else
-            ((ActivityInterface)activity).update(noInternet);
+            ((BaseActivity) activity).shouldUpdate(noInternet);
     }
 
     /**
@@ -162,7 +162,7 @@ class HttpsConnector {
             //String url = formatUrl(mainUrl + "/" + name + "/index", params);
             new HttpsGetAsyncTask(new WebnewsHttpClient(context), true, activity).execute(formatUrl(name + "/index", params));
         } else {
-            ((ActivityInterface)activity).update(noInternet);
+            ((BaseActivity) activity).shouldUpdate(noInternet);
 
         }
     }
@@ -189,7 +189,7 @@ class HttpsConnector {
             //String url = formatUrl(mainUrl + "/" + name + "/index", params);
             new HttpsGetAsyncTask(new WebnewsHttpClient(context), bol, activity).execute(formatUrl(name + "/index", params));
         } else {
-            ((ActivityInterface)activity).update(noInternet);
+            ((BaseActivity) activity).shouldUpdate(noInternet);
         }
     }
 
@@ -215,7 +215,7 @@ class HttpsConnector {
             params.put("from_older", date);
             new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl(newsgroup + "/index", params));
         } else {
-            ((ActivityInterface)activity).update(noInternet);
+            ((BaseActivity) activity).shouldUpdate(noInternet);
         }
     }
 
@@ -250,7 +250,7 @@ class HttpsConnector {
         if (checkInternet()) {
             new HttpsGetAsyncTask(new WebnewsHttpClient(context), true, activity).execute(formatUrl("search", params));
         } else {
-            ((ActivityInterface)activity).update(noInternet);
+            ((BaseActivity) activity).update(noInternet);
         }
     }
 
@@ -300,7 +300,7 @@ class HttpsConnector {
             params.put("mark_read", "");
             new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl(newsgroup + "/" + id, params));
         } else {
-            ((ActivityInterface)activity).update(noInternet);
+            ((BaseActivity) activity).shouldUpdate(noInternet);
         }
     }
 
@@ -359,7 +359,7 @@ class HttpsConnector {
         if (checkInternet())
             new HttpsGetAsyncTask(new WebnewsHttpClient(context), false, activity).execute(formatUrl("unread_counts", null));
         else
-            ((ActivityInterface)activity).update(noInternet);
+            ((BaseActivity) activity).shouldUpdate(noInternet);
 
     }
 
@@ -390,7 +390,7 @@ class HttpsConnector {
             } catch (ExecutionException ignored) {
             }
         } else {
-            ((ActivityInterface)activity).update(noInternet);
+            ((BaseActivity) activity).shouldUpdate(noInternet);
         }
     }
 
@@ -408,7 +408,7 @@ class HttpsConnector {
             BasicNameValuePair numberVP = new BasicNameValuePair("number", Integer.valueOf(id).toString());
             new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, numberVP);
         } else {
-            ((ActivityInterface)activity).update(noInternet);
+            ((BaseActivity) activity).shouldUpdate(noInternet);
         }
     }
 
@@ -428,7 +428,7 @@ class HttpsConnector {
             } catch (ExecutionException ignored) {
             }
         } else {
-            ((ActivityInterface)activity).update(noInternet);
+            ((BaseActivity) activity).shouldUpdate(noInternet);
         }
     }
 
@@ -448,7 +448,7 @@ class HttpsConnector {
 
             new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, numberVP, markUnreadVP);
         } else {
-            ((ActivityInterface)activity).update(noInternet);
+            ((BaseActivity) activity).shouldUpdate(noInternet);
         }
     }
 
@@ -464,7 +464,7 @@ class HttpsConnector {
             BasicNameValuePair urlVP = new BasicNameValuePair("url", url);
             new HttpsPutAsyncTask(new WebnewsHttpClient(context)).execute(urlVP);
         } else {
-            ((ActivityInterface)activity).update(noInternet);
+            ((BaseActivity) activity).shouldUpdate(noInternet);
         }
     }
 
@@ -486,7 +486,7 @@ class HttpsConnector {
 
             new HttpsPostAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, subjectVP, bodyVP, stickyVP);
         } else {
-            ((ActivityInterface)activity).update(noInternet);
+            ((BaseActivity) activity).shouldUpdate(noInternet);
         }
     }
 
@@ -511,7 +511,7 @@ class HttpsConnector {
             BasicNameValuePair stickyVP = new BasicNameValuePair("unstick", "");
             new HttpsPostAsyncTask(new WebnewsHttpClient(context)).execute(urlVP, newsgroupVP, subjectVP, bodyVP, newsgroupParentVP, idParentVP, stickyVP);
         } else {
-            ((ActivityInterface)activity).update(noInternet);
+            ((BaseActivity) activity).shouldUpdate(noInternet);
         }
 
     }

@@ -43,7 +43,7 @@ class PostFragmentAdapter<T> extends ArrayAdapter<T> {
 
             ImageButton ib = (ImageButton) convertView.findViewById(R.id.starButton);
             if (super.getItem(getCount()).equals("true"))
-                ib.setImageResource(R.drawable.starred);
+                ib.setImageResource(R.drawable.webnews_star);
 
             convertView.setPadding(10, 10, 10, 10);
             convertView.findViewById(R.id.replyButton).setTag(getItem(0) + "|" + getItem(5));

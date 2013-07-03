@@ -104,7 +104,6 @@ public class UpdaterService extends IntentService {
                 }
 
                 // Creates an explicit intent for an Activity in your app
-                Intent resultIntent = new Intent(this, RecentActivity.class);
 
                 /*
                 The stack builder object will contain an artificial back stack for the
@@ -112,24 +111,8 @@ public class UpdaterService extends IntentService {
                 This ensures that navigating backward from the Activity leads out of
                 your application to the Home screen.
                 */
-                // Prepare intent which is triggered if the
 
                 // notification is selected
-
-              /*  TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-
-
-                // Adds the back stack for the Intent (but not the Intent itself)
-                stackBuilder.addParentStack(SettingsActivity.class);
-                // Adds the Intent that starts the Activity to the top of the stack
-                stackBuilder.addNextIntent(resultIntent);
-                PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-                builder.setContentIntent(resultPendingIntent);
-                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                // mId allows you to update the notification later on.
-                mNotificationManager.notify(0, builder.build()); */
-
-
                 Intent notificationIntent = new Intent(this, RecentActivity.class);
                 PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT);

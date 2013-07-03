@@ -24,7 +24,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
+
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.SearchView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,38 +35,22 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.SearchView;
-
 
 /**
  * This is used to display all the threads from a particular newsgroup
  */
-public class DisplayThreadsActivity extends SherlockFragmentActivity implements ActivityInterface {
+public class DisplayThreadsActivity extends BaseActivity {
 
     public String newsgroupName;
     private InvalidApiKeyDialog dialog;
     public ArrayList<PostThread> threadsDirectMap;
     private ConnectionExceptionDialog connectionDialog;
     static public ArrayList<PostThread> lastFetchedThreads;
-    private HttpsConnector hc;
     NewsgroupListMenu newsgroupListMenu;
     public boolean requestedAdditionalThreads = false;
-    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String layout = sharedPref.getString("layout_pick", "default");
-        if (layout.equals("default")) {
-            setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
-        } else if (layout.equals("dark")) {
-            setTheme(R.style.Theme_Sherlock);
-        } else {
-            setTheme(R.style.Theme_Sherlock_Light);
-        }
         super.onCreate(savedInstanceState);
         lastFetchedThreads = new ArrayList<PostThread>();
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -108,7 +95,7 @@ public class DisplayThreadsActivity extends SherlockFragmentActivity implements 
             }
 
             public boolean onQueryTextSubmit(String query) {
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
                 Intent intent = new Intent(DisplayThreadsActivity.this, SearchResultsActivity.class);
                 HashMap<String, String> params = new HashMap<String, String>();
@@ -131,7 +118,7 @@ public class DisplayThreadsActivity extends SherlockFragmentActivity implements 
         while (thread.getParent() != null)
             thread = thread.getParent();
 
-        Intent intent = new Intent(this, PostSwipableActivity.class);
+        Intent intent = new Intent(this, PostSwipeableActivity.class);
         intent.putExtra("SELECTED_NEWSGROUP", thread.getNewsgroup());
         intent.putExtra("SELECTED_ID", thread.getNumber());
         intent.putExtra("GOTO_THIS", threadsDirectMap.indexOf(selected) - threadsDirectMap.indexOf(thread));
@@ -248,10 +235,9 @@ public class DisplayThreadsActivity extends SherlockFragmentActivity implements 
         }
     }
 
-
     @Override
     public void onRestart() { // throwing issue when we try to call any hc.get..., need to fix for updating newsgroups
-        super.onResume();
+        onResume();
         hc.startUnreadCountTask();
         hc.getNewsgroupThreads(newsgroupName, 20, false);
     }

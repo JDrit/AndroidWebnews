@@ -124,7 +124,7 @@ class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
         }
 
         if (activity != null)
-            ((ActivityInterface) activity).update(s);
+            ((BaseActivity) activity).shouldUpdate(s);
 
     }
 

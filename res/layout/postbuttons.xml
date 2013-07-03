@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:text="Post Reply"
+        android:drawableLeft="@drawable/webnews_reply"
         android:onClick="postReply" />
     <Button
         android:id="@+id/unreadButton"
@@ -18,13 +19,14 @@
         android:layout_gravity="right"
         android:focusable="false"
         android:text="Mark Unread"
-        android:onClick="markUnread" />
+        android:onClick="markUnread"
+        android:drawableLeft="@drawable/webnews_unread"/>
 	<ImageButton
         android:id="@+id/starButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:focusable="false"
-        android:src="@drawable/unstarred"
+        android:src="@drawable/webnews_unstar"
         android:onClick="markStarred" />
 </LinearLayout>

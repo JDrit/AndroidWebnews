@@ -18,7 +18,6 @@
 package edu.rit.csh.androidwebnews;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -78,16 +77,12 @@ class HttpsPutAsyncTask extends AsyncTask<BasicNameValuePair, Integer, String> {
                 sb.append(line).append(NL);
             }
             in.close();
-            String page = sb.toString();
-            Log.d("newdebug", " : " + page);
-            return page;
+            return sb.toString();
 
         } catch (ClientProtocolException e) {
             e.printStackTrace();
-            Log.d("newdebug", e.toString());
         } catch (IOException e) {
             e.printStackTrace();
-            Log.d("newdebug", e.toString());
         }
         return "";
     }

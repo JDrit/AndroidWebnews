@@ -32,7 +32,7 @@ class PostPagerAdapter extends FragmentStatePagerAdapter {
 
     public PostPagerAdapter(FragmentManager fm, boolean fromSearch) {
         super(fm);
-        int id = PostSwipableActivity.id;
+        int id = PostSwipeableActivity.id;
         if (!fromSearch) {
             for (int x = 0; x < DisplayThreadsActivity.lastFetchedThreads.size(); x++) {
                 if (DisplayThreadsActivity.lastFetchedThreads.get(x).getNumber() == id)

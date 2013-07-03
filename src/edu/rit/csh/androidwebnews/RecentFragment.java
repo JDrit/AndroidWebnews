@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,7 +71,7 @@ public class RecentFragment extends SherlockFragment {
                 while (thread.getParent() != null)
                     thread = thread.getParent();
 
-                Intent intent = new Intent(getActivity(), PostSwipableActivity.class);
+                Intent intent = new Intent(getActivity(), PostSwipeableActivity.class);
                 intent.putExtra("SELECTED_NEWSGROUP", thread.getNewsgroup());
                 intent.putExtra("SELECTED_ID", thread.getNumber());
                 //intent.putExtra("GOTO_THIS", threadsDirectMap.indexOf(selected) - threadsDirectMap.indexOf(thread));

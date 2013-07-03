@@ -45,9 +45,6 @@ class WebnewsListView extends ListView implements OnGestureListener {
     }
 
 
-
-
-
     /**
      * If our gesture scanner has used the MotionEvent,
      * return true. Otherwise return false.

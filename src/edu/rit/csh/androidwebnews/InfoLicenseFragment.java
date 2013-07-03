@@ -14,10 +14,6 @@ import com.actionbarsherlock.app.SherlockFragment;
  */
 public class InfoLicenseFragment extends SherlockFragment {
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ScrollView scrollView = new ScrollView(getSherlockActivity());

@@ -18,34 +18,19 @@
 package edu.rit.csh.androidwebnews;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.DatePicker;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SearchActivity extends SherlockFragmentActivity implements ActivityInterface {
-    private HttpsConnector hc;
+public class SearchActivity extends BaseActivity {
     private SearchFragment sf;
     private InvalidApiKeyDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String layout = sharedPref.getString("layout_pick", "default");
-        if (layout.equals("default")) {
-            setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
-        } else if (layout.equals("dark")) {
-            setTheme(R.style.Theme_Sherlock);
-        } else {
-            setTheme(R.style.Theme_Sherlock_Light);
-        }
         super.onCreate(savedInstanceState);
         DatePicker startDate;
         setContentView(R.layout.activity_search);

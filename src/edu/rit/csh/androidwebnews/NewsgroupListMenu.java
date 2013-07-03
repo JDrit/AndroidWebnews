@@ -21,7 +21,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -107,7 +106,7 @@ public class NewsgroupListMenu {
         LayoutInflater inflater = (LayoutInflater) act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         menu = inflater.inflate(R.layout.menu, null);
         FrameLayout.LayoutParams lays = new FrameLayout.LayoutParams(-1, -1, 3);
-       // lays.setMargins(0, -35, 0, 0);
+        // lays.setMargins(0, -35, 0, 0);
 
         menu.setLayoutParams(lays);
         parent.addView(menu);
@@ -143,7 +142,7 @@ public class NewsgroupListMenu {
                                     long id) {
                 Newsgroup newsgroup = (Newsgroup) adapter.getItemAtPosition(position);
                 String value = newsgroup.getName();
-                ((ActivityInterface) act).onNewsgroupSelected(value);
+                ((BaseActivity) act).onNewsgroupSelected(value);
                 hide();
             }
 

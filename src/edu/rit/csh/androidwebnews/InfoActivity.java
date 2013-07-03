@@ -19,9 +19,7 @@ package edu.rit.csh.androidwebnews;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.inputmethod.InputMethodManager;
 
@@ -37,20 +35,10 @@ import java.util.HashMap;
 /**
  * The activity used to control the About and License page for the application.
  */
-public class InfoActivity extends SherlockFragmentActivity {
+public class InfoActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTitle("Info");
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String layout = sharedPref.getString("layout_pick", "default");
-        if (layout.equals("default")) {
-            setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
-        } else if (layout.equals("dark")) {
-            setTheme(R.style.Theme_Sherlock);
-        } else {
-            setTheme(R.style.Theme_Sherlock_Light);
-        }
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_info);
@@ -70,7 +58,7 @@ public class InfoActivity extends SherlockFragmentActivity {
                 .setTabListener(new TabListener<InfoLicenseFragment>(this, "License",
                         InfoLicenseFragment.class));
         actionBar.addTab(licenseTab);
-
+        setTitle("Info");
     }
 
     @Override
@@ -86,7 +74,7 @@ public class InfoActivity extends SherlockFragmentActivity {
             }
 
             public boolean onQueryTextSubmit(String query) {
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
                 Intent intent = new Intent(InfoActivity.this, SearchResultsActivity.class);
                 HashMap<String, String> params = new HashMap<String, String>();
@@ -123,20 +111,30 @@ public class InfoActivity extends SherlockFragmentActivity {
         startActivity(new Intent(this, SearchActivity.class));
         return super.onSearchRequested();
     }
+
+    @Override
+    public void update(String jsonString) { }
+
+    @Override
+    public void onNewsgroupSelected(String newsgroupName) { }
+
     /**
      * This is the listener for the About and License tabs
+     *
      * @param <T>
      */
-    private  class TabListener<T extends SherlockFragment> implements ActionBar.TabListener {
+    private class TabListener<T extends SherlockFragment> implements ActionBar.TabListener {
         private SherlockFragment mFragment;
         private final SherlockFragmentActivity mActivity;
         private final String mTag;
         private final Class<T> mClass;
 
-        /** Constructor used each time a new tab is created.
-         * @param activity  The host Activity, used to instantiate the fragment
-         * @param tag  The identifier tag for the fragment
-         * @param clz  The fragment's Class, used to instantiate the fragment
+        /**
+         * Constructor used each time a new tab is created.
+         *
+         * @param activity The host Activity, used to instantiate the fragment
+         * @param tag      The identifier tag for the fragment
+         * @param clz      The fragment's Class, used to instantiate the fragment
          */
         public TabListener(SherlockFragmentActivity activity, String tag, Class<T> clz) {
             mActivity = activity;

@@ -38,7 +38,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: xerces:xmlParserAPIs:2.6.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: xpp3:xpp3:1.1.4c" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.json:json:20080701" level="project" />
-    <orderEntry type="library" name="Maven: com.google.android:support-v4:r7" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.10" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.easytesting:fest-assert-core:2.0M10" level="project" />
@@ -75,6 +74,15 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.maven.wagon:wagon-http-shared:1.0-beta-6" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: nekohtml:xercesMinimal:1.9.6.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: nekohtml:nekohtml:1.9.6.2" level="project" />
+    <orderEntry type="module-library" scope="PROVIDED">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../android-support-v4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 
