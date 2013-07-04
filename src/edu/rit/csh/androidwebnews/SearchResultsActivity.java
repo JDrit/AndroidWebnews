@@ -28,7 +28,7 @@ import java.util.HashMap;
 
 public class SearchResultsActivity extends BaseActivity {
 
-    private ArrayList<PostThread> threads;
+    public static ArrayList<PostThread> threads;
     public static PostThread rootThread;
     private HttpsConnector hc;
     private SearchResultsFragment sf;

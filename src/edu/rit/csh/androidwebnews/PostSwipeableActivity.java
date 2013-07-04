@@ -41,6 +41,7 @@ public class PostSwipeableActivity extends BaseActivity {
     static int id;
     private PostPagerAdapter ppa;
     private PostThread rootThread;
+    private boolean fromSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class PostSwipeableActivity extends BaseActivity {
         newsgroupName = extras.getString("SELECTED_NEWSGROUP");
         id = extras.getInt("SELECTED_ID");
         int selected_id = extras.getInt("GOTO_THIS");
-        boolean fromSearch = extras.getBoolean("SEARCH_RESULTS");
+        fromSearch = extras.getBoolean("SEARCH_RESULTS");
 
         ppa = new PostPagerAdapter(getSupportFragmentManager(), fromSearch);
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -62,9 +63,12 @@ public class PostSwipeableActivity extends BaseActivity {
         dialog = new InvalidApiKeyDialog(this);
         mViewPager.setCurrentItem(selected_id);
 
-        for (int x = 0; x < DisplayThreadsActivity.lastFetchedThreads.size(); x++) {
-            if (DisplayThreadsActivity.lastFetchedThreads.get(x).getNumber() == id) {
-                rootThread = DisplayThreadsActivity.lastFetchedThreads.get(x);
+        if (!fromSearch) {
+            for (int x = 0; x < DisplayThreadsActivity.lastFetchedThreads.size(); x++) {
+                if (DisplayThreadsActivity.lastFetchedThreads.get(x).getNumber() == id) {
+                    rootThread = DisplayThreadsActivity.lastFetchedThreads.get(x);
+                    break;
+                }
             }
         }
     }
@@ -78,6 +82,7 @@ public class PostSwipeableActivity extends BaseActivity {
 
     public void markStarred(View view) {
         int threadId = Integer.parseInt((String) view.getTag());
+
         PostThread thread = findThisThread(rootThread, threadId);
         thread.starred();
         ImageButton ib = (ImageButton) view;
@@ -92,14 +97,22 @@ public class PostSwipeableActivity extends BaseActivity {
     }
 
     private PostThread findThisThread(PostThread thread, int id) {
-        if (thread.getNumber() == id)
-            return thread;
-        else
-            for (PostThread t : thread.getChildren()) {
-                PostThread returnValue = findThisThread(t, id);
-                if (returnValue != null)
-                    return returnValue;
+        if (fromSearch) {
+            for (PostThread p : SearchResultsActivity.threads) {
+                if (p.getNumber() == id) {
+                    return p;
+                }
             }
+        } else {
+            if (thread.getNumber() == id)
+                return thread;
+            else
+                for (PostThread t : thread.getChildren()) {
+                    PostThread returnValue = findThisThread(t, id);
+                    if (returnValue != null)
+                        return returnValue;
+                }
+        }
         return null;
     }
 
