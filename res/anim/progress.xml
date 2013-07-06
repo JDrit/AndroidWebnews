@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/webnews_info" android:duration="150" />
+    <item android:drawable="@drawable/webnews_allread" android:duration="150" />
+    <item android:drawable="@drawable/webnews_icon" android:duration="150" />
+    <item android:drawable="@drawable/webnews_logo" android:duration="150" />
+    <item android:drawable="@drawable/webnews_compose" android:duration="150" />
+</animation-list>

@@ -16,6 +16,7 @@
 	        android:layout_height="wrap_content"
 	        android:focusable="false"
 	        android:focusableInTouchMode="false"
+            android:drawableLeft="@drawable/webnews_delete"
 	        android:text="Abandon"
 	        android:textSize="20sp"
 	        android:onClick="abandon" />
@@ -25,6 +26,7 @@
 	        android:layout_height="wrap_content"
 	        android:focusable="false"
 	        android:focusableInTouchMode="false"
+            android:drawableRight="@drawable/webnews_send"
 	        android:text="Submit"
 	        android:textSize="20sp"
 	        android:onClick="submit" />

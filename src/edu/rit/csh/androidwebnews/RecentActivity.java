@@ -22,6 +22,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Shader;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
@@ -41,6 +47,9 @@ public class RecentActivity extends BaseActivity {
     private RecentFragment rf;
     private NewsgroupListMenu newsgroupListMenu;
     private FirstTimeDialog ftd;
+    boolean running;
+    int progress;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +101,6 @@ public class RecentActivity extends BaseActivity {
 
         }
         setTitle("Recent Posts");
-
-
     }
 
 

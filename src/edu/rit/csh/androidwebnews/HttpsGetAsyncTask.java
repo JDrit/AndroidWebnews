@@ -36,8 +36,11 @@ import java.net.URI;
 /**
  * The asynchronous task used to do the GET requests. Displays a progress bar
  * while the task is running, if told to
+ * URI: the URI that is formatted to give the WebNews request, This will be sent to the server to
+ * get the given information
+ * Integer:
  */
-class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
+class HttpsGetAsyncTask extends AsyncTask<URI, Void, String> {
     private final WebnewsHttpClient httpclient;
     private final Activity activity;
     private final boolean showProgress;
@@ -62,6 +65,7 @@ class HttpsGetAsyncTask extends AsyncTask<URI, Integer, String> {
 
         if (showProgress) {
             p = new ProgressDialog(activity);
+            p.setIndeterminateDrawable(activity.getResources().getDrawable(R.anim.progress));
             p.setTitle("Fetching Info");
             p.setMessage("Contacting Server...");
             p.setCancelable(false);

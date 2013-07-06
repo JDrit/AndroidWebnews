@@ -72,7 +72,7 @@ public class MenuInflater {
     /**
      * Constructs a menu inflater.
      *
-     * @see Activity#getMenuInflater()
+     * @see android.app.Activity#getMenuInflater()
      */
     public MenuInflater(Context context) {
         mContext = context;
@@ -84,7 +84,7 @@ public class MenuInflater {
     /**
      * Constructs a menu inflater.
      *
-     * @see Activity#getMenuInflater()
+     * @see android.app.Activity#getMenuInflater()
      * @hide
      */
     public MenuInflater(Context context, Object realOwner) {
