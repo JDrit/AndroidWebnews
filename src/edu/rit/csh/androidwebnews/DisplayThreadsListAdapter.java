@@ -19,6 +19,7 @@ package edu.rit.csh.androidwebnews;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -74,10 +75,25 @@ class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
             }
 
             if (position + 1 < super.getCount() && thread.getChildren().size() > 0) {
-                if (isRoot && getItem(position + 1).equals(thread.getChildren().get(0)))
-                    ((ImageView) convertView.findViewById(R.id.imageView1)).setImageResource(R.drawable.uparrow);
-                else if (isRoot)
-                    ((ImageView) convertView.findViewById(R.id.imageView1)).setImageResource(R.drawable.downarrow);
+                if (isRoot && getItem(position + 1).equals(thread.getChildren().get(0))) {
+                    if (PreferenceManager.getDefaultSharedPreferences(context)
+                            .getString("layout_pick", "default").equals("dark")) {
+                        ((ImageView) convertView.findViewById(R.id.imageView1))
+                                .setImageResource(R.drawable.webnews_collapse_dark);
+                    } else {
+                        ((ImageView) convertView.findViewById(R.id.imageView1))
+                                .setImageResource(R.drawable.webnews_collapse_light);
+                    }
+                } else if (isRoot) {
+                    if (PreferenceManager.getDefaultSharedPreferences(context)
+                            .getString("layout_pick", "default").equals("dark")) {
+                        ((ImageView) convertView.findViewById(R.id.imageView1))
+                                .setImageResource(R.drawable.webnews_expand_dark);
+                    } else {
+                        ((ImageView) convertView.findViewById(R.id.imageView1))
+                                .setImageResource(R.drawable.webnews_expand_light);
+                    }
+                }
             }
             String text = thread.toString();
 
