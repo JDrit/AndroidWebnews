@@ -44,8 +44,6 @@ public class InfoActivity extends BaseActivity {
         setContentView(R.layout.activity_info);
         //tv = (TextView) findViewById(R.id.aboutTextView);
 
-
-        ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayShowTitleEnabled(false);
         ActionBar.Tab aboutTab = actionBar.newTab()
@@ -104,7 +102,7 @@ public class InfoActivity extends BaseActivity {
                 startActivity(new Intent(this, SearchActivity.class));
                 return true;
         }
-        return false;
+        return super.onOptionsItemSelected(item);
     }
 
     public boolean onSearchRequested() {

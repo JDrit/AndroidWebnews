@@ -174,34 +174,32 @@ public class PostSwipeableActivity extends BaseActivity {
                 Intent myIntent = new Intent(this, ComposeActivity.class);
                 //myIntent.putExtra("NEWSGROUP", newsgroupName);
                 startActivity(myIntent);
-                break;
+                return true;
 
             case R.id.menu_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
-                break;
+                return true;
 
             case R.id.menu_refresh:
                 hc.getNewest(true);
                 hc.getNewsGroups();
-                break;
+                return true;
 
             case R.id.menu_about:
                 startActivity(new Intent(this, InfoActivity.class));
-                break;
+                return true;
 
             case R.id.menu_adv_search:
                 startActivity(new Intent(this, SearchActivity.class));
-                break;
+                return true;
 
             case R.id.menu_mark_all_read:
                 hc.markRead();
                 hc.getNewest(false);
                 hc.getNewsGroups();
-                break;
-
-
+                return true;
         }
-        return false;
+        return super.onOptionsItemSelected(item);
     }
 
 

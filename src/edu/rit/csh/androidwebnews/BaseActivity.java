@@ -17,11 +17,14 @@
  */
 package edu.rit.csh.androidwebnews;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 /**
  * This is an abstract class that is used to keep track of if the activity is in the foreground
@@ -32,6 +35,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 public abstract class BaseActivity extends SherlockFragmentActivity {
     protected SharedPreferences sharedPref;
     protected HttpsConnector hc;
+    protected ActionBar actionBar;
 
     /**
      * This is used to determine if the activity is currently in the foreground. This is needed so
@@ -51,6 +55,10 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
             setTheme(R.style.Theme_Sherlock_Light);
         }
         super.onCreate(savedInstanceState);
+        actionBar = getSupportActionBar();
+        if (!(this instanceof RecentActivity)) {
+            actionBar.setHomeButtonEnabled(true);
+        }
 
         hc = new HttpsConnector(this);
         active = true;
@@ -77,6 +85,18 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
         if (active) {
             update(jsonString);
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                Intent intent = new Intent(this, RecentActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
