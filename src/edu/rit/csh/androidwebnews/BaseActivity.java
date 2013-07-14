@@ -21,9 +21,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.KeyEvent;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 /**
@@ -36,6 +39,8 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
     protected SharedPreferences sharedPref;
     protected HttpsConnector hc;
     protected ActionBar actionBar;
+    private Menu menu;
+    protected String layout;
 
     /**
      * This is used to determine if the activity is currently in the foreground. This is needed so
@@ -46,7 +51,7 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String layout = sharedPref.getString("layout_pick", "default");
+        layout = sharedPref.getString("layout_pick", "default");
         if (layout.equals("default")) {
             setTheme(R.style.Theme_Sherlock_Light_DarkActionBar);
         } else if (layout.equals("dark")) {
@@ -56,12 +61,38 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
         }
         super.onCreate(savedInstanceState);
         actionBar = getSupportActionBar();
-        if (!(this instanceof RecentActivity)) {
+        //if (!(this instanceof RecentActivity)) {
             actionBar.setHomeButtonEnabled(true);
-        }
+        //}
 
         hc = new HttpsConnector(this);
         active = true;
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            if(menu.findItem(R.id.sub_meu) != null) {
+                menu.performIdentifierAction(R.id.sub_meu, 0);
+                return true;
+            }
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    /**
+     * This is done so that the activity has a reference to the menu being used so that the submenu
+     * can be opened by the hardware menu button
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        if (menu.findItem(R.id.sub_meu) != null && layout.equals("light")) {
+            menu.findItem(R.id.sub_meu).setIcon(R.drawable.abs__ic_menu_moreoverflow_holo_light);
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -90,11 +121,15 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // app icon in action bar clicked; go home
-                Intent intent = new Intent(this, RecentActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                return true;
+                if (this instanceof RecentActivity) {
+                    ((RecentActivity) this).getNewsgroupListMenu().show();
+                } else {
+                    // app icon in action bar clicked; go home
+                    Intent intent = new Intent(this, RecentActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    return true;
+                }
         }
         return super.onOptionsItemSelected(item);
     }

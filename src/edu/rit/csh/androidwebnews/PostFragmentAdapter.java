@@ -18,20 +18,23 @@
 package edu.rit.csh.androidwebnews;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.List;
 
 class PostFragmentAdapter<T> extends ArrayAdapter<T> {
-
+    private Context context;
     public PostFragmentAdapter(Context context, int textViewResourceId,
                                List<T> objects) {
         super(context, textViewResourceId, objects);
+        this.context = context;
     }
 
     @Override
@@ -40,10 +43,25 @@ class PostFragmentAdapter<T> extends ArrayAdapter<T> {
             LayoutInflater infalInflater = (LayoutInflater) getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.postbuttons, null);
-
             ImageButton ib = (ImageButton) convertView.findViewById(R.id.starButton);
-            if (super.getItem(getCount()).equals("true"))
-                ib.setImageResource(R.drawable.webnews_star);
+            /* changes the buttons if the dark theme is being used */
+            if (PreferenceManager.getDefaultSharedPreferences(context).getString("layout_pick", "default").equals("dark")) {
+                ((Button) convertView.findViewById(R.id.unreadButton)).setCompoundDrawablesWithIntrinsicBounds(
+                        context.getResources().getDrawable(R.drawable.webnews_unread_dark),
+                        null, null, null);
+                ((Button) convertView.findViewById(R.id.replyButton)).setCompoundDrawablesWithIntrinsicBounds(
+                        context.getResources().getDrawable(R.drawable.webnews_reply_dark),
+                        null, null, null);
+                if (super.getItem(getCount()).equals("true")) {
+                    ib.setImageResource(R.drawable.webnews_star_dark);
+                } else {
+                    ib.setImageResource(R.drawable.webnews_unstar_dark);
+                }
+            } else {
+
+                if (super.getItem(getCount()).equals("true"))
+                 ib.setImageResource(R.drawable.webnews_star_light);
+            }
 
             convertView.setPadding(10, 10, 10, 10);
             convertView.findViewById(R.id.replyButton).setTag(getItem(0) + "|" + getItem(5));

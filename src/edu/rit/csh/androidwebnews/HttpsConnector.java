@@ -528,7 +528,7 @@ class HttpsConnector {
         //	url += "?";
         //}
         ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("api_key", "56f75075e246f30a"));//sharedPref.getString("api_key", "")));
+        params.add(new BasicNameValuePair("api_key", sharedPref.getString("api_key", "")));
         params.add(new BasicNameValuePair("api_agent", "Android_Webnews"));
         if (addOns != null) {
             for (String key : addOns.keySet()) {
@@ -583,9 +583,9 @@ class HttpsConnector {
      * @return boolean - true if there is internet, false otherwise
      */
     boolean checkInternet() {
-        ConnectivityManager connec = (ConnectivityManager) activity.getApplicationContext()
+        ConnectivityManager connect = (ConnectivityManager) activity.getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = connec.getActiveNetworkInfo();
+        NetworkInfo ni = connect.getActiveNetworkInfo();
         return ni != null && ni.isConnected();
     }
 }

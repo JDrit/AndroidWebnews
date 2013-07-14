@@ -118,7 +118,7 @@ public class RecentActivity extends BaseActivity {
 
             public boolean onQueryTextSubmit(String query) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+            //    imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
                 Intent intent = new Intent(RecentActivity.this, SearchResultsActivity.class);
                 HashMap<String, String> params = new HashMap<String, String>();
                 params.put("keywords", query);
@@ -128,7 +128,7 @@ public class RecentActivity extends BaseActivity {
             }
         };
         searchView.setOnQueryTextListener(queryTextListener);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -136,7 +136,6 @@ public class RecentActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.new_post:
                 Intent myIntent = new Intent(this, ComposeActivity.class);
-                //myIntent.putExtra("NEWSGROUP", newsgroupName);
                 startActivity(myIntent);
                 return true;
 
@@ -165,7 +164,7 @@ public class RecentActivity extends BaseActivity {
 
 
         }
-        return false;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

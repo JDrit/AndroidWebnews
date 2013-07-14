@@ -64,7 +64,6 @@ public class SettingsActivity extends SherlockPreferenceActivity {
             setTheme(R.style.Theme_Sherlock_Light);
         }
         super.onCreate(savedInstanceState);
-        //getFragmentManager().beginTransaction().replace(android.R.id.content, webnews_new SettingsFragment()).commit();
         addPreferencesFromResource(R.xml.preferences);
         sharedPref.registerOnSharedPreferenceChangeListener(listener);
     }

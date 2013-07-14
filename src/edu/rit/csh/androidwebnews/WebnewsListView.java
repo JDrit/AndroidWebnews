@@ -67,7 +67,6 @@ class WebnewsListView extends ListView implements OnGestureListener {
     @Override
     public boolean onFling(MotionEvent start, MotionEvent finish, float velocityX,
                            float velocityY) {
-        Log.d("MyDebugging", "onFling() called!");
         if (start != null && finish != null) {
             int scaledVelocity = (int) (velocityX / (densityDpi / 160f));
             float distanceX = Math.abs(start.getX() - finish.getX());

@@ -107,7 +107,11 @@ class DisplayThreadsListAdapter<T> extends ArrayAdapter<T> {
             }
 
             if (thread.getStarred()) {
-                ((ImageView) convertView.findViewById(R.id.starImage)).setImageResource(R.drawable.webnews_star);
+                if (PreferenceManager.getDefaultSharedPreferences(getContext()).getString("layout_pick", "default").equals("dark")) {
+                    ((ImageView) convertView.findViewById(R.id.starImage)).setImageResource(R.drawable.webnews_star_dark);
+                } else {
+                    ((ImageView) convertView.findViewById(R.id.starImage)).setImageResource(R.drawable.webnews_star_light);
+                }
                 tv.setPadding(75, 0, 90, 0);
             }
 

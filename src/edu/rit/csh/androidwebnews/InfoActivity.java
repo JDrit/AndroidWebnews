@@ -83,7 +83,7 @@ public class InfoActivity extends BaseActivity {
             }
         };
         searchView.setOnQueryTextListener(queryTextListener);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

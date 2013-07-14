@@ -20,6 +20,7 @@ package edu.rit.csh.androidwebnews;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -87,10 +88,18 @@ public class PostSwipeableActivity extends BaseActivity {
         thread.starred();
         ImageButton ib = (ImageButton) view;
         if (thread.getStarred()) {
-            ib.setImageResource(R.drawable.webnews_star);
+            if (PreferenceManager.getDefaultSharedPreferences(this).getString("layout_pick", "default").equals("dark")) {
+                ib.setImageResource(R.drawable.webnews_star_dark);
+            } else {
+                ib.setImageResource(R.drawable.webnews_star_light);
+            }
             Toast.makeText(getApplicationContext(), "Post starred", Toast.LENGTH_LONG).show();
         } else {
-            ib.setImageResource(R.drawable.webnews_unstar);
+            if (PreferenceManager.getDefaultSharedPreferences(this).getString("layout_pick", "default").equals("dark")) {
+                ib.setImageResource(R.drawable.webnews_unstar_dark);
+            } else {
+                ib.setImageResource(R.drawable.webnews_unstar_light);
+            }
             Toast.makeText(getApplicationContext(), "Post un-starred", Toast.LENGTH_LONG).show();
         }
         hc.markStarred(newsgroupName, threadId);
@@ -164,7 +173,7 @@ public class PostSwipeableActivity extends BaseActivity {
             }
         };
         searchView.setOnQueryTextListener(queryTextListener);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -172,7 +181,7 @@ public class PostSwipeableActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.new_post:
                 Intent myIntent = new Intent(this, ComposeActivity.class);
-                //myIntent.putExtra("NEWSGROUP", newsgroupName);
+                myIntent.putExtra("NEWSGROUP", newsgroupName);
                 startActivity(myIntent);
                 return true;
 

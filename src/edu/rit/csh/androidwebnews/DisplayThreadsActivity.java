@@ -106,7 +106,7 @@ public class DisplayThreadsActivity extends BaseActivity {
             }
         };
         searchView.setOnQueryTextListener(queryTextListener);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     public void viewPost(int item) {
@@ -132,7 +132,7 @@ public class DisplayThreadsActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.new_post:
                 Intent myIntent = new Intent(this, ComposeActivity.class);
-                //myIntent.putExtra("NEWSGROUP", newsgroupName);
+                myIntent.putExtra("NEWSGROUP", newsgroupName);
                 startActivity(myIntent);
                 return true;
 
@@ -153,7 +153,7 @@ public class DisplayThreadsActivity extends BaseActivity {
                 startActivity(new Intent(this, SearchActivity.class));
                 return true;
 
-            case R.id.menu_mark_all_read:
+           case R.id.menu_mark_all_read:
                 hc.markRead();
                 hc.getNewest(false);
                 hc.getNewsGroups();
