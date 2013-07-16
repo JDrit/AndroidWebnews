@@ -31,8 +31,8 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="actionbarsherlock" exported="" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="actionbarsherlock" exported="" />
   </component>
 </module>
 

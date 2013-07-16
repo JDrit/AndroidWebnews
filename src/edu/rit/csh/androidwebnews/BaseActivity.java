@@ -89,8 +89,8 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
-        if (menu.findItem(R.id.sub_meu) != null && layout.equals("light")) {
-            menu.findItem(R.id.sub_meu).setIcon(R.drawable.abs__ic_menu_moreoverflow_holo_light);
+        if (menu.findItem(R.id.sub_meu) != null && layout.equals("default") || layout.equals("dark")) {
+            menu.findItem(R.id.sub_meu).setIcon(R.drawable.menu_overflow_dark);
         }
         return super.onCreateOptionsMenu(menu);
     }

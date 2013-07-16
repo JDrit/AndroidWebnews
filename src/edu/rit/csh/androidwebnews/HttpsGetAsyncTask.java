@@ -60,6 +60,10 @@ class HttpsGetAsyncTask extends AsyncTask<URI, Void, String> {
         this.showProgress = showProgress;
     }
 
+    /**
+     * This is called before the actual network task is done. This starts the progress dialog
+     * with the custom animation if it is specified.
+     */
     protected void onPreExecute() {
         super.onPreExecute();
 
@@ -88,12 +92,9 @@ class HttpsGetAsyncTask extends AsyncTask<URI, Void, String> {
         HttpGet request;
 
         try {
-
             request = new HttpGet(params[0]);
             request.addHeader("accept", "application/json");
-
             response = httpclient.execute(request);
-
             in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
             StringBuilder sb = new StringBuilder("");
