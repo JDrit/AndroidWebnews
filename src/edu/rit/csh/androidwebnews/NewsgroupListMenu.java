@@ -131,7 +131,11 @@ public class NewsgroupListMenu {
                 NewsgroupListMenu.this.hide();
             }
         });
-        enableDisableViewGroup((LinearLayout) parent.findViewById(android.R.id.content).getParent(), false);
+        if (parent.findViewById(R.id.recent_fragment) != null) {
+            enableDisableViewGroup((LinearLayout) parent.findViewById(R.id.recent_fragment).getParent(), false);
+        } else {
+            enableDisableViewGroup((LinearLayout) parent.findViewById(R.id.threadsfragment).getParent(), false);
+        }
         //((ExtendedViewPager) act.findViewById(R.id.viewpager)).setPagingEnabled(false);
         //((ExtendedPagerTabStrip) act.findViewById(R.id.viewpager_tabs)).setNavEnabled(false);
         menuShown = true;
@@ -168,7 +172,11 @@ public class NewsgroupListMenu {
         FrameLayout.LayoutParams parm = (FrameLayout.LayoutParams) content.getLayoutParams();
         parm.setMargins(0, 0, 0, 0);
         content.setLayoutParams(parm);
-        enableDisableViewGroup((LinearLayout) parent.findViewById(android.R.id.content).getParent(), true);
+        if (parent.findViewById(R.id.recent_fragment) != null) {
+            enableDisableViewGroup((LinearLayout) parent.findViewById(R.id.recent_fragment).getParent(), true);
+        } else {
+            enableDisableViewGroup((LinearLayout) parent.findViewById(R.id.threadsfragment).getParent(), true);
+        }
         //((ExtendedViewPager) act.findViewById(R.id.viewpager)).setPagingEnabled(true);
         //((ExtendedPagerTabStrip) act.findViewById(R.id.viewpager_tabs)).setNavEnabled(true);
         menuShown = false;
