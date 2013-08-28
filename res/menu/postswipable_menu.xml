@@ -15,7 +15,7 @@
 
     <item
         android:id="@+id/sub_meu"
-        android:icon="@drawable/abs__ic_menu_moreoverflow_holo_dark"
+        android:icon="@drawable/menu_overflow_light"
         android:showAsAction="always"
         android:title="More">
 

@@ -91,7 +91,12 @@ public class NewsgroupListMenu {
 
     void show(boolean animate) {
         menuSize = dpToPx(250, act);
-        content = ((LinearLayout) act.findViewById(android.R.id.content).getParent());
+
+        if (act.findViewById(R.id.recent_fragment) == null) {
+            content = ((LinearLayout) act.findViewById(R.id.threadsfragment).getParent());
+        } else {
+            content = ((LinearLayout) act.findViewById(R.id.recent_fragment).getParent());
+        }
         FrameLayout.LayoutParams parm = (FrameLayout.LayoutParams) content.getLayoutParams();
         parm.gravity = Gravity.TOP;
         statusHeight = 0;

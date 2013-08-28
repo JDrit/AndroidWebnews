@@ -41,7 +41,6 @@ public class PostFragment extends SherlockFragment {
     private int total = 0;
 
     public PostFragment(PostThread thread, int me, int total) {
-        super();
         myThread = thread;
         this.me = me;
         this.total = total;
