@@ -41,6 +41,7 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
     protected ActionBar actionBar;
     private Menu menu;
     protected String layout;
+    private boolean newsGroupListShowing;
 
     /**
      * This is used to determine if the activity is currently in the foreground. This is needed so
@@ -67,6 +68,7 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
 
         hc = new HttpsConnector(this);
         active = true;
+        newsGroupListShowing = false;
     }
 
     @Override
@@ -122,7 +124,11 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 if (this instanceof RecentActivity) {
-                    ((RecentActivity) this).getNewsgroupListMenu().show();
+                    if (!newsGroupListShowing)
+                        ((RecentActivity) this).getNewsgroupListMenu().show();
+                    else
+                        ((RecentActivity) this).getNewsgroupListMenu().hide();
+                    newsGroupListShowing = !newsGroupListShowing;
                 } else {
                     // app icon in action bar clicked; go home
                     Intent intent = new Intent(this, RecentActivity.class);
