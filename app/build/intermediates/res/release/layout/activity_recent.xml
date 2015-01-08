@@ -1,0 +1,16 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ProgressWheel="http://schemas.android.com/apk/res/edu.rit.csh.androidwebnews"
+    android:name="edu.rit.csh.androidwebnews.RecentFragment"
+	android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+
+    <fragment android:name="edu.rit.csh.androidwebnews.RecentFragment"
+        android:id="@+id/recent_fragment"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dip" />
+
+</LinearLayout><!-- From: file:/home/jd/Android%20studioProjects/AndroidWebnews/app/src/main/res/layout/activity_recent.xml -->

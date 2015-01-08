@@ -1,0 +1,43 @@
+<!--suppress AndroidLintHardcodedText -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:id="@+id/menu_search"
+          android:title="search"
+          android:icon="@drawable/webnews_search"
+          android:showAsAction="always|collapseActionView"
+          android:actionViewClass="com.actionbarsherlock.widget.SearchView" />
+
+    <item
+        android:showAsAction="always"
+        android:id="@+id/new_post"
+        android:title="New Post"
+        android:icon="@drawable/webnews_compose" />
+
+    <item
+        android:id="@+id/sub_meu"
+        android:icon="@drawable/menu_overflow_light"
+        android:showAsAction="always"
+        android:title="More">
+
+        <menu>
+            <item
+                android:id="@+id/menu_settings"
+                android:icon="@drawable/webnews_settings"
+                android:orderInCategory="100"
+                android:showAsAction="never"
+                android:title="Settings"/>
+            <item
+                android:id="@+id/menu_adv_search"
+                android:icon="@drawable/webnews_search"
+                android:orderInCategory="100"
+                android:showAsAction="never"
+                android:title="Adv. Search"/>
+            <item
+                android:id="@+id/menu_about"
+                android:icon="@drawable/webnews_info"
+                android:orderInCategory="100"
+                android:showAsAction="never"
+                android:title="About"/>
+        </menu>
+    </item>
+</menu><!-- From: file:/home/jd/Android%20studioProjects/AndroidWebnews/app/src/main/res/menu/postswipable_menu.xml -->

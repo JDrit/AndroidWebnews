@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="4" by="lint 24.0.2">
+
+    <issue
+        id="ResAuto"
+        severity="Fatal"
+        message="In Gradle projects, always use `http://schemas.android.com/apk/res-auto` for custom attributes"
+        category="Correctness"
+        priority="9"
+        summary="Hardcoded Package in Namespace"
+        explanation="In Gradle projects, the actual package used in the final APK can vary; for you can add a `.debug` package suffix in one version and not the other. Therefore, you should *not* hardcode the application package in the resource; instead, use the special namespace `http://schemas.android.com/apk/res-auto` which will cause the tools to figure out the right namespace for the resource regardless of the actual package used during the build."
+        errorLine1="    xmlns:ProgressWheel=&quot;http://schemas.android.com/apk/res/edu.rit.csh.androidwebnews&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="studio">
+        <location
+            file="/home/jd/Android studioProjects/AndroidWebnews/app/src/main/res/layout/activity_recent.xml"
+            line="3"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="Instantiatable"
+        severity="Fatal"
+        message="This class should provide a default constructor (a public constructor with no arguments) (edu.rit.csh.androidwebnews.PostFragment)"
+        category="Correctness"
+        priority="6"
+        summary="Registered class is not instantiatable"
+        explanation="Activities, services, broadcast receivers etc. registered in the manifest file must be &quot;instantiatable&quot; by the system, which means that the class must be public, it must have an empty public constructor, and if it&apos;s an inner class, it must be a static inner class."
+        errorLine1="    public PostFragment(PostThread thread, int me, int total) {"
+        errorLine2="           ~~~~~~~~~~~~">
+        <location
+            file="/home/jd/Android studioProjects/AndroidWebnews/app/src/main/java/edu/rit/csh/androidwebnews/PostFragment.java"
+            line="43"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="ValidFragment"
+        severity="Fatal"
+        message="This fragment should provide a default constructor (a public constructor with no arguments) (`edu.rit.csh.androidwebnews.PostFragment`)"
+        category="Correctness"
+        priority="6"
+        summary="Fragment not instantiatable"
+        explanation="From the Fragment documentation:
+*Every* fragment must have an empty constructor, so it can be instantiated when restoring its activity&apos;s state. It is strongly recommended that subclasses do not have other constructors with parameters, since these constructors will not be called when the fragment is re-instantiated; instead, arguments can be supplied by the caller with `setArguments(Bundle)` and later retrieved by the Fragment with `getArguments()`."
+        url="http://developer.android.com/reference/android/app/Fragment.html#Fragment()"
+        urls="http://developer.android.com/reference/android/app/Fragment.html#Fragment()"
+        errorLine1="public class PostFragment extends SherlockFragment {"
+        errorLine2="             ~~~~~~~~~~~~">
+        <location
+            file="/home/jd/Android studioProjects/AndroidWebnews/app/src/main/java/edu/rit/csh/androidwebnews/PostFragment.java"
+            line="33"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ValidFragment"
+        severity="Fatal"
+        message="Avoid non-default constructors in fragments: use a default constructor plus `Fragment#setArguments(Bundle)` instead"
+        category="Correctness"
+        priority="6"
+        summary="Fragment not instantiatable"
+        explanation="From the Fragment documentation:
+*Every* fragment must have an empty constructor, so it can be instantiated when restoring its activity&apos;s state. It is strongly recommended that subclasses do not have other constructors with parameters, since these constructors will not be called when the fragment is re-instantiated; instead, arguments can be supplied by the caller with `setArguments(Bundle)` and later retrieved by the Fragment with `getArguments()`."
+        url="http://developer.android.com/reference/android/app/Fragment.html#Fragment()"
+        urls="http://developer.android.com/reference/android/app/Fragment.html#Fragment()"
+        errorLine1="    public PostFragment(PostThread thread, int me, int total) {"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/home/jd/Android studioProjects/AndroidWebnews/app/src/main/java/edu/rit/csh/androidwebnews/PostFragment.java"
+            line="43"
+            column="12"/>
+    </issue>
+
+</issues>

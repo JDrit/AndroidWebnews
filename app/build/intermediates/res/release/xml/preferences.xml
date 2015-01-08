@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <EditTextPreference
+   	    android:key="api_key"
+   	    android:title="API Key"
+   	    android:summary="The user's API key used to contact WebNews"
+   	    android:defaultValue=""
+   	    android:password="true" />
+    
+    <CheckBoxPreference
+        android:key="run_service"
+        android:title="Run background service"
+        android:summary="Have the application check WebNews in the background for new posts"
+        android:defaultValue="true" />
+    
+    <CheckBoxPreference
+        android:key="vibrate_service"
+        android:title="Vibrate on Notification"
+        android:summary="Have the application vibrate when there is a new post"
+        android:defaultValue="true" />
+
+    <CheckBoxPreference
+        android:key="ring_service"
+        android:title="Ring on Notification"
+        android:summary="Have the application ring when there is a new post"
+        android:defaultValue="false" />
+	
+    <EditTextPreference
+        android:key="time_between_checks"
+        android:title="Minutes Between Checks"
+        android:summary="The time, in minutes, between checks for new posts"
+        android:inputType="number"
+        android:numeric="integer"
+        android:maxLength="3"
+         />
+
+    <ListPreference
+        android:key="layout_pick"
+        android:title="Layout"
+        android:summary="Pick what style of layout you want"
+        android:entries="@array/layout_names"
+        android:entryValues="@array/layout_values"
+        android:defaultValue="default"
+        />
+
+
+</PreferenceScreen><!-- From: file:/home/jd/Android%20studioProjects/AndroidWebnews/app/src/main/res/xml/preferences.xml -->
