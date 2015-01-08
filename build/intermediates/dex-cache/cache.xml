@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="/Users/ahanes/AndroidStudioProjects/AndroidWebnews3/app/build/intermediates/pre-dexed/debug/classes-04cbb71deebe71097253cbba9307ff78bc76e16a.jar"
+        jar="/Users/ahanes/AndroidStudioProjects/AndroidWebnews3/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="686344a780033e4ba22b926cd225f8d4941247e6"/>
+    <item
+        dex="/Users/ahanes/AndroidStudioProjects/AndroidWebnews3/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.0-ee576f91b45a6538d4156fc6e674b6f65034f74e.jar"
+        jar="/Applications/Android Studio.app/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.0/support-annotations-21.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="1a578b9607b36266c63d43a4fa0ab5664dbe911e"/>
+    <item
+        dex="/Users/ahanes/AndroidStudioProjects/AndroidWebnews3/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.0-e50c4bafa2fc2fb4cb5e1b680968db759369d4c8.jar"
+        jar="/Users/ahanes/AndroidStudioProjects/AndroidWebnews3/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/libs/internal_impl-21.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="1609e6d42d0480b0f4188e2c29f75388fa12a8f0"/>
+    <item
+        dex="/Users/ahanes/AndroidStudioProjects/AndroidWebnews3/app/build/intermediates/pre-dexed/debug/classes-698ec1f928cdcf6bdbc033e49b7cc433451d7dc8.jar"
+        jar="/Users/ahanes/AndroidStudioProjects/AndroidWebnews3/app/build/intermediates/exploded-aar/com.actionbarsherlock/actionbarsherlock/4.4.0/classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="af64527b748983a75de9c0756e9768b56b240a49"/>
+
+</pre-dex-items>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CSH News</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_post">PostActivity</string>
+    <string name="reply">Reply</string>
+    <string name="api_key">time_between_checktime_between_checktime_between_checktime_between_checktime_between_check</string>
+    <string name="time_between_check">timeBetweenCheck</string>
+    <string name="background_sync">backgroundSync</string>
+    <string name="preference_file_key">preferencefile</string>
+    <string name="title_section3">Section 3</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_activity_info">InfoActivity</string>
+    <string name="title_activity_info_activity1">InfoActivity1</string>
+    <string name="about_text">CSH News\n\nAuthors: jd@csh.rit.edu and Derek Gonyeo (dgonyeo@csh.rit.edu)\nSource code: http://www.github.com/JDrit/AndroidWebnews\n\nThis is a Computer Science House (C.S.H.) application to view Webnews via Android. This application relies on the Webnews API to work. Users are identified via their API key, to obtain your API key, go to the settings page in Webnews. At the bottom of the page will be your API key. Type the key into settings to authenticate yourself.</string>
+    <string name="license_text">See the NOTICE file\ndistributed with this work for additional information\nregarding copyright ownership.  This code is licensed to you under the Apache License, Version 2.0 (the\n"License"); you may not use this code except in compliance\nwith the License.  You may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing,\nsoftware distributed under the License is distributed on an\n"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY\nKIND, either express or implied.  See the License for the\nspecific language governing permissions and limitations\nunder the License.</string>
+    <string name="title_activity_post_swipable">CSH News</string>
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="title_activity_recent">RecentActivity</string>
+    <string name="title_activity_newsgroupslist">NewsgroupListActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_search_results">SearchResultsActivity</string>
+    <string name="activity_recent_text">Recent Activity</string>
+</resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress AndroidLintHardcodedText -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/menu_search"
+          android:title="search"
+          android:icon="@drawable/webnews_search"
+          android:showAsAction="always|collapseActionView"
+          android:actionViewClass="com.actionbarsherlock.widget.SearchView" />
+	<item
+        android:showAsAction="always"
+        android:id="@+id/new_post"
+        android:title="New Post"
+        android:icon="@drawable/webnews_compose"
+         />
+
+    <item
+            android:id="@+id/sub_meu"
+            android:icon="@drawable/menu_overflow_light"
+            android:showAsAction="always"
+            android:title="More">
+        <menu>
+            <item
+                    android:id="@+id/menu_refresh"
+                    android:icon="@drawable/webnews_refresh"
+                    android:showAsAction="never"
+                    android:title="Refresh"/>
+            <item
+                    android:id="@+id/menu_settings"
+                    android:icon="@drawable/webnews_settings"
+                    android:showAsAction="never"
+                    android:title="Settings" />
+            <item
+                    android:id="@+id/menu_mark_all_read"
+                    android:icon="@drawable/webnews_allread"
+                    android:showAsAction="never"
+                    android:title="Mark All Read"/>
+            <item
+                    android:id="@+id/menu_adv_search"
+                    android:icon="@drawable/webnews_search"
+                    android:showAsAction="never"
+                    android:title="Adv. Search"/>
+            <item
+                    android:id="@+id/menu_about"
+                    android:icon="@drawable/webnews_info"
+                    android:showAsAction="never"
+                    android:title="About"/>
+        </menu>
+    </item>
+
+</menu><!-- From: file:/Users/ahanes/AndroidStudioProjects/AndroidWebnews3/app/src/main/res/menu/displaythreads_menu.xml -->

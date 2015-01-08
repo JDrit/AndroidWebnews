@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="horizontal" >
+    <Button
+        android:id="@+id/replyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:text="Post Reply"
+        android:drawableLeft="@drawable/webnews_reply_light"
+        android:onClick="postReply" />
+    <Button
+        android:id="@+id/unreadButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:focusable="false"
+        android:text="Mark Unread"
+        android:onClick="markUnread"
+        android:drawableLeft="@drawable/webnews_unread_light"/>
+	<ImageButton
+        android:id="@+id/starButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:focusable="false"
+        android:src="@drawable/webnews_unstar_light"
+        android:onClick="markStarred" />
+</LinearLayout><!-- From: file:/Users/ahanes/AndroidStudioProjects/AndroidWebnews3/app/src/main/res/layout/postbuttons.xml -->
