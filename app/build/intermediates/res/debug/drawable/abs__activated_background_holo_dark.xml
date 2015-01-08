@@ -18,4 +18,4 @@
     <item android:state_activated="true" android:drawable="@drawable/abs__list_activated_holo" />
     <item android:drawable="@android:color/transparent" />
 </selector>
-<!-- From: file:/Users/jw/dev/ActionBarSherlock/target/checkout/actionbarsherlock/res/drawable/abs__activated_background_holo_dark.xml --><!-- From: file:/Users/ahanes/AndroidStudioProjects/AndroidWebnews3/app/build/intermediates/exploded-aar/com.actionbarsherlock/actionbarsherlock/4.4.0/res/drawable/abs__activated_background_holo_dark.xml -->
+<!-- From: file:/Users/jw/dev/ActionBarSherlock/target/checkout/actionbarsherlock/res/drawable/abs__activated_background_holo_dark.xml --><!-- From: file:/home/jd/Android%20studioProjects/AndroidWebnews/app/build/intermediates/exploded-aar/com.actionbarsherlock/actionbarsherlock/4.4.0/res/drawable/abs__activated_background_holo_dark.xml -->

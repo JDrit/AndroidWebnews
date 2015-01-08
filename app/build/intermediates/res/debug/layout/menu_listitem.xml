@@ -17,4 +17,4 @@ android:layout_width="fill_parent" >
         android:textSize="24sp"
         android:layout_marginTop="10dip"
         android:layout_marginBottom="10dip" />
-</LinearLayout><!-- From: file:/Users/ahanes/AndroidStudioProjects/AndroidWebnews3/app/src/main/res/layout/menu_listitem.xml -->
+</LinearLayout><!-- From: file:/home/jd/Android%20studioProjects/AndroidWebnews/app/src/main/res/layout/menu_listitem.xml -->

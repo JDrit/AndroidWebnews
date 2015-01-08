@@ -29,4 +29,4 @@
         android:focusable="false"
         android:src="@drawable/webnews_unstar_light"
         android:onClick="markStarred" />
-</LinearLayout><!-- From: file:/Users/ahanes/AndroidStudioProjects/AndroidWebnews3/app/src/main/res/layout/postbuttons.xml -->
+</LinearLayout><!-- From: file:/home/jd/Android%20studioProjects/AndroidWebnews/app/src/main/res/layout/postbuttons.xml -->

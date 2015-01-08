@@ -18,7 +18,7 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Wed Jan 07 21:34:11 EST 2015.<br/>
+Check performed at Thu Jan 08 12:55:37 EST 2015.<br/>
 4 errors and 0 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
@@ -35,7 +35,7 @@ Check performed at Wed Jan 07 21:34:11 EST 2015.<br/>
 <td class="countColumn">2</td><td class="issueColumn"><img border="0" align="top" src="lint-results-release-fatal_files/lint-error.png" alt="Error" />
 <a href="#ValidFragment">ValidFragment: Fragment not instantiatable</a>
 </td></tr>
-<tr><td></td><td class="categoryColumn"><a href="#MissingIssues">Disabled Checks (163)</a>
+<tr><td></td><td class="categoryColumn"><a href="#MissingIssues">Disabled Checks (165)</a>
 </td></tr></table>
 <br/>
 <a name="Correctness"></a>
@@ -46,7 +46,7 @@ Check performed at Wed Jan 07 21:34:11 EST 2015.<br/>
 <div class="id"><a href="#" title="Return to top">ResAuto: Hardcoded Package in Namespace</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/res/layout/activity_recent.xml">../../src/main/res/layout/activity_recent.xml</a>:3</span>: <span class="message">In Gradle projects, always use http://schemas.android.com/apk/res-auto for custom attributes</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/res/layout/activity_recent.xml">../../src/main/res/layout/activity_recent.xml</a>:3</span>: <span class="message">In Gradle projects, always use <code>http://schemas.android.com/apk/res-auto</code> for custom attributes</span><br /><pre class="errorlines">
 <span class="lineno">   1</span> &lt;LinearLayout
 <span class="lineno">   2</span>     xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span>     <span class="errorspan">xmlns:ProgressWheel="http://schemas.android.com/apk/res/edu.rit.csh.androidwebnews"</span>
@@ -54,10 +54,12 @@ Check performed at Wed Jan 07 21:34:11 EST 2015.<br/>
 <span class="lineno">   5</span> 	android:layout_width="fill_parent"
 </pre>
 </div>
-<div class="metadata">Priority: 9 / 10<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Priority: 9 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Fatal</span><div class="summary">
-Explanation: Finds resource namespaces with hardcoded package names.</div>
+Explanation: Hardcoded Package in Namespace.</div>
 <div class="explanation">
 In Gradle projects, the actual package used in the final APK can vary; for you can add a <code>.debug</code> package suffix in one version and not the other. Therefore, you should <b>not</b> hardcode the application package in the resource; instead, use the special namespace <code>http://schemas.android.com/apk/res-auto</code> which will cause the tools to figure out the right namespace for the resource regardless of the actual package used during the build.
 </div>
@@ -80,7 +82,7 @@ In Gradle projects, the actual package used in the final APK can vary; for you c
 <div class="metadata">Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Fatal</span><div class="summary">
-Explanation: Ensures that classes registered in the manifest file are instantiatable.</div>
+Explanation: Registered class is not instantiatable.</div>
 <div class="explanation">
 Activities, services, broadcast receivers etc. registered in the manifest file must be "instantiatable" by the system, which means that the class must be public, it must have an empty public constructor, and if it's an inner class, it must be a static inner class.
 </div>
@@ -91,7 +93,7 @@ Activities, services, broadcast receivers etc. registered in the manifest file m
 <div class="id"><a href="#" title="Return to top">ValidFragment: Fragment not instantiatable</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/edu/rit/csh/androidwebnews/PostFragment.java">../../src/main/java/edu/rit/csh/androidwebnews/PostFragment.java</a>:33</span>: <span class="message">This fragment should provide a default constructor (a public constructor with no arguments) (edu.rit.csh.androidwebnews.PostFragment)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/edu/rit/csh/androidwebnews/PostFragment.java">../../src/main/java/edu/rit/csh/androidwebnews/PostFragment.java</a>:33</span>: <span class="message">This fragment should provide a default constructor (a public constructor with no arguments) (<code>edu.rit.csh.androidwebnews.PostFragment</code>)</span><br /><pre class="errorlines">
 <span class="lineno">  30</span> 
 <span class="lineno">  31</span> import java.util.ArrayList;
 <span class="lineno">  32</span> 
@@ -99,7 +101,7 @@ Activities, services, broadcast receivers etc. registered in the manifest file m
 <span class="lineno">  34</span>     private ArrayList&lt;String> contents;
 <span class="lineno">  35</span>     private String body;
 </pre>
-<span class="location"><a href="../../src/main/java/edu/rit/csh/androidwebnews/PostFragment.java">../../src/main/java/edu/rit/csh/androidwebnews/PostFragment.java</a>:43</span>: <span class="message">Avoid non-default constructors in fragments: use a default constructor plus Fragment#setArguments(Bundle) instead</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/edu/rit/csh/androidwebnews/PostFragment.java">../../src/main/java/edu/rit/csh/androidwebnews/PostFragment.java</a>:43</span>: <span class="message">Avoid non-default constructors in fragments: use a default constructor plus <code>Fragment#setArguments(Bundle)</code> instead</span><br /><pre class="errorlines">
 <span class="lineno">  40</span>     private int me = 0;
 <span class="lineno">  41</span>     private int total = 0;
 <span class="lineno">  42</span> 
@@ -111,7 +113,7 @@ Activities, services, broadcast receivers etc. registered in the manifest file m
 <div class="metadata">Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Fatal</span><div class="summary">
-Explanation: Ensures that <code>Fragment</code> subclasses can be instantiated.</div>
+Explanation: Fragment not instantiatable.</div>
 <div class="explanation">
 From the Fragment documentation:<br/>
 <b>Every</b> fragment must have an empty constructor, so it can be instantiated when restoring its activity's state. It is strongly recommended that subclasses do not have other constructors with parameters, since these constructors will not be called when the fragment is re-instantiated; instead, arguments can be supplied by the caller with <code>setArguments(Bundle)</code> and later retrieved by the Fragment with <code>getArguments()</code>.
@@ -133,7 +135,7 @@ The following issues were not run by lint, either because the check is not enabl
 Priority: 2 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Looks for integer literals that are interpreted as octal numbers.</div>
+Explanation: Accidental Octal.</div>
 <div class="explanation">
 In Groovy, an integer literal that starts with a leading 0 will be interpreted as an octal number. That is usually (always?) an accident and can lead to subtle bugs, for example when used in the <code>versionCode</code> of an app.
 </div>
@@ -147,7 +149,7 @@ In Groovy, an integer literal that starts with a leading 0 will be interpreted a
 Priority: 10 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks that AdapterViews do not define their children in XML.</div>
+Explanation: AdapterViews cannot have children in XML.</div>
 <div class="explanation">
 AdapterViews such as ListViews must be configured with data from Java code, such as a ListAdapter.
 </div>
@@ -162,7 +164,7 @@ AdapterViews such as ListViews must be configured with data from Java code, such
 Priority: 9 / 10<br/>
 Category: Security</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks that <code>WebView#addJavascriptInterface</code> is not called for API levels below 17</div>
+Explanation: addJavascriptInterface Called.</div>
 <div class="explanation">
 For applications built for API levels below 17, <code>WebView#addJavascriptInterface</code> presents a security hazard as JavaScript on the target web page has the ability to use reflection to access the injected object's public fields and thus manipulate the host application in unintended ways.
 </div>
@@ -173,13 +175,13 @@ For applications built for API levels below 17, <code>WebView#addJavascriptInter
 <div class="issue">
 <div class="id">AllowBackup<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Security</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensure that allowBackup is explicitly set in the application's manifest.</div>
+Explanation: Missing <code>allowBackup</code> attribute.</div>
 <div class="explanation">
 The allowBackup attribute determines if an application's data can be backed up and restored. It is documented at <a href="http://developer.android.com/reference/android/R.attr.html#allowBackup">http://developer.android.com/reference/android/R.attr.html#allowBackup</a><br/>
 <br/>
@@ -198,11 +200,13 @@ To fix this warning, decide whether your application should support backup, and 
 <div class="issue">
 <div class="id">AlwaysShowAction<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Usability</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks for uses of <code>showAsAction="always"</code> and suggests <code>showAsAction="ifRoom"</code> instead.</div>
+Explanation: Usage of <code>showAsAction=always</code></div>
 <div class="explanation">
 Using <code>showAsAction="always"</code> in menu XML, or <code>MenuItem.SHOW_AS_ACTION_ALWAYS</code> in Java code is usually a deviation from the user interface style guide.Use <code>ifRoom</code> or the corresponding <code>MenuItem.SHOW_AS_ACTION_IF_ROOM</code> instead.<br/>
 <br/>
@@ -221,7 +225,7 @@ This check looks for menu XML files that contain more than two <code>always</cod
 Priority: 8 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Ensures that the Android Gradle plugin version is compatible with this SDK.</div>
+Explanation: Incompatible Android Gradle Plugin.</div>
 <div class="explanation">
 Not all versions of the Android Gradle plugin are compatible with all versions of the SDK. If you update your tools, or if you are trying to open a project that was built with an old version of the tools, you may need to update your plugin version number.
 </div>
@@ -231,11 +235,13 @@ Not all versions of the Android Gradle plugin are compatible with all versions o
 <div class="issue">
 <div class="id">AppCompatMethod<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Finds cases where a custom <code>appcompat</code> method should be used instead.</div>
+Explanation: Using Wrong AppCompat Method.</div>
 <div class="explanation">
 When using the appcompat library, there are some methods you should be calling instead of the normal ones; for example, <code>getSupportActionBar()</code> instead of <code>getActionBar()</code>. This lint check looks for calls to the wrong method.
 </div>
@@ -250,7 +256,7 @@ When using the appcompat library, there are some methods you should be calling i
 Priority: 5 / 10<br/>
 Category: Usability</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Ensures that menu items are using the right namespace.</div>
+Explanation: Menu namespace.</div>
 <div class="explanation">
 When using the appcompat library, menu resources should refer to the <code>showAsAction</code> in the <code>app:</code> namespace, not the <code>android:</code> namespace.<br/>
 <br/>
@@ -266,7 +272,7 @@ Similarly, when <b>not</b> using the appcompat library, you should be using the 
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for usages of the assert keyword.</div>
+Explanation: Assertions.</div>
 <div class="explanation">
 Assertions are not checked at runtime. There are ways to request that they be used by Dalvik (<code>adb shell setprop debug.assert 1</code>), but the property is ignored in many places and can not be relied upon. Instead, perform conditional checking inside <code>if (BuildConfig.DEBUG) { }</code> blocks. That constant is a static final boolean which is true in debug builds and false in release builds, and the Java compiler completely removes all code inside the if-body from the app.<br/>
 <br/>
@@ -285,7 +291,7 @@ For example, you can replace <code>assert speed > 0</code> with <code>if (BuildC
 Priority: 6 / 10<br/>
 Category: Usability</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for Back buttons, which are not common on the Android platform.</div>
+Explanation: Back button.</div>
 <div class="explanation">
 According to the Android Design Guide,<br/>
 <br/>
@@ -303,7 +309,7 @@ This check is not very sophisticated (it just looks for buttons with the label "
 Priority: 2 / 10<br/>
 Category: Usability</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures that Cancel/OK dialog buttons use the canonical capitalization.</div>
+Explanation: Cancel/OK dialog button capitalization.</div>
 <div class="explanation">
 The standard capitalization for OK/Cancel dialogs is "OK" and "Cancel". To ensure that your dialogs use the standard strings, you can use the resource strings @android:string/ok and @android:string/cancel.
 </div>
@@ -317,7 +323,7 @@ The standard capitalization for OK/Cancel dialogs is "OK" and "Cancel". To ensur
 Priority: 8 / 10<br/>
 Category: Usability</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures the dismissive action of a dialog is on the left and affirmative on the right.</div>
+Explanation: Button order.</div>
 <div class="explanation">
 According to the Android Design Guide,<br/>
 <br/>
@@ -336,7 +342,7 @@ This check looks for button bars and buttons which look like cancel buttons, and
 Priority: 5 / 10<br/>
 Category: Usability</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures that buttons in button bars are borderless.</div>
+Explanation: Button should be borderless.</div>
 <div class="explanation">
 Button bars typically use a borderless style for the buttons. Set the <code>style="?android:attr/buttonBarButtonStyle"</code> attribute on each of the buttons, and set <code>style="?android:attr/buttonBarStyle"</code> on the parent layout
 </div>
@@ -351,7 +357,7 @@ Button bars typically use a borderless style for the buttons. Set the <code>styl
 Priority: 6 / 10<br/>
 Category: Accessibility</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks that custom views handle accessibility on click events.</div>
+Explanation: Accessibility in Custom Views.</div>
 <div class="explanation">
 If a <code>View</code> that overrides <code>onTouchEvent</code> or uses an <code>OnTouchListener</code> does not also implement <code>performClick</code> and call it when clicks are detected, the <code>View</code> may not handle accessibility actions properly. Logic handling the click actions should ideally be placed in <code>View#performClick</code> as some accessibility services invoke <code>performClick</code> when a click action should occur.
 </div>
@@ -361,11 +367,13 @@ If a <code>View</code> that overrides <code>onTouchEvent</code> or uses an <code
 <div class="issue">
 <div class="id">CommitPrefEdits<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for code editing a <code>SharedPreference</code> but forgetting to call <code>commit()</code> on it.</div>
+Explanation: Missing <code>commit()</code> on <code>SharedPreference</code> editor.</div>
 <div class="explanation">
 After calling <code>edit()</code> on a <code>SharedPreference</code>, you must call <code>commit()</code> or <code>apply()</code> on the editor to save the results.
 </div>
@@ -379,7 +387,7 @@ After calling <code>edit()</code> on a <code>SharedPreference</code>, you must c
 Priority: 7 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for missing <code>commit()</code> calls on <code>FragmentTransactions</code></div>
+Explanation: Missing <code>commit()</code> calls.</div>
 <div class="explanation">
 After creating a <code>FragmentTransaction</code>, you typically need to commit it as well
 </div>
@@ -389,13 +397,13 @@ After creating a <code>FragmentTransaction</code>, you typically need to commit 
 <div class="issue">
 <div class="id">ContentDescription<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Accessibility</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures that image widgets provide a contentDescription.</div>
+Explanation: Image without <code>contentDescription</code></div>
 <div class="explanation">
 Non-textual widgets like ImageViews and ImageButtons should use the <code>contentDescription</code> attribute to specify a textual description of the widget such that screen readers and other accessibility tools can adequately describe the user interface.<br/>
 <br/>
@@ -405,6 +413,22 @@ Note that for text fields, you should not set both the <code>hint</code> and the
 </div>
 <br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "ContentDescription" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
+<a name="CustomViewStyleable"></a>
+<div class="issue">
+<div class="id">CustomViewStyleable<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Project lint.xml file<br/>
+Priority: 6 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Mismatched Styleable/Custom View Name.</div>
+<div class="explanation">
+The convention for custom views is to use a <code>declare-styleable</code> whose name matches the custom view class name. The IDE relies on this convention such that for example code completion can be offered for attributes in a custom view in layout XML resource files.<br/>
+<br/>
+(Similarly, layout parameter classes should use the suffix <code>_Layout</code>.)
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "CustomViewStyleable" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
 <a name="CutPasteId"></a>
 <div class="issue">
 <div class="id">CutPasteId<div class="issueSeparator"></div>
@@ -413,7 +437,7 @@ Note that for text fields, you should not set both the <code>hint</code> and the
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for code cut &amp; paste mistakes in <code>findViewById()</code> calls.</div>
+Explanation: Likely cut &amp; paste mistakes.</div>
 <div class="explanation">
 This lint check looks for cases where you have cut &amp; pasted calls to <code>findViewById</code> but have forgotten to update the R.id field. It's possible that your code is simply (redundantly) looking up the field repeatedly, but lint cannot distinguish that from a case where you for example want to initialize fields <code>prev</code> and <code>next</code> and you cut &amp; pasted <code>findViewById(R.id.prev)</code> and forgot to update the second initialization to <code>R.id.next</code>.
 </div>
@@ -427,7 +451,7 @@ This lint check looks for cases where you have cut &amp; pasted calls to <code>f
 Priority: 7 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Looks for methods treated as overrides by Dalvik.</div>
+Explanation: Method considered overridden by Dalvik.</div>
 <div class="explanation">
 The Android virtual machine will treat a package private method in one class as overriding a package private method in its super class, even if they are in separate packages. This may be surprising, but for compatibility reasons the behavior has not been changed (yet).<br/>
 <br/>
@@ -445,7 +469,7 @@ If you did <b>not</b> intend the override, consider making the method private, o
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Finds calls to locale-ambiguous <code>String</code> manipulation methods.</div>
+Explanation: Implied default locale in case conversion.</div>
 <div class="explanation">
 Calling <code>String#toLowerCase()</code> or <code>#toUpperCase()</code> <b>without specifying an explicit locale</b> is a common source of bugs. The reason for that is that those methods will use the current locale on the user's device, and even though the code appears to work correctly when you are developing the app, it will fail in some locales. For example, in the Turkish locale, the uppercase replacement for <code>i</code> is <b>not</b> <code>I</code>.<br/>
 <br/>
@@ -462,7 +486,7 @@ If you want the methods to just perform ASCII replacement, for example to conver
 Priority: 2 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for usages of deprecated layouts, attributes, and so on.</div>
+Explanation: Using deprecated resources.</div>
 <div class="explanation">
 Deprecated views, attributes and so on are deprecated because there is a better way to do something. Do it that new way. You've been warned.
 </div>
@@ -476,7 +500,7 @@ Deprecated views, attributes and so on are deprecated because there is a better 
 Priority: 7 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures that device admins are properly registered.</div>
+Explanation: Malformed Device Admin.</div>
 <div class="explanation">
 If you register a broadcast receiver which acts as a device admin, you must also register an <code>&lt;intent-filter></code> for the action <code>android.app.action.DEVICE_ADMIN_ENABLED</code>, without any <code>&lt;data></code>, such that the device admin can be activated/deactivated.<br/>
 <br/>
@@ -492,13 +516,13 @@ to your <code>&lt;receiver></code>.
 <div class="issue">
 <div class="id">DisableBaselineAlignment<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for LinearLayouts which should set android:baselineAligned=false.</div>
+Explanation: Missing <code>baselineAligned</code> attribute.</div>
 <div class="explanation">
 When a LinearLayout is used to distribute the space proportionally between nested layouts, the baseline alignment property should be turned off to make the layout computation faster.
 </div>
@@ -512,7 +536,7 @@ When a LinearLayout is used to distribute the space proportionally between neste
 Priority: 9 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for memory allocations within drawing code.</div>
+Explanation: Memory allocations within drawing code.</div>
 <div class="explanation">
 You should avoid allocating objects during a drawing or layout operation. These are called frequently, so a smooth UI can be interrupted by garbage collection pauses caused by the object allocations.<br/>
 <br/>
@@ -530,7 +554,7 @@ Some methods allocate memory on your behalf (such as <code>Bitmap.create</code>)
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Discovers duplicate definitions of resources.</div>
+Explanation: Duplicate definitions of resources.</div>
 <div class="explanation">
 You can define a resource multiple times in different resource folders; that's how string translations are done, for example. However, defining the same resource more than once in the same resource folder is likely an error, for example attempting to add a new resource without realizing that the name is already used, and so on.
 </div>
@@ -544,7 +568,7 @@ You can define a resource multiple times in different resource folders; that's h
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks for duplicate ids across layouts that are combined with include tags.</div>
+Explanation: Duplicate ids across layouts combined with include tags.</div>
 <div class="explanation">
 It's okay for two independent layouts to use the same ids. However, if layouts are combined with include tags, then the id's need to be unique within any chain of included layouts, or <code>Activity#findViewById()</code> can return an unexpected view.
 </div>
@@ -558,7 +582,7 @@ It's okay for two independent layouts to use the same ids. However, if layouts a
 Priority: 5 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures you declare each hardware or software feature only once in the manifest.</div>
+Explanation: Feature declared more than once.</div>
 <div class="explanation">
 A given feature should only be declared once in the manifest.
 </div>
@@ -572,7 +596,7 @@ A given feature should only be declared once in the manifest.
 Priority: 6 / 10<br/>
 Category: Security</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for hidden easter eggs.</div>
+Explanation: Code contains easter egg.</div>
 <div class="explanation">
 An "easter egg" is code deliberately hidden in the code, both from potential users and even from other developers. This lint check looks for code which looks like it may be hidden from sight.
 </div>
@@ -586,7 +610,7 @@ An "easter egg" is code deliberately hidden in the code, both from potential use
 Priority: 5 / 10<br/>
 Category: Security</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks for exported content providers that do not require permissions.</div>
+Explanation: Content provider does not require permission.</div>
 <div class="explanation">
 Content providers are exported by default and any application on the system can potentially use them to read and write data. If the content provider provides access to sensitive data, it should be protected by specifying <code>export=false</code> in the manifest or by protecting it with a permission that can be granted to other applications.
 </div>
@@ -600,7 +624,7 @@ Content providers are exported by default and any application on the system can 
 Priority: 8 / 10<br/>
 Category: Security</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks that PreferenceActivity and its subclasses are never exported.</div>
+Explanation: PreferenceActivity should not be exported.</div>
 <div class="explanation">
 Fragment injection gives anyone who can send your PreferenceActivity an intent the ability to load any fragment, with any arguments, in your process.
 </div>
@@ -615,7 +639,7 @@ Fragment injection gives anyone who can send your PreferenceActivity an intent t
 Priority: 5 / 10<br/>
 Category: Security</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks for exported receivers that do not require permissions.</div>
+Explanation: Receiver does not require permission.</div>
 <div class="explanation">
 Exported receivers (receivers which either set <code>exported=true</code> or contain an intent-filter and do not specify <code>exported=false</code>) should define a permission that an entity must have in order to launch the receiver or bind to it. Without this, any application can use this receiver.
 </div>
@@ -625,13 +649,13 @@ Exported receivers (receivers which either set <code>exported=true</code> or con
 <div class="issue">
 <div class="id">ExportedService<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Security</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks for exported services that do not require permissions.</div>
+Explanation: Exported service does not require permission.</div>
 <div class="explanation">
 Exported services (services which either set <code>exported=true</code> or contain an intent-filter and do not specify <code>exported=false</code>) should define a permission that an entity must have in order to launch the service or bind to it. Without this, any application can use this service.
 </div>
@@ -645,7 +669,7 @@ Exported services (services which either set <code>exported=true</code> or conta
 Priority: 3 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for extraneous text in resource files.</div>
+Explanation: Extraneous text in resource files.</div>
 <div class="explanation">
 Layout resource files should only contain elements and attributes. Any XML text content found in the file is likely accidental (and potentially dangerous if the text resembles XML and the developer believes the text to be functional)
 </div>
@@ -659,7 +683,7 @@ Layout resource files should only contain elements and attributes. Any XML text 
 Priority: 4 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Suggests replacing uses of getters with direct field access within a class.</div>
+Explanation: Using getter instead of field.</div>
 <div class="explanation">
 Accessing a field within the class that defines a getter for that field is at least 3 times faster than calling the getter. For simple getters that do nothing other than return the field, you might want to just reference the local field directly instead.<br/>
 <br/>
@@ -676,7 +700,7 @@ Accessing a field within the class that defines a getter for that field is at le
 Priority: 3 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Suggests replacing <code>android.util.FloatMath</code> calls with <code>java.lang.Math</code></div>
+Explanation: Using <code>FloatMath</code> instead of <code>Math</code></div>
 <div class="explanation">
 In older versions of Android, using <code>android.util.FloatMath</code> was recommended for performance reasons when operating on floats. However, on modern hardware doubles are just as fast as float (though they take more memory), and in recent versions of Android, <code>FloatMath</code> is actually slower than using <code>java.lang.Math</code> due to the way the JIT optimizes <code>java.lang.Math</code>. Therefore, you should use <code>Math</code> instead of <code>FloatMath</code> if you are only targeting Froyo and above.
 </div>
@@ -691,7 +715,7 @@ In older versions of Android, using <code>android.util.FloatMath</code> was reco
 Priority: 9 / 10<br/>
 Category: Security</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks that <code>Cipher#getInstance</code> is not called using the ECB cipher mode.</div>
+Explanation: Cipher.getInstance with ECB.</div>
 <div class="explanation">
 <code>Cipher#getInstance</code> should not be called with ECB as the cipher mode or without setting the cipher mode because the default mode on android is ECB, which is insecure.
 </div>
@@ -705,7 +729,7 @@ Explanation: Checks that <code>Cipher#getInstance</code> is not called using the
 Priority: 5 / 10<br/>
 Category: Usability:Icons</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks for images using the GIF file format which is discouraged.</div>
+Explanation: Using <code>.gif</code> format for bitmaps is discouraged.</div>
 <div class="explanation">
 The <code>.gif</code> file format is discouraged. Consider using <code>.png</code> (preferred) or <code>.jpg</code> (acceptable) instead.
 </div>
@@ -720,7 +744,7 @@ The <code>.gif</code> file format is discouraged. Consider using <code>.png</cod
 Priority: 8 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Ensures that tool and library versions are compatible.</div>
+Explanation: Incompatible Gradle Versions.</div>
 <div class="explanation">
 There are some combinations of libraries, or tools and libraries, that are incompatible, or can lead to bugs. One such incompatibility is compiling with a version of the Android support libraries that is not the latest version (or in particular, a version lower than your <code>targetSdkVersion</code>.)
 </div>
@@ -730,11 +754,13 @@ There are some combinations of libraries, or tools and libraries, that are incom
 <div class="issue">
 <div class="id">GradleDependency<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 4 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for old or obsolete Gradle library dependencies.</div>
+Explanation: Obsolete Gradle Dependency.</div>
 <div class="explanation">
 This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find.
 </div>
@@ -744,11 +770,13 @@ This detector looks for usages of libraries where the version you are using is n
 <div class="issue">
 <div class="id">GradleDeprecated<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for deprecated Gradle constructs.</div>
+Explanation: Deprecated Gradle Construct.</div>
 <div class="explanation">
 This detector looks for deprecated Gradle constructs which currently work but will likely stop working in a future update.
 </div>
@@ -758,11 +786,13 @@ This detector looks for deprecated Gradle constructs which currently work but wi
 <div class="issue">
 <div class="id">GradleDynamicVersion<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Default<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 4 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for dependencies using a dynamic version rather than a fixed version.</div>
+Explanation: Gradle Dynamic Version.</div>
 <div class="explanation">
 Using <code>+</code> in dependencies lets you automatically pick up the latest available version rather than a specific, named version. However, this is not recommended; your builds are not repeatable; you may have tested with a slightly different version than what the build server used. (Using a dynamic version as the major version number is more problematic than using it in the minor version position.)
 </div>
@@ -776,7 +806,7 @@ Using <code>+</code> in dependencies lets you automatically pick up the latest a
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Identifies accidental calls to implicit getters.</div>
+Explanation: Gradle Implicit Getter Call.</div>
 <div class="explanation">
 Gradle will let you replace specific constants in your build scripts with method calls, so you can for example dynamically compute a version string based on your current version control revision number, rather than hardcoding a number.<br/>
 <br/>
@@ -792,7 +822,7 @@ When computing a version name, it's tempting to for example call the method to d
 Priority: 4 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Looks for constructs in Gradle files which affect IDE usage.</div>
+Explanation: Gradle IDE Support Issues.</div>
 <div class="explanation">
 Gradle is highly flexible, and there are things you can do in Gradle files which can make it hard or impossible for IDEs to properly handle the project. This lint check looks for constructs that potentially break IDE support.
 </div>
@@ -806,7 +836,7 @@ Gradle is highly flexible, and there are things you can do in Gradle files which
 Priority: 4 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for values specified in the manifest file which are overridden by values in Gradle.</div>
+Explanation: Value overridden by Gradle build script.</div>
 <div class="explanation">
 The value of (for example) <code>minSdkVersion</code> is only used if it is not specified in the <code>build.gradle</code> build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity.
 </div>
@@ -820,7 +850,7 @@ The value of (for example) <code>minSdkVersion</code> is only used if it is not 
 Priority: 4 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for Gradle path problems such as using platform specific path separators.</div>
+Explanation: Gradle Path Issues.</div>
 <div class="explanation">
 Gradle build scripts are meant to be cross platform, so file paths use Unix-style path separators (a forward slash) rather than Windows path separators (a backslash). Similarly, to keep projects portable and repeatable, avoid using absolute paths on the system; keep files within the project instead. To share code between projects, consider creating an android-library and an AAR dependency
 </div>
@@ -834,7 +864,7 @@ Gradle build scripts are meant to be cross platform, so file paths use Unix-styl
 Priority: 7 / 10<br/>
 Category: Security</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks for <code>&lt;grant-uri-permission></code> elements where everything is shared.</div>
+Explanation: Content provider shares everything.</div>
 <div class="explanation">
 The <code>&lt;grant-uri-permission></code> element allows specific paths to be shared. This detector checks for a path URL of just '/' (everything), which is probably not what you want; you should limit access to a subset.
 </div>
@@ -848,7 +878,7 @@ The <code>&lt;grant-uri-permission></code> element allows specific paths to be s
 Priority: 4 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures that Handler classes do not hold on to a reference to an outer class.</div>
+Explanation: Handler reference leaks.</div>
 <div class="explanation">
 Since this Handler is declared as an inner class, it may prevent the outer class from being garbage collected. If the Handler is using a Looper or MessageQueue for a thread other than the main thread, then there is no issue. If the Handler is using the Looper or MessageQueue of the main thread, you need to fix your Handler declaration, as follows: Declare the Handler as a static class; In the outer class, instantiate a WeakReference to the outer class and pass this object to your Handler when you instantiate the Handler; Make all references to members of the outer class using the WeakReference object.
 </div>
@@ -864,7 +894,7 @@ Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Internationalization</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for hardcoded text attributes which should be converted to resource lookup.</div>
+Explanation: Hardcoded text.</div>
 <div class="explanation">
 Hardcoding text attributes directly in layout files is bad for several reasons:<br/>
 <br/>
@@ -884,7 +914,7 @@ In Android Studio and Eclipse there are quickfixes to automatically extract this
 Priority: 6 / 10<br/>
 Category: Usability:Icons</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks that icons follow the recommended visual style.</div>
+Explanation: Icon colors do not follow the recommended visual style.</div>
 <div class="explanation">
 Notification icons and Action Bar icons should only white and shades of gray. See the Android Design Guide for more details. Note that the way Lint decides whether an icon is an action bar icon or a notification icon is based on the filename prefix: <code>ic_menu_</code> for action bar icons, <code>ic_stat_</code> for notification icons etc. These correspond to the naming conventions documented in <a href="http://developer.android.com/guide/practices/ui_guidelines/icon_design.html">http://developer.android.com/guide/practices/ui_guidelines/icon_design.html</a>
 </div>
@@ -899,7 +929,7 @@ Notification icons and Action Bar icons should only white and shades of gray. Se
 Priority: 4 / 10<br/>
 Category: Usability:Icons</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures that icons provide custom versions for all supported densities.</div>
+Explanation: Icon densities validation.</div>
 <div class="explanation">
 Icons will look best if a custom version is provided for each of the major screen density classes (low, medium, high, extra high). This lint check identifies icons which do not have complete coverage across the densities.<br/>
 <br/>
@@ -916,7 +946,7 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
 Priority: 5 / 10<br/>
 Category: Usability:Icons</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures that icons across densities provide roughly the same density-independent size.</div>
+Explanation: Icon density-independent size validation.</div>
 <div class="explanation">
 Checks the all icons which are provided in multiple densities, all compute to roughly the same density-independent pixel (<code>dip</code>) size. This catches errors where images are either placed in the wrong folder, or icons are changed to new sizes but some folders are forgotten.
 </div>
@@ -930,7 +960,7 @@ Checks the all icons which are provided in multiple densities, all compute to ro
 Priority: 3 / 10<br/>
 Category: Usability:Icons</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Finds duplicated icons under different names.</div>
+Explanation: Duplicated icons under different names.</div>
 <div class="explanation">
 If an icon is repeated under different names, you can consolidate and just use one of the icons and delete the others to make your application smaller. However, duplicated icons usually are not intentional and can sometimes point to icons that were accidentally overwritten or accidentally not updated.
 </div>
@@ -944,7 +974,7 @@ If an icon is repeated under different names, you can consolidate and just use o
 Priority: 5 / 10<br/>
 Category: Usability:Icons</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Finds icons that have identical bitmaps across various configuration parameters.</div>
+Explanation: Identical bitmaps across various configurations.</div>
 <div class="explanation">
 If an icon is provided under different configuration parameters such as <code>drawable-hdpi</code> or <code>-v11</code>, they should typically be different. This detector catches cases where the same icon is provided in different configuration folder which is usually not intentional.
 </div>
@@ -958,7 +988,7 @@ If an icon is provided under different configuration parameters such as <code>dr
 Priority: 5 / 10<br/>
 Category: Usability:Icons</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures that launcher icons, notification icons etc have the correct size.</div>
+Explanation: Icon has incorrect size.</div>
 <div class="explanation">
 There are predefined sizes (for each density) for launcher icons. You should follow these conventions to make sure your icons fit in with the overall look of the platform.
 </div>
@@ -973,7 +1003,7 @@ There are predefined sizes (for each density) for launcher icons. You should fol
 Priority: 3 / 10<br/>
 Category: Usability:Icons</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks that the icon file extension matches the actual image format in the file.</div>
+Explanation: Icon format does not match the file extension.</div>
 <div class="explanation">
 Ensures that icons have the correct file extension (e.g. a <code>.png</code> file is really in the PNG format and not for example a GIF file named <code>.png</code>.)
 </div>
@@ -987,7 +1017,7 @@ Ensures that icons have the correct file extension (e.g. a <code>.png</code> fil
 Priority: 6 / 10<br/>
 Category: Usability:Icons</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks that launcher icons follow the recommended visual style.</div>
+Explanation: The launcher icon shape should use a distinct silhouette.</div>
 <div class="explanation">
 According to the Android Design Guide (<a href="http://developer.android.com/design/style/iconography.html">http://developer.android.com/design/style/iconography.html</a>) your launcher icons should "use a distinct silhouette", a "three-dimensional, front view, with a slight perspective as if viewed from above, so that users perceive some depth."<br/>
 <br/>
@@ -1004,7 +1034,7 @@ The unique silhouette implies that your launcher icon should not be a filled squ
 Priority: 5 / 10<br/>
 Category: Usability:Icons</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures that images are not defined in the density-independent drawable folder.</div>
+Explanation: Image defined in density-independent drawable folder.</div>
 <div class="explanation">
 The res/drawable folder is intended for density-independent graphics such as shapes defined in XML. For bitmaps, move it to <code>drawable-mdpi</code> and consider providing higher and lower resolution versions in <code>drawable-ldpi</code>, <code>drawable-hdpi</code> and <code>drawable-xhdpi</code>. If the icon <b>really</b> is density independent (for example a solid color) you can place it in <code>drawable-nodpi</code>.
 </div>
@@ -1019,9 +1049,9 @@ The res/drawable folder is intended for density-independent graphics such as sha
 Priority: 3 / 10<br/>
 Category: Usability:Icons</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures that all the density folders are present.</div>
+Explanation: Missing density folder.</div>
 <div class="explanation">
-Icons will look best if a custom version is provided for each of the major screen density classes (low, medium, high, extra high). This lint check identifies folders which are missing, such as <code>drawable-hdpi</code>.<br/>
+Icons will look best if a custom version is provided for each of the major screen density classes (low, medium, high, extra-high, extra-extra-high). This lint check identifies folders which are missing, such as <code>drawable-hdpi</code>.<br/>
 Low density is not really used much anymore, so this check ignores the ldpi density. To force lint to include it, set the environment variable <code>ANDROID_LINT_INCLUDE_LDPI=true</code>. For more information on current density usage, see <a href="http://developer.android.com/resources/dashboard/screens.html">http://developer.android.com/resources/dashboard/screens.html</a>
 </div>
 <br/><div class="moreinfo">More info: <a href="http://developer.android.com/guide/practices/screens_support.html">http://developer.android.com/guide/practices/screens_support.html</a>
@@ -1035,7 +1065,7 @@ Low density is not really used much anymore, so this check ignores the ldpi dens
 Priority: 5 / 10<br/>
 Category: Usability:Icons</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks for filename clashes between .png files and nine patch (.9.png) files.</div>
+Explanation: Clashing PNG and 9-PNG files.</div>
 <div class="explanation">
 If you accidentally name two separate resources <code>file.png</code> and <code>file.9.png</code>, the image file and the nine patch file will both map to the same drawable resource, <code>@drawable/file</code>, which is probably not what was intended.
 </div>
@@ -1049,7 +1079,7 @@ If you accidentally name two separate resources <code>file.png</code> and <code>
 Priority: 7 / 10<br/>
 Category: Usability:Icons</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Finds icons that appear in both a <code>-nodpi</code> folder and a dpi folder.</div>
+Explanation: Icon appears in both <code>-nodpi</code> and dpi folders.</div>
 <div class="explanation">
 Bitmaps that appear in <code>drawable-nodpi</code> folders will not be scaled by the Android framework. If a drawable resource of the same name appears <b>both</b> in a <code>-nodpi</code> folder as well as a dpi folder such as <code>drawable-hdpi</code>, then the behavior is ambiguous and probably not intentional. Delete one or the other, or use different names for the icons.
 </div>
@@ -1063,7 +1093,7 @@ Bitmaps that appear in <code>drawable-nodpi</code> folders will not be scaled by
 Priority: 7 / 10<br/>
 Category: Usability:Icons</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Finds icons that appear both as a drawable <code>.xml</code> file and as bitmaps.</div>
+Explanation: Icon is specified both as <code>.xml</code> file and as a bitmap.</div>
 <div class="explanation">
 If a drawable resource appears as an <code>.xml</code> file in the <code>drawable/</code> folder, it's usually not intentional for it to also appear as a bitmap using the same name; generally you expect the drawable XML file to define states and each state has a corresponding drawable bitmap.
 </div>
@@ -1077,7 +1107,7 @@ If a drawable resource appears as an <code>.xml</code> file in the <code>drawabl
 Priority: 8 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks for resource references where only literals are allowed.</div>
+Explanation: Name and version must be integer or string, not resource.</div>
 <div class="explanation">
 For the <code>versionCode</code> attribute, you have to specify an actual integer literal; you cannot use an indirection with a <code>@dimen/name</code> resource. Similarly, the <code>versionName</code> attribute should be an actual string, not a string resource url.
 </div>
@@ -1091,7 +1121,7 @@ For the <code>versionCode</code> attribute, you have to specify an actual intege
 Priority: 5 / 10<br/>
 Category: Correctness:Messages</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Looks for quantity string translations which do not include the quantity.</div>
+Explanation: Implied Quantities.</div>
 <div class="explanation">
 Plural strings should generally include a <code>%s</code> or <code>%d</code> formatting argument. In locales like English, the <code>one</code> quantity only applies to a single value, 1, but that's not true everywhere. For example, in Slovene, the <code>one</code> quantity will apply to 1, 101, 201, 301, and so on. Similarly, there are locales where multiple values match the <code>zero</code> and <code>two</code> quantities.<br/>
 <br/>
@@ -1099,20 +1129,6 @@ In these locales, it is usually an error to have a message which does not includ
 </div>
 <br/><div class="moreinfo">More info: <a href="http://developer.android.com/guide/topics/resources/string-resource.html#Plurals">http://developer.android.com/guide/topics/resources/string-resource.html#Plurals</a>
 </div><br/>To suppress this error, use the issue id "ImpliedQuantity" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
-</div>
-<a name="ImproperProjectLevelStatement"></a>
-<div class="issue">
-<div class="id">ImproperProjectLevelStatement<div class="issueSeparator"></div>
-</div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
-Priority: 2 / 10<br/>
-Category: Correctness</div>
-Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for statements that likely don't belong in a project-level build file.</div>
-<div class="explanation">
-The top-level build file in a multi-module project is generally used to configure project-wide build parameters and often does not describe a corresponding top-level module. In build files without a module, it is an error to use build file constructs that require a module; doing so can lead to unpredictable error messages.
-</div>
-<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "ImproperProjectLevelStatement" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
 <a name="InOrMmUsage"></a>
 <div class="issue">
@@ -1122,7 +1138,7 @@ The top-level build file in a multi-module project is generally used to configur
 Priority: 4 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for use of the <code>mm</code> or <code>in</code> dimensions.</div>
+Explanation: Using <code>mm</code> or <code>in</code> dimensions.</div>
 <div class="explanation">
 Avoid using <code>mm</code> (millimeters) or <code>in</code> (inches) as the unit for dimensions.<br/>
 <br/>
@@ -1134,11 +1150,13 @@ While it should work in principle, unfortunately many devices do not report the 
 <div class="issue">
 <div class="id">IncludeLayoutParam<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Ensures that layout params on <code>&lt;include></code> tags are used correctly.</div>
+Explanation: Ignored layout params on include.</div>
 <div class="explanation">
 Layout parameters specified on an <code>&lt;include></code> tag will only be used if you also override <code>layout_width</code> and <code>layout_height</code> on the <code>&lt;include></code> tag; otherwise they will be ignored.
 </div>
@@ -1153,7 +1171,7 @@ Layout parameters specified on an <code>&lt;include></code> tag will only be use
 Priority: 7 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks for inconsistencies in the number of elements in arrays.</div>
+Explanation: Inconsistencies in array element counts.</div>
 <div class="explanation">
 When an array is translated in a different locale, it should normally have the same number of elements as the original array. When adding or removing elements to an array, it is easy to forget to update all the locales, and this lint warning finds inconsistencies like these.<br/>
 <br/>
@@ -1171,7 +1189,7 @@ You can suppress this error type if it finds false errors in your project.
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks that layout variations are consistent.</div>
+Explanation: Inconsistent Layouts.</div>
 <div class="explanation">
 This check ensures that a layout resource which is defined in multiple resource folders, specifies the same set of widgets.<br/>
 <br/>
@@ -1185,13 +1203,13 @@ There <b>are</b> cases where this is intentional. For example, you may have a de
 <div class="issue">
 <div class="id">InefficientWeight<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for inefficient weight declarations in LinearLayouts.</div>
+Explanation: Inefficient layout weight.</div>
 <div class="explanation">
 When only a single widget in a LinearLayout defines a weight, it is more efficient to assign a width/height of <code>0dp</code> to it since it will absorb all the remaining space anyway. With a declared width/height of <code>0dp</code> it does not have to measure its own size first.
 </div>
@@ -1205,7 +1223,7 @@ When only a single widget in a LinearLayout defines a weight, it is more efficie
 Priority: 5 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures that a proper parent context is passed to a layout inflater.</div>
+Explanation: Layout Inflation without a Parent.</div>
 <div class="explanation">
 When inflating a layout, avoid passing in null as the parent view, since otherwise any layout parameters on the root of the inflated layout will be ignored.
 </div>
@@ -1216,17 +1234,17 @@ When inflating a layout, avoid passing in null as the parent view, since otherwi
 <div class="issue">
 <div class="id">InlinedApi<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Finds inlined fields that may or may not work on older platforms.</div>
+Explanation: Using inlined constants on older versions.</div>
 <div class="explanation">
 This check scans through all the Android API field references in the application and flags certain constants, such as static final integers and Strings, which were introduced in later versions. These will actually be copied into the class files rather than being referenced, which means that the value is available even when running on older devices. In some cases that's fine, and in other cases it can result in a runtime crash or incorrect behavior. It depends on the context, so consider the code carefully and device whether it's safe and can be suppressed or whether the code needs tbe guarded.<br/>
 <br/>
-If you really want to use this API and don't need to support older devices just set the <code>minSdkVersion</code> in your <code>AndroidManifest.xml</code> file.<br/>
+If you really want to use this API and don't need to support older devices just set the <code>minSdkVersion</code> in your <code>build.gradle</code> or <code>AndroidManifest.xml</code> files.<br/>
 If your code is <b>deliberately</b> accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the <code>@TargetApi</code> annotation specifying the local minimum SDK to apply, such as <code>@TargetApi(11)</code>, such that this check considers 11 rather than your manifest file's minimum SDK as the required API level.<br/>
 
 </div>
@@ -1236,11 +1254,13 @@ If your code is <b>deliberately</b> accessing newer APIs, and you have ensured (
 <div class="issue">
 <div class="id">InnerclassSeparator<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures that inner classes are referenced using '$' instead of '.' in class names.</div>
+Explanation: Inner classes should use <code>$</code> rather than <code>.</code></div>
 <div class="explanation">
 When you reference an inner class in a manifest file, you must use '$' instead of '.' as the separator character, i.e. Outer$Inner instead of Outer.Inner.<br/>
 <br/>
@@ -1256,7 +1276,7 @@ When you reference an inner class in a manifest file, you must use '$' instead o
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Finds API accesses to APIs that are not supported in Android.</div>
+Explanation: Package not included in Android.</div>
 <div class="explanation">
 This check scans through libraries looking for calls to APIs that are not included in Android.<br/>
 <br/>
@@ -1274,7 +1294,7 @@ This check scans through library jars and looks for references to API packages t
 Priority: 8 / 10<br/>
 Category: Security</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Ensures that interfaces added with addJavascriptInterface are annotated with @JavascriptInterface.</div>
+Explanation: Missing @JavascriptInterface on methods.</div>
 <div class="explanation">
 As of API 17, you must annotate methods in objects registered with the <code>addJavascriptInterface</code> method with a <code>@JavascriptInterface</code> annotation.
 </div>
@@ -1289,7 +1309,7 @@ As of API 17, you must annotate methods in objects registered with the <code>add
 Priority: 2 / 10<br/>
 Category: Accessibility</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures that text fields are marked with a <code>labelFor</code> attribute.</div>
+Explanation: Missing <code>labelFor</code> attribute.</div>
 <div class="explanation">
 Text fields should be labelled with a <code>labelFor</code> attribute, provided your <code>minSdkVersion</code> is at least 17.<br/>
 <br/>
@@ -1305,7 +1325,7 @@ If your view is labeled but by a label in a different layout which includes this
 Priority: 3 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Looks for @SuppressLint annotations in locations where it doesn't work for class based checks.</div>
+Explanation: @SuppressLint on invalid element.</div>
 <div class="explanation">
 The <code>@SuppressAnnotation</code> is used to suppress Lint warnings in Java files. However, while many lint checks analyzes the Java source code, where they can find annotations on (for example) local variables, some checks are analyzing the <code>.class</code> files. And in class files, annotations only appear on classes, fields and methods. Annotations placed on local variables disappear. If you attempt to suppress a lint error for a class-file based lint check, the suppress annotation not work. You must move the annotation out to the surrounding method.
 </div>
@@ -1319,7 +1339,7 @@ The <code>@SuppressAnnotation</code> is used to suppress Lint warnings in Java f
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Using the new locale name.</div>
+Explanation: Wrong locale name.</div>
 <div class="explanation">
 From the <code>java.util.Locale</code> documentation:<br/>
 "Note that Java uses several deprecated two-letter codes. The Hebrew ("he") language code is rewritten as "iw", Indonesian ("id") as "in", and Yiddish ("yi") as "ji". This rewriting happens even if you construct your own Locale object, not just for instances returned by the various lookup methods.<br/>
@@ -1341,7 +1361,7 @@ Disabled By: Project lint.xml file<br/>
 Priority: 2 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Checks that files with DOS line endings are consistent.</div>
+Explanation: Mangled file line endings.</div>
 <div class="explanation">
 On Windows, line endings are typically recorded as carriage return plus newline: \r\n.<br/>
 <br/>
@@ -1358,7 +1378,7 @@ This detector looks for invalid line endings with repeated carriage return chara
 Priority: 5 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks for manifest problems like <code>&lt;uses-sdk></code> after the <code>&lt;application></code> tag.</div>
+Explanation: Incorrect order of elements in manifest.</div>
 <div class="explanation">
 The &lt;application> tag should appear after the elements which declare which version you need, which features you need, which libraries you need, and so on. In the past there have been subtle bugs (such as themes not getting applied correctly) when the <code>&lt;application></code> tag appears before some of these other elements, so it's best to order your manifest in the logical dependency order.
 </div>
@@ -1368,11 +1388,13 @@ The &lt;application> tag should appear after the elements which declare which ve
 <div class="issue">
 <div class="id">MenuTitle<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Usability</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Ensures that all menu items supply a title.</div>
+Explanation: Missing menu title.</div>
 <div class="explanation">
 From the action bar documentation:<br/>
 "It's important that you always define android:title for each menu item &#8212; even if you don't declare that the title appear with the action item &#8212; for three reasons:<br/>
@@ -1393,36 +1415,24 @@ The android:icon is always optional, but recommended.
 Priority: 4 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks whether a root &lt;FrameLayout> can be replaced with a <code>&lt;merge></code> tag.</div>
+Explanation: FrameLayout can be replaced with <code>&lt;merge></code> tag.</div>
 <div class="explanation">
 If a <code>&lt;FrameLayout></code> is the root of a layout and does not provide background or padding etc, it can often be replaced with a <code>&lt;merge></code> tag which is slightly more efficient. Note that this depends on context, so make sure you understand how the <code>&lt;merge></code> tag works before proceeding.
 </div>
 <br/><div class="moreinfo">More info: <a href="http://android-developers.blogspot.com/2009/03/android-layout-tricks-3-optimize-by.html">http://android-developers.blogspot.com/2009/03/android-layout-tricks-3-optimize-by.html</a>
 </div><br/>To suppress this error, use the issue id "MergeRootFrame" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
-<a name="MisplacedStatement"></a>
-<div class="issue">
-<div class="id">MisplacedStatement<div class="issueSeparator"></div>
-</div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
-Priority: 2 / 10<br/>
-Category: Correctness</div>
-Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for build file statements that belong elsewhere in the build file.</div>
-<div class="explanation">
-Most build file directives only make sense in certain contexts in the build file. If you put a statement in the wrong place, you can get errors or unexpected behavior.
-</div>
-<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "MisplacedStatement" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
-</div>
 <a name="MissingApplicationIcon"></a>
 <div class="issue">
 <div class="id">MissingApplicationIcon<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Usability:Icons</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks that the application icon is set.</div>
+Explanation: Missing application icon.</div>
 <div class="explanation">
 You should set an icon for the application as whole because there is no default. This attribute must be set as a reference to a drawable resource containing the image (for example <code>@drawable/icon</code>).
 </div>
@@ -1433,13 +1443,13 @@ You should set an icon for the application as whole because there is no default.
 <div class="issue">
 <div class="id">MissingId<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures that XML tags like <code>&lt;fragment></code> specify an <code>id</code> or <code>tag</code> attribute.</div>
+Explanation: Fragments should specify an <code>id</code> or <code>tag</code></div>
 <div class="explanation">
 If you do not specify an android:id or an android:tag attribute on a &lt;fragment> element, then if the activity is restarted (for example for an orientation rotation) you may lose state. From the fragment documentation:<br/>
 <br/>
@@ -1454,13 +1464,13 @@ If you provide neither of the previous two, the system uses the ID of the contai
 <div class="issue">
 <div class="id">MissingPrefix<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Detect XML attributes not using the Android namespace.</div>
+Explanation: Missing Android XML namespace.</div>
 <div class="explanation">
 Most Android views have attributes in the Android namespace. When referencing these attributes you <b>must</b> include the namespace prefix, or your attribute will be interpreted by <code>aapt</code> as just a custom attribute.<br/>
 <br/>
@@ -1476,7 +1486,7 @@ Similarly, in manifest files, nearly all attributes should be in the <code>andro
 Priority: 8 / 10<br/>
 Category: Correctness:Messages</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Checks for missing quantity strings relevant to each locale.</div>
+Explanation: Missing quantity translation.</div>
 <div class="explanation">
 Different languages have different rules for grammatical agreement with quantity. In English, for example, the quantity 1 is a special case. We write "1 book", but for any other quantity we'd write "n books". This distinction between singular and plural is very common, but other languages make finer distinctions.<br/>
 <br/>
@@ -1495,7 +1505,7 @@ For example, an English translation must provide a string for <code>quantity="on
 Priority: 8 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Ensures that classes referenced in the manifest are present in the project or libraries.</div>
+Explanation: Missing registered class.</div>
 <div class="explanation">
 If a class is referenced in the manifest, it must also exist in the project (or in one of the libraries included by the project. This check helps uncover typos in registration names, or attempts to rename or move classes without updating the manifest file properly.
 </div>
@@ -1510,7 +1520,7 @@ If a class is referenced in the manifest, it must also exist in the project (or 
 Priority: 9 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for overriding methods that should also invoke the parent method.</div>
+Explanation: Missing Super Call.</div>
 <div class="explanation">
 Some methods, such as <code>View#onDetachedFromWindow</code>, require that you also call the super implementation as part of your method.
 </div>
@@ -1524,7 +1534,7 @@ Some methods, such as <code>View#onDetachedFromWindow</code>, require that you a
 Priority: 2 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks that the application name and version are set.</div>
+Explanation: Missing application name/version.</div>
 <div class="explanation">
 You should define the version information for your application.<br/>
 <code>android:versionCode</code>: An integer value that represents the version of the application code, relative to other versions.<br/>
@@ -1534,6 +1544,20 @@ You should define the version information for your application.<br/>
 <br/><div class="moreinfo">More info: <a href="http://developer.android.com/tools/publishing/versioning.html#appversioning">http://developer.android.com/tools/publishing/versioning.html#appversioning</a>
 </div><br/>To suppress this error, use the issue id "MissingVersion" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
+<a name="NegativeMargin"></a>
+<div class="issue">
+<div class="id">NegativeMargin<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Default<br/>
+Priority: 4 / 10<br/>
+Category: Usability</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Negative Margins.</div>
+<div class="explanation">
+Margin values should be positive. Negative values are generally a sign that you are making assumptions about views surrounding the current one, or may be tempted to turn off child clipping to allow a view to escape its parent. Turning off child clipping to do this not only leads to poor graphical performance, it also results in wrong touch event handling since touch events are based strictly on a chain of parent-rect hit tests. Finally, making assumptions about the size of strings can lead to localization problems.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "NegativeMargin" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
 <a name="NestedScrolling"></a>
 <div class="issue">
 <div class="id">NestedScrolling<div class="issueSeparator"></div>
@@ -1542,7 +1566,7 @@ You should define the version information for your application.<br/>
 Priority: 7 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks whether a scrolling widget has any nested scrolling widgets within.</div>
+Explanation: Nested scrolling widgets.</div>
 <div class="explanation">
 A scrolling widget such as a <code>ScrollView</code> should not contain any nested scrolling widgets since this has various usability issues
 </div>
@@ -1556,7 +1580,7 @@ A scrolling widget such as a <code>ScrollView</code> should not contain any nest
 Priority: 3 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for nested layout weights, which are costly.</div>
+Explanation: Nested layout weights.</div>
 <div class="explanation">
 Layout weights require a widget to be measured twice. When a LinearLayout with non-zero weights is nested inside another LinearLayout with non-zero weights, then the number of measurements increase exponentially.
 </div>
@@ -1566,20 +1590,20 @@ Layout weights require a widget to be measured twice. When a LinearLayout with n
 <div class="issue">
 <div class="id">NewApi<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Finds API accesses to APIs that are not supported in all targeted API versions.</div>
+Explanation: Calling new methods on older versions.</div>
 <div class="explanation">
 This check scans through all the Android API calls in the application and warns about any calls that are not available on <b>all</b> versions targeted by this application (according to its minimum SDK attribute in the manifest).<br/>
 <br/>
-If you really want to use this API and don't need to support older devices just set the <code>minSdkVersion</code> in your <code>AndroidManifest.xml</code> file.<br/>
+If you really want to use this API and don't need to support older devices just set the <code>minSdkVersion</code> in your <code>build.gradle</code> or <code>AndroidManifest.xml</code> files.<br/>
 If your code is <b>deliberately</b> accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the <code>@TargetApi</code> annotation specifying the local minimum SDK to apply, such as <code>@TargetApi(11)</code>, such that this check considers 11 rather than your manifest file's minimum SDK as the required API level.<br/>
 <br/>
-If you are deliberately setting <code>android:</code> attributes in style definitions, make sure you place this in a <code>values-v11</code> folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.<br/>
+If you are deliberately setting <code>android:</code> attributes in style definitions, make sure you place this in a <code>values-vNN</code> folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.<br/>
 <br/>
 Similarly, you can use tools:targetApi="11" in an XML file to indicate that the element will only be inflated in an adequate context.
 </div>
@@ -1589,11 +1613,13 @@ Similarly, you can use tools:targetApi="11" in an XML file to indicate that the 
 <div class="issue">
 <div class="id">NewerVersionAvailable<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Default<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Default<br/>
 Priority: 4 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for Gradle library dependencies that can be replaced by newer versions.</div>
+Explanation: Newer Library Versions Available.</div>
 <div class="explanation">
 This detector checks with a central repository to see if there are newer versions available for the dependencies used by this project.<br/>
 This is similar to the <code>GradleDependency</code> check, which checks for newer versions available in the Android SDK tools and libraries, but this works with any MavenCentral dependency, and connects to the library every time, which makes it more flexible but also <b>much</b> slower.
@@ -1604,13 +1630,13 @@ This is similar to the <code>GradleDependency</code> check, which checks for new
 <div class="issue">
 <div class="id">ObsoleteLayoutParam<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for layout params that are not valid for the given parent layout.</div>
+Explanation: Obsolete layout params.</div>
 <div class="explanation">
 The given layout_param is not defined for the given layout, meaning it has no effect. This usually happens when you change the parent layout or move view code around without updating the layout params. This will cause useless attribute processing at runtime, and is misleading for others reading the layout so the parameter should be removed.
 </div>
@@ -1620,11 +1646,13 @@ The given layout_param is not defined for the given layout, meaning it has no ef
 <div class="issue">
 <div class="id">OldTargetApi<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks that the manifest specifies a targetSdkVersion that is recent.</div>
+Explanation: Target SDK attribute is not targeting latest version.</div>
 <div class="explanation">
 When your application runs on a version of Android that is more recent than your <code>targetSdkVersion</code> specifies that it has been tested with, various compatibility modes kick in. This ensures that your application continues to work, but it may look out of place. For example, if the <code>targetSdkVersion</code> is less than 14, your app may get an option button in the UI.<br/>
 <br/>
@@ -1641,7 +1669,7 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 Priority: 10 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Ensures that <code>onClick</code> attribute values refer to real methods.</div>
+Explanation: <code>onClick</code> method does not exist.</div>
 <div class="explanation">
 The <code>onClick</code> attribute value should be the name of a method in this View's context to invoke when the view is clicked. This name must correspond to a public method that takes exactly one parameter of type <code>View</code>.<br/>
 <br/>
@@ -1653,11 +1681,13 @@ Must be a string value, using '\;' to escape characters such as '\n' or '\uxxxx'
 <div class="issue">
 <div class="id">Orientation<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 2 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Checks that LinearLayouts with multiple children set the orientation.</div>
+Explanation: Missing explicit orientation.</div>
 <div class="explanation">
 The default orientation of a LinearLayout is horizontal. It's pretty easy to believe that the layout is vertical, add multiple children to it, and wonder why only the first child is visible (when the subsequent children are off screen to the right). This lint rule helps pinpoint this issue by warning whenever a LinearLayout is used with an implicit orientation and multiple children.<br/>
 <br/>
@@ -1673,7 +1703,7 @@ It also checks for empty LinearLayouts without an <code>orientation</code> attri
 Priority: 3 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for overdraw issues (where a view is painted only to be fully painted over)</div>
+Explanation: Overdraw: Painting regions more than once.</div>
 <div class="explanation">
 If you set a background drawable on a root view, then you should use a custom theme where the theme background is null. Otherwise, the theme background will be painted first, only to have your custom background completely cover it; this is called "overdraw".<br/>
 <br/>
@@ -1694,7 +1724,7 @@ Of course it's possible that your custom drawable is translucent and you want it
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Finds method declarations that will accidentally override methods in later versions.</div>
+Explanation: Method conflicts with new inherited method.</div>
 <div class="explanation">
 Suppose you are building against Android API 8, and you've subclassed Activity. In your subclass you add a new method called <code>isDestroyed</code>(). At some later point, a method of the same name and signature is added to Android. Your method will now override the Android method, and possibly break its contract. Your method is not calling <code>super.isDestroyed()</code>, since your compilation target doesn't know about the method.<br/>
 <br/>
@@ -1713,7 +1743,7 @@ To fix this, either rename your method, or if you are really trying to augment t
 Priority: 3 / 10<br/>
 Category: Usability</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks that classes implementing <code>Parcelable</code> also provide a <code>CREATOR</code> field.</div>
+Explanation: Missing Parcelable <code>CREATOR</code> field.</div>
 <div class="explanation">
 According to the <code>Parcelable</code> interface documentation, "Classes implementing the Parcelable interface must also have a static field called <code>CREATOR</code>, which is an object implementing the <code>Parcelable.Creator</code> interface.
 </div>
@@ -1728,7 +1758,7 @@ According to the <code>Parcelable</code> interface documentation, "Classes imple
 Priority: 3 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks for old proguard.cfg files that contain generic Android rules.</div>
+Explanation: Proguard.cfg file contains generic Android rules.</div>
 <div class="explanation">
 Earlier versions of the Android tools bundled a single <code>proguard.cfg</code> file containing a ProGuard configuration file suitable for Android shrinking and obfuscation. However, that version was copied into new projects, which means that it does not continue to get updated as we improve the default ProGuard rules for Android.<br/>
 <br/>
@@ -1747,11 +1777,13 @@ To migrate your project to the new setup, create a new <code>proguard-project.tx
 <div class="issue">
 <div class="id">PropertyEscape<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Looks for property files with incorrect paths.</div>
+Explanation: Incorrect property escapes.</div>
 <div class="explanation">
 All backslashes and colons in .property files must be escaped with a backslash (\). This means that when writing a Windows path, you must escape the file separators, so the path \My\Files should be written as <code>key=\\My\\Files.</code>
 </div>
@@ -1765,7 +1797,7 @@ All backslashes and colons in .property files must be escaped with a backslash (
 Priority: 5 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Looks for permissions that are only granted to system apps.</div>
+Explanation: Using system app permission.</div>
 <div class="explanation">
 Permissions with the protection level signature or signatureOrSystem are only granted to system apps. If an app is a regular non-system app, it will never be able to use these permissions.
 </div>
@@ -1775,13 +1807,13 @@ Permissions with the protection level signature or signatureOrSystem are only gr
 <div class="issue">
 <div class="id">PxUsage<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 2 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for use of the <code>px</code> dimension.</div>
+Explanation: Using 'px' dimension.</div>
 <div class="explanation">
 For performance reasons and to keep the code simpler, the Android system uses pixels as the standard unit for expressing dimension or coordinate values. That means that the dimensions of a view are always expressed in the code using pixels, but always based on the current screen density. For instance, if <code>myView.getWidth()</code> returns 10, the view is 10 pixels wide on the current screen, but on a device with a higher density screen, the value returned might be 15. If you use pixel values in your application code to work with bitmaps that are not pre-scaled for the current screen density, you might need to scale the pixel values that you use in your code to match the un-scaled bitmap source.
 </div>
@@ -1796,7 +1828,7 @@ For performance reasons and to keep the code simpler, the Android system uses pi
 Priority: 7 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for missing <code>recycle()</code> calls on resources.</div>
+Explanation: Missing <code>recycle()</code> calls.</div>
 <div class="explanation">
 Many resources, such as TypedArrays, VelocityTrackers, etc., should be recycled (with a <code>recycle()</code> call) after use. This lint check looks for missing <code>recycle()</code> calls.
 </div>
@@ -1810,7 +1842,7 @@ Many resources, such as TypedArrays, VelocityTrackers, etc., should be recycled 
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures that Activities, Services and Content Providers are registered in the manifest.</div>
+Explanation: Class is not registered in the manifest.</div>
 <div class="explanation">
 Activities, services and content providers should be registered in the <code>AndroidManifest.xml</code> file using <code>&lt;activity></code>, <code>&lt;service></code> and <code>&lt;provider></code> tags.<br/>
 <br/>
@@ -1818,6 +1850,20 @@ If your activity is simply a parent class intended to be subclassed by other "re
 </div>
 <br/><div class="moreinfo">More info: <a href="http://developer.android.com/guide/topics/manifest/manifest-intro.html">http://developer.android.com/guide/topics/manifest/manifest-intro.html</a>
 </div><br/>To suppress this error, use the issue id "Registered" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="RelativeOverlap"></a>
+<div class="issue">
+<div class="id">RelativeOverlap<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Project lint.xml file<br/>
+Priority: 3 / 10<br/>
+Category: Internationalization</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Overlapping items in RelativeLayout.</div>
+<div class="explanation">
+If relative layout has text or button items aligned to left and right sides they can overlap each other due to localized text expansion unless they have mutual constraints like <code>toEndOf</code>/<code>toStartOf</code>.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "RelativeOverlap" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
 <a name="RequiredSize"></a>
 <div class="issue">
@@ -1827,7 +1873,7 @@ If your activity is simply a parent class intended to be subclassed by other "re
 Priority: 4 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Ensures that the <code>layout_width</code> and <code>layout_height</code> are specified for all views.</div>
+Explanation: Missing <code>layout_width</code> or <code>layout_height</code> attributes.</div>
 <div class="explanation">
 All views must specify an explicit <code>layout_width</code> and <code>layout_height</code> attribute. There is a runtime check for this, so if you fail to specify a size, an exception is thrown at runtime.<br/>
 <br/>
@@ -1843,7 +1889,7 @@ It's possible to specify these widths via styles as well. GridLayout, as a speci
 Priority: 7 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Looks for calls to setColor where a resource id is passed instead of a resolved color.</div>
+Explanation: Should pass resolved color instead of resource id.</div>
 <div class="explanation">
 Methods that take a color in the form of an integer should be passed an RGB triple, not the actual color resource id. You must call <code>getResources().getColor(resource)</code> to resolve the actual color value first.
 </div>
@@ -1853,11 +1899,11 @@ Methods that take a color in the form of an integer should be passed an RGB trip
 <div class="issue">
 <div class="id">RtlCompat<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Default<br/>
+<div class="metadata">Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Bi-directional Text</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Looks for compatibility issues with RTL support.</div>
+Explanation: Right-to-left text compatibility issues.</div>
 <div class="explanation">
 API 17 adds a <code>textAlignment</code> attribute to specify text alignment. However, if you are supporting older versions than API 17, you must <b>also</b> specify a gravity or layout_gravity attribute, since older platforms will ignore the <code>textAlignment</code> attribute.
 </div>
@@ -1867,11 +1913,11 @@ API 17 adds a <code>textAlignment</code> attribute to specify text alignment. Ho
 <div class="issue">
 <div class="id">RtlEnabled<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Default<br/>
+<div class="metadata">Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Bi-directional Text</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for usages of right-to-left text constants without enabling RTL support.</div>
+Explanation: Using RTL attributes without enabling RTL support.</div>
 <div class="explanation">
 To enable right-to-left support, when running on API 17 and higher, you must set the <code>android:supportsRtl</code> attribute in the manifest <code>&lt;application></code> element.<br/>
 If you have started adding RTL attributes, but have not yet finished the migration, you can set the attribute to false to satisfy this lint check.
@@ -1882,11 +1928,11 @@ If you have started adding RTL attributes, but have not yet finished the migrati
 <div class="issue">
 <div class="id">RtlHardcoded<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Default<br/>
+<div class="metadata">Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Bi-directional Text</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for hardcoded left/right constants which could be start/end for bidirectional text.</div>
+Explanation: Using left/right instead of start/end attributes.</div>
 <div class="explanation">
 Using <code>Gravity#LEFT</code> and <code>Gravity#RIGHT</code> can lead to problems when a layout is rendered in locales where text flows from right to left. Use <code>Gravity#START</code> and <code>Gravity#END</code> instead. Similarly, in XML <code>gravity</code> and <code>layout_gravity</code> attributes, use <code>start</code> rather than <code>left</code>.<br/>
 For XML attributes such as paddingLeft and <code>layout_marginLeft</code>, use <code>paddingStart</code> and <code>layout_marginStart</code>. <b>NOTE</b>: If your <code>minSdkVersion</code> is less than 17, you should add <b>both</b> the older left/right attributes <b>as well as</b> the new start/right attributes. On older platforms, where RTL is not supported and the start/right attributes are unknown and therefore ignored, you need the older left/right attributes. There is a separate lint check which catches that type of error.<br/>
@@ -1898,11 +1944,11 @@ For XML attributes such as paddingLeft and <code>layout_marginLeft</code>, use <
 <div class="issue">
 <div class="id">RtlSymmetry<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Default<br/>
+<div class="metadata">Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Bi-directional Text</div>
-Severity: <span class="error">Error</span><div class="summary">
-Explanation: Ensures that specifying padding on one side is matched by padding on the other.</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Padding and margin symmetry.</div>
 <div class="explanation">
 If you specify padding or margin on the left side of a layout, you should probably also specify padding on the right side (and vice versa) for right-to-left layout symmetry.
 </div>
@@ -1916,7 +1962,7 @@ If you specify padding or margin on the left side of a layout, you should probab
 Priority: 8 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks that ScrollViews have exactly one child widget.</div>
+Explanation: ScrollViews can have only one child.</div>
 <div class="explanation">
 ScrollViews can only have one child widget. If you want more children, wrap them in a container layout.
 </div>
@@ -1926,13 +1972,13 @@ ScrollViews can only have one child widget. If you want more children, wrap them
 <div class="issue">
 <div class="id">ScrollViewSize<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 7 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks that ScrollViews use <code>wrap_content</code> in the scrolling dimension.</div>
+Explanation: ScrollView size validation.</div>
 <div class="explanation">
 ScrollView children must set their <code>layout_width</code> or <code>layout_height</code> attributes to <code>wrap_content</code> rather than <code>fill_parent</code> or <code>match_parent</code> in the scrolling dimension
 </div>
@@ -1946,7 +1992,7 @@ ScrollView children must set their <code>layout_width</code> or <code>layout_hei
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for hardcoded references to <code>/sdcard</code></div>
+Explanation: Hardcoded reference to <code>/sdcard</code></div>
 <div class="explanation">
 Your code should not reference the <code>/sdcard</code> path directly; instead use <code>Environment.getExternalStorageDirectory().getPath()</code>.<br/>
 <br/>
@@ -1963,7 +2009,7 @@ Similarly, do not reference the <code>/data/data/</code> path directly; it can v
 Priority: 9 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for suspicious usage of the SecureRandom class.</div>
+Explanation: Using a fixed seed with <code>SecureRandom</code></div>
 <div class="explanation">
 Specifying a fixed seed will cause the instance to return a predictable sequence of numbers. This may be useful for testing but it is not appropriate for secure use.
 </div>
@@ -1974,11 +2020,13 @@ Specifying a fixed seed will cause the instance to return a predictable sequence
 <div class="issue">
 <div class="id">SelectableText<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Default<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Default<br/>
 Priority: 7 / 10<br/>
 Category: Usability</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for TextViews which should probably allow their text to be selected.</div>
+Explanation: Dynamic text should probably be selectable.</div>
 <div class="explanation">
 If a <code>&lt;TextView></code> is used to display data, the user might want to copy that data and paste it elsewhere. To allow this, the <code>&lt;TextView></code> should specify <code>android:textIsSelectable="true"</code>.<br/>
 <br/>
@@ -1994,7 +2042,7 @@ This lint check looks for TextViews which are likely to be displaying data: view
 Priority: 6 / 10<br/>
 Category: Security</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for invocations of android.webkit.WebSettings.setJavaScriptEnabled.</div>
+Explanation: Using <code>setJavaScriptEnabled</code></div>
 <div class="explanation">
 Your code should not invoke <code>setJavaScriptEnabled</code> if you are not sure that your app really requires JavaScript support.
 </div>
@@ -2009,7 +2057,7 @@ Your code should not invoke <code>setJavaScriptEnabled</code> if you are not sur
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for code creating a <code>Toast</code> but forgetting to call <code>show()</code> on it.</div>
+Explanation: Toast created but not shown.</div>
 <div class="explanation">
 <code>Toast.makeText()</code> creates a <code>Toast</code> but does <b>not</b> show it. You must call <code>show()</code> on the resulting object to actually make the <code>Toast</code> appear.
 </div>
@@ -2019,11 +2067,13 @@ Explanation: Looks for code creating a <code>Toast</code> but forgetting to call
 <div class="issue">
 <div class="id">SignatureOrSystemPermissions<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Security</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks for signatureOrSystem level permissions.</div>
+Explanation: signatureOrSystem permissions declared.</div>
 <div class="explanation">
 The <code>signature</code> protection level should probably be sufficient for most needs and works regardless of where applications are installed. The <code>signatureOrSystem</code> level is used for certain situations where multiple vendors have applications built into a system image and need to share specific features explicitly because they are being built together.
 </div>
@@ -2037,7 +2087,7 @@ The <code>signature</code> protection level should probably be sufficient for mo
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Using <code>SimpleDateFormat</code> directly without an explicit locale.</div>
+Explanation: Implied locale in date format.</div>
 <div class="explanation">
 Almost all callers should use <code>getDateInstance()</code>, <code>getDateTimeInstance()</code>, or <code>getTimeInstance()</code> to get a ready-made instance of SimpleDateFormat suitable for the user's locale. The main reason you'd create an instance this class directly is because you need to format/parse a specific machine-readable format, in which case you almost certainly want to explicitly ask for US to ensure that you get ASCII digits (rather than, say, Arabic digits).<br/>
 <br/>
@@ -2054,7 +2104,7 @@ Therefore, you should either use the form of the SimpleDateFormat constructor wh
 Priority: 4 / 10<br/>
 Category: Usability</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for text sizes that are too small.</div>
+Explanation: Text size is too small.</div>
 <div class="explanation">
 Avoid using sizes smaller than 12sp.
 </div>
@@ -2064,11 +2114,13 @@ Avoid using sizes smaller than 12sp.
 <div class="issue">
 <div class="id">SpUsage<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for uses of <code>dp</code> instead of <code>sp</code> dimensions for text sizes.</div>
+Explanation: Using <code>dp</code> instead of <code>sp</code> for text sizes.</div>
 <div class="explanation">
 When setting text sizes, you should normally use <code>sp</code>, or "scale-independent pixels". This is like the <code>dp</code> unit, but it is also scaled by the user's font size preference. It is recommend you use this unit when specifying font sizes, so they will be adjusted for both the screen density and the user's preference.<br/>
 <br/>
@@ -2085,7 +2137,7 @@ There <b>are</b> cases where you might need to use <code>dp</code>; typically th
 Priority: 5 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for unreachable states in a <code>&lt;selector></code></div>
+Explanation: Unreachable state in a <code>&lt;selector></code></div>
 <div class="explanation">
 In a selector, only the last child in the state list should omit a state qualifier. If not, all subsequent items in the list will be ignored since the given item will match all.
 </div>
@@ -2095,11 +2147,13 @@ In a selector, only the last child in the state list should omit a state qualifi
 <div class="issue">
 <div class="id">StopShip<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Default<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Default<br/>
 Priority: 10 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for comment markers of the form <code>//STOPSHIP</code> which indicates that code should not be released yet.</div>
+Explanation: Code contains <code>STOPSHIP</code> marker.</div>
 <div class="explanation">
 Using the comment <code>// STOPSHIP</code> can be used to flag code that is incomplete but checked in. This comment marker can be used to indicate that the code should not be shipped until the issue is addressed, and lint will look for these.
 </div>
@@ -2113,7 +2167,7 @@ Using the comment <code>// STOPSHIP</code> can be used to flag code that is inco
 Priority: 5 / 10<br/>
 Category: Correctness:Messages</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures that all format strings are used and that the same number is defined across translations.</div>
+Explanation: Formatting argument types incomplete or inconsistent.</div>
 <div class="explanation">
 When a formatted string takes arguments, it usually needs to reference the same arguments in all translations (or all arguments if there are no translations.<br/>
 <br/>
@@ -2129,7 +2183,7 @@ There are cases where this is not the case, so this issue is a warning rather th
 Priority: 9 / 10<br/>
 Category: Correctness:Messages</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Checks that format strings are valid.</div>
+Explanation: Invalid format string.</div>
 <div class="explanation">
 If a string contains a '%' character, then the string may be a formatting string which will be passed to <code>String.format</code> from Java code to replace each '%' occurrence with specific values.<br/>
 <br/>
@@ -2149,7 +2203,7 @@ NOTE: Not all Strings which look like formatting strings are intended for use by
 Priority: 9 / 10<br/>
 Category: Correctness:Messages</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Ensures that the format used in <code>&lt;string></code> definitions is compatible with the <code>String.format</code> call.</div>
+Explanation: <code>String.format</code> string doesn't match the XML format string.</div>
 <div class="explanation">
 This lint check ensures the following:<br/>
 (1) If there are multiple translations of the format string, then all translations use the same type for the same numbered arguments<br/>
@@ -2161,11 +2215,13 @@ This lint check ensures the following:<br/>
 <div class="issue">
 <div class="id">StringShouldBeInt<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 8 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Checks for uses of strings where an integer should be used.</div>
+Explanation: String should be int.</div>
 <div class="explanation">
 The properties <code>compileSdkVersion</code>, <code>minSdkVersion</code> and <code>targetSdkVersion</code> are usually numbers, but can be strings when you are using an add-on (in the case of <code>compileSdkVersion</code>) or a preview platform (for the other two properties).<br/>
 <br/>
@@ -2181,7 +2237,7 @@ However, you can not use a number as a string (e.g. "19" instead of 19); that wi
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Looks for 0dp as the width in a vertical LinearLayout or as the height in a horizontal.</div>
+Explanation: Suspicious 0dp dimension.</div>
 <div class="explanation">
 Using 0dp as the width in a horizontal LinearLayout with weights is a useful trick to ensure that only the weights (and not the intrinsic sizes) are used when sizing the children.<br/>
 <br/>
@@ -2197,7 +2253,7 @@ However, if you use 0dp for the opposite dimension, the view will be invisible. 
 Priority: 9 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks for 'import android.R' statements, which are usually accidental.</div>
+Explanation: '<code>import android.R</code>' statement.</div>
 <div class="explanation">
 Importing <code>android.R</code> is usually not intentional; it sometimes happens when you use an IDE and ask it to automatically add imports at a time when your project's R class it not present.<br/>
 <br/>
@@ -2209,13 +2265,13 @@ Once the import is there you might get a lot of "confusing" error messages becau
 <div class="issue">
 <div class="id">TextFields<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Usability</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for text fields missing <code>inputType</code> or <code>hint</code> settings.</div>
+Explanation: Missing <code>inputType</code> or <code>hint</code></div>
 <div class="explanation">
 Providing an <code>inputType</code> attribute on a text field improves usability because depending on the data to be input, optimized keyboards can be shown to the user (such as just digits and parentheses for a phone number). Similarly,a hint attribute displays a hint to the user for what is expected in the text field.<br/>
 <br/>
@@ -2233,7 +2289,7 @@ If you really want to keep the text field generic, you can suppress this warning
 Priority: 7 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for TextViews being used for input.</div>
+Explanation: TextView should probably be an EditText instead.</div>
 <div class="explanation">
 Using a <code>&lt;TextView></code> to input text is generally an error, you should be using <code>&lt;EditText></code> instead.  <code>EditText</code> is a subclass of <code>TextView</code>, and some of the editing support is provided by <code>TextView</code>, so it's possible to set some input-related properties on a <code>TextView</code>. However, using a <code>TextView</code> along with input attributes is usually a cut &amp; paste error. To input text you should be using <code>&lt;EditText></code>.<br/>
 This check also checks subclasses of <code>TextView</code>, such as <code>Button</code> and <code>CheckBox</code>, since these have the same issue: they should not be used with editable attributes.
@@ -2248,7 +2304,7 @@ This check also checks subclasses of <code>TextView</code>, such as <code>Button
 Priority: 1 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks whether a layout hierarchy is too deep.</div>
+Explanation: Layout hierarchy is too deep.</div>
 <div class="explanation">
 Layouts with too much nesting is bad for performance. Consider using a flatter layout (such as <code>RelativeLayout</code> or <code>GridLayout</code>).The default maximum depth is 10 but can be configured with the environment variable <code>ANDROID_LINT_MAX_DEPTH</code>.
 </div>
@@ -2262,7 +2318,7 @@ Layouts with too much nesting is bad for performance. Consider using a flatter l
 Priority: 1 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks whether a layout has too many views.</div>
+Explanation: Layout has too many views.</div>
 <div class="explanation">
 Using too many views in a single layout is bad for performance. Consider using compound drawables or other tricks for reducing the number of views in this layout.<br/>
 <br/>
@@ -2278,7 +2334,7 @@ The maximum view count defaults to 80 but can be configured with the environment
 Priority: 9 / 10<br/>
 Category: Security</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for calls to JCA primitives that may be affected by SecureRandom vulnerability.</div>
+Explanation: Weak RNG.</div>
 <div class="explanation">
 Key generation, signing, encryption, and random number generation may not receive cryptographically strong values due to improper initialization of the underlying PRNG on Android 4.3 and below.<br/>
 <br/>
@@ -2293,13 +2349,13 @@ This lint rule is mostly informational; it does not accurately detect whether cr
 <div class="issue">
 <div class="id">TypographyDashes<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Usability:Typography</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for usages of hyphens which can be replaced by n dash and m dash characters.</div>
+Explanation: Hyphen can be replaced with dash.</div>
 <div class="explanation">
 The "n dash" (&#8211;, &amp;#8211;) and the "m dash" (&#8212;, &amp;#8212;) characters are used for ranges (n dash) and breaks (m dash). Using these instead of plain hyphens can make text easier to read and your application will look more polished.
 </div>
@@ -2310,13 +2366,13 @@ The "n dash" (&#8211;, &amp;#8211;) and the "m dash" (&#8212;, &amp;#8212;) char
 <div class="issue">
 <div class="id">TypographyEllipsis<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Usability:Typography</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for ellipsis strings (...) which can be replaced with an ellipsis character.</div>
+Explanation: Ellipsis string can be replaced with ellipsis character.</div>
 <div class="explanation">
 You can replace the string "..." with a dedicated ellipsis character, ellipsis character (&#8230;, &amp;#8230;). This can help make the text more readable.
 </div>
@@ -2327,13 +2383,13 @@ You can replace the string "..." with a dedicated ellipsis character, ellipsis c
 <div class="issue">
 <div class="id">TypographyFractions<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 5 / 10<br/>
 Category: Usability:Typography</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for fraction strings which can be replaced with a fraction character.</div>
+Explanation: Fraction string can be replaced with fraction character.</div>
 <div class="explanation">
 You can replace certain strings, such as 1/2, and 1/4, with dedicated characters for these, such as ½ (&amp;#189;) and ¼ (&amp;#188;). This can help make the text more readable.
 </div>
@@ -2344,13 +2400,13 @@ You can replace certain strings, such as 1/2, and 1/4, with dedicated characters
 <div class="issue">
 <div class="id">TypographyOther<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 3 / 10<br/>
 Category: Usability:Typography</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for miscellaneous typographical problems like replacing (c) with ©</div>
+Explanation: Other typographical problems.</div>
 <div class="explanation">
 This check looks for miscellaneous typographical problems and offers replacement sequences that will make the text easier to read and your application more polished.
 </div>
@@ -2360,13 +2416,13 @@ This check looks for miscellaneous typographical problems and offers replacement
 <div class="issue">
 <div class="id">TypographyQuotes<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Default<br/>
 Priority: 5 / 10<br/>
 Category: Usability:Typography</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for straight quotes which can be replaced by curvy quotes.</div>
+Explanation: Straight quotes can be replaced with curvy quotes.</div>
 <div class="explanation">
 Straight single quotes and double quotes, when used as a pair, can be replaced by "curvy quotes" (or directional quotes). This can make the text more readable.<br/>
 <br/>
@@ -2381,13 +2437,13 @@ Note that you should never use grave accents and apostrophes to quote, `like thi
 <div class="issue">
 <div class="id">Typos<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 7 / 10<br/>
 Category: Correctness:Messages</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for typos in messages.</div>
+Explanation: Spelling error.</div>
 <div class="explanation">
 This check looks through the string definitions, and if it finds any words that look like likely misspellings, they are flagged.
 </div>
@@ -2401,7 +2457,7 @@ This check looks through the string definitions, and if it finds any words that 
 Priority: 5 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Makes sure that @+id references refer to views in the same layout.</div>
+Explanation: Reference to an id that is not in the current layout.</div>
 <div class="explanation">
 The <code>@+id/</code> syntax refers to an existing id, or creates a new one if it has not already been defined elsewhere. However, this means that if you have a typo in your reference, or if the referred view no longer exists, you do not get a warning since the id will be created on demand.<br/>
 <br/>
@@ -2417,7 +2473,7 @@ This is sometimes intentional, for example where you are referring to a view whi
 Priority: 5 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for code sending text messages to unlocalized phone numbers.</div>
+Explanation: SMS phone number missing country code.</div>
 <div class="explanation">
 SMS destination numbers must start with a country code or the application code must ensure that the SMS is only sent when the user is in the same country as the receiver.
 </div>
@@ -2431,11 +2487,13 @@ SMS destination numbers must start with a country code or the application code m
 Priority: 6 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Finds usages of attributes that will not be used (read) on all targeted versions.</div>
+Explanation: Attribute unused on older versions.</div>
 <div class="explanation">
 This check finds attributes set in XML files that were introduced in a version newer than the oldest version targeted by your application (with the the <code>minSdkVersion</code> attribute).<br/>
 <br/>
-This is not an error; the application will simply ignore the attribute. However, if the attribute is important to the appearance of functionality of your application, you should consider finding an alternative way to achieve the same result with only available attributes, and then you can optionally create a copy of the layout in a layout-vNN folder which will be used on API NN or higher where you can take advantage of the newer attribute.
+This is not an error; the application will simply ignore the attribute. However, if the attribute is important to the appearance of functionality of your application, you should consider finding an alternative way to achieve the same result with only available attributes, and then you can optionally create a copy of the layout in a layout-vNN folder which will be used on API NN or higher where you can take advantage of the newer attribute.<br/>
+<br/>
+Note: This check does not only apply to attributes. For example, some tags can be unused too, such as the new <code>&lt;tag></code> element in layouts introduced in API 21.
 </div>
 <br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "UnusedAttribute" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
@@ -2447,7 +2505,7 @@ This is not an error; the application will simply ignore the attribute. However,
 Priority: 1 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for unused id's.</div>
+Explanation: Unused id.</div>
 <div class="explanation">
 This resource id definition appears not to be needed since it is not referenced from anywhere. Having id definitions, even if unused, is not necessarily a bad idea since they make working on layouts and menus easier, so there is not a strong reason to delete these.
 </div>
@@ -2461,7 +2519,7 @@ This resource id definition appears not to be needed since it is not referenced 
 Priority: 1 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Finds unused namespaces in XML documents.</div>
+Explanation: Unused namespace.</div>
 <div class="explanation">
 Unused namespace declarations take up space and require processing that is not necessary
 </div>
@@ -2475,7 +2533,7 @@ Unused namespace declarations take up space and require processing that is not n
 Priority: 3 / 10<br/>
 Category: Correctness:Messages</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks for quantity string translations which are not used in this language.</div>
+Explanation: Unused quantity translations.</div>
 <div class="explanation">
 Android defines a number of different quantity strings, such as <code>zero</code>, <code>one</code>, <code>few</code> and <code>many</code>. However, many languages do not distinguish grammatically between all these different quantities.<br/>
 <br/>
@@ -2493,7 +2551,7 @@ For example, in Chinese, only the <code>other</code> quantity is used, so even i
 Priority: 3 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for unused resources.</div>
+Explanation: Unused resources.</div>
 <div class="explanation">
 Unused resources make applications larger and slow down builds.
 </div>
@@ -2503,11 +2561,13 @@ Unused resources make applications larger and slow down builds.
 <div class="issue">
 <div class="id">UseCheckPermission<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Security</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Ensures that the return value of check permission calls are used.</div>
+Explanation: Using the result of check permission calls.</div>
 <div class="explanation">
 You normally want to use the result of checking a permission; these methods return whether the permission is held; they do not throw an error if the permission is not granted. Code which does not do anything with the return value probably meant to be calling the enforce methods instead, e.g. rather than <code>Context#checkCallingPermission</code> it should call <code>Context#enforceCallingPermission</code>.
 </div>
@@ -2523,7 +2583,7 @@ Disabled By: Project lint.xml file<br/>
 Priority: 6 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks whether the current node can be replaced by a <code>TextView</code> using compound drawables.</div>
+Explanation: Node can be replaced by a <code>TextView</code> with compound drawables.</div>
 <div class="explanation">
 A <code>LinearLayout</code> which contains an <code>ImageView</code> and a <code>TextView</code> can be more efficiently handled as a compound drawable (a single TextView, using the <code>drawableTop</code>, <code>drawableLeft</code>, <code>drawableRight</code> and/or <code>drawableBottom</code> attributes to draw one or more images adjacent to the text).<br/>
 <br/>
@@ -2541,7 +2601,7 @@ There's a lint quickfix to perform this conversion in the Eclipse plugin.
 Priority: 4 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for opportunities to replace HashMaps with the more efficient SparseArray.</div>
+Explanation: HashMap can be replaced with SparseArray.</div>
 <div class="explanation">
 For maps where the keys are of type integer, it's typically more efficient to use the Android <code>SparseArray</code> API. This check identifies scenarios where you might want to consider using <code>SparseArray</code> instead of <code>HashMap</code> for better performance.<br/>
 <br/>
@@ -2555,11 +2615,13 @@ If you need to construct a <code>HashMap</code> because you need to call an API 
 <div class="issue">
 <div class="id">UseValueOf<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Disabled By: Project lint.xml file<br/>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
 Priority: 4 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for usages of <code>new</code> for wrapper classes which should use <code>valueOf</code> instead.</div>
+Explanation: Should use <code>valueOf</code> instead of <code>new</code></div>
 <div class="explanation">
 You should not call the constructor for wrapper classes directly, such as`new Integer(42)`. Instead, call the <code>valueOf</code> factory method, such as <code>Integer.valueOf(42)</code>. This will typically use less memory because common integers such as 0 and 1 will share a single instance.
 </div>
@@ -2569,13 +2631,13 @@ You should not call the constructor for wrapper classes directly, such as`new In
 <div class="issue">
 <div class="id">UselessLeaf<div class="issueSeparator"></div>
 </div>
-<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT & Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
 <br>
 Disabled By: Project lint.xml file<br/>
 Priority: 2 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks whether a leaf layout can be removed.</div>
+Explanation: Useless leaf layout.</div>
 <div class="explanation">
 A layout that has no children or no background can often be removed (since it is invisible) for a flatter and more efficient layout hierarchy.
 </div>
@@ -2591,7 +2653,7 @@ Disabled By: Project lint.xml file<br/>
 Priority: 2 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks whether a parent layout can be removed.</div>
+Explanation: Useless parent layout.</div>
 <div class="explanation">
 A layout with children that has no siblings, is not a scrollview or a root layout, and does not have a background, can be removed and have its children moved directly into the parent for a flatter and more efficient layout hierarchy.
 </div>
@@ -2605,12 +2667,28 @@ A layout with children that has no siblings, is not a scrollview or a root layou
 Priority: 9 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks that the minimum SDK and target SDK attributes are defined.</div>
+Explanation: Minimum SDK and target SDK attributes not defined.</div>
 <div class="explanation">
 The manifest should contain a <code>&lt;uses-sdk></code> element which defines the minimum API Level required for the application to run, as well as the target version (the highest API level you have tested the version for.)
 </div>
 <br/><div class="moreinfo">More info: <a href="http://developer.android.com/guide/topics/manifest/uses-sdk-element.html">http://developer.android.com/guide/topics/manifest/uses-sdk-element.html</a>
 </div><br/>To suppress this error, use the issue id "UsesMinSdkAttributes" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="UsingHttp"></a>
+<div class="issue">
+<div class="id">UsingHttp<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-release-fatal_files/lint-run.png" />
+<br>
+Disabled By: Project lint.xml file<br/>
+Priority: 6 / 10<br/>
+Category: Security</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Using HTTP instead of HTTPS.</div>
+<div class="explanation">
+The Gradle Wrapper is available both via HTTP and HTTPS. HTTPS is more secure since it protects against man-in-the-middle attacks etc. Older projects created in Android Studio used HTTP but we now default to HTTPS and recommend upgrading existing projects.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "UsingHttp" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
 <a name="ViewConstructor"></a>
 <div class="issue">
@@ -2620,7 +2698,7 @@ The manifest should contain a <code>&lt;uses-sdk></code> element which defines t
 Priority: 3 / 10<br/>
 Category: Usability</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks that custom views define the expected constructors.</div>
+Explanation: Missing View constructors for XML inflation.</div>
 <div class="explanation">
 Some layout tools (such as the Android layout editor for Studio &amp; Eclipse) needs to find a constructor with one of the following signatures:<br/>
 * <code>View(Context context)</code><br/>
@@ -2639,7 +2717,7 @@ If your custom view needs to perform initialization which does not apply when us
 Priority: 5 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for candidates for the view holder pattern.</div>
+Explanation: View Holder Candidates.</div>
 <div class="explanation">
 When implementing a view Adapter, you should avoid unconditionally inflating a new layout; if an available item is passed in for reuse, you should try to use that one instead. This helps make for example ListView scrolling much smoother.
 </div>
@@ -2654,7 +2732,7 @@ When implementing a view Adapter, you should avoid unconditionally inflating a n
 Priority: 6 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Finds potential leaks when using <code>View.setTag</code></div>
+Explanation: Tagged object leaks.</div>
 <div class="explanation">
 Prior to Android 4.0, the implementation of <code>View.setTag(int, Object)</code> would store the objects in a static map, where the values were strongly referenced. This means that if the object contains any references pointing back to the context, the context (which points to pretty much everything else) will leak. If you pass a view, the view provides a reference to the context that created it. Similarly, view holders typically contain a view, and cursors are sometimes also associated with views.
 </div>
@@ -2668,7 +2746,7 @@ Prior to Android 4.0, the implementation of <code>View.setTag(int, Object)</code
 Priority: 9 / 10<br/>
 Category: Performance</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Looks for problems with <code>WakeLock</code> usage.</div>
+Explanation: Incorrect <code>WakeLock</code> usage.</div>
 <div class="explanation">
 Failing to release a wakelock properly can keep the Android device in a high power mode, which reduces battery life. There are several causes of this, such as releasing the wake lock in <code>onDestroy()</code> instead of in <code>onPause()</code>, failing to call <code>release()</code> in all possible code paths after an <code>acquire()</code>, and so on.<br/>
 <br/>
@@ -2684,7 +2762,7 @@ NOTE: If you are using the lock just to keep the screen on, you should strongly 
 Priority: 7 / 10<br/>
 Category: Correctness</div>
 Severity: <span class="error">Error</span><div class="summary">
-Explanation: Ensures that WebViews are not placed in parents with wrap_content layout.</div>
+Explanation: WebViews in wrap_content parents.</div>
 <div class="explanation">
 The WebView implementation has certain performance optimizations which will not work correctly if the parent view is using <code>wrap_content</code> rather than <code>match_parent</code>. This can lead to subtle UI bugs.
 </div>
@@ -2698,7 +2776,7 @@ The WebView implementation has certain performance optimizations which will not 
 Priority: 4 / 10<br/>
 Category: Security</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks for <code>openFileOutput()</code> and <code>getSharedPreferences()</code> calls passing <code>MODE_WORLD_READABLE</code></div>
+Explanation: <code>openFileOutput()</code> call passing <code>MODE_WORLD_READABLE</code></div>
 <div class="explanation">
 There are cases where it is appropriate for an application to write world readable files, but these should be reviewed carefully to ensure that they contain no private data that is leaked to other applications.
 </div>
@@ -2712,7 +2790,7 @@ There are cases where it is appropriate for an application to write world readab
 Priority: 4 / 10<br/>
 Category: Security</div>
 Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Checks for <code>openFileOutput()</code> and <code>getSharedPreferences()</code> calls passing <code>MODE_WORLD_WRITEABLE</code></div>
+Explanation: <code>openFileOutput()</code> call passing <code>MODE_WORLD_WRITEABLE</code></div>
 <div class="explanation">
 There are cases where it is appropriate for an application to write world writeable files, but these should be reviewed carefully to ensure that they contain no private data, and that if the file is modified by a malicious application it does not trick or compromise your application.
 </div>

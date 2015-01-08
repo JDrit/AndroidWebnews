@@ -9,4 +9,4 @@
     <item android:drawable="@drawable/spinner6" android:duration="120" />
     <item android:drawable="@drawable/spinner7" android:duration="120" />
     <item android:drawable="@drawable/spinner8" android:duration="120" />
-</animation-list><!-- From: file:/Users/ahanes/AndroidStudioProjects/AndroidWebnews3/app/src/main/res/anim/progress.xml -->
+</animation-list><!-- From: file:/home/jd/Android%20studioProjects/AndroidWebnews/app/src/main/res/anim/progress.xml -->

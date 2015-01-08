@@ -3,4 +3,4 @@
         android:id="@+id/search_fragment"
         android:layout_weight="1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" /><!-- From: file:/Users/ahanes/AndroidStudioProjects/AndroidWebnews3/app/src/main/res/layout/activity_search.xml -->
+        android:layout_height="wrap_content" /><!-- From: file:/home/jd/Android%20studioProjects/AndroidWebnews/app/src/main/res/layout/activity_search.xml -->
